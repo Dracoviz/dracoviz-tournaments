@@ -18,6 +18,7 @@ import Menu from "@material-ui/icons/Menu";
 import styles from "/styles/jss/nextjs-material-kit/components/headerStyle.js";
 
 const useStyles = makeStyles(styles);
+const logoUrl = "https://www.dracoviz.com/static/dracoviz_logo-9f243a043b673a48d015a7e5927ac1d9.svg";
 
 export default function Header(props) {
   const classes = useStyles();
@@ -54,7 +55,7 @@ export default function Header(props) {
         .classList.remove(classes[changeColorOnScroll.color]);
     }
   };
-  const { color, rightLinks, leftLinks, brand, fixed, absolute } = props;
+  const { color, rightLinks, leftLinks, fixed, absolute } = props;
   const appBarClasses = classNames({
     [classes.appBar]: true,
     [classes[color]]: color,
@@ -63,7 +64,9 @@ export default function Header(props) {
   });
   const brandComponent = (
     <Link href="/components" as="/components">
-      <Button className={classes.title}>{brand}</Button>
+      <Button className={classes.title}>
+        <img src={logoUrl} alt="Dracoviz" width={133} height={27.77} />
+      </Button>
     </Link>
   );
   return (
@@ -130,7 +133,6 @@ Header.propTypes = {
   ]),
   rightLinks: PropTypes.node,
   leftLinks: PropTypes.node,
-  brand: PropTypes.string,
   fixed: PropTypes.bool,
   absolute: PropTypes.bool,
   // this will cause the sidebar to change the color from

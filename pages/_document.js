@@ -29,7 +29,7 @@ class MyDocument extends Document {
           <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. --> */}
           <script
             defer
-            data-site="YOUR_DOMAIN_HERE"
+            data-site="tournaments.dracoviz.com"
             src="https://api.nepcha.com/js/nepcha-analytics.js"
           ></script>
         </Head>
