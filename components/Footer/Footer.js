@@ -25,11 +25,11 @@ export default function Footer(props) {
   return (
     <footer className={footerClasses}>
       <div className={classes.container}>
-        <div className={classes.right}>
+        <small className={classes.right}>
           {date} Dracoviz. All rights reserved of the original content.
           Pokémon and all other names are the property of The Pokémon Company, Creatures Inc.,
           Game Freak and Nintendo © 1996-{date}
-        </div>
+        </small>
       </div>
     </footer>
   );
