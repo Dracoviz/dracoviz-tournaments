@@ -20,6 +20,20 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBU5gODLafUagZGLtchmIZn0TTW3Foh2EU',
+  authDomain: 'dracoviz.firebaseapp.com',
+  projectId: 'dracoviz',
+  storageBucket: 'dracoviz.appspot.com',
+  messagingSenderId: '271724559602',
+  appId: '1:271724559602:web:eac85e74445f94fa1a246b',
+  measurementId: 'G-28LT7WYJGW',
+};
+
+firebase.initializeApp(firebaseConfig);
 
 import PageChange from "/components/PageChange/PageChange.js";
 

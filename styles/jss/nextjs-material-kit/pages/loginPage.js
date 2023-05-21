@@ -1,4 +1,4 @@
-import { container } from "/styles/jss/nextjs-material-kit.js";
+import { container, infoColor } from "/styles/jss/nextjs-material-kit.js";
 
 const signupPageStyle = {
   container: {
@@ -6,12 +6,16 @@ const signupPageStyle = {
     zIndex: "2",
     position: "relative",
     paddingTop: "20vh",
-    color: "#FFFFFF",
     paddingBottom: "200px"
   },
   cardHidden: {
     opacity: "0",
     transform: "translate3d(0, -60px, 0)"
+  },
+  progress: {
+    color: infoColor,
+    width: "6rem !important",
+    height: "6rem !important"
   },
   pageHeader: {
     minHeight: "100vh",
@@ -43,6 +47,9 @@ const signupPageStyle = {
   },
   form: {
     margin: "0"
+  },
+  card: {
+    padding: "20px 20px",
   },
   cardHeader: {
     width: "auto",

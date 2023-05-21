@@ -63,7 +63,7 @@ export default function Header(props) {
     [classes.fixed]: fixed
   });
   const brandComponent = (
-    <Link href="/components" as="/components">
+    <Link href="/" as="/">
       <Button className={classes.title}>
         <img src={logoUrl} alt="Dracoviz" width={133} height={27.77} />
       </Button>
