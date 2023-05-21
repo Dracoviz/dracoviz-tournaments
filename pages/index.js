@@ -12,6 +12,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
 import { Button } from "@material-ui/core";
 import TournamentList from "../pages-sections/home-sections/TournamentList";
+import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 
 const useStyles = makeStyles(styles);
 
@@ -20,7 +21,7 @@ const testData = {
     name: "Profile 1",
     description: "A rising legend",
     avatar: "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/Janine.png/public",
-    friendCode: "4390 2190 21904",
+    friendCode: "123412341234",
     discord: "Profile1#1234",
     telegram: "@Profile1",
     sessions: [{
@@ -53,6 +54,7 @@ const testData = {
 
 export default function Index() {
   const [isSignedIn, setIsSignedIn] = useState(true);
+  const [currentModal, setCurrentModal] = useState(null);
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -67,11 +69,24 @@ export default function Index() {
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
+  const onEditProfile = () => {
+    setCurrentModal("profile");
+  }
+
+  const closeModal = () => {
+    setCurrentModal(null);
+  }
+
   const renderProfile = () => {
     const { player } = testData;
     const { description, name, avatar } = player;
     return (
-      <ProfilePreview description={description} username={name} imageUrl={avatar} />
+      <ProfilePreview
+        description={description}
+        username={name}
+        imageUrl={avatar}
+        onClick={onEditProfile}
+      />
     )
   }
 
@@ -80,6 +95,17 @@ export default function Index() {
     const { sessions } = player;
     return (
       <TournamentList sessions={sessions} />
+    )
+  }
+
+  const renderEditProfileModal = () => {
+    const { player } = testData;
+    return (
+      <ProfileEditModal 
+        open={currentModal === "profile"}
+        onClose={closeModal}
+        player={player}
+      />
     )
   }
 
@@ -94,6 +120,7 @@ export default function Index() {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
+          {renderEditProfileModal()}
           <GridContainer justify="center">
             <GridItem xs={12}>
               {renderProfile()}
