@@ -92,7 +92,7 @@ export default function HeaderLinks(props) {
               className={classes.registerNavLink}
               onClick={onLoginClick}
             >
-              {isSignedIn ? "Logout" : "Login"}
+              {isSignedIn ? "Log out" : "Log in"}
             </Button>
           </Tooltip>
       </ListItem>

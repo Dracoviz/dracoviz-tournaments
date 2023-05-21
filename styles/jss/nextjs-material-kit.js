@@ -68,6 +68,14 @@ const container = {
   },
 };
 
+const main = {
+  ...container,
+  zIndex: "2",
+  position: "relative",
+  paddingTop: "15vh",
+  paddingBottom: "200px",
+}
+
 const boxShadow = {
   boxShadow:
     "0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
@@ -227,11 +235,42 @@ const cardSubtitle = {
   marginTop: "-.375rem",
 };
 
+const pageHeader = {
+  minHeight: "100vh",
+  height: "auto",
+  display: "inherit",
+  position: "relative",
+  margin: "0",
+  padding: "0",
+  border: "0",
+  alignItems: "center",
+  "&:before,&:after": {
+    position: "absolute",
+    zIndex: "1",
+    width: "100%",
+    height: "100%",
+    display: "block",
+    left: "0",
+    top: "0",
+    content: '""'
+  },
+  "& footer li a,& footer li a:hover,& footer li a:active": {
+    color: "#FFFFFF"
+  },
+  "& footer": {
+    position: "absolute",
+    bottom: "0",
+    width: "100%"
+  }
+}
+
 export {
   hexToRGBAlpha,
   //variables
   drawerWidth,
   transition,
+  pageHeader,
+  main,
   container,
   containerFluid,
   boxShadow,
