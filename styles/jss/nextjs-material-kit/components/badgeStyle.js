@@ -19,7 +19,7 @@ const badgeStyle = {
     color: "#fff",
     textAlign: "center",
     whiteSpace: "nowrap",
-    verticalAlign: "baseline",
+    verticalAlign: "text-bottom",
     display: "inline-block"
   },
   primary: {

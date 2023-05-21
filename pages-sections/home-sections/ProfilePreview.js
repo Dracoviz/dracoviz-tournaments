@@ -19,7 +19,7 @@ export default function ProfilePreview(props) {
           {description}
         </p>
       </div>
-      <Button onClick={onClick} color="primary">
+      <Button onClick={onClick}>
         Edit
       </Button>
     </Card>

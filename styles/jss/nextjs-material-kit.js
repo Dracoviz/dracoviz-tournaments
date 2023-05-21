@@ -73,7 +73,7 @@ const main = {
   zIndex: "2",
   position: "relative",
   paddingTop: "15vh",
-  paddingBottom: "200px",
+  paddingBottom: "100px",
 }
 
 const boxShadow = {

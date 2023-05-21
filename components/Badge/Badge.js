@@ -11,9 +11,9 @@ const useStyles = makeStyles(styles);
 
 export default function Badge(props) {
   const classes = useStyles();
-  const { color, children } = props;
+  const { color, children, ...rest } = props;
   return (
-    <span className={classes.badge + " " + classes[color]}>{children}</span>
+    <span className={classes.badge + " " + classes[color]} {...rest}>{children}</span>
   );
 }
 

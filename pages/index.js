@@ -10,7 +10,8 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
-console.log(styles);
+import { Button } from "@material-ui/core";
+import TournamentList from "../pages-sections/home-sections/TournamentList";
 
 const useStyles = makeStyles(styles);
 
@@ -22,7 +23,32 @@ const testData = {
     friendCode: "4390 2190 21904",
     discord: "Profile1#1234",
     telegram: "@Profile1",
-  }
+    sessions: [{
+      _id: "123",
+      name: "Tournament 1",
+      playerValues: {
+        status: "POKEMON_VISIBLE",
+        role: "Host",
+        meta: "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/4cbccdf9-c0a9-4773-d5d1-3a01755e5100/public"
+      },
+    }, {
+      _id: "123",
+      name: "Tournament 2",
+      playerValues: {
+        status: "REGISTER_TEAM",
+        role: "Player",
+        meta: "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/14d2649e-67e9-46c7-872b-26a14f72a500/public"
+      },
+    }, {
+      _id: "123",
+      name: "Tournament 3",
+      playerValues: {
+        status: "NOT_STARTED",
+        role: "Captain",
+        meta: "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/e300ceed-0161-49fb-da65-c12d39ae5500/public"
+      },
+    }]
+  },
 }
 
 export default function Index() {
@@ -49,6 +75,14 @@ export default function Index() {
     )
   }
 
+  const renderTournaments = () => {
+    const { player } = testData;
+    const { sessions } = player;
+    return (
+      <TournamentList sessions={sessions} />
+    )
+  }
+
   const classes = useStyles();
 
   return (
@@ -63,6 +97,22 @@ export default function Index() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               {renderProfile()}
+            </GridItem>
+            <GridItem xs={12}>
+              <div className={classes.tournamentHead}>
+                <h3>Your Tournaments</h3>
+                <div>
+                  <Button color="primary">
+                    Join a Tournament
+                  </Button>
+                  <Button color="primary" style={{ marginLeft: 20 }}>
+                    Create a Tournament
+                  </Button>
+                </div>
+              </div>
+            </GridItem>
+            <GridItem xs={12}>
+              {renderTournaments()}
             </GridItem>
           </GridContainer>
         </div>
