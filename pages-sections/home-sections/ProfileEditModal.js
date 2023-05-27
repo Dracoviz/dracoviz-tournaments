@@ -11,7 +11,13 @@ import { useForm } from "react-hook-form";
 
 function ProfileEditModal(props) {
   const { open, onClose, onSave, player, Transition } = props;
-  const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm();
+  const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
+    defaultValues: {
+      trainerName: player?.name ?? "",
+      friendCode: player?.friendCode ?? "",
+      trainerBio: player?.description ?? "",
+    }
+  });
   const onSubmit = () => {
     onSave?.();
   }
@@ -41,7 +47,6 @@ function ProfileEditModal(props) {
                   fullWidth: true
                 }}
                 inputProps={{
-                  defaultValue: player.name,
                   ...register("trainerName", { required: true })
                 }}
                 error={errors.trainerName}
@@ -55,7 +60,6 @@ function ProfileEditModal(props) {
                   fullWidth: true
                 }}
                 inputProps={{
-                  defaultValue: player.friendCode,
                   ...register("friendCode", { required: true, maxLength: 12 })
                 }}
                 error={errors.friendCode}
@@ -63,14 +67,13 @@ function ProfileEditModal(props) {
             </GridItem>
             <GridItem xs={12}>
               <CustomInput
-                labelText="Motto"
-                id="trainerMotto"
+                labelText="Bio"
+                id="trainerBio"
                 formControlProps={{
                   fullWidth: true
                 }}
                 inputProps={{
-                  defaultValue: player.description,
-                  ...register("trainerDescription", { maxLength: 100 })
+                  ...register("trainerBio", { maxLength: 100 })
                 }}
               />
             </GridItem>
@@ -87,16 +90,9 @@ function ProfileEditModal(props) {
           <Button
             type="submit"
             color="primary"
-            disable={!isDirty || !isValid}
+            disabled={!isDirty || !isValid}
           >
             Save
-          </Button>
-          <Button
-            onClick={onClose}
-            color="danger"
-            simple
-          >
-            Close
           </Button>
         </DialogActions>
       </form>

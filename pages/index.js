@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import Router from "next/router";
 import Header from "/components/Header/Header.js";
@@ -8,9 +8,10 @@ import firebase from 'firebase/compat/app';
 import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
+import fetchApi from "../api/fetchApi.js";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 
@@ -55,6 +56,15 @@ const testData = {
 export default function Index() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
+  const [data, setData] = useState(null);
+
+  const getSharedData = useCallback((authId) => {
+    fetchApi("shared/get", "GET", {
+      x_session_id: authId,
+    })
+    .then(response => response.json())
+    .then(newData => setData(newData));
+  }, [])
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -63,6 +73,8 @@ export default function Index() {
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
         Router.push("/login");
+      } else {
+        getSharedData(user.uid);
       }
     });
     return () => unregisterAuthObserver();
@@ -78,8 +90,7 @@ export default function Index() {
   }
 
   const renderProfile = () => {
-    const { player } = testData;
-    const { description, name, avatar } = player;
+    const { description, name, avatar } = data;
     return (
       <ProfilePreview
         description={description}
@@ -91,20 +102,18 @@ export default function Index() {
   }
 
   const renderTournaments = () => {
-    const { player } = testData;
-    const { sessions } = player;
+    const { sessions } = data;
     return (
       <TournamentList sessions={sessions} />
     )
   }
 
   const renderEditProfileModal = () => {
-    const { player } = testData;
     return (
       <ProfileEditModal 
         open={currentModal === "profile"}
         onClose={closeModal}
-        player={player}
+        player={data}
       />
     )
   }
@@ -121,26 +130,34 @@ export default function Index() {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           {renderEditProfileModal()}
-          <GridContainer justify="center">
-            <GridItem xs={12}>
-              {renderProfile()}
-            </GridItem>
-            <GridItem xs={12}>
-              <div className={classes.tournamentHead}>
-                <h3>Your Tournaments</h3>
-                <div>
-                  <Button color="primary">
-                    Join a Tournament
-                  </Button>
-                  <Button color="primary" style={{ marginLeft: 20 }}>
-                    Create a Tournament
-                  </Button>
-                </div>
-              </div>
-            </GridItem>
-            <GridItem xs={12}>
-              {renderTournaments()}
-            </GridItem>
+          <GridContainer>
+            {
+              data == null ? (
+                <CircularProgress />
+              ) : (
+                <>
+                  <GridItem xs={12}>
+                    {renderProfile()}
+                  </GridItem>
+                  <GridItem xs={12}>
+                    <div className={classes.tournamentHead}>
+                      <h3>Your Tournaments</h3>
+                      <div>
+                        <Button color="primary">
+                          Join a Tournament
+                        </Button>
+                        <Button color="primary" style={{ marginLeft: 20 }} href="/create-tournament">
+                          Create a Tournament
+                        </Button>
+                      </div>
+                    </div>
+                  </GridItem>
+                  <GridItem xs={12}>
+                    {renderTournaments()}
+                  </GridItem>
+                </>
+              )
+            }
           </GridContainer>
         </div>
         <Footer />
