@@ -8,7 +8,7 @@ import firebase from 'firebase/compat/app';
 import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { Button } from "@mui/material";
+import { Alert, AlertTitle, Button } from "@mui/material";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 
@@ -223,6 +223,18 @@ const testData = {
   isHost: true,
 }
 
+const statusLabels = {
+  "POKEMON_VISIBLE": "Teams of Pokemon Visible",
+  "ROSTERS_VISIBLE": "Team Rosters Visible",
+  "ROSTERS_HIDDEN": "Team Rosters Hidden",
+}
+
+const statusColors = {
+  "POKEMON_VISIBLE": "success",
+  "ROSTERS_VISIBLE": "info",
+  "ROSTERS_HIDDEN": "error",
+}
+
 export default function Tournament() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
@@ -242,6 +254,42 @@ export default function Tournament() {
 
   const classes = useStyles();
 
+  const renderAlert = () => {
+    const { state } = testData;
+    return (
+      <Alert color={statusColors[state]}>
+        <AlertTitle>{statusLabels[state]}</AlertTitle>
+      </Alert>
+    )
+  }
+
+  const renderActionButtons = () => {
+    const { isHost, state, bracketLink } = testData;
+    const buttons = [];
+    buttons.push(
+      <Button
+        href={bracketLink}
+        target="_blank"
+      >
+        See Bracket
+      </Button>
+    );
+    if (isHost) {
+      buttons.push(
+        <Button color="secondary">
+          Edit Tournament Information
+        </Button>
+      );
+    } else {
+      buttons.push(
+        <Button color="secondary">
+          View Tournament Information
+        </Button>
+      );
+    }
+    return buttons;
+  }
+
   return (
     <div>
       <Header
@@ -252,6 +300,12 @@ export default function Tournament() {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           <GridContainer justify="center">
+            <GridItem xs={12}>
+              {renderAlert()}
+              <div>
+                {renderActionButtons()}
+              </div>
+            </GridItem>
           </GridContainer>
         </div>
       </div>

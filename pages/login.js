@@ -71,8 +71,9 @@ export default function LoginPage(props) {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={6}>
+          <GridContainer>
+            <GridItem xs={0} md={2} lg={3}/>
+            <GridItem xs={12} md={8} lg={6}>
               <Card className={classes[cardAnimaton]}>
                 {
                   (isLoading) ? (

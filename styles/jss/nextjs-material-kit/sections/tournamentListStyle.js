@@ -2,14 +2,14 @@ import { warningColor, dangerColor, infoColor, successColor } from "/styles/jss/
 
 const tournamentListStyle = {
   root: {
-    padding: "20px 30px",
+    padding: "10px 30px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: "10px",
   },
   content: {
-    marginLeft: "20px",
+    marginLeft: "20px", 
     paddingTop: "10px",
   },
   title: {
