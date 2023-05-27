@@ -4,6 +4,7 @@ html * {
 }
 body {
   font-size: 1rem;
+  font-weight: 500;
 }
 body,
 h1,
@@ -12,8 +13,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 300;
+  font-family: "Jost", system-ui, -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   line-height: 1.5em;
 }
 h1,
@@ -22,6 +24,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-weight: 500;
   color: inherit;
 }
 h1,
@@ -39,6 +42,7 @@ h6 {
 h1 {
   font-size: 3.3125rem;
   line-height: 1.15em;
+  font-weight: 800;
 }
 h2 {
   font-size: 2.25rem;
@@ -66,7 +70,9 @@ p {
   margin: 0 0 10px;
 }
 html {
-  font-family: sans-serif;
+  font-family: "Jost", system-ui, -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -74,7 +80,7 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 body {
-  background-color: #eceaea;
+  background-color: rgb(250, 248, 248);
   color: $black-color;
   margin: 0;
   font-size: 1rem;

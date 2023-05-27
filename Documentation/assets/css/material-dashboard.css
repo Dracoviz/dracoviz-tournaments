@@ -812,7 +812,9 @@ h2.title {
     margin: 10px 10px;
     color: #FFFFFF;
     line-height: 20px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Jost", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .sidebar .logo .simple-text,
@@ -2431,13 +2433,17 @@ h6,
 .h2,
 .h3,
 .h4 {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: "Jost", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-weight: 300;
     line-height: 1.5em;
 }
 
 .serif-font {
-    font-family: "Roboto Slab", "Times New Roman", serif;
+    font-family: "Jost", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .page-header {

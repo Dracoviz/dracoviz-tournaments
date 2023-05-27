@@ -20,6 +20,7 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import Script from "next/script";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
@@ -98,6 +99,7 @@ export default class MyApp extends App {
           />
           <title>Dracoviz Tournaments</title>
         </Head>
+        <Script src="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" />
         <Component {...pageProps} />
       </React.Fragment>
     );

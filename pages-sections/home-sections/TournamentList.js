@@ -46,14 +46,14 @@ function TournamentList(props) {
           const { _id, name, playerValues } = session;
           const { status, role, meta } = playerValues;
           return (
-            <Card className={classes.root}>
+            <Card className={classes.root} key={_id}>
               <img src={meta} alt="meta" height={70} width={70} />
               <div className={classes.content}>
                 <p>
                   <strong className={classes.title}>{name}</strong>
                   <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{role}</Badge>
                   <br />
-                  Status: <b className={classes[statusColor[status]]}>{statusName[status]}</b>
+                  Status: <span className={classes[statusColor[status]]}>{statusName[status]}</span>
                 </p>
                 <Button
                   href={`/tournament?id=${_id}`}

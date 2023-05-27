@@ -8,7 +8,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
-          <meta name="theme-color" content="#000000" />
+          <meta name="theme-color" content="#343434" />
           <link rel="shortcut icon" href="/img/favicon.png" />
           <link
             rel="apple-touch-icon"
