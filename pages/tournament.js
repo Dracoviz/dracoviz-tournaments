@@ -5,7 +5,6 @@ import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
 import firebase from 'firebase/compat/app';
-import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import { Alert, AlertTitle, Button } from "@mui/material";
@@ -24,7 +23,7 @@ const testData = {
   maxTeamSize: 5,
   matchTeamSize: 3,
   metas: ["Meta 1", "Meta 2", "Meta 3"],
-  state: "POKEMON_VISIBLE",
+  state: "ROSTERS_HIDDEN",
   factions: [
     {
       name: "Faction 1",
@@ -221,6 +220,7 @@ const testData = {
     "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/e300ceed-0161-49fb-da65-c12d39ae5500/public",
   ],
   isHost: true,
+  isCaptain: true,
 }
 
 const statusLabels = {
@@ -257,30 +257,72 @@ export default function Tournament() {
   const renderAlert = () => {
     const { state } = testData;
     return (
-      <Alert color={statusColors[state]}>
+      <Alert severity="info" color={statusColors[state]}>
         <AlertTitle>{statusLabels[state]}</AlertTitle>
       </Alert>
     )
   }
 
   const renderActionButtons = () => {
-    const { isHost, state, bracketLink } = testData;
+    const { isHost, isCaptain, state, bracketLink } = testData;
     const buttons = [];
     buttons.push(
       <Button
         href={bracketLink}
         target="_blank"
+        className={classes.actionButtonMiddle}
       >
         See Bracket
       </Button>
     );
     if (isHost) {
+      if (state === "POKEMON_VISIBLE") {
+        buttons.push(
+          <Button color="primary" className={classes.actionButtonMiddle}>
+            Hide Pokemon
+          </Button>
+        )
+      }
+      if (state !== "POKEMON_VISIBLE") {
+        buttons.push(
+          <Button color="primary" className={classes.actionButtonMiddle}>
+            Show Pokemon
+          </Button>
+        )
+      }
+      if (state === "ROSTERS_VISIBLE") {
+        buttons.push(
+          <Button color="primary" className={classes.actionButtonMiddle}>
+            Hide Rosters
+          </Button>
+        )
+      }
+      if (state === "ROSTERS_HIDDEN") {
+        buttons.push(
+          <Button color="primary" className={classes.actionButtonMiddle}>
+            Show Rosters
+          </Button>
+        )
+      }
       buttons.push(
         <Button color="secondary">
           Edit Tournament Information
         </Button>
       );
     } else {
+      if (isCaptain) {
+        buttons.push(
+          <Button color="primary" className={classes.actionButtonMiddle}>
+            Manage Roster
+          </Button>
+        )
+      }
+      const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? "Edit" : "See";
+      buttons.push(
+        <Button color="primary" className={classes.actionButtonMiddle}>
+          {pokemonEditTitle} Your Pokemon
+        </Button>
+      );
       buttons.push(
         <Button color="secondary">
           View Tournament Information
@@ -302,13 +344,14 @@ export default function Tournament() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               {renderAlert()}
-              <div>
+              <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
             </GridItem>
           </GridContainer>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
