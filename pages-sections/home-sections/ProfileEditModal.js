@@ -13,9 +13,9 @@ function ProfileEditModal(props) {
   const { open, onClose, onSave, player, Transition } = props;
   const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
     defaultValues: {
-      trainerName: player?.name ?? "",
-      friendCode: player?.friendCode ?? "",
-      trainerBio: player?.description ?? "",
+      trainerName: player?.name,
+      friendCode: player?.friendCode,
+      trainerBio: player?.description,
     }
   });
   const onSubmit = () => {
@@ -47,7 +47,8 @@ function ProfileEditModal(props) {
                   fullWidth: true
                 }}
                 inputProps={{
-                  ...register("trainerName", { required: true })
+                  ...register("trainerName", { required: true }),
+                  defaultValue: player?.name
                 }}
                 error={errors.trainerName}
               />
@@ -60,7 +61,8 @@ function ProfileEditModal(props) {
                   fullWidth: true
                 }}
                 inputProps={{
-                  ...register("friendCode", { required: true, maxLength: 12 })
+                  ...register("friendCode", { required: true, maxLength: 12 }),
+                  defaultValue: player?.friendCode
                 }}
                 error={errors.friendCode}
               />
@@ -73,7 +75,8 @@ function ProfileEditModal(props) {
                   fullWidth: true
                 }}
                 inputProps={{
-                  ...register("trainerBio", { maxLength: 100 })
+                  ...register("trainerBio", { maxLength: 100 }),
+                  defaultValue: player?.description
                 }}
               />
             </GridItem>
