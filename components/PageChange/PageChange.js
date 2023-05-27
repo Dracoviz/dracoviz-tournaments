@@ -1,8 +1,8 @@
 import React from "react";
 
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
+// @mui/material components
+import { makeStyles } from "@mui/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // core components
 import { infoColor, title } from "/styles/jss/nextjs-material-kit.js";

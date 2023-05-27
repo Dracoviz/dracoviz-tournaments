@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import Card from "../../components/Card/Card";
 import Badge from "../../components/Badge/Badge";
 import styles from "/styles/jss/nextjs-material-kit/sections/tournamentListStyle.js";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(styles);
 

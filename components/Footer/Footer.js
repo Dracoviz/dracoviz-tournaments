@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 
 import styles from "/styles/jss/nextjs-material-kit/components/footerStyle.js";
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
@@ -8,7 +8,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import Card from "/components/Card/Card.js";
 import firebase from 'firebase/compat/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import Router from "next/router";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";

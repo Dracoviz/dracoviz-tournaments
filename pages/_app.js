@@ -23,6 +23,8 @@ import Router from "next/router";
 import Script from "next/script";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/styles';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBU5gODLafUagZGLtchmIZn0TTW3Foh2EU',
@@ -33,6 +35,8 @@ const firebaseConfig = {
   appId: '1:271724559602:web:eac85e74445f94fa1a246b',
   measurementId: 'G-28LT7WYJGW',
 };
+
+const theme = createTheme();
 
 firebase.initializeApp(firebaseConfig);
 
@@ -91,17 +95,19 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <React.Fragment>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <title>Dracoviz Tournaments</title>
-        </Head>
-        <Script src="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" />
-        <Component {...pageProps} />
-      </React.Fragment>
+      <ThemeProvider theme={theme}>
+        <React.Fragment>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+            <title>Dracoviz Tournaments</title>
+          </Head>
+          <Script src="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" />
+          <Component {...pageProps} />
+        </React.Fragment>
+      </ThemeProvider>
     );
   }
 }

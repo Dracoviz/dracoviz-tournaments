@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import Router from "next/router";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
@@ -8,7 +8,7 @@ import firebase from 'firebase/compat/app';
 import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 

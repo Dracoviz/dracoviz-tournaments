@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
-import { Button } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { Button } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/homeProfileStyle.js";
 
