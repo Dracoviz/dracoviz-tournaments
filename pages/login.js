@@ -12,19 +12,30 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Router from "next/router";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
+import fetchApi from "../api/fetchApi";
 
 const useStyles = makeStyles(styles);
 
-
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSignIn = useCallback((user) => {
-    // TODO: API
+    setIsLoading(true);
     if (user != null) {
-      Router.push("/");
-      return;
+      const { uid } = user;
+      fetchApi("shared/login", "GET", {
+        "x_session_id": uid,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          // Successfully found user
+          Router.push("/");
+        } else {
+          // Cannot generate user, delete firebase copy
+          alert("Failed to log you in. Please try again");
+        }
+      });
     }
     setIsLoading(false);
   }, []);
@@ -59,6 +70,7 @@ export default function LoginPage(props) {
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
+
   const classes = useStyles();
   const { ...rest } = props;
   return (
@@ -75,21 +87,15 @@ export default function LoginPage(props) {
             <GridItem xs={0} md={2} lg={3}/>
             <GridItem xs={12} md={8} lg={6}>
               <Card className={classes[cardAnimaton]}>
-                {
-                  (isLoading) ? (
-                    <CircularProgress className={classes.progress} />
-                  ) : (
-                    <div className={classes.card}>
-                      <h2>
-                        <b>Pokémon GO</b>
-                        <br />
-                        Grassroots Tournaments
-                      </h2>
-                      <p style={{ marginBottom: 40 }}>Please create an account to participate in community lead tournaments for Pokémon GO PvP</p>
-                      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                    </div>
-                  )
-                }
+                <div className={classes.card}>
+                  <h2>
+                    <b>Pokémon GO</b>
+                    <br />
+                    Grassroots Tournaments
+                  </h2>
+                  <p style={{ marginBottom: 40 }}>Please create an account to participate in community lead tournaments for Pokémon GO PvP</p>
+                  {isLoading ? <CircularProgress className={classes.progress} /> : <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />}
+                </div>
               </Card>
             </GridItem>
           </GridContainer>

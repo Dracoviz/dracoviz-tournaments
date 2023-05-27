@@ -8,8 +8,7 @@ const signupPageStyle = {
   },
   progress: {
     color: infoColor,
-    width: "6rem !important",
-    height: "6rem !important"
+    margin: "auto",
   },
   pageHeader,
   form: {
