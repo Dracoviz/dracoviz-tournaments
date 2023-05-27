@@ -224,9 +224,18 @@ const testData = {
 }
 
 const statusLabels = {
-  "POKEMON_VISIBLE": "Teams of Pokemon Visible",
-  "ROSTERS_VISIBLE": "Team Rosters Visible",
-  "ROSTERS_HIDDEN": "Team Rosters Hidden",
+  "POKEMON_VISIBLE": {
+    title: "Teams of Pokemon Visible",
+    message: "Please find your matchup using the bracket link and coordinate with your opponent. You can find information about your opponent by searching their name below."
+  },
+  "ROSTERS_VISIBLE": {
+    title: "Team Rosters Visible",
+    message: "Pokemon haven't been revealed yet. You have a chance to register and edit your team.",
+  },
+  "ROSTERS_HIDDEN": {
+    title: "Team Rosters Hidden",
+    message: "Matches have not begun, but you can follow the bracket to see the current matchups for this round.",
+  },
 }
 
 const statusColors = {
@@ -256,9 +265,11 @@ export default function Tournament() {
 
   const renderAlert = () => {
     const { state } = testData;
+    const { title, message } = statusLabels[state];
     return (
       <Alert severity="info" color={statusColors[state]}>
-        <AlertTitle>{statusLabels[state]}</AlertTitle>
+        <AlertTitle>{title}</AlertTitle>
+        {message}
       </Alert>
     )
   }
