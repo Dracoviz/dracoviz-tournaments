@@ -21,7 +21,7 @@ export default function CreateTournament() {
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, getValues, watch, formState: { errors, isDirty, isValid } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
 
@@ -42,12 +42,16 @@ export default function CreateTournament() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    fetchApi("sessions/create", "POST", { x_session_id: authId }, data)
+    fetchApi("session/create", "POST", { x_session_id: authId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then(response => response.json())
-      .then(newData => console.log(newData))
-      .catch(() => {
-        alert("There was an error creating your tournament.");
+      .then(newData => {
+        const { id } = newData;
+        Router.push(`/tournament?id=${id}`);
+      })
+      .catch((err) => {
+        alert(err);
       });
+    setIsLoading(false);
   }
 
   const renderMetas = useCallback(() => {
@@ -61,11 +65,11 @@ export default function CreateTournament() {
     const slots = hasMultipleMetas ? maxMatchTeamSlots : 1;
     const metas = [...Array(slots).keys()];
     return metas.map((index) => (
-      <GridItem xs={12} md={6} style={{ marginTop: 10 }}>
+      <GridItem xs={12} md={6} style={{ marginTop: 10 }} key={index} >
         <InputLabel>Meta {hasMultipleMetas ? index+1 : ""}</InputLabel>
         <Select
           fullWidth
-          {...register(`metas.${index}`, { required: true })}
+          {...register(`metas.${index}`, { required: true, defaultValue: "Great League" })}
         >
           <MenuItem value="Great League">Great League</MenuItem>
           <MenuItem value="Ultra League">Ultra League</MenuItem>
@@ -229,7 +233,7 @@ export default function CreateTournament() {
               <GridItem xs={12}>
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || !isValid}
                   fullWidth
                   style={{ marginBottom: 10 }}
                 >
