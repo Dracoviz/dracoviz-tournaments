@@ -247,6 +247,12 @@ const statusColors = {
 export default function Tournament() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
+
+  const getTournamentData = (authId) => {
+    setData(testData);
+  }
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -255,6 +261,9 @@ export default function Tournament() {
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
         Router.push("/login");
+      } else {
+        const { uid } = user;
+        getTournamentData(uid);
       }
     });
     return () => unregisterAuthObserver();
@@ -264,7 +273,7 @@ export default function Tournament() {
   const classes = useStyles();
 
   const renderAlert = () => {
-    const { state } = testData;
+    const { state } = data;
     const { title, message } = statusLabels[state];
     return (
       <Alert severity="info" color={statusColors[state]}>
@@ -275,13 +284,14 @@ export default function Tournament() {
   }
 
   const renderActionButtons = () => {
-    const { isHost, isCaptain, state, bracketLink } = testData;
+    const { isHost, isCaptain, state, bracketLink } = data;
     const buttons = [];
     buttons.push(
       <Button
         href={bracketLink}
         target="_blank"
         className={classes.actionButtonMiddle}
+        key="SEE_BRACKET"
       >
         See Bracket
       </Button>
@@ -289,53 +299,53 @@ export default function Tournament() {
     if (isHost) {
       if (state === "POKEMON_VISIBLE") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle}>
+          <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_POKEMON">
             Hide Pokemon
           </Button>
         )
       }
       if (state !== "POKEMON_VISIBLE") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle}>
+          <Button color="primary" className={classes.actionButtonMiddle} key="SHOW_POKEMON">
             Show Pokemon
           </Button>
         )
       }
       if (state === "ROSTERS_VISIBLE") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle}>
+          <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_ROSTER">
             Hide Rosters
           </Button>
         )
       }
       if (state === "ROSTERS_HIDDEN") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle}>
+          <Button color="primary" className={classes.actionButtonMiddle}key="SHOW_ROSTER">
             Show Rosters
           </Button>
         )
       }
       buttons.push(
-        <Button color="secondary">
+        <Button color="secondary" key="EDIT_TM">
           Edit Tournament Information
         </Button>
       );
     } else {
       if (isCaptain) {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle}>
+          <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_ROSTER">
             Manage Roster
           </Button>
         )
       }
       const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? "Edit" : "See";
       buttons.push(
-        <Button color="primary" className={classes.actionButtonMiddle}>
+        <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_POKEMON">
           {pokemonEditTitle} Your Pokemon
         </Button>
       );
       buttons.push(
-        <Button color="secondary">
+        <Button color="secondary" key="SEE_TM">
           View Tournament Information
         </Button>
       );
