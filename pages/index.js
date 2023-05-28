@@ -143,7 +143,7 @@ export default function Index() {
                     <div className={classes.tournamentHead}>
                       <h3>Your Tournaments</h3>
                       <div>
-                        <Button color="primary">
+                        <Button color="primary" href="/join-tournament">
                           Join a Tournament
                         </Button>
                         <Button color="primary" style={{ marginLeft: 20 }} href="/create-tournament">
