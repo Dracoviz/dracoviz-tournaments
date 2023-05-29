@@ -184,14 +184,14 @@ export default function CreateTournament() {
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Max Teams (Max 128, Min 8)*"
+                    labelText="Max Teams (Max 128, Min 3)*"
                     id="maxTeams"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       type: "number",
-                      ...register("maxTeams", { required: true, min: 8, max: 128 })
+                      ...register("maxTeams", { required: true, min: 3, max: 128 })
                     }}
                     error={errors.maxTeams}
                   />
@@ -237,7 +237,7 @@ export default function CreateTournament() {
                   ) : null
                 }
                 <GridItem xs={12} md={7}>
-                  Are Pokemon CPs required to be registered? 
+                  Are Pokémon CPs required to be registered? 
                   <Checkbox {...register("isCPRequired")}/>
                 </GridItem>
                 {

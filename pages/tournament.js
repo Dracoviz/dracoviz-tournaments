@@ -225,12 +225,12 @@ const testData = {
 
 const statusLabels = {
   "POKEMON_VISIBLE": {
-    title: "Teams of Pokemon Visible",
+    title: "Teams of Pokémon Visible",
     message: "Please find your matchup using the bracket link and coordinate with your opponent. You can find information about your opponent by searching their name below."
   },
   "ROSTERS_VISIBLE": {
     title: "Team Rosters Visible",
-    message: "Pokemon haven't been revealed yet. You have a chance to register and edit your team.",
+    message: "Pokémon haven't been revealed yet. You have a chance to register and edit your team.",
   },
   "ROSTERS_HIDDEN": {
     title: "Team Rosters Hidden",
@@ -300,14 +300,14 @@ export default function Tournament() {
       if (state === "POKEMON_VISIBLE") {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_POKEMON">
-            Hide Pokemon
+            Hide Pokémon
           </Button>
         )
       }
       if (state !== "POKEMON_VISIBLE") {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle} key="SHOW_POKEMON">
-            Show Pokemon
+            Show Pokémon
           </Button>
         )
       }
@@ -341,7 +341,7 @@ export default function Tournament() {
       const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? "Edit" : "See";
       buttons.push(
         <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_POKEMON">
-          {pokemonEditTitle} Your Pokemon
+          {pokemonEditTitle} Your Pokémon
         </Button>
       );
       buttons.push(

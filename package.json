@@ -1,7 +1,7 @@
 {
   "name": "dracoviz-tournaments",
   "version": "0.0.1",
-  "description": "Tournament registration platform for grassroots Pokemon GO PvP",
+  "description": "Tournament registration platform for grassroots Pokémon GO PvP",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
