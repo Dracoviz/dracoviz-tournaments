@@ -273,6 +273,9 @@ export default function Tournament() {
   const classes = useStyles();
 
   const renderAlert = () => {
+    if (data == null) {
+      return null;
+    }
     const { state } = data;
     const { title, message } = statusLabels[state];
     return (
@@ -284,6 +287,9 @@ export default function Tournament() {
   }
 
   const renderActionButtons = () => {
+    if (data == null) {
+      return null;
+    }
     const { isHost, isCaptain, state, bracketLink } = data;
     const buttons = [];
     buttons.push(
