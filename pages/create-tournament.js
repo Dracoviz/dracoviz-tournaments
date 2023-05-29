@@ -21,9 +21,16 @@ export default function CreateTournament() {
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
+    defaultValues: {
+      maxTeamSize: 1,
+      maxMatchTeamSize: 1,
+    }
+  });
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
+  const isTeamTournament = watch("isTeamTournament");
+  console.log(isTeamTournament);
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -190,42 +197,58 @@ export default function CreateTournament() {
                     error={errors.maxTeams}
                   />
                 </GridItem>
-                <GridItem xs={12} md={6}>
-                  <CustomInput
-                    labelText="Max Team Size (Including Alternates, Max 20)*"
-                    id="maxTeamSize"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      type: "number",
-                      ...register("maxTeamSize", { required: true, min: 1, max: 20 })
-                    }}
-                    error={errors.maxTeamSize}
-                  />
+                <GridItem xs={12} md={7}>
+                  Is this a team tournament? 
+                  <Checkbox {...register("isTeamTournament")}/>
                 </GridItem>
-                <GridItem xs={12} md={6}>
-                  <CustomInput
-                    labelText="Team Size During Match (Max 10)*"
-                    id="maxMatchTeamSize"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      type: "number",
-                      ...register("maxMatchTeamSize", { required: true, min: 1, max: 10 })
-                    }}
-                    error={errors.maxMatchTeamSize}
-                  />
-                </GridItem>
+                {
+                  isTeamTournament ? (
+                    <>
+                      <GridItem xs={12} md={6}>
+                        <CustomInput
+                          labelText="Max Team Size (Including Alternates, Max 20)*"
+                          id="maxTeamSize"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          inputProps={{
+                            type: "number",
+                            ...register("maxTeamSize", { required: true, min: 1, max: 20 }),
+                            defaultValue: 1,
+                          }}
+                          error={errors.maxTeamSize}
+                        />
+                      </GridItem>
+                      <GridItem xs={12} md={6}>
+                        <CustomInput
+                          labelText="Team Size During Match (Max 10)*"
+                          id="maxMatchTeamSize"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          inputProps={{
+                            type: "number",
+                            ...register("maxMatchTeamSize", { required: true, min: 1, max: 10 }),
+                            defaultValue: 1,
+                          }}
+                          error={errors.maxMatchTeamSize}
+                        />
+                      </GridItem>
+                    </>
+                  ) : null
+                }
                 <GridItem xs={12} md={7}>
                   Are Pokemon CPs required to be registered? 
                   <Checkbox {...register("isCPRequired")}/>
                 </GridItem>
-                <GridItem xs={12} md={7}>
-                  Do you want to enable multiple metas for this tournament? 
-                  <Checkbox {...register("hasMultipleMetas")}/>
-                </GridItem>
+                {
+                  isTeamTournament ? (
+                    <GridItem xs={12} md={7}>
+                      Do you want to enable multiple metas for this tournament? 
+                      <Checkbox {...register("hasMultipleMetas")}/>
+                    </GridItem>
+                  ) : null
+                }
                 {renderMetas()}
               </GridContainer>
             </Card>
