@@ -43,7 +43,7 @@ export default function JoinTournament() {
         const { isTeamTournament, id, error, alreadyEntered } = newData;
         setIsLoading(false);
         if (alreadyEntered) {
-          Router.push(`/tournament?id=${id}`);
+          Router.push(`/tournament/${id}`);
         }
         if (error != null) {
           alert(error);
@@ -52,7 +52,7 @@ export default function JoinTournament() {
         if (isTeamTournament) {
           setStep(1);
         } else {
-          Router.push(`/tournament?id=${id}`);
+          Router.push(`/tournament/${id}`);
         }
       })
       .catch(() => {

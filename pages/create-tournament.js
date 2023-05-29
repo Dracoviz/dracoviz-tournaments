@@ -52,7 +52,7 @@ export default function CreateTournament() {
       .then(response => response.json())
       .then(newData => {
         const { id } = newData;
-        Router.push(`/tournament?id=${id}`);
+        Router.push(`/tournament/${id}`);
       })
       .catch((err) => {
         alert(err);

@@ -56,7 +56,7 @@ function TournamentList(props) {
                   Status: <span className={classes[statusColor[status]]}>{statusName[status]}</span>
                 </p>
                 <Button
-                  href={`/tournament?id=${_id}`}
+                  href={`/tournament/${_id}`}
                   color="primary"
                   style={{ marginLeft: -7 }}
                 >

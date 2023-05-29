@@ -12,8 +12,8 @@ import { useForm } from "react-hook-form";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem } from "@mui/material";
-import Card from "../components/Card/Card";
-import fetchApi from "../api/fetchApi";
+import Card from "../../components/Card/Card";
+import fetchApi from "../../api/fetchApi";
 
 const useStyles = makeStyles(styles);
 
@@ -23,7 +23,7 @@ export default function Team() {
   const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm();
 
   const getPokemonOptions = (authId) => {
-
+    // fetchApi("");
   }
 
   const onSubmit = (data) => {
