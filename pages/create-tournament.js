@@ -30,7 +30,6 @@ export default function CreateTournament() {
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
   const isTeamTournament = watch("isTeamTournament");
-  console.log(isTeamTournament);
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
