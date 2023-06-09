@@ -13,8 +13,8 @@ import { useRouter } from 'next/router';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
-import Card from "../../../components/Card/Card";
-import fetchApi from "../../../api/fetchApi";
+import Card from "../../components/Card/Card";
+import fetchApi from "../../api/fetchApi";
 
 const useStyles = makeStyles(styles);
 
@@ -32,9 +32,11 @@ export default function Team() {
   const pokemons = watch("pokemon");
 
   const getPokemonOptions = (authId) => {
-    const { session, meta } = router.query;
+    const { session } = router.query;
     setIsLoading(true);
-    fetchApi(`pokemon?session=${session}&meta=${meta}`, "GET")
+    fetchApi(`pokemon?session=${session}`, "GET", {
+      x_session_id: authId,
+    })
     .then(response => response.json())
     .then(data => {
       setPokemonOptions(data);
@@ -78,7 +80,7 @@ export default function Team() {
               <img
                 src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonOptions[pokemons[index]].sid}.png/public`}
                 alt={pokemonOptions[pokemons[index]].speciesName}
-                style={{ maxHeight: 110, maxWidth: 110 }}
+                style={{ maxHeight: 100, maxWidth: 100 }}
               />
             </GridItem>
             <GridItem xs={8} md={9} style={{ marginTop: 10 }}>

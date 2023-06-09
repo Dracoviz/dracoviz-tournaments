@@ -374,6 +374,7 @@ export default function Tournament() {
               <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
+              <p>TODO: Add bracket here</p>
             </GridItem>
           </GridContainer>
         </div>

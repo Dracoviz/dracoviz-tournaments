@@ -43,7 +43,7 @@ function TournamentList(props) {
     <div>
       {
         sessions.map((session) => {
-          const { _id, name, playerValues } = session;
+          const { _id, name, playerValues, currentRoundNumber } = session;
           const { status, role, meta } = playerValues;
           return (
             <Card className={classes.root} key={_id}>
@@ -54,6 +54,7 @@ function TournamentList(props) {
                   <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{role}</Badge>
                   <br />
                   Status: <span className={classes[statusColor[status]]}>{statusName[status]}</span>
+                  <p>Round: {currentRoundNumber}</p>
                 </p>
                 <Button
                   href={`/tournament/${_id}`}
