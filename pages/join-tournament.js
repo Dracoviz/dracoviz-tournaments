@@ -9,6 +9,8 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
+import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
@@ -18,6 +20,7 @@ import fetchApi from "../api/fetchApi";
 const useStyles = makeStyles(styles);
 
 export default function JoinTournament() {
+  const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [authId, setAuthId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +49,7 @@ export default function JoinTournament() {
           Router.push(`/tournament/${id}`);
         }
         if (error != null) {
-          alert(error);
+          alert(t(error));
           return;
         }
         if (isTeamTournament) {

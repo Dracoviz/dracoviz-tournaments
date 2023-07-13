@@ -8,6 +8,8 @@ import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import { Alert, AlertTitle, Button } from "@mui/material";
+import i18n from "../../i18n";
+import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 
@@ -23,7 +25,7 @@ const testData = {
   maxTeamSize: 5,
   matchTeamSize: 3,
   metas: ["Meta 1", "Meta 2", "Meta 3"],
-  state: "ROSTERS_HIDDEN",
+  state: "ROUND_NOT_STARTED",
   factions: [
     {
       name: "Faction 1",
@@ -225,30 +227,32 @@ const testData = {
 
 const statusLabels = {
   "POKEMON_VISIBLE": {
-    title: "Teams of Pokémon Visible",
-    message: "Please find your matchup using the bracket link and coordinate with your opponent. You can find information about your opponent by searching their name below."
+    title: i18n.t('tournament_status_pokemon_visible_title'),
+    message: i18n.t('tournament_status_pokemon_visible_message')
   },
   "ROSTERS_VISIBLE": {
-    title: "Team Rosters Visible",
-    message: "Pokémon haven't been revealed yet. You have a chance to register and edit your team.",
+    title: i18n.t('tournament_status_rosters_visible_title'),
+    message: i18n.t('tournament_status_rosters_visible_message')
   },
-  "ROSTERS_HIDDEN": {
-    title: "Team Rosters Hidden",
-    message: "Matches have not begun, but you can follow the bracket to see the current matchups for this round.",
+  "ROUND_NOT_STARTED": {
+    title: i18n.t('tournament_status_round_not_started_title'),
+    message: i18n.t('tournament_status_round_not_started_message')
   },
 }
 
 const statusColors = {
   "POKEMON_VISIBLE": "success",
   "ROSTERS_VISIBLE": "info",
-  "ROSTERS_HIDDEN": "error",
+  "ROUND_NOT_STARTED": "error",
 }
 
 export default function Tournament() {
+  const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
+  
 
   const getTournamentData = (authId) => {
     setData(testData);
@@ -299,7 +303,7 @@ export default function Tournament() {
         className={classes.actionButtonMiddle}
         key="SEE_BRACKET"
       >
-        See Bracket
+        {t("tournament_see_bracket_button")}
       </Button>
     );
     if (isHost) {
@@ -344,10 +348,10 @@ export default function Tournament() {
           </Button>
         )
       }
-      const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? "Edit" : "See";
+      const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? t("tournament_edit_pokemon_button") : t("tournament_see_pokemon_button");
       buttons.push(
         <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_POKEMON">
-          {pokemonEditTitle} Your Pokémon
+          {pokemonEditTitle}
         </Button>
       );
       buttons.push(
@@ -374,7 +378,6 @@ export default function Tournament() {
               <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
-              <p>TODO: Add bracket here</p>
             </GridItem>
           </GridContainer>
         </div>

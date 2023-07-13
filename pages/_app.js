@@ -25,6 +25,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/styles';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../i18n';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBU5gODLafUagZGLtchmIZn0TTW3Foh2EU',
@@ -95,19 +97,21 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <ThemeProvider theme={theme}>
-        <React.Fragment>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
-            <title>Dracoviz Tournaments</title>
-          </Head>
-          <Script src="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" />
-          <Component {...pageProps} />
-        </React.Fragment>
-      </ThemeProvider>
+      <I18nextProvider i18n={i18n} defaultNS={'translation'}>
+        <ThemeProvider theme={theme}>
+          <React.Fragment>
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, shrink-to-fit=no"
+              />
+              <title>Dracoviz Tournaments</title>
+            </Head>
+            <Script src="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" />
+            <Component {...pageProps} />
+          </React.Fragment>
+        </ThemeProvider>
+      </I18nextProvider>
     );
   }
 }

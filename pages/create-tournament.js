@@ -9,6 +9,8 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
+import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem } from "@mui/material";
@@ -18,6 +20,7 @@ import fetchApi from "../api/fetchApi";
 const useStyles = makeStyles(styles);
 
 export default function CreateTournament() {
+  const { t } = useTranslation();
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +58,7 @@ export default function CreateTournament() {
         Router.push(`/tournament/${id}`);
       })
       .catch((err) => {
-        alert(err);
+        alert(t(err));
       });
     setIsLoading(false);
   }
@@ -136,7 +139,7 @@ export default function CreateTournament() {
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Server Invite Link (Discord, Telegram, etc)"
+                    labelText={t("create_server_invite_link")}
                     id="serverInviteLink"
                     formControlProps={{
                       fullWidth: true
@@ -149,7 +152,7 @@ export default function CreateTournament() {
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Bracket Link"
+                    labelText="Bracket Link (Leave blank if you'd like to use ours)"
                     id="bracketLink"
                     formControlProps={{
                       fullWidth: true
@@ -159,17 +162,6 @@ export default function CreateTournament() {
                     }}
                     error={errors.bracketLink}
                   />
-                  <p>
-                    <small>
-                      Note: We are working on hosting our own brackets.
-                      For now, please include a link to your tournament bracket from
-                      {" "}
-                      <a href="https://challonge.com/" target="_blank">Challonge</a>,
-                      {" "}
-                      <a href="https://matcherino.com/" target="_blank">Matcherino</a>,
-                      or another bracket builder.
-                    </small>
-                  </p>
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   Is this a private tournament? 

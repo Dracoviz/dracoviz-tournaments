@@ -5,6 +5,8 @@ import Card from "../../components/Card/Card";
 import Badge from "../../components/Badge/Badge";
 import styles from "/styles/jss/nextjs-material-kit/sections/tournamentListStyle.js";
 import { makeStyles } from "@mui/styles";
+import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(styles);
 
@@ -33,6 +35,7 @@ const statusColor = {
 function TournamentList(props) {
   const { sessions } = props;
   const classes = useStyles();
+  const { t } = useTranslation();
 
   if (sessions == null || sessions.length <= 0) {
     return (

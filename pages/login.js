@@ -10,6 +10,8 @@ import firebase from 'firebase/compat/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CircularProgress from "@mui/material/CircularProgress";
 import Router from "next/router";
+import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
 import fetchApi from "../api/fetchApi";
@@ -17,6 +19,7 @@ import fetchApi from "../api/fetchApi";
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
+  const { t } = useTranslation();
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [isLoading, setIsLoading] = useState(false);
 

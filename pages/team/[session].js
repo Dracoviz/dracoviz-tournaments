@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import Router from "next/router";
 import Header from "/components/Header/Header.js";
@@ -10,6 +10,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
@@ -19,6 +20,7 @@ import fetchApi from "../../api/fetchApi";
 const useStyles = makeStyles(styles);
 
 export default function Team() {
+  const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
@@ -84,7 +86,7 @@ export default function Team() {
               />
             </GridItem>
             <GridItem xs={8} md={9} style={{ marginTop: 10 }}>
-              <InputLabel>Pokémon {index + 1}</InputLabel>
+              <InputLabel>{t('team_pokemon_label', { index: index + 1 })}</InputLabel>
               <Select
                 fullWidth
                 {...register(`pokemon.${index}`, { required: true })}
@@ -95,7 +97,7 @@ export default function Team() {
                 {pokemonItems}
               </Select>
               <CustomInput
-                labelText="CP"
+                labelText={t('cp')}
                 id={`cp.${index}`}
                 formControlProps={{
                   fullWidth: true
@@ -107,7 +109,7 @@ export default function Team() {
                 error={errors.maxMatchTeamSize}
               />
               <div>
-                Shadow? <Checkbox {...register(`shadow.${index}`)} />
+                {t('team_shadow_label')} <Checkbox {...register(`shadow.${index}`)} />
               </div>
             </GridItem>
           </GridContainer>
@@ -136,7 +138,7 @@ export default function Team() {
                     fullWidth
                     style={{ marginBottom: 10 }}
                   >
-                    Save Team
+                    {t('save_team_button')}
                   </Button>
                 </GridItem>
               </GridContainer>

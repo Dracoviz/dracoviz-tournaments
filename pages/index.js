@@ -9,6 +9,8 @@ import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import fetchApi from "../api/fetchApi.js";
+import i18n from "../i18n";
+import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
 import { Button, CircularProgress } from "@mui/material";
@@ -18,6 +20,7 @@ import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 const useStyles = makeStyles(styles);
 
 export default function Index() {
+  const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
   const [data, setData] = useState(null);

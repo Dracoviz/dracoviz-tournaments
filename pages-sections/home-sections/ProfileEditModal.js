@@ -8,8 +8,11 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
+import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
 
 function ProfileEditModal(props) {
+  const { t } = useTranslation();
   const { open, onClose, onSave, player, Transition } = props;
   const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
     defaultValues: {
