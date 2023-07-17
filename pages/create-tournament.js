@@ -189,7 +189,7 @@ export default function CreateTournament() {
                   />
                 </GridItem>
                 <GridItem xs={12} md={7}>
-                labelText={t("is_team_tournament")}
+                {t("is_team_tournament")}
                   <Checkbox {...register("isTeamTournament")}/>
                 </GridItem>
                 {
