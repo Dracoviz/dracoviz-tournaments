@@ -75,7 +75,7 @@ export default function CreateTournament() {
     const metas = [...Array(slots).keys()];
     return metas.map((index) => (
       <GridItem xs={12} md={6} style={{ marginTop: 10 }} key={index} >
-        <InputLabel>Meta {hasMultipleMetas ? index+1 : ""}</InputLabel>
+        <InputLabel>{t("meta_slot_label", { index: hasMultipleMetas ? index+1 : "" })}</InputLabel>
         <Select
           fullWidth
           {...register(`metas.${index}`, { required: true, defaultValue: "Great League" })}

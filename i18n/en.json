@@ -12,5 +12,6 @@
     "tournament_see_bracket_button": "See Bracket",
     "tournament_edit_pokemon_button": "Edit your Pokémon",
     "tournament_see_pokemon_button": "See your Pokémon",
-    "create_server_invite_link": "Server Invite Link (Discord, Telegram, etc)"
+    "create_server_invite_link": "Server Invite Link (Discord, Telegram, etc)",
+    "meta_slot_label": "Meta {{index}}"
 }
