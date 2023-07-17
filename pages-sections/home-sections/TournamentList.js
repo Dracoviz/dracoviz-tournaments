@@ -5,7 +5,7 @@ import Card from "../../components/Card/Card";
 import Badge from "../../components/Badge/Badge";
 import styles from "/styles/jss/nextjs-material-kit/sections/tournamentListStyle.js";
 import { makeStyles } from "@mui/styles";
-import i18n from "../i18n";
+import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(styles);
@@ -17,11 +17,11 @@ const badgeColor = {
 }
 
 const statusName = {
-  "POKEMON_VISIBLE": "Teams revealed",
-  "MATCHUPS_VISIBLE": "Matchups revealed",
-  "REGISTER_TEAM": "Register your team",
-  "REGISTER_ROSTER": "Complete roster registration",
-  "NOT_STARTED": "Not started",
+  "POKEMON_VISIBLE": i18n.t('tournament_status_pokemon_visible'),
+  "MATCHUPS_VISIBLE": i18n.t('tournament_status_matchups_visible'),
+  "REGISTER_TEAM": i18n.t('tournament_status_register_team'),
+  "REGISTER_ROSTER": i18n.t('tournament_status_register_roster'),
+  "NOT_STARTED": i18n.t('tournament_status_not_started'),
 }
 
 const statusColor = {
@@ -39,7 +39,7 @@ function TournamentList(props) {
 
   if (sessions == null || sessions.length <= 0) {
     return (
-      <p>You are not in any tournaments yet. Join some! 😊</p>
+      <p>{t("join_some_tournaments")}</p>
     )
   }
   return (
@@ -56,15 +56,15 @@ function TournamentList(props) {
                   <strong className={classes.title}>{name}</strong>
                   <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{role}</Badge>
                   <br />
-                  Status: <span className={classes[statusColor[status]]}>{statusName[status]}</span>
-                  <p>Round: {currentRoundNumber}</p>
+                  {t("tournament_status")} <span className={classes[statusColor[status]]}>{statusName[status]}</span>
+                  <p>{t("tournament_round")} {currentRoundNumber}</p>
                 </p>
                 <Button
                   href={`/tournament/${_id}`}
                   color="primary"
                   style={{ marginLeft: -7 }}
                 >
-                  Visit Page
+                  {t("visit_page")}
                 </Button>
               </div>
             </Card>

@@ -310,41 +310,41 @@ export default function Tournament() {
       if (state === "POKEMON_VISIBLE") {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_POKEMON">
-            Hide Pokémon
+            {t("tournament_hide_pokemon_button")}
           </Button>
         )
       }
       if (state !== "POKEMON_VISIBLE") {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle} key="SHOW_POKEMON">
-            Show Pokémon
+           {t("tournament_show_pokemon_button")}
           </Button>
         )
       }
       if (state === "ROSTERS_VISIBLE") {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_ROSTER">
-            Hide Rosters
+            {t("tournament_hide_rosters_button")}
           </Button>
         )
       }
       if (state === "ROSTERS_HIDDEN") {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle}key="SHOW_ROSTER">
-            Show Rosters
+            {t("tournament_show_rosters_button")}
           </Button>
         )
       }
       buttons.push(
         <Button color="secondary" key="EDIT_TM">
-          Edit Tournament Information
+          {t("edit_tournament_information_button")}
         </Button>
       );
     } else {
       if (isCaptain) {
         buttons.push(
           <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_ROSTER">
-            Manage Roster
+            {t("team_manage_roster")}
           </Button>
         )
       }
@@ -356,7 +356,7 @@ export default function Tournament() {
       );
       buttons.push(
         <Button color="secondary" key="SEE_TM">
-          View Tournament Information
+          {t("tournament_view_information")}
         </Button>
       );
     }

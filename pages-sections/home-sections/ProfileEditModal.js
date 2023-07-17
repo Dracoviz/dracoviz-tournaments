@@ -8,7 +8,7 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
-import i18n from "../i18n";
+import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
 
 function ProfileEditModal(props) {
@@ -36,7 +36,7 @@ function ProfileEditModal(props) {
         <DialogTitle
           id="profile-modal-slide-title"
         >
-          Edit Profile
+          {t("edit_profile")}
         </DialogTitle>
         <DialogContent
           id="profile-modal-slide-description"
@@ -44,7 +44,7 @@ function ProfileEditModal(props) {
           <GridContainer>
             <GridItem xs={12} sm={6}>
               <CustomInput
-                labelText="Trainer Name*"
+                labelText={t("trainer_name")}
                 id="trainerName"
                 formControlProps={{
                   fullWidth: true
@@ -58,7 +58,7 @@ function ProfileEditModal(props) {
             </GridItem>
             <GridItem xs={12} sm={6}>
               <CustomInput
-                labelText="Friend Code*"
+                labelText={t("friend_code")}
                 id="friendCode"
                 formControlProps={{
                   fullWidth: true
@@ -72,7 +72,7 @@ function ProfileEditModal(props) {
             </GridItem>
             <GridItem xs={12}>
               <CustomInput
-                labelText="Bio"
+                labelText={t("trainer_bio")}
                 id="trainerBio"
                 formControlProps={{
                   fullWidth: true
@@ -85,9 +85,9 @@ function ProfileEditModal(props) {
             </GridItem>
             <GridItem xs={12}>
               <small>
-                *Your name and code must match Pokémon GO
+                {t("name_and_code_must_match")}
                 <br />
-                Additional profile options will come in future updates
+                {t("additonal_profile_options")}
               </small>
             </GridItem>
           </GridContainer>
@@ -98,7 +98,7 @@ function ProfileEditModal(props) {
             color="primary"
             disabled={!isDirty || !isValid}
           >
-            Save
+            {t("save")}
           </Button>
         </DialogActions>
       </form>

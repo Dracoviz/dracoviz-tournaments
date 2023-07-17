@@ -80,9 +80,9 @@ export default function CreateTournament() {
           fullWidth
           {...register(`metas.${index}`, { required: true, defaultValue: "Great League" })}
         >
-          <MenuItem value="Great League">Great League</MenuItem>
-          <MenuItem value="Ultra League">Ultra League</MenuItem>
-          <MenuItem value="Master League">Master League</MenuItem>
+          <MenuItem value="Great League">{t("great_league")}</MenuItem>
+          <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
+          <MenuItem value="Master League">{t("master_league")}</MenuItem>
         </Select>
       </GridItem>
     ))
@@ -102,17 +102,17 @@ export default function CreateTournament() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <GridContainer>
               <GridItem xs={12}>
-                <h2>Create a tournament</h2>
+                <h2>{t("create_a_tournament")}</h2>
               </GridItem>
             </GridContainer>
             <Card>
               <GridContainer style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <GridItem xs={12}>
-                  <h3>Tournament Details</h3>
+                  <h3>{t("tournament_details")}</h3>
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Tournament Name*"
+                    labelText={t("tournament_name")}
                     id="name"
                     formControlProps={{
                       fullWidth: true
@@ -125,7 +125,7 @@ export default function CreateTournament() {
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Tournament Description*"
+                    labelText={t("tournament_description")}
                     id="description"
                     formControlProps={{
                       fullWidth: true
@@ -152,7 +152,7 @@ export default function CreateTournament() {
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Bracket Link (Leave blank if you'd like to use ours)"
+                    labelText={t("tournament_bracket_link")}
                     id="bracketLink"
                     formControlProps={{
                       fullWidth: true
@@ -164,7 +164,7 @@ export default function CreateTournament() {
                   />
                 </GridItem>
                 <GridItem xs={12} md={7}>
-                  Is this a private tournament? 
+                {t("is_tournament_private")}
                   <Checkbox {...register("isPrivate")}/>
                 </GridItem>
               </GridContainer>
@@ -172,11 +172,11 @@ export default function CreateTournament() {
             <Card style={{ paddingBottom: 30 }}>
               <GridContainer style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <GridItem xs={12}>
-                  <h3>Game Settings</h3>
+                  <h3>{t("tournament_game_settings")}</h3>
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <CustomInput
-                    labelText="Max Teams (Max 128, Min 3)*"
+                    labelText={t("tournament_max_teams")}
                     id="maxTeams"
                     formControlProps={{
                       fullWidth: true
@@ -189,7 +189,7 @@ export default function CreateTournament() {
                   />
                 </GridItem>
                 <GridItem xs={12} md={7}>
-                  Is this a team tournament? 
+                labelText={t("is_team_tournament")}
                   <Checkbox {...register("isTeamTournament")}/>
                 </GridItem>
                 {
@@ -197,7 +197,7 @@ export default function CreateTournament() {
                     <>
                       <GridItem xs={12} md={6}>
                         <CustomInput
-                          labelText="Max Team Size (Including Alternates, Max 20)*"
+                          labelText={t("tournament_max_team_size")}
                           id="maxTeamSize"
                           formControlProps={{
                             fullWidth: true
@@ -212,7 +212,7 @@ export default function CreateTournament() {
                       </GridItem>
                       <GridItem xs={12} md={6}>
                         <CustomInput
-                          labelText="Team Size During Match (Max 10)*"
+                          labelText={t("tournament_team_size_during_match")}
                           id="maxMatchTeamSize"
                           formControlProps={{
                             fullWidth: true
@@ -229,13 +229,13 @@ export default function CreateTournament() {
                   ) : null
                 }
                 <GridItem xs={12} md={7}>
-                  Are Pokémon CPs required to be registered? 
+                {t("tournament_are_cps_required")}
                   <Checkbox {...register("isCPRequired")}/>
                 </GridItem>
                 {
                   isTeamTournament ? (
                     <GridItem xs={12} md={7}>
-                      Do you want to enable multiple metas for this tournament? 
+                      {t("tournament_multiple_metas_enabled")}
                       <Checkbox {...register("hasMultipleMetas")}/>
                     </GridItem>
                   ) : null
@@ -251,7 +251,7 @@ export default function CreateTournament() {
                   fullWidth
                   style={{ marginBottom: 10 }}
                 >
-                  Create Tournament
+                  {t("create_tournament")}
                 </Button>
                 <Button href="/"  color="error" fullWidth>Cancel</Button>
               </GridItem>

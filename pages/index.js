@@ -108,13 +108,13 @@ export default function Index() {
                   </GridItem>
                   <GridItem xs={12}>
                     <div className={classes.tournamentHead}>
-                      <h3>Your Tournaments</h3>
+                      <h3>{t("your_tournaments")}</h3>
                       <div>
                         <Button color="primary" href="/join-tournament">
-                          Join a Tournament
+                        {t("join_a_tournament")}
                         </Button>
                         <Button color="primary" style={{ marginLeft: 20 }} href="/create-tournament">
-                          Create a Tournament
+                        {t("create_a_tournament")}
                         </Button>
                       </div>
                     </div>

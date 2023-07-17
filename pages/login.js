@@ -94,9 +94,9 @@ export default function LoginPage(props) {
                   <h2>
                     <b>Pokémon GO</b>
                     <br />
-                    Grassroots Tournaments
+                    {t("grassroots_tournaments")}
                   </h2>
-                  <p style={{ marginBottom: 40 }}>Please create an account to participate in community lead tournaments for Pokémon GO PvP</p>
+                  <p style={{ marginBottom: 40 }}>{t("please_create_account_to_participate")}</p>
                   {isLoading ? <CircularProgress className={classes.progress} /> : <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />}
                 </div>
               </Card>
