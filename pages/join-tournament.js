@@ -93,7 +93,7 @@ export default function JoinTournament() {
         <>
           <GridItem xs={12} md={6}>
             <CustomInput
-              labelText="Tournament Number*"
+              labelText={t("tournament_number")}
               id="tournamentId"
               formControlProps={{
                 fullWidth: true
@@ -106,7 +106,7 @@ export default function JoinTournament() {
           </GridItem>
           <GridItem xs={12} md={6}>
             <CustomInput
-              labelText="Registration Password (Leave blank if public)"
+              labelText={t("tournament_registration_password")}
               id="registrationNumber"
               formControlProps={{
                 fullWidth: true
@@ -123,14 +123,14 @@ export default function JoinTournament() {
     return (
       <>
          <GridItem xs={12}>
-            This is a team tournament. Would you like to captain a new team?
+         {t("team_tournament_captain")}
             <Checkbox {...register("isCaptain")}/>
           </GridItem>
           {
             isCaptain ? (
               <GridItem xs={12}>
                 <CustomInput
-                  labelText="Team Name"
+                  labelText={t("team_name")}
                   id="teamName"
                   formControlProps={{
                     fullWidth: true
@@ -144,7 +144,7 @@ export default function JoinTournament() {
             ) : (
               <GridItem xs={12}>
                 <CustomInput
-                  labelText="Team Code (Contact your captain if this is needed)"
+                  labelText={t("team_code")}
                   id="teamCode"
                   formControlProps={{
                     fullWidth: true
@@ -170,12 +170,12 @@ export default function JoinTournament() {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
-          <h2>Join a Tournament</h2>
+          <h2>{t("join_a_tournament")}</h2>
           <Card>
             <form onSubmit={handleSubmit(onSubmit)}>
               <GridContainer style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <GridItem xs={12} style={{ marginBottom: 20 }}>
-                  <h3>Join tournament by number</h3>
+                  <h3>{t("join_tournament_by_number")}</h3>
                 </GridItem>
                 {renderTournamentByLink()}
                 {
@@ -188,7 +188,7 @@ export default function JoinTournament() {
                         disabled={isLoading || !isValid}
                         style={{ marginBottom: 10 }}
                       >
-                        Join Tournament
+                        {t("join_tournament")}
                       </Button>
                       {
                         step !== 0 && (
@@ -197,7 +197,7 @@ export default function JoinTournament() {
                             color="error"
                             style={{ marginBottom: 10 }}
                           >
-                            Cancel
+                            {t("cancel")}
                           </Button>
                         )
                       }
@@ -207,7 +207,7 @@ export default function JoinTournament() {
               </GridContainer>
             </form>
           </Card>
-          <small>We plan to add public tournament browsing very soon!</small>
+          <small>{t("tournament_public_browsing_soon")}</small>
           {/* <GridContainer>
             <GridItem xs={12}>
               <h3>All tournaments</h3>

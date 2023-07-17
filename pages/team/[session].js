@@ -127,7 +127,7 @@ export default function Team() {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
-          <h2>Register your team of Pokémon</h2>
+          <h2>{t('register_pokemon_name')}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <GridContainer style={{ marginTop: 20 }}>
                 {renderPokemon()}
