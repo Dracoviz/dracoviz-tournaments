@@ -21,13 +21,15 @@ const useStyles = makeStyles(styles);
 
 export default function Index() {
   const { t } = useTranslation();
+  const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
   const [data, setData] = useState(null);
 
-  const getSharedData = useCallback((authId) => {
+  const getSharedData = useCallback((id) => {
+    setAuthId(id);
     fetchApi("shared/get", "GET", {
-      x_session_id: authId,
+      x_session_id: id,
     })
     .then(response => response.json())
     .then(newData => setData(newData));
@@ -50,6 +52,25 @@ export default function Index() {
 
   const onEditProfile = () => {
     setCurrentModal("profile");
+  }
+
+  const onSaveProfile = async (data) => {
+    try {
+      const response = await fetchApi(
+        "shared/edit-profile", "POST",
+        { x_session_id: authId, "Content-Type": "application/json" },
+        JSON.stringify(data)
+      );
+      const newData = await response.json();
+      const { error } = newData;
+      if (error) {
+        alert(t(error))
+      } else {
+        closeModal();
+      }
+    } catch {
+      closeModal();
+    }
   }
 
   const closeModal = () => {
@@ -81,6 +102,7 @@ export default function Index() {
         open={currentModal === "profile"}
         onClose={closeModal}
         player={data}
+        onSave={onSaveProfile}
       />
     )
   }
