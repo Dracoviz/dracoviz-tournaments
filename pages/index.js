@@ -67,6 +67,8 @@ export default function Index() {
         alert(t(error))
       } else {
         closeModal();
+        setData(null);
+        getSharedData(authId);
       }
     } catch {
       closeModal();

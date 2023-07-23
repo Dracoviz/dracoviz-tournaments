@@ -17,7 +17,7 @@ function ProfileEditModal(props) {
   const { open, onClose, onSave, player, Transition } = props;
   const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
     defaultValues: {
-      trainerName: player?.name,
+      name: player?.name,
       friendCode: player?.friendCode,
       description: player?.description,
       discord: player?.discord,
@@ -55,12 +55,12 @@ function ProfileEditModal(props) {
                 <GridItem xs={12} sm={6}>
                   <CustomInput
                     labelText={t("trainer_name")}
-                    id="trainerName"
+                    id="name"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      ...register("trainerName", { required: true }),
+                      ...register("name", { required: true }),
                       defaultValue: player?.name
                     }}
                     error={errors.trainerName}
