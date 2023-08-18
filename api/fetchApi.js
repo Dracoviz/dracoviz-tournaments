@@ -6,7 +6,6 @@ const fetchApi = (url, method, headers, body) => {
     method,
     headers: {
         "x_authorization": `Basic ${API_KEY}`,
-        "Access-Control-Allow-Origin": "*",
         ...headers,
     },
     body
