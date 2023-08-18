@@ -54,6 +54,10 @@ export default function CreateTournament() {
     fetchApi("session/create/", "POST", { x_session_id: authId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then(response => response.json())
       .then(newData => {
+        if (newData?.error != null) {
+          alert(t(newData?.error));
+          return;
+        }
         const { id } = newData;
         Router.push(`/tournament/${id}`);
       })
