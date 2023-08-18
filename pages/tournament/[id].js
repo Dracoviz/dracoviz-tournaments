@@ -7,234 +7,35 @@ import Footer from "/components/Footer/Footer.js";
 import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { Alert, AlertTitle, Button } from "@mui/material";
+import { Alert, AlertTitle, Button, CircularProgress } from "@mui/material";
 import i18n from "../../i18n";
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
+import fetchApi from "../../api/fetchApi";
+import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 
 const useStyles = makeStyles(styles);
-
-
-const testData = {
-  name: "Tournament Test",
-  description: "Test description",
-  bracketLink: "https://www.google.com",
-  serverInviteLink: "https://www.google.com",
-  maxTeams: 12,
-  maxTeamSize: 5,
-  matchTeamSize: 3,
-  metas: ["Meta 1", "Meta 2", "Meta 3"],
-  state: "ROUND_NOT_STARTED",
-  factions: [
-    {
-      name: "Faction 1",
-      description: "We the best",
-      serverInviteLink: "https://www.google.com",
-      players: ["Player 1", "Player 2", "Player 3", "Player 4", "Player 5"],
-      positions: ["Player 2", "Player 3", "Player 5"],
-      teams: [
-        {
-          player: "Player 2",
-          pokemon: [
-            {
-              name: "Charizard",
-              form: "Mega Y",
-              cp: "1498",
-              best_buddy: false,
-              shadow: true,
-              purified: false,
-              sid: 194
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1490",
-              best_buddy: true,
-              shadow: false,
-              purified: true,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1496",
-              best_buddy: true,
-              shadow: true,
-              purified: false,
-              sid: 224
-            },
-          ]
-        },
-        {
-          player: "Player 3",
-          pokemon: [
-            {
-              name: "Charizard",
-              form: "Mega Y",
-              cp: "1498",
-              best_buddy: false,
-              shadow: true,
-              purified: false,
-              sid: 194
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1490",
-              best_buddy: true,
-              shadow: false,
-              purified: true,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1496",
-              best_buddy: true,
-              shadow: true,
-              purified: false,
-              sid: 224
-            },
-          ]
-        },
-        {
-          player: "Player 5",
-          pokemon: [
-            {
-              name: "Charizard",
-              form: "Mega Y",
-              cp: "1498",
-              best_buddy: false,
-              shadow: true,
-              purified: false,
-              sid: 194
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1490",
-              best_buddy: true,
-              shadow: false,
-              purified: true,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1493",
-              best_buddy: false,
-              shadow: false,
-              purified: false,
-              sid: 224
-            },
-            {
-              name: "Squirtle",
-              form: "",
-              cp: "1496",
-              best_buddy: true,
-              shadow: true,
-              purified: false,
-              sid: 224
-            },
-          ]
-        }
-      ]
-    }
-  ],
-
-  // Decorated fields
-  metaLogos: [
-    "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/4cbccdf9-c0a9-4773-d5d1-3a01755e5100/public",
-    "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/14d2649e-67e9-46c7-872b-26a14f72a500/public",
-    "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/e300ceed-0161-49fb-da65-c12d39ae5500/public",
-  ],
-  isHost: true,
-  isCaptain: true,
-}
 
 const statusLabels = {
   "POKEMON_VISIBLE": {
     title: i18n.t('tournament_status_pokemon_visible_title'),
     message: i18n.t('tournament_status_pokemon_visible_message')
   },
-  "ROSTERS_VISIBLE": {
+  "REGISTER_TEAM": {
     title: i18n.t('tournament_status_rosters_visible_title'),
     message: i18n.t('tournament_status_rosters_visible_message')
   },
-  "ROUND_NOT_STARTED": {
+  "MATCHUPS_VISIBLE": {
+    title: i18n.t('tournament_status_rosters_visible_title'),
+    message: i18n.t('tournament_status_rosters_visible_message')
+  },
+  "REGISTER_ROSTER": {
+    title: i18n.t('tournament_status_round_not_started_title'),
+    message: i18n.t('tournament_status_round_not_started_message')
+  },
+  "NOT_STARTED": {
     title: i18n.t('tournament_status_round_not_started_title'),
     message: i18n.t('tournament_status_round_not_started_message')
   },
@@ -242,20 +43,44 @@ const statusLabels = {
 
 const statusColors = {
   "POKEMON_VISIBLE": "success",
-  "ROSTERS_VISIBLE": "info",
-  "ROUND_NOT_STARTED": "error",
+  "REGISTER_TEAM": "info",
+  "MATCHUPS_VISIBLE": "info",
+  "REGISTER_ROSTER": "error",
+  "NOT_STARTED": "error",
 }
 
 export default function Tournament() {
   const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
   
 
   const getTournamentData = (authId) => {
-    setData(testData);
+    setIsLoading(true);
+    fetchApi(`session/get?id=${id}`, "GET", {
+      "x_session_id": authId,
+    })
+    .then(response => response.json())
+    .then(newData => {
+      setIsLoading(false);
+      setData(newData);
+    });
+  }
+
+  const setTournamentState = (state) => {
+    setIsLoading(true);
+    fetchApi(`session/state`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+      newState: state,
+    }))
+    .then(() => getTournamentData());
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -263,21 +88,20 @@ export default function Tournament() {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
-      if (!doesUserExist) {
-        Router.push("/login");
-      } else {
-        const { uid } = user;
-        getTournamentData(uid);
-      }
+      getTournamentData(user?.uid ?? "");
     });
     return () => unregisterAuthObserver();
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
+  const onPlayer = (player) => {
+
+  }
+
   const classes = useStyles();
 
   const renderAlert = () => {
-    if (data == null) {
+    if (data == null || data.state == null) {
       return null;
     }
     const { state } = data;
@@ -294,52 +118,73 @@ export default function Tournament() {
     if (data == null) {
       return null;
     }
-    const { isHost, isCaptain, state, bracketLink } = data;
+    const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink } = data;
     const buttons = [];
-    buttons.push(
-      <Button
-        href={bracketLink}
-        target="_blank"
-        className={classes.actionButtonMiddle}
-        key="SEE_BRACKET"
-      >
-        {t("tournament_see_bracket_button")}
-      </Button>
-    );
+    if (bracketLink != null) {
+      buttons.push(
+        <Button
+          href={bracketLink}
+          target="_blank"
+          className={classes.actionButtonMiddle}
+          key="SEE_BRACKET"
+        >
+          {t("tournament_see_bracket_button")}
+        </Button>
+      );
+    }
     if (isHost) {
       if (state === "POKEMON_VISIBLE") {
+        const newState = isTeamTournament ? "MATCHUPS_VISIBLE" : "REGISTER_TEAM";
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_POKEMON">
+          <Button
+            color="primary"
+            className={classes.actionButtonMiddle}
+            onClick={() => setTournamentState(newState)}
+            key="HIDE_POKEMON">
             {t("tournament_hide_pokemon_button")}
           </Button>
         )
       }
       if (state !== "POKEMON_VISIBLE") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle} key="SHOW_POKEMON">
+          <Button
+            color="primary"
+            className={classes.actionButtonMiddle}
+            onClick={() => setTournamentState("POKEMON_VISIBLE")}
+            key="SHOW_POKEMON"
+          >
            {t("tournament_show_pokemon_button")}
           </Button>
         )
       }
-      if (state === "ROSTERS_VISIBLE") {
+      if (state === "MATCHUPS_VISIBLE") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle} key="HIDE_ROSTER">
+          <Button
+            color="primary"
+            className={classes.actionButtonMiddle}
+            onClick={() => setTournamentState("REGISTER_ROSTER")}
+            key="HIDE_ROSTER">
             {t("tournament_hide_rosters_button")}
           </Button>
         )
       }
-      if (state === "ROSTERS_HIDDEN") {
+      if (state === "REGISTER_ROSTER") {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle}key="SHOW_ROSTER">
+          <Button
+            color="primary"
+            className={classes.actionButtonMiddle}
+            onClick={() => setTournamentState("MATCHUPS_VISIBLE")}
+            key="SHOW_ROSTER"
+          >
             {t("tournament_show_rosters_button")}
           </Button>
         )
       }
-      buttons.push(
-        <Button color="secondary" key="EDIT_TM">
-          {t("edit_tournament_information_button")}
-        </Button>
-      );
+      // buttons.push(
+      //   <Button color="secondary" key="EDIT_TM">
+      //     {t("edit_tournament_information_button")}
+      //   </Button>
+      // );
     } else {
       if (isCaptain) {
         buttons.push(
@@ -348,12 +193,19 @@ export default function Tournament() {
           </Button>
         )
       }
-      const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? t("tournament_edit_pokemon_button") : t("tournament_see_pokemon_button");
-      buttons.push(
-        <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_POKEMON">
-          {pokemonEditTitle}
-        </Button>
-      );
+      if (isPlayer) {
+        const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? t("tournament_edit_pokemon_button") : t("tournament_see_pokemon_button");
+        buttons.push(
+          <Button
+            color="primary"
+            className={classes.actionButtonMiddle}
+            key="EDIT_POKEMON"
+            href={`/team/${id}`}
+          >
+            {pokemonEditTitle}
+          </Button>
+        );
+      }
       buttons.push(
         <Button color="secondary" key="SEE_TM">
           {t("tournament_view_information")}
@@ -361,6 +213,34 @@ export default function Tournament() {
       );
     }
     return buttons;
+  }
+
+  const renderRegistrationNumber = () => {
+    if (data == null) {
+      return null;
+    }
+    const { isHost, registrationNumber, isPlayer, state, isPrivate } = data;
+    const hasTournamentStarted = state === "POKEMON_VISIBLE";
+    const isParticipant = isHost || isPlayer;
+    if (!isPrivate || !isParticipant || hasTournamentStarted || registrationNumber === '') {
+      return null;
+    }
+    return <p>{t("tournament_share_registration_number", { registrationNumber })}</p>;
+  }
+
+  if (isLoading) {
+    return (<div>
+      <Header
+        absolute
+        color="white"
+        rightLinks={<HeaderLinks isSignedIn={isSignedIn} />}
+      />
+      <div className={classes.pageHeader}>
+        <div className={classes.main}>
+          <CircularProgress />
+        </div>
+      </div>
+    </div>)
   }
 
   return (
@@ -375,9 +255,11 @@ export default function Tournament() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               {renderAlert()}
+              {renderRegistrationNumber()}
               <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
+              {!data?.isTeamTournament && <SinglePlayerList players={data?.players} onPlayer={onPlayer}/>}
             </GridItem>
           </GridContainer>
         </div>

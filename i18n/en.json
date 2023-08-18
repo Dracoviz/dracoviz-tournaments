@@ -5,7 +5,7 @@
     "save_team_button": "Save Team",
     "tournament_status_pokemon_visible_title": "Teams of Pokémon Visible",
     "tournament_status_pokemon_visible_message": "Please find your matchup using the bracket and coordinate with your opponent.",
-    "tournament_status_rosters_visible_title": "Team Rosters Visible",
+    "tournament_status_rosters_visible_title": "Register your team of Pokémon",
     "tournament_status_rosters_visible_message": "Pokémon haven't been revealed yet. You have a chance to register and edit your team.",
     "tournament_status_round_not_started_title": "Round Not Started",
     "tournament_status_round_not_started_message": "Matches have not begun.",
@@ -53,6 +53,7 @@
     "grassroots_tournaments": "Grassroots Tournaments",
     "please_create_account_to_participate": "Please create an account to participate in community lead tournaments for Pokémon GO PvP",
     "edit_profile": "Edit Profile",
+    "view_profile": "View Profile",
     "trainer_name": "Trainer Name",
     "friend_code": "Friend Code",
     "trainer_bio": "Bio",
@@ -86,5 +87,10 @@
     "api_invalid_state": "Invalid State",
     "api_permission_denied": "Permission denied",
     "api_invalid_friend_code": "Invalid friend code",
-    "api_name_already_exists_error": "Someone else already has that name"
+    "api_name_already_exists_error": "Someone else already has that name",
+    "tournament_share_registration_number": "This tournament is private and requires the registration number '{{registrationNumber}}' to join.",
+    "no_players_in_tournament": "No players have joined this tournament yet.",
+    "no_players_in_search": "No players found.",
+    "search_players": "Search for your opponent",
+    "pokemon_shadow": ", Shadow"
 }
