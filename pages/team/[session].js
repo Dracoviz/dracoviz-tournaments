@@ -19,20 +19,17 @@ import fetchApi from "../../api/fetchApi";
 
 const useStyles = makeStyles(styles);
 
-const response = {
-  canEdit: true,
-  movesRequired: true,
-  cpRequired: true,
-}
-
 export default function Team() {
   const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
+  const [movesRequired, setMovesRequired] = useState(false);
+  const [cpRequired, setCpRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
-  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm();
+  const { register, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const router = useRouter();
   const pokemons = watch("pokemon");
   const [authId, setAuthId] = useState();
@@ -41,14 +38,25 @@ export default function Team() {
   const getPokemonOptions = (id) => {
     setAuthId(id);
     setIsLoading(true);
-    fetchApi(`pokemon?session=${session}`, "GET", {
+    fetchApi(`pokemon?tournamentId=${session}`, "GET", {
       x_session_id: id,
     })
     .then(response => response.json())
     .then(data => {
-      setPokemonOptions(data);
-      setPokemonItems(Object.keys(data).map((key)=>{
-        return <MenuItem value={key} key={key}>{data[key].speciesName}</MenuItem>
+      if (data.error != null) {
+        alert(t(data.error));
+        return;
+      }
+      setCanEdit(data.canEdit);
+      setMovesRequired(data.movesRequired);
+      setCpRequired(data.cpRequired);
+      setPokemonOptions(data.pokemonData);
+      setValue("cp", data.cp, { shouldValidate: false });
+      setValue("pokemon", data.pokemon, { shouldValidate: false });
+      setValue("chargedMoves", data.chargedMoves, { shouldValidate: false });
+      setValue("fastMoves", data.fastMoves, { shouldValidate: false });
+      setPokemonItems(Object.keys(data.pokemonData).map((key)=>{
+        return <MenuItem value={key} key={key}>{data.pokemonData[key].speciesName}</MenuItem>
       }));
       setIsLoading(false);
     });
@@ -96,7 +104,7 @@ export default function Team() {
     return Array(6).fill(0).map((p, index) => (
       <GridItem md={6}>
         <Card style={{ marginTop: 0 }}>
-          <GridContainer style={{ paddingLeft: 20, paddingRight: 20 }}>
+          <GridContainer style={{ paddingLeft: 20, paddingRight: 2, pointerEvents: canEdit ? "auto" : "none" }}>
             <GridItem xs={4} md={3} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
               {
                 pokemons?.[index] == null ? <div /> : (
@@ -113,14 +121,14 @@ export default function Team() {
               <Select
                 fullWidth
                 {...register(`pokemon.${index}`, { required: true })}
-                defaultValue={response?.defaultValues?.pokemon[index]}
+                value={watch(`pokemon.${index}`)}
                 variant="standard"
                 style={{ marginBottom: 5 }}
               >
                 {pokemonItems}
               </Select>
               {
-                response.cpRequired && (
+                cpRequired && (
                   <CustomInput
                     labelText={t('cp')}
                     id={`cp.${index}`}
@@ -129,21 +137,20 @@ export default function Team() {
                     }}
                     inputProps={{
                       type: "number",
-                      defaultValue: response?.defaultValues?.cp?.[index] ?? undefined,
-                      ...register(`cp.${index}`, { required: response.cpRequired, min: 1, max: 100000 }),
+                      ...register(`cp.${index}`, { required: cpRequired, min: 1, max: 100000 }),
                     }}
                     error={errors.maxMatchTeamSize}
                   />
                 )
               }
               {
-                response.movesRequired && (
+                movesRequired && (
                   <>
                     <InputLabel style={{ marginTop: 15 }}>{t('fast_move')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`fastMoves.${index}`, { required: response.movesRequired })}
-                      defaultValue={response?.defaultValues?.fastMoves?.[index]}
+                      {...register(`fastMoves.${index}`, { required: movesRequired })}
+                      value={watch(`fastMoves.${index}`)}
                       variant="standard"
                     >
                       {
@@ -157,8 +164,8 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 1</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.0`, { required: response.movesRequired })}
-                      defaultValue={response?.defaultValues?.chargedMoves?.[index]?.[0]}
+                      {...register(`chargedMoves.${index}.0`, { required: movesRequired })}
+                      value={watch(`chargedMoves.${index}.0`)}
                       variant="standard"
                     >
                       {
@@ -173,8 +180,8 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 2</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.1`, { required: response.movesRequired })}
-                      defaultValue={response?.defaultValues?.chargedMoves?.[index]?.[1]}
+                      {...register(`chargedMoves.${index}.1`, { required: movesRequired })}
+                      value={watch(`chargedMoves.${index}.1`)}
                       variant="standard"
                       style={{ marginBottom: 5 }}
                     >
