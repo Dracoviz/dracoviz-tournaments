@@ -57,17 +57,19 @@ export default function Tournament() {
   const [data, setData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const [ authId, setAuthId ] = useState();
   
 
-  const getTournamentData = (authId) => {
+  const getTournamentData = (newAuthId) => {
+    setAuthId(newAuthId);
     setIsLoading(true);
     fetchApi(`session/get?id=${id}`, "GET", {
-      "x_session_id": authId,
+      "x_session_id": newAuthId,
     })
     .then(response => response.json())
     .then(newData => {
-      setIsLoading(false);
       setData(newData);
+      setIsLoading(false);
     });
   }
 
@@ -80,7 +82,7 @@ export default function Tournament() {
       tournamentId: id,
       newState: state,
     }))
-    .then(() => getTournamentData());
+    .then(() => getTournamentData(authId));
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -225,7 +227,11 @@ export default function Tournament() {
     if (!isPrivate || !isParticipant || hasTournamentStarted || registrationNumber === '') {
       return null;
     }
-    return <p>{t("tournament_share_registration_number", { registrationNumber })}</p>;
+    return (
+      <Alert style={{ marginTop: 12 }} severity="info">
+        {t("tournament_share_registration_number", { registrationNumber })}
+      </Alert>
+    );
   }
 
   if (isLoading) {
