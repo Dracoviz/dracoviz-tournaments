@@ -12,6 +12,7 @@
     "tournament_see_bracket_button": "See Bracket",
     "tournament_edit_pokemon_button": "Edit your Pokémon",
     "tournament_see_pokemon_button": "See your Pokémon",
+    "server_invite_link": "Server Invite Link",
     "create_server_invite_link": "Server Invite Link (Discord, Telegram, etc)",
     "meta_slot_label": "Meta {{index}}",
     "tournament_hide_pokemon_button": "Hide Pokémon",
@@ -92,5 +93,8 @@
     "no_players_in_tournament": "No players have joined this tournament yet.",
     "no_players_in_search": "No players found.",
     "search_players": "Search for your opponent",
-    "pokemon_shadow": ", Shadow"
+    "pokemon_shadow": ", Shadow",
+    "max_participants": "Max Participants",
+    "team_size": "Team Size",
+    "team_size_match": "Team Size Per Match"
 }

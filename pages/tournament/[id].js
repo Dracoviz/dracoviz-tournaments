@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
+import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 
 const useStyles = makeStyles(styles);
 
@@ -58,6 +59,7 @@ export default function Tournament() {
   const router = useRouter();
   const { id } = router.query;
   const [ authId, setAuthId ] = useState();
+  const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
   
 
   const getTournamentData = (newAuthId) => {
@@ -98,6 +100,10 @@ export default function Tournament() {
 
   const onPlayer = (player) => {
 
+  }
+
+  const onCloseTournamentModal = () => {
+    setIsTournamentInfoOpen(false);
   }
 
   const classes = useStyles();
@@ -209,7 +215,11 @@ export default function Tournament() {
         );
       }
       buttons.push(
-        <Button color="secondary" key="SEE_TM">
+        <Button
+          color="secondary"
+          key="SEE_TM"
+          onClick={() => setIsTournamentInfoOpen(true)}
+        >
           {t("tournament_view_information")}
         </Button>
       );
@@ -258,6 +268,7 @@ export default function Tournament() {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
+          <TournamentInfoModal open={isTournamentInfoOpen} data={data} onClose={onCloseTournamentModal} />
           <GridContainer justify="center">
             <GridItem xs={12}>
               {renderAlert()}
