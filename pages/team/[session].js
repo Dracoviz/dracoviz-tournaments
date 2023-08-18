@@ -19,6 +19,18 @@ import fetchApi from "../../api/fetchApi";
 
 const useStyles = makeStyles(styles);
 
+const response = {
+  canEdit: true,
+  movesRequired: true,
+  cpRequired: true,
+  defaultValues: {
+    pokemon: ["mewtwo", "mewtwo", "mewtwo", "mewtwo", "mewtwo", "mewtwo"],
+    cp: null,
+    chargedMoves: null,
+    fastMoves: null,
+  }
+}
+
 export default function Team() {
   const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
@@ -26,9 +38,7 @@ export default function Team() {
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
   const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
-    defaultValues: {
-      pokemon: ["dracovish", "dracovish", "dracovish", "dracovish", "dracovish", "dracovish"]
-    }
+    defaultValues: response.defaultValues,
   });
   const router = useRouter();
   const pokemons = watch("pokemon");
@@ -90,27 +100,77 @@ export default function Team() {
               <Select
                 fullWidth
                 {...register(`pokemon.${index}`, { required: true })}
-                defaultValue={"dracovish"}
+                defaultValue={response?.defaultValues?.pokemon[index] ?? "dracovish"}
                 variant="standard"
                 style={{ marginBottom: 5 }}
               >
                 {pokemonItems}
               </Select>
-              <CustomInput
-                labelText={t('cp')}
-                id={`cp.${index}`}
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  type: "number",
-                  ...register(`cp.${index}`, { required: true, min: 1, max: 100000 }),
-                }}
-                error={errors.maxMatchTeamSize}
-              />
-              <div>
-                {t('team_shadow_label')} <Checkbox {...register(`shadow.${index}`)} />
-              </div>
+              {
+                response.cpRequired && (
+                  <CustomInput
+                    labelText={t('cp')}
+                    id={`cp.${index}`}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "number",
+                      defaultValue: response?.defaultValues?.cp?.[index] ?? undefined,
+                      ...register(`cp.${index}`, { required: true, min: 1, max: 100000 }),
+                    }}
+                    error={errors.maxMatchTeamSize}
+                  />
+                )
+              }
+              {
+                response.movesRequired && (
+                  <>
+                    <InputLabel style={{ marginTop: 15 }}>{t('fast_move')}</InputLabel>
+                    <Select
+                      fullWidth
+                      {...register(`fastMoves.${index}`, { required: true })}
+                      defaultValue={
+                        response?.defaultValues?.fastMoves?.[index]
+                        ?? pokemonOptions[pokemons[index]]?.fastMoves[0]}
+                      variant="standard"
+                    >
+                      {pokemonOptions[pokemons[index]].fastMoves.map((move) => (
+                        <MenuItem value={move} key={move}>{move}</MenuItem>
+                      ))}
+                    </Select>
+                    <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 1</InputLabel>
+                    <Select
+                      fullWidth
+                      {...register(`chargedMoves.${index}.0`, { required: true })}
+                      defaultValue={
+                        response?.defaultValues?.chargedMoves?.[index]?.[0]
+                        ?? "None"}
+                      variant="standard"
+                    >
+                      <MenuItem value="None" key="None">None</MenuItem>
+                      {pokemonOptions[pokemons[index]].chargedMoves.map((move) => (
+                        <MenuItem value={move} key={move}>{move}</MenuItem>
+                      ))}
+                    </Select>
+                    <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 2</InputLabel>
+                    <Select
+                      fullWidth
+                      {...register(`chargedMoves.${index}.1`, { required: true })}
+                      defaultValue={
+                        response?.defaultValues?.chargedMoves?.[index]?.[1]
+                        ?? "None"}
+                      variant="standard"
+                      style={{ marginBottom: 5 }}
+                    >
+                      <MenuItem value="None" key="None">None</MenuItem>
+                      {pokemonOptions[pokemons[index]].chargedMoves.map((move) => (
+                        <MenuItem value={move} key={move}>{move}</MenuItem>
+                      ))}
+                    </Select>
+                  </>
+                )
+              }
             </GridItem>
           </GridContainer>
         </Card>

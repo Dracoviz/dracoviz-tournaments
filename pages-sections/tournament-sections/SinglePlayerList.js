@@ -36,10 +36,7 @@ export default function SinglePlayerList(props) {
           style={{ maxHeight: 100, maxWidth: 100 }}
         />
         <b>{pokemonObj.speciesName}</b>
-        <p>
-          {t("cp")}: {pokemonObj.cp}
-          {pokemonObj.shadow && t("pokemon_shadow")}
-        </p>
+        <p>{t("cp")}: {pokemonObj.cp}</p>
       </div>
     ))
   }

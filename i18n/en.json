@@ -96,5 +96,7 @@
     "pokemon_shadow": ", Shadow",
     "max_participants": "Max Participants",
     "team_size": "Team Size",
-    "team_size_match": "Team Size Per Match"
+    "team_size_match": "Team Size Per Match",
+    "fast_move": "Fast Move",
+    "charged_move": "Charged Move"
 }
