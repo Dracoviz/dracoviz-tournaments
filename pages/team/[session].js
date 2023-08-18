@@ -24,8 +24,8 @@ const response = {
   movesRequired: true,
   cpRequired: true,
   defaultValues: {
-    pokemon: ["mewtwo", "mewtwo", "mewtwo", "mewtwo", "mewtwo", "mewtwo"],
-    cp: null,
+    pokemon: ["dracovish", "dracovish", "dracovish", "dracovish", "dracovish", "dracovish"],
+    cp: ["1500", "1500", "1500", "1500", "1500", "1500"],
     chargedMoves: null,
     fastMoves: null,
   }
@@ -35,6 +35,7 @@ export default function Team() {
   const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
   const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
@@ -42,12 +43,14 @@ export default function Team() {
   });
   const router = useRouter();
   const pokemons = watch("pokemon");
+  const [authId, setAuthId] = useState();
+  const { session } = router.query;
 
-  const getPokemonOptions = (authId) => {
-    const { session } = router.query;
+  const getPokemonOptions = (id) => {
+    setAuthId(id);
     setIsLoading(true);
     fetchApi(`pokemon?session=${session}`, "GET", {
-      x_session_id: authId,
+      x_session_id: id,
     })
     .then(response => response.json())
     .then(data => {
@@ -60,7 +63,21 @@ export default function Team() {
   }
 
   const onSubmit = (data) => {
-    console.log(data);
+    setSubmitting(true);
+    fetchApi(`session/register`, "POST",
+      {
+        x_session_id: authId, "Content-Type": "application/json"
+      }, JSON.stringify({ ...data, tournamentId: session })
+    )
+    .then(response => response.json())
+    .then(data => {
+      if (data.error != null) {
+        alert(t(data.error));
+      } else {
+        alert(t("saved"));
+      }
+      setSubmitting(false);
+    });
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -117,7 +134,7 @@ export default function Team() {
                     inputProps={{
                       type: "number",
                       defaultValue: response?.defaultValues?.cp?.[index] ?? undefined,
-                      ...register(`cp.${index}`, { required: true, min: 1, max: 100000 }),
+                      ...register(`cp.${index}`, { required: response.cpRequired, min: 1, max: 100000 }),
                     }}
                     error={errors.maxMatchTeamSize}
                   />
@@ -129,7 +146,7 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('fast_move')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`fastMoves.${index}`, { required: true })}
+                      {...register(`fastMoves.${index}`)}
                       defaultValue={
                         response?.defaultValues?.fastMoves?.[index]
                         ?? pokemonOptions[pokemons[index]]?.fastMoves[0]}
@@ -142,7 +159,7 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 1</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.0`, { required: true })}
+                      {...register(`chargedMoves.${index}.0`)}
                       defaultValue={
                         response?.defaultValues?.chargedMoves?.[index]?.[0]
                         ?? "None"}
@@ -156,7 +173,7 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 2</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.1`, { required: true })}
+                      {...register(`chargedMoves.${index}.1`)}
                       defaultValue={
                         response?.defaultValues?.chargedMoves?.[index]?.[1]
                         ?? "None"}
@@ -194,7 +211,7 @@ export default function Team() {
                 <GridItem xs={12} style={{ marginTop: 30 }}>
                   <Button
                     type="submit"
-                    disabled={isLoading || !isValid}
+                    disabled={isLoading || !isValid || submitting}
                     fullWidth
                     style={{ marginBottom: 10 }}
                   >

@@ -85,6 +85,9 @@
     "api_invalid_registration_number": "Invalid registration number",
     "api_host_join_error": "A host cannot join their own tournament",
     "api_already_entered_error": "Already entered",
+    "api_cp_invalid": "Invalid CP on atleast one Pokémon",
+    "api_pokemon_length_invalid": "Invalid Pokémon length",
+    "api_pokemon_team_invalid": "Pokemon team invalid",
     "api_invalid_state": "Invalid State",
     "api_permission_denied": "Permission denied",
     "api_invalid_friend_code": "Invalid friend code",
@@ -98,5 +101,6 @@
     "team_size": "Team Size",
     "team_size_match": "Team Size Per Match",
     "fast_move": "Fast Move",
-    "charged_move": "Charged Move"
+    "charged_move": "Charged Move",
+    "saved": "Saved"
 }
