@@ -16,6 +16,7 @@ import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
+import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
 
 const useStyles = makeStyles(styles);
 
@@ -53,13 +54,13 @@ const statusColors = {
 export default function Tournament() {
   const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
-  const [currentModal, setCurrentModal] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
   const [ authId, setAuthId ] = useState();
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
+  const [ profileToView, setProfileToView ] = useState(null);
   
 
   const getTournamentData = (newAuthId) => {
@@ -99,7 +100,12 @@ export default function Tournament() {
   }, []);
 
   const onPlayer = (player) => {
+    const thePlayer = data.players.find(p => player === p.name);
+    setProfileToView(thePlayer);
+  }
 
+  const onClosePlayerModal = () => {
+    setProfileToView(null);
   }
 
   const onCloseTournamentModal = () => {
@@ -268,6 +274,7 @@ export default function Tournament() {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
+          <PlayerInfoModal open={profileToView != null} data={profileToView} onClose={onClosePlayerModal} />
           <TournamentInfoModal open={isTournamentInfoOpen} data={data} onClose={onCloseTournamentModal} />
           <GridContainer justify="center">
             <GridItem xs={12}>
