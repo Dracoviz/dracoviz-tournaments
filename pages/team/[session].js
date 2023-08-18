@@ -23,12 +23,6 @@ const response = {
   canEdit: true,
   movesRequired: true,
   cpRequired: true,
-  defaultValues: {
-    pokemon: ["dracovish", "dracovish", "dracovish", "dracovish", "dracovish", "dracovish"],
-    cp: ["1500", "1500", "1500", "1500", "1500", "1500"],
-    chargedMoves: null,
-    fastMoves: null,
-  }
 }
 
 export default function Team() {
@@ -38,9 +32,7 @@ export default function Team() {
   const [submitting, setSubmitting] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
-  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
-    defaultValues: response.defaultValues,
-  });
+  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const router = useRouter();
   const pokemons = watch("pokemon");
   const [authId, setAuthId] = useState();
@@ -98,7 +90,7 @@ export default function Team() {
   const classes = useStyles();
 
   const renderPokemon = () => {
-    if (isLoading || pokemonOptions[pokemons[0]] == null) {
+    if (isLoading || pokemonOptions == null || pokemonOptions["abomasnow"] == null) {
       return (<CircularProgress />);
     }
     return Array(6).fill(0).map((p, index) => (
@@ -106,18 +98,22 @@ export default function Team() {
         <Card style={{ marginTop: 0 }}>
           <GridContainer style={{ paddingLeft: 20, paddingRight: 20 }}>
             <GridItem xs={4} md={3} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <img
-                src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonOptions[pokemons[index]].sid}.png/public`}
-                alt={pokemonOptions[pokemons[index]].speciesName}
-                style={{ maxHeight: 100, maxWidth: 100 }}
-              />
+              {
+                pokemons?.[index] == null ? <div /> : (
+                  <img
+                    src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonOptions?.[pokemons[index]]?.sid}.png/public`}
+                    alt={pokemonOptions?.[pokemons[index]]?.speciesName}
+                    style={{ maxHeight: 100, maxWidth: 100 }}
+                  />
+                )
+              }
             </GridItem>
             <GridItem xs={8} md={9} style={{ marginTop: 10 }}>
               <InputLabel>{t('team_pokemon_label', { index: index + 1 })}</InputLabel>
               <Select
                 fullWidth
                 {...register(`pokemon.${index}`, { required: true })}
-                defaultValue={response?.defaultValues?.pokemon[index] ?? "dracovish"}
+                defaultValue={response?.defaultValues?.pokemon[index]}
                 variant="standard"
                 style={{ marginBottom: 5 }}
               >
@@ -146,44 +142,51 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('fast_move')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`fastMoves.${index}`)}
-                      defaultValue={
-                        response?.defaultValues?.fastMoves?.[index]
-                        ?? pokemonOptions[pokemons[index]]?.fastMoves[0]}
+                      {...register(`fastMoves.${index}`, { required: response.movesRequired })}
+                      defaultValue={response?.defaultValues?.fastMoves?.[index]}
                       variant="standard"
                     >
-                      {pokemonOptions[pokemons[index]].fastMoves.map((move) => (
-                        <MenuItem value={move} key={move}>{move}</MenuItem>
-                      ))}
+                      {
+                        pokemons?.[index] == null
+                          ? null
+                          : pokemonOptions[pokemons[index]]?.fastMoves?.map((move) => (
+                            <MenuItem value={move} key={move}>{move}</MenuItem>
+                          ))
+                      }
                     </Select>
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 1</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.0`)}
-                      defaultValue={
-                        response?.defaultValues?.chargedMoves?.[index]?.[0]
-                        ?? "None"}
+                      {...register(`chargedMoves.${index}.0`, { required: response.movesRequired })}
+                      defaultValue={response?.defaultValues?.chargedMoves?.[index]?.[0]}
                       variant="standard"
                     >
-                      <MenuItem value="None" key="None">None</MenuItem>
-                      {pokemonOptions[pokemons[index]].chargedMoves.map((move) => (
-                        <MenuItem value={move} key={move}>{move}</MenuItem>
-                      ))}
+                      {
+                        pokemons?.[index] == null
+                          ? null
+                          : pokemonOptions[pokemons[index]]?.chargedMoves?.map((move) => (
+                            <MenuItem value={move} key={move}>{move}</MenuItem>
+                          )
+                        )
+                      }
                     </Select>
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 2</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.1`)}
-                      defaultValue={
-                        response?.defaultValues?.chargedMoves?.[index]?.[1]
-                        ?? "None"}
+                      {...register(`chargedMoves.${index}.1`, { required: response.movesRequired })}
+                      defaultValue={response?.defaultValues?.chargedMoves?.[index]?.[1]}
                       variant="standard"
                       style={{ marginBottom: 5 }}
                     >
                       <MenuItem value="None" key="None">None</MenuItem>
-                      {pokemonOptions[pokemons[index]].chargedMoves.map((move) => (
-                        <MenuItem value={move} key={move}>{move}</MenuItem>
-                      ))}
+                      {
+                        pokemons?.[index] == null
+                          ? null
+                          : pokemonOptions[pokemons[index]]?.chargedMoves?.map((move) => (
+                            <MenuItem value={move} key={move}>{move}</MenuItem>
+                          )
+                        )
+                      }
                     </Select>
                   </>
                 )
