@@ -29,13 +29,13 @@ export default function SinglePlayerList(props) {
       return null;
     }
     return pokemon.map((pokemonObj) => (
-      <div>
+      <div className={classes.pokemonRoot}>
         <img
           src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonObj.sid}.png/public`}
           alt={pokemonObj.speciesName}
-          style={{ maxHeight: 100, maxWidth: 100 }}
+          style={{ maxWidth: 80 }}
         />
-        <b>{pokemonObj.speciesName}</b>
+        <h5>{pokemonObj.speciesName}</h5>
         <p>{t("cp")}: {pokemonObj.cp}</p>
       </div>
     ))
@@ -63,15 +63,16 @@ export default function SinglePlayerList(props) {
         noSearchResults ? <p>{t('no_players_in_search')}</p>
         : searchedPlayers?.map((player) => (
           <Card>
-            <img src={player.avatar} alt={player.name} height={60} width={60} />
-            <div>
-              <div>
-                <b>{player.name}</b>
+            <div className={classes.root}>
+              <div className={classes.playerNameRow}>
+                <h4>{player.name}</h4>
                 <Button onClick={() => onPlayer(player.name)}>
                   {t("view_profile")}
                 </Button>
               </div>
-              {renderPokemon(player.pokemon)}
+              <div className={classes.pokemonRow}>
+                {renderPokemon(player.pokemon)}
+              </div>
             </div>
           </Card>
         ))

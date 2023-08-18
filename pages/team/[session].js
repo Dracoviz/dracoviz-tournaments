@@ -218,16 +218,18 @@ export default function Team() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <GridContainer style={{ marginTop: 20 }}>
                 {renderPokemon()}
-                <GridItem xs={12} style={{ marginTop: 30 }}>
-                  <Button
-                    type="submit"
-                    disabled={isLoading || !isValid || submitting}
-                    fullWidth
-                    style={{ marginBottom: 10 }}
-                  >
-                    {t('save_team_button')}
-                  </Button>
-                </GridItem>
+                {canEdit && (
+                  <GridItem xs={12} style={{ marginTop: 30 }}>
+                    <Button
+                      type="submit"
+                      disabled={isLoading || !isValid || submitting}
+                      fullWidth
+                      style={{ marginBottom: 10 }}
+                    >
+                      {t('save_team_button')}
+                    </Button>
+                  </GridItem>
+                )}
               </GridContainer>
             </form>
         </div>
