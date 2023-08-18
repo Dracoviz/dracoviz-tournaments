@@ -27,7 +27,7 @@ export default function LoginPage(props) {
     setIsLoading(true);
     if (user != null) {
       const { uid } = user;
-      fetchApi("shared/login", "GET", {
+      fetchApi("shared/login/", "GET", {
         "x_session_id": uid,
       })
       .then((response) => {

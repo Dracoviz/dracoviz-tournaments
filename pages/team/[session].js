@@ -38,7 +38,7 @@ export default function Team() {
   const getPokemonOptions = (id) => {
     setAuthId(id);
     setIsLoading(true);
-    fetchApi(`pokemon?tournamentId=${session}`, "GET", {
+    fetchApi(`pokemon/?tournamentId=${session}`, "GET", {
       x_session_id: id,
     })
     .then(response => response.json())
@@ -64,7 +64,7 @@ export default function Team() {
 
   const onSubmit = (data) => {
     setSubmitting(true);
-    fetchApi(`session/register`, "POST",
+    fetchApi(`session/register/`, "POST",
       {
         x_session_id: authId, "Content-Type": "application/json"
       }, JSON.stringify({ ...data, tournamentId: session })

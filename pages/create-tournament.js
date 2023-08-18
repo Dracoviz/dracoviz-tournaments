@@ -51,7 +51,7 @@ export default function CreateTournament() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    fetchApi("session/create", "POST", { x_session_id: authId, "Content-Type": "application/json" }, JSON.stringify(data))
+    fetchApi("session/create/", "POST", { x_session_id: authId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then(response => response.json())
       .then(newData => {
         const { id } = newData;

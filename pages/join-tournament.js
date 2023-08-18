@@ -40,7 +40,7 @@ export default function JoinTournament() {
   const onSubmit = (data) => {
     if (step === 0) {
       setIsLoading(true);
-      fetchApi("session/join", "POST", { "x_session_id": authId, "Content-Type": "application/json" }, JSON.stringify(data))
+      fetchApi("session/join/", "POST", { "x_session_id": authId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then((response) => response.json())
       .then((newData) => {
         const { isTeamTournament, id, error, alreadyEntered } = newData;

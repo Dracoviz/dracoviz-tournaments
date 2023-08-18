@@ -28,7 +28,7 @@ export default function Index() {
 
   const getSharedData = useCallback((id) => {
     setAuthId(id);
-    fetchApi("shared/get", "GET", {
+    fetchApi("shared/get/", "GET", {
       x_session_id: id,
     })
     .then(response => response.json())
@@ -57,7 +57,7 @@ export default function Index() {
   const onSaveProfile = async (data) => {
     try {
       const response = await fetchApi(
-        "shared/edit-profile", "POST",
+        "shared/edit-profile/", "POST",
         { x_session_id: authId, "Content-Type": "application/json" },
         JSON.stringify(data)
       );

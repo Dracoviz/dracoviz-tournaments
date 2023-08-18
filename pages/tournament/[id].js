@@ -66,7 +66,7 @@ export default function Tournament() {
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
     setIsLoading(true);
-    fetchApi(`session/get?id=${id}`, "GET", {
+    fetchApi(`session/get/?id=${id}`, "GET", {
       "x_session_id": newAuthId,
     })
     .then(response => response.json())
@@ -78,7 +78,7 @@ export default function Tournament() {
 
   const setTournamentState = (state) => {
     setIsLoading(true);
-    fetchApi(`session/state`, "POST", {
+    fetchApi(`session/state/`, "POST", {
       "x_session_id": authId,
       "Content-Type": "application/json"
     }, JSON.stringify({
