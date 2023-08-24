@@ -9,7 +9,6 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
-import i18n from "../i18n";
 import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
@@ -62,7 +61,47 @@ export default function JoinTournament() {
         setIsLoading(false);
       })
     } else if (step === 1) {
-      console.log("step 1");
+      const { isCaptain, factionCode, factionName, tournamentId } = data;
+      setIsLoading(true);
+      // create faction endpoint
+      if (isCaptain) {
+        fetchApi(
+          "faction/create/",
+          "POST",
+          { "x_session_id": authId, "Content-Type": "application/json" },
+          JSON.stringify({ factionName, tournamentId })
+        )
+        .then((response) => response.json())
+        .then((newData) => {
+          const { factionCode, tournamentId, factionName, error } = newData;
+          setIsLoading(false);
+          if (error != null) {
+            alert(t(error));
+            return;
+          }
+          alert(t("faction_joined", { factionName }) + " " + t("faction_created", { factionCode }));
+          Router.push(`/tournament/${tournamentId}`);
+        });
+      } else { // join faction endpoint
+        fetchApi(
+          "faction/join/",
+          "POST",
+          { "x_session_id": authId, "Content-Type": "application/json" },
+          JSON.stringify({ factionName, tournamentId, factionCode })
+        )
+        .then((response) => response.json())
+        .then((newData) => {
+          const { tournamentId, factionName, error } = newData;
+          setIsLoading(false);
+          if (error != null) {
+            alert(t(error));
+            return;
+          }
+          alert(t("faction_joined", { factionName }));
+          Router.push(`/tournament/${tournamentId}`);
+        });
+      }
+      // console.log(data);
     }
   }
 
@@ -126,31 +165,29 @@ export default function JoinTournament() {
          {t("team_tournament_captain")}
             <Checkbox {...register("isCaptain")}/>
           </GridItem>
-          {
-            isCaptain ? (
-              <GridItem xs={12}>
-                <CustomInput
-                  labelText={t("team_name")}
-                  id="teamName"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    ...register("teamName")
-                  }}
-                  error={errors.teamName}
-                />
-              </GridItem>
-            ) : (
+            <GridItem xs={12}>
+              <CustomInput
+                labelText={t("team_name")}
+                id="factionName"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  ...register("factionName", { required: true })
+                }}
+                error={errors.teamName}
+              />
+            </GridItem>
+            { !isCaptain && (
               <GridItem xs={12}>
                 <CustomInput
                   labelText={t("team_code")}
-                  id="teamCode"
+                  id="factionCode"
                   formControlProps={{
                     fullWidth: true
                   }}
                   inputProps={{
-                    ...register("teamCode")
+                    ...register("factionCode", { required: !isCaptain })
                   }}
                   error={errors.teamCode}
                 />

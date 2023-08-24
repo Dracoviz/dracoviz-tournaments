@@ -85,12 +85,16 @@
     "api_invalid_registration_number": "Invalid registration number",
     "api_host_join_error": "A host cannot join their own tournament",
     "api_already_entered_error": "Already entered",
+    "api_faction_not_found": "Could not find team with that name",
+    "api_wrong_faction_code": "Wrong team code",
     "api_cp_invalid": "Invalid CP on atleast one Pokémon",
     "api_pokemon_length_invalid": "Invalid Pokémon length",
     "api_pokemon_team_invalid": "Pokemon team invalid",
     "api_invalid_state": "Invalid State",
     "api_permission_denied": "Permission denied",
     "api_invalid_friend_code": "Invalid friend code",
+    "api_faction_already_exists": "Faction already exists",
+    "api_not_team_session": "This is not a team tournament",
     "api_name_already_exists_error": "Someone else already has that name",
     "tournament_share_registration_number": "This tournament is private and requires the registration number '{{registrationNumber}}' to join.",
     "no_players_in_tournament": "No players have joined this tournament yet.",
@@ -102,5 +106,7 @@
     "team_size_match": "Team Size Per Match",
     "fast_move": "Fast Move",
     "charged_move": "Charged Move",
-    "saved": "Saved"
+    "saved": "Saved",
+    "faction_joined": "You have joined the tournament under the team name {{factionName}}.",
+    "faction_created": "Please share the team code '{{factionCode}}' so your teammates can join."
 }
