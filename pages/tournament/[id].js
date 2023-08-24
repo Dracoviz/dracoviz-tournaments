@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import Router from "next/router";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
@@ -17,6 +16,7 @@ import fetchApi from "../../api/fetchApi";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
+import FactionList from "../../pages-sections/tournament-sections/FactionList";
 
 const useStyles = makeStyles(styles);
 
@@ -182,7 +182,7 @@ export default function Tournament() {
           </Button>
         )
       }
-      if (state === "REGISTER_ROSTER") {
+      if (state === "REGISTER_ROSTER" || (state === "NOT_STARTED" && isTeamTournament)) {
         buttons.push(
           <Button
             color="primary"
@@ -283,7 +283,16 @@ export default function Tournament() {
               <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
-              {!data?.isTeamTournament && <SinglePlayerList players={data?.players} onPlayer={onPlayer}/>}
+              {
+                data?.isTeamTournament
+                  ? (<FactionList
+                      factions={data?.factions}
+                      players={data?.players}
+                      metaLogos={data?.metaLogos}
+                      onPlayer={onPlayer}
+                    />)
+                  : (<SinglePlayerList players={data?.players} onPlayer={onPlayer}/>)
+              }
             </GridItem>
           </GridContainer>
         </div>

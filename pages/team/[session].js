@@ -45,6 +45,7 @@ export default function Team() {
     .then(data => {
       if (data.error != null) {
         alert(t(data.error));
+        Router.push(`/tournament/${session}`);
         return;
       }
       setCanEdit(data.canEdit);

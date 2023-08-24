@@ -99,7 +99,10 @@
     "tournament_share_registration_number": "This tournament is private and requires the registration number '{{registrationNumber}}' to join.",
     "no_players_in_tournament": "No players have joined this tournament yet.",
     "no_players_in_search": "No players found.",
+    "no_factions_in_tournament": "No teams have joined this tournament yet.",
+    "no_factions_in_search": "No teams found.",
     "search_players": "Search for your opponent",
+    "search_faction": "Search for the opposing faction",
     "pokemon_shadow": ", Shadow",
     "max_participants": "Max Participants",
     "team_size": "Team Size",
@@ -108,5 +111,7 @@
     "charged_move": "Charged Move",
     "saved": "Saved",
     "faction_joined": "You have joined the tournament under the team name {{factionName}}.",
-    "faction_created": "Please share the team code '{{factionCode}}' so your teammates can join."
+    "faction_created": "Please share the team code '{{factionCode}}' so your teammates can join.",
+    "captain": "(Captain)",
+    "api_player_is_not_assigned": "You are not assigned to a meta. The captain of the faction needs to assign you to a position."
 }

@@ -4,6 +4,9 @@ const singlePlayerStyle = {
     paddingLeft: 30,
     paddingRight: 30,
   },
+  playerMetaRow: {
+    display: "flex",
+  },
   playerNameRow: {
     display: "flex",
     justifyContent: "space-between",
