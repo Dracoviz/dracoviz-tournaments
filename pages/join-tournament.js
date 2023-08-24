@@ -165,20 +165,7 @@ export default function JoinTournament() {
          {t("team_tournament_captain")}
             <Checkbox {...register("isCaptain")}/>
           </GridItem>
-            <GridItem xs={12}>
-              <CustomInput
-                labelText={t("team_name")}
-                id="factionName"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  ...register("factionName", { required: true })
-                }}
-                error={errors.teamName}
-              />
-            </GridItem>
-            { !isCaptain && (
+            { !isCaptain ? (
               <GridItem xs={12}>
                 <CustomInput
                   labelText={t("team_code")}
@@ -190,6 +177,20 @@ export default function JoinTournament() {
                     ...register("factionCode", { required: !isCaptain })
                   }}
                   error={errors.teamCode}
+                />
+              </GridItem>
+            ) : (
+              <GridItem xs={12}>
+                <CustomInput
+                  labelText={t("team_name")}
+                  id="factionName"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    ...register("factionName", { required: isCaptain })
+                  }}
+                  error={errors.teamName}
                 />
               </GridItem>
             )

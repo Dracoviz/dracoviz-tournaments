@@ -9,7 +9,13 @@ import { useTranslation } from "react-i18next";
 const useStyles = makeStyles(styles);
 
 const byTournamentPosition = (a, b) => {
-  if (a.tournamentPosition === -1) {
+  if (a.tournamentPosition === -1 && b.tournamentPosition === -1) {
+    return 1;
+  }
+  if (a.tournamentPosition === -1 && b.tournamentPosition !== -1) {
+    return 1;
+  }
+  if (a.tournamentPosition !== -1 && b.tournamentPosition === -1) {
     return -1;
   }
   return a.tournamentPosition - b.tournamentPosition;

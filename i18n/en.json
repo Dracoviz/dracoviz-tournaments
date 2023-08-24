@@ -112,6 +112,7 @@
     "saved": "Saved",
     "faction_joined": "You have joined the tournament under the team name {{factionName}}.",
     "faction_created": "Please share the team code '{{factionCode}}' so your teammates can join.",
+    "tournament_share_team_number": "Invite your teammates with the team code `{{teamCode}}`",
     "captain": "(Captain)",
     "api_player_is_not_assigned": "You are not assigned to a meta. The captain of the faction needs to assign you to a position."
 }

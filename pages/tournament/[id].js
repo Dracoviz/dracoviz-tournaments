@@ -250,6 +250,22 @@ export default function Tournament() {
     );
   }
 
+  const renderTeamNumber = () => {
+    if (data == null) {
+      return null;
+    }
+    const { isTeamTournament, state, teamCode } = data;
+    const hasTournamentStarted = state === "POKEMON_VISIBLE";
+    if (!isTeamTournament || hasTournamentStarted || teamCode == null || teamCode === "") {
+      return null;
+    }
+    return (
+      <Alert style={{ marginTop: 12 }}>
+        {t("tournament_share_team_number", { teamCode })}
+      </Alert>
+    );
+  }
+
   if (isLoading) {
     return (<div>
       <Header
@@ -280,6 +296,7 @@ export default function Tournament() {
             <GridItem xs={12}>
               {renderAlert()}
               {renderRegistrationNumber()}
+              {renderTeamNumber()}
               <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
