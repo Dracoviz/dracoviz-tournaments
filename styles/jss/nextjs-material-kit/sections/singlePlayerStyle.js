@@ -18,9 +18,10 @@ const singlePlayerStyle = {
   pokemonRoot: {
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    minWidth: 120,
+    width: "30%",
   }
 }
   

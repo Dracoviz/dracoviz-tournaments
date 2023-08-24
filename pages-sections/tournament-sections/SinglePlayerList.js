@@ -21,7 +21,7 @@ export default function SinglePlayerList(props) {
 
   const onSearch = (e) => {
     const searchString = e.target.value;
-    setSearchedPlayers(players.filter((val) => val.name.includes(searchString)));
+    setSearchedPlayers(players.filter((val) => val.name.toLowerCase().includes(searchString.toLowerCase())));
   }
 
   const renderPokemon = (pokemon) => {
@@ -33,7 +33,7 @@ export default function SinglePlayerList(props) {
         <img
           src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonObj.sid}.png/public`}
           alt={pokemonObj.speciesName}
-          style={{ maxWidth: 80 }}
+          style={{width: 100, height: 100, objectFit: 'contain'}}
         />
         <h5>{pokemonObj.speciesName}</h5>
         <p>{t("cp")}: {pokemonObj.cp}</p>
