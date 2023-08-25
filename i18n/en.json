@@ -3,6 +3,8 @@
     "team_shadow_label": "Shadow?",
     "cp": "CP",
     "save_team_button": "Save Team",
+    "save_settings_button": "Save Settings",
+    "edit_team_of_players": "Edit Team of Players",
     "tournament_status_pokemon_visible_title": "Teams of Pokémon Visible",
     "tournament_status_pokemon_visible_message": "Please find your matchup using the bracket and coordinate with your opponent.",
     "tournament_status_rosters_visible_title": "Register your team of Pokémon",
@@ -114,5 +116,9 @@
     "faction_created": "Please share the team code '{{factionCode}}' so your teammates can join.",
     "tournament_share_team_number": "Invite your teammates with the team code `{{teamCode}}`",
     "captain": "(Captain)",
-    "api_player_is_not_assigned": "You are not assigned to a meta. The captain of the faction needs to assign you to a position."
+    "api_player_is_not_assigned": "You are not assigned to a meta. The captain of the faction needs to assign you to a position.",
+    "api_faction_full": "The team is already full",
+    "edit_faction_team_name": "Team Name",
+    "edit_faction_team_description": "Description",
+    "edit_faction_team_slot": "Slot {{index}}"
 }

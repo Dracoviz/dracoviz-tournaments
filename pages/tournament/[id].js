@@ -202,7 +202,12 @@ export default function Tournament() {
     } else {
       if (isCaptain) {
         buttons.push(
-          <Button color="primary" className={classes.actionButtonMiddle} key="EDIT_ROSTER">
+          <Button
+            color="primary"
+            className={classes.actionButtonMiddle}
+            key="EDIT_ROSTER"
+            href={`/captain/${id}`}
+          >
             {t("team_manage_roster")}
           </Button>
         )
