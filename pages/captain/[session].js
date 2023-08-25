@@ -27,8 +27,6 @@ export default function Team() {
   const { register, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const [metaOptions, setMetaOptions] = useState([]);
   const [playerOptions, setPlayerOptions] = useState([]);
-  const [name, setName] = useState("");
-  const [teamDescription, setTeamDescription] = useState("");
   const router = useRouter();
   const [authId, setAuthId] = useState();
   const { session } = router.query;
@@ -56,8 +54,6 @@ export default function Team() {
       setValue("description", description);
       setMetaOptions(metas);
       setPlayerOptions(players);
-      setName(factionName);
-      setTeamDescription(description);
       setCanEdit(canEdit);
       setIsLoading(false);
     });
