@@ -120,5 +120,6 @@
     "api_faction_full": "The team is already full",
     "edit_faction_team_name": "Team Name",
     "edit_faction_team_description": "Description",
-    "edit_faction_team_slot": "Slot {{index}}"
+    "edit_faction_team_slot": "Slot {{index}}",
+    "api_same_player_in_slot": "Cannot use the same player in multiple slots"
 }
