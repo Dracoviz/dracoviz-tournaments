@@ -46,7 +46,7 @@ export default function Team() {
       }
       const { metas, players, factionName, description, canEdit } = data;
       players.forEach((p) => {
-        if (p.tournamentPosition > -1) {
+        if (p.tournamentPosition > (-1)) {
           setValue(`slot.${p.tournamentPosition}`, p.session);
         }
       });
