@@ -98,8 +98,35 @@ export default function Team() {
 
   const classes = useStyles();
 
+  const renderFastMoves = (index) => {
+    const thePokemon = pokemonOptions[pokemons[index]];
+    if (thePokemon == null) {
+      return null;
+    }
+    return thePokemon.fastMoves.map((move) => (
+      <MenuItem value={move} key={move}>{move}</MenuItem>
+    ))
+  }
+
+  const renderChargedMoves = (index) => {
+    const thePokemon = pokemonOptions[pokemons[index]];
+    if (thePokemon == null) {
+      return null;
+    }
+    const chargedMoves = thePokemon.chargedMoves.map((move) => (
+      <MenuItem value={move} key={move}>{move}</MenuItem>
+    ));
+    if (thePokemon.tags.includes("shadoweligible")) {
+      chargedMoves.push(<MenuItem value={"RETURN"} key={"RETURN"}>RETURN</MenuItem>);
+    }
+    if (thePokemon.tags.includes("shadow")) {
+      chargedMoves.push(<MenuItem value={"FRUSTRATION"} key={"FRUSTRATION"}>FRUSTRATION</MenuItem>);
+    }
+    return chargedMoves;
+  }
+
   const renderPokemon = () => {
-    if (isLoading || pokemonOptions == null || pokemonOptions["abomasnow"] == null) {
+    if (isLoading || pokemonOptions == null) {
       return (<CircularProgress />);
     }
     return Array(6).fill(0).map((p, index) => (
@@ -157,9 +184,7 @@ export default function Team() {
                       {
                         pokemons?.[index] == null
                           ? null
-                          : pokemonOptions[pokemons[index]]?.fastMoves?.map((move) => (
-                            <MenuItem value={move} key={move}>{move}</MenuItem>
-                          ))
+                          : renderFastMoves(index)
                       }
                     </Select>
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 1</InputLabel>
@@ -172,10 +197,7 @@ export default function Team() {
                       {
                         pokemons?.[index] == null
                           ? null
-                          : pokemonOptions[pokemons[index]]?.chargedMoves?.map((move) => (
-                            <MenuItem value={move} key={move}>{move}</MenuItem>
-                          )
-                        )
+                          : renderChargedMoves(index)
                       }
                     </Select>
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 2</InputLabel>
@@ -190,10 +212,7 @@ export default function Team() {
                       {
                         pokemons?.[index] == null
                           ? null
-                          : pokemonOptions[pokemons[index]]?.chargedMoves?.map((move) => (
-                            <MenuItem value={move} key={move}>{move}</MenuItem>
-                          )
-                        )
+                          : renderChargedMoves(index)
                       }
                     </Select>
                   </>
