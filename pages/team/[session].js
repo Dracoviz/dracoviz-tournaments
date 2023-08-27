@@ -8,12 +8,12 @@ import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
-import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
+import { Button, TextField, Select, InputLabel, MenuItem, CircularProgress, Autocomplete } from "@mui/material";
 import Card from "../../components/Card/Card";
 import fetchApi from "../../api/fetchApi";
 
@@ -29,7 +29,7 @@ export default function Team() {
   const [cpRequired, setCpRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
-  const { register, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
+  const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const router = useRouter();
   const pokemons = watch("pokemon");
   const [authId, setAuthId] = useState();
@@ -56,9 +56,13 @@ export default function Team() {
       setValue("pokemon", data.pokemon, { shouldValidate: false });
       setValue("chargedMoves", data.chargedMoves, { shouldValidate: false });
       setValue("fastMoves", data.fastMoves, { shouldValidate: false });
-      setPokemonItems(Object.keys(data.pokemonData).map((key)=>{
-        return <MenuItem value={key} key={key}>{data.pokemonData[key].speciesName}</MenuItem>
-      }));
+      setPokemonItems(Object.keys(data.pokemonData)
+        .map((key)=>{
+          return {
+            label: data.pokemonData[key].speciesName,
+            id: key
+          }
+        }));
       setIsLoading(false);
     });
   }
@@ -116,13 +120,52 @@ export default function Team() {
     const chargedMoves = thePokemon.chargedMoves.map((move) => (
       <MenuItem value={move} key={move}>{move}</MenuItem>
     ));
-    if (thePokemon.tags.includes("shadoweligible")) {
+    if (thePokemon.tags?.includes("shadoweligible")) {
       chargedMoves.push(<MenuItem value={"RETURN"} key={"RETURN"}>RETURN</MenuItem>);
     }
-    if (thePokemon.tags.includes("shadow")) {
+    if (thePokemon.tags?.includes("shadow")) {
       chargedMoves.push(<MenuItem value={"FRUSTRATION"} key={"FRUSTRATION"}>FRUSTRATION</MenuItem>);
     }
     return chargedMoves;
+  }
+
+  const renderPokemonSelector = (index) => {
+    return (
+      <Controller
+        control={control}
+        name={`pokemon.${index}`}
+        rules={{
+          required: true,
+          validate: (value) => pokemonOptions[value] != null
+        }}
+        render={({ field: { onChange, value } }) => (
+          <Autocomplete
+            onChange={(_event, item) => {
+              onChange(item?.id ?? "");
+            }}
+            value={value}
+            options={pokemonItems}
+            isOptionEqualToValue={(option, value) => {
+              return (option?.id ?? option) === value;
+            }}
+            getOptionSelected={(option, value) =>
+              value === undefined || value === "" || option.id === value
+            }
+            getOptionLabel={(item) => item.label ?? pokemonOptions[item]?.speciesName ?? ""}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={t('team_pokemon_label', { index: index + 1 })}
+                variant="standard"
+                required
+                style={{ marginBottom: 10 }}
+                error={errors[`pokemon.${index}`]}
+              />
+            )}
+          />
+        )}
+      />
+    )
   }
 
   const renderPokemon = () => {
@@ -145,16 +188,7 @@ export default function Team() {
               }
             </GridItem>
             <GridItem xs={8} md={9} style={{ marginTop: 10 }}>
-              <InputLabel>{t('team_pokemon_label', { index: index + 1 })}</InputLabel>
-              <Select
-                fullWidth
-                {...register(`pokemon.${index}`, { required: true })}
-                value={watch(`pokemon.${index}`)}
-                variant="standard"
-                style={{ marginBottom: 5 }}
-              >
-                {pokemonItems}
-              </Select>
+              {renderPokemonSelector(index)}
               {
                 cpRequired && (
                   <CustomInput
@@ -165,7 +199,13 @@ export default function Team() {
                     }}
                     inputProps={{
                       type: "number",
-                      ...register(`cp.${index}`, { required: cpRequired, min: 1, max: 100000 }),
+                      ...register(
+                        `cp.${index}`,
+                        {
+                          required: cpRequired,
+                          min: 1,
+                          max: 100000
+                        }),
                     }}
                     error={errors.maxMatchTeamSize}
                   />
@@ -177,7 +217,10 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('fast_move')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`fastMoves.${index}`, { required: movesRequired })}
+                      {...register(`fastMoves.${index}`, {
+                        required: movesRequired,
+                        validate: (value) => pokemonOptions[pokemons[index]]?.fastMoves?.includes(value)
+                      })}
                       value={watch(`fastMoves.${index}`)}
                       variant="standard"
                     >
@@ -190,7 +233,9 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 1</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.0`, { required: movesRequired })}
+                      {...register(`chargedMoves.${index}.0`, {
+                        required: movesRequired,
+                      })}
                       value={watch(`chargedMoves.${index}.0`)}
                       variant="standard"
                     >
@@ -203,7 +248,9 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('charged_move')} 2</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`chargedMoves.${index}.1`, { required: movesRequired })}
+                      {...register(`chargedMoves.${index}.1`, {
+                        required: movesRequired,
+                      })}
                       value={watch(`chargedMoves.${index}.1`)}
                       variant="standard"
                       style={{ marginBottom: 5 }}
