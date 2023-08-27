@@ -16,7 +16,7 @@ export default function ProfilePreview(props) {
   return (
     <Card className={classes.root}>
       <div className={classes.profile}>
-        <img src={imageUrl} alt={username} height={60} width={60} />
+        <img src={imageUrl} alt={username} height={60} width={60} style={{ objectFit: "contain" }} />
         <p className={classes.profileContent}>
           <strong className={classes.username}>{username}</strong>
           <br />

@@ -28,7 +28,7 @@ function PlayerInfoModal(props) {
             <GridContainer>
                 <GridItem xs={12}>
                    <div style={{ textAlign: "center" }}>
-                    <img src={data?.avatar} alt={data?.name} height={60} width={60} />
+                    <img src={data?.avatar} alt={data?.name} height={60} width={60} style={{ objectFit: "contain" }} />
                     <p>{data?.description}</p>
                    </div>
                     <p>{t("friend_code")}: {data?.friendCode}</p>
