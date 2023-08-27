@@ -123,7 +123,7 @@ function ProfileEditModal(props) {
                   <small>
                     {t("name_and_code_must_match")}
                     <br />
-                    {t("additonal_profile_options")}
+                    {t("additional_profile_options")}
                   </small>
                 </GridItem>
               </GridContainer>
