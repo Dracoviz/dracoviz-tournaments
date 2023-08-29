@@ -209,32 +209,3 @@ We use GitHub Issues as the official bug tracker for the NextJS Material Kit. He
 1. Make sure that you are using the latest version of the Material Kit. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/?ref=njsmk-readme).
 2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
 3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
-
-## Licensing
-
-- Copyright 2022 Creative Tim (https://www.creative-tim.com/?ref=njsmk-readme)
-
-- Licensed under MIT (https://github.com/creativetimofficial/nextjs-material-kit/blob/main/LICENSE.md)
-
-## Useful Links
-
-- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
-- [Affiliate Program](https://www.creative-tim.com/affiliates/new?ref=njsmk-readme) (earn money)
-- [Blog Creative Tim](http://blog.creative-tim.com/?ref=njsmk-readme)
-- [Free Products](https://www.creative-tim.com/templates/free?direction=desc&sort=created_at&ref=njsmk-readme) from Creative Tim
-- [Premium Products](https://www.creative-tim.com/templates/premium?direction=desc&sort=created_at&ref=njsmk-readme) from Creative Tim
-- [React Products](https://www.creative-tim.com/templates/react?direction=desc&sort=created_at&ref=njsmk-readme) from Creative Tim
-- [Angular Products](https://www.creative-tim.com/templates/angular?direction=desc&sort=created_at&ref=njsmk-readme) from Creative Tim
-- [VueJS Products](https://www.creative-tim.com/templates/vuejs?direction=desc&sort=created_atref=njsmk-readme) from Creative Tim
-- [More products](https://www.creative-tim.com/templates?ref=njsmk-readme) from Creative Tim
-- Check our Bundles [here](https://www.creative-tim.com/bundles?ref=njsmk-readme)
-
-### Social Media
-
-Twitter: <https://twitter.com/CreativeTim>
-
-Facebook: <https://www.facebook.com/CreativeTim>
-
-Dribbble: <https://dribbble.com/creativetim>
-
-Instagram: <https://www.instagram.com/CreativeTimOfficial>
