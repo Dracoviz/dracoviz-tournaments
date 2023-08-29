@@ -49,7 +49,7 @@ export default function Team() {
         return;
       }
       setCanEdit(data.canEdit);
-      setMovesRequired(data.movesRequired);
+      setMovesRequired(data.movesetsRequired);
       setCpRequired(data.cpRequired);
       setPokemonOptions(data.pokemonData);
       setValue("cp", data.cp, { shouldValidate: false });
