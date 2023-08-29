@@ -123,8 +123,10 @@ export default function JoinTournament() {
       } else {
         if (tid != null && tid !== "") {
           const autoData = { tournamentId: tid, registrationNumber: "", firebaseId: user.uid }
+          setValue("tournamentId", tid);
           if (pid != null) {
             autoData.registrationNumber = pid;
+            setValue("registrationNumber", tid);
           }
           setAuthId(user.uid)
           onSubmit(autoData);
