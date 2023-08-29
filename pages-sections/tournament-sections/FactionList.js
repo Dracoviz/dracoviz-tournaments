@@ -61,7 +61,7 @@ export default function FactionList(props) {
       return null;
     }
     return pokemon.map((pokemonObj) => (
-      <div className={classes.pokemonRoot}>
+      <div className={classes.pokemonRoot} key={pokemonObj.speciesId}>
         <img
           src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonObj.sid}.png/public`}
           alt={pokemonObj.speciesName}
@@ -103,7 +103,7 @@ export default function FactionList(props) {
             <p style={{ marginLeft: 30, marginRight: 30 }}>{faction.description}</p>
             {
               faction?.players?.sort(byTournamentPosition).map((player, index) => (
-                <div className={classes.root}>
+                <div className={classes.root} key={index}>
                   <div className={classes.playerNameRow}>
                     <div className={classes.playerMetaRow}>
                       {(player.tournamentPosition > -1) && (

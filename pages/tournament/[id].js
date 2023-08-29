@@ -61,7 +61,6 @@ export default function Tournament() {
   const [ authId, setAuthId ] = useState();
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
-  
 
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
@@ -112,6 +111,28 @@ export default function Tournament() {
     setIsTournamentInfoOpen(false);
   }
 
+  const generateShareLink = () => {
+    const { registrationNumber } = data;
+    const isRegistrationNumberEmpty = registrationNumber == null || registrationNumber.trim() === "";
+    const registrationParam = `&pid=${registrationNumber}`;
+    const baseUrl = window.location.protocol + "//" + location.host;
+    const theUrl = `${baseUrl}/join-tournament?tid=${id}${isRegistrationNumberEmpty ? "" : registrationParam}`;
+    return theUrl;
+  }
+
+  const shareTournament = async () => {
+    const shareLink = generateShareLink();
+    await navigator.clipboard.writeText(shareLink);
+    alert(t("copy_to_clipboard", { url: shareLink }));
+  }
+
+  const shareTeam = async () => {
+    const { teamCode } = data;
+    const shareLink = `${generateShareLink()}&faction=${teamCode}`;
+    await navigator.clipboard.writeText(shareLink);
+    alert(t("copy_to_clipboard", { url: shareLink }));
+  }
+
   const classes = useStyles();
 
   const renderAlert = () => {
@@ -126,6 +147,43 @@ export default function Tournament() {
         {message}
       </Alert>
     )
+  }
+
+  const renderShareButtons = () => {
+    if (data == null) {
+      return null;
+    }
+    const { isHost, isPlayer, isTeamTournament, state, teamCode } = data;
+    const hasTournamentStarted = state === "POKEMON_VISIBLE";
+    const buttons = [];
+    if (!isHost && !isPlayer) {
+      return null;
+    }
+    buttons.push(
+      <Button
+        onClick={shareTournament}
+        className={classes.actionButtonMiddle}
+        variant="contained"
+        color="info"
+        key="SHARE_TOURNAMENT"
+      >
+        {t("tournament_share_button")}
+      </Button>
+    );
+    if (isTeamTournament && !hasTournamentStarted && teamCode != null && teamCode !== "") {
+      buttons.push(
+        <Button
+          onClick={shareTeam}
+          className={classes.actionButtonMiddle}
+          variant="contained"
+          color="success"
+          key="SHARE_TEAM"
+        >
+          {t("tournament_team_share_button")}
+        </Button>
+      );
+    }
+    return <div className={classes.actions}>{buttons}</div>
   }
 
   const renderActionButtons = () => {
@@ -301,10 +359,11 @@ export default function Tournament() {
             <GridItem xs={12}>
               {renderAlert()}
               {renderRegistrationNumber()}
-              {renderTeamNumber()}
+              {/* {renderTeamNumber()} */}
               <div className={classes.actions}>
                 {renderActionButtons()}
               </div>
+              {renderShareButtons()}
               {
                 data?.isTeamTournament
                   ? (<FactionList

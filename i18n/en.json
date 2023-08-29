@@ -149,5 +149,8 @@
 	"visibility_hidden": "Only visible to hosts",
 	"visibility_none": "Not required",
 	"visit_page": "Visit Page",
-	"your_tournaments": "Your Tournaments"
+	"your_tournaments": "Your Tournaments",
+	"tournament_share_button": "Share tournament invite",
+	"tournament_team_share_button": "Invite players to your team",
+	"copy_to_clipboard": "Copied to clipboard: {{url}}"
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
@@ -26,8 +26,10 @@ export default function JoinTournament() {
   const [tournaments, setTournaments] = useState([]);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [step, setStep] = useState(0);
-  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm();
+  const { register, handleSubmit, watch, setValue, formState: { errors, isValid } } = useForm();
   const isCaptain = watch("isCaptain");
+  const router = useRouter();
+  const { tid, pid, faction } = router.query;
 
   const getPublicTournaments = (id) => {
     // setIsLoading(true);
@@ -36,10 +38,12 @@ export default function JoinTournament() {
     // setIsLoading(false);
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = (allData) => {
+    const { firebaseId, ...data } = allData;
+    const theId = firebaseId ?? authId;
     if (step === 0) {
       setIsLoading(true);
-      fetchApi("session/join/", "POST", { "x_session_id": authId, "Content-Type": "application/json" }, JSON.stringify(data))
+      fetchApi("session/join/", "POST", { "x_session_id": theId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then((response) => response.json())
       .then((newData) => {
         const { isTeamTournament, id, error, alreadyEntered } = newData;
@@ -117,9 +121,23 @@ export default function JoinTournament() {
       if (!doesUserExist) {
         Router.push("/login");
       } else {
-        getPublicTournaments(user.uid);
+        if (tid != null && tid !== "") {
+          const autoData = { tournamentId: tid, registrationNumber: "", firebaseId: user.uid }
+          if (pid != null) {
+            autoData.registrationNumber = pid;
+          }
+          setAuthId(user.uid)
+          onSubmit(autoData);
+        } else {
+          getPublicTournaments(user.uid);
+        }
       }
     });
+
+    if (faction != null) {
+      setValue("factionCode", faction);
+    }
+
     return () => unregisterAuthObserver();
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
@@ -174,7 +192,7 @@ export default function JoinTournament() {
                     fullWidth: true
                   }}
                   inputProps={{
-                    ...register("factionCode", { required: !isCaptain })
+                    ...register("factionCode", { required: !isCaptain }),
                   }}
                   error={errors.teamCode}
                 />
