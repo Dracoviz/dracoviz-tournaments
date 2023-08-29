@@ -5,6 +5,7 @@ import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "react-i18next";
+import formatMove from "../../api/formatMove";
 
 const useStyles = makeStyles(styles);
 
@@ -67,7 +68,11 @@ export default function FactionList(props) {
           style={{width: 100, height: 100, objectFit: 'contain'}}
         />
         <h5>{pokemonObj.speciesName}</h5>
-        <p>{t("cp")}: {pokemonObj.cp}</p>
+        <p>
+          {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
+          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
+          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
+        </p>
       </div>
     ))
   }

@@ -36,7 +36,11 @@ export default function SinglePlayerList(props) {
           style={{width: 100, height: 100, objectFit: 'contain'}}
         />
         <h5>{pokemonObj.speciesName}</h5>
-        <p>{t("cp")}: {pokemonObj.cp}</p>
+        <p>
+          {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
+          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
+          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
+        </p>
       </div>
     ))
   }

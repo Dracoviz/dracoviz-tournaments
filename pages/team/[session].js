@@ -16,6 +16,7 @@ import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.j
 import { Button, TextField, Select, InputLabel, MenuItem, CircularProgress, Autocomplete } from "@mui/material";
 import Card from "../../components/Card/Card";
 import fetchApi from "../../api/fetchApi";
+import formatMove from "../../api/formatMove";
 
 const useStyles = makeStyles(styles);
 
@@ -80,6 +81,7 @@ export default function Team() {
         alert(t(data.error));
       } else {
         alert(t("saved"));
+        Router.push(`/tournament/${session}`)
       }
       setSubmitting(false);
     });
@@ -108,7 +110,7 @@ export default function Team() {
       return null;
     }
     return thePokemon.fastMoves.map((move) => (
-      <MenuItem value={move} key={move}>{move}</MenuItem>
+      <MenuItem value={move} key={move}>{formatMove(move)}</MenuItem>
     ))
   }
 
@@ -118,13 +120,13 @@ export default function Team() {
       return null;
     }
     const chargedMoves = thePokemon.chargedMoves.map((move) => (
-      <MenuItem value={move} key={move}>{move}</MenuItem>
+      <MenuItem value={move} key={move}>{formatMove(move)}</MenuItem>
     ));
     if (thePokemon.tags?.includes("shadoweligible")) {
-      chargedMoves.push(<MenuItem value={"RETURN"} key={"RETURN"}>RETURN</MenuItem>);
+      chargedMoves.push(<MenuItem value={"RETURN"} key={"RETURN"}>Return</MenuItem>);
     }
     if (thePokemon.tags?.includes("shadow")) {
-      chargedMoves.push(<MenuItem value={"FRUSTRATION"} key={"FRUSTRATION"}>FRUSTRATION</MenuItem>);
+      chargedMoves.push(<MenuItem value={"FRUSTRATION"} key={"FRUSTRATION"}>Frustration</MenuItem>);
     }
     return chargedMoves;
   }
