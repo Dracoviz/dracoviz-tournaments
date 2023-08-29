@@ -87,6 +87,8 @@ export default function CreateTournament() {
           <MenuItem value="Great League">{t("great_league")}</MenuItem>
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
+          <MenuItem value="Viperwave Cup">Viperwave Cup</MenuItem>
+          <MenuItem value="Master League Unified">Master League Unified</MenuItem>
         </Select>
       </GridItem>
     ))
@@ -192,9 +194,44 @@ export default function CreateTournament() {
                     error={errors.maxTeams}
                   />
                 </GridItem>
+                <GridItem xs={12} md={6}>
+                  <InputLabel>{t("cp_visibility")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`cpVisibility`, { required: true })}
+                  >
+                    <MenuItem value="none">{t("visibility_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
+                    <MenuItem value="global">{t("visibility_global")}</MenuItem>
+                  </Select>
+                </GridItem>
+                <GridItem xs={12} md={6}>
+                  <InputLabel>{t("moveset_visibility")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`movesetVisibility`, { required: true})}
+                  >
+                    <MenuItem value="none">{t("visibility_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
+                    <MenuItem value="global">{t("visibility_global")}</MenuItem>
+                  </Select>
+                </GridItem>
+                <GridItem xs={12}>
+                  <InputLabel style={{ marginTop: 10 }}>{t("draft_mode")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`draftMode`, { required: true })}
+                  >
+                    <MenuItem value="none">{t("draft_mode_none")}</MenuItem>
+                    <MenuItem value="team">{t("draft_mode_team")}</MenuItem>
+                    <MenuItem value="global">{t("draft_mode_global")}</MenuItem>
+                  </Select>
+                </GridItem>
                 <GridItem xs={12} md={7}>
-                {t("is_team_tournament")}
-                  <Checkbox {...register("isTeamTournament")}/>
+                  <div style={{ marginTop: 10, marginBottom: 10 }}>
+                    {t("is_team_tournament")}
+                    <Checkbox {...register("isTeamTournament")}/>
+                  </div>
                 </GridItem>
                 {
                   isTeamTournament ? (
@@ -232,13 +269,9 @@ export default function CreateTournament() {
                     </>
                   ) : null
                 }
-                <GridItem xs={12} md={7}>
-                {t("tournament_are_cps_required")}
-                  <Checkbox {...register("isCPRequired")}/>
-                </GridItem>
                 {
                   isTeamTournament ? (
-                    <GridItem xs={12} md={7}>
+                    <GridItem xs={12}>
                       {t("tournament_multiple_metas_enabled")}
                       <Checkbox {...register("hasMultipleMetas")}/>
                     </GridItem>
