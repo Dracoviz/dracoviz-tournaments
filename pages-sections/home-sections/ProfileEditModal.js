@@ -74,7 +74,7 @@ function ProfileEditModal(props) {
                       fullWidth: true
                     }}
                     inputProps={{
-                      ...register("friendCode", { required: true }),
+                      ...register("friendCode"),
                       defaultValue: player?.friendCode
                     }}
                     error={errors.friendCode}
