@@ -89,6 +89,7 @@ export default function CreateTournament() {
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
           <MenuItem value="Viperwave Cup">Viperwave Cup</MenuItem>
           <MenuItem value="Master League Unified">Master League Unified</MenuItem>
+          <MenuItem value="Justicar Remix Cup">Justicar Remix Cup</MenuItem>
         </Select>
       </GridItem>
     ))
