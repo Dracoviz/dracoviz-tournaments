@@ -24,7 +24,7 @@ export default function CreateTournament() {
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
+  const { register, handleSubmit, watch, setValue, formState: { errors, isValid } } = useForm({
     defaultValues: {
       maxTeamSize: 1,
       maxMatchTeamSize: 1,
@@ -33,6 +33,7 @@ export default function CreateTournament() {
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
   const isTeamTournament = watch("isTeamTournament");
+  const theMetas = watch("metas");
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -48,6 +49,16 @@ export default function CreateTournament() {
     return () => unregisterAuthObserver();
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
+
+  const onTeamTournamentToggle = () => {
+    // Note, we are looking at the previous isTeamTournament state, so logic is inversed
+    if (isTeamTournament) {
+      setValue("maxTeamSize", 1);
+      setValue("maxMatchTeamSize", 1);
+      setValue("metas", [theMetas?.[0]] ?? []);
+      setValue("hasMultipleMetas", false);
+    }
+  }
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -231,7 +242,7 @@ export default function CreateTournament() {
                 <GridItem xs={12} md={7}>
                   <div style={{ marginTop: 10, marginBottom: 10 }}>
                     {t("is_team_tournament")}
-                    <Checkbox {...register("isTeamTournament")}/>
+                    <Checkbox {...register("isTeamTournament")} onClick={onTeamTournamentToggle}/>
                   </div>
                 </GridItem>
                 {
