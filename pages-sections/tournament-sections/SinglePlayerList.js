@@ -6,6 +6,7 @@ import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "react-i18next";
+import formatMove from "../../api/formatMove";
 
 const useStyles = makeStyles(styles);
 
