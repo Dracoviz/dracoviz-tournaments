@@ -50,8 +50,7 @@ export default function JoinTournament() {
         setIsLoading(false);
         if (alreadyEntered) {
           Router.push(`/tournament/${id}`);
-        }
-        if (error != null) {
+        } else if (error != null) {
           alert(t(error));
           return;
         }
