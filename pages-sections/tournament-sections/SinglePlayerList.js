@@ -11,7 +11,7 @@ import formatMove from "../../api/formatMove";
 const useStyles = makeStyles(styles);
 
 export default function SinglePlayerList(props) {
-  const { players, onPlayer } = props;
+  const { players, onPlayer, onDeletePlayer, isHost } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
@@ -71,9 +71,20 @@ export default function SinglePlayerList(props) {
             <div className={classes.root}>
               <div className={classes.playerNameRow}>
                 <h4>{player.name}</h4>
-                <Button onClick={() => onPlayer(player.name)}>
-                  {t("view_profile")}
-                </Button>
+                <div>
+                  <Button onClick={() => onPlayer(player.name)}>
+                    {t("view_profile")}
+                  </Button>
+                  {
+                    isHost && (<Button color="error" onClick={() => {
+                      if (confirm(t("confirm_remove_player"))) {
+                        onDeletePlayer(player.name)
+                      }
+                    }}>
+                      {t("remove_player")}
+                    </Button>)
+                  }
+                </div>
               </div>
               <div className={classes.pokemonRow}>
                 {renderPokemon(player.pokemon)}

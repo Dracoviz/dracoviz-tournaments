@@ -9,7 +9,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import { Alert, AlertTitle, Button, CircularProgress } from "@mui/material";
 import i18n from "../../i18n";
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
@@ -87,6 +87,24 @@ export default function Tournament() {
     .then(() => getTournamentData(authId));
   }
 
+  const deletePlayer = async (playerName) => {
+    setIsLoading(true);
+    const response = await fetchApi(`session/leave/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+      playerName,
+    }));
+    const newData = await response.json();
+    if (newData.error != null) {
+      alert(t(newData.error));
+      setIsLoading(false);
+      return false;
+    }
+    return true;
+  }
+
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
@@ -101,6 +119,23 @@ export default function Tournament() {
   const onPlayer = (player) => {
     const thePlayer = data.players.find(p => player === p.name);
     setProfileToView(thePlayer);
+  }
+
+  const onDeletePlayer = (player) => {
+    deletePlayer(player).then((didSucceed) => {
+      if (didSucceed) {
+        getTournamentData(authId);
+      } else {
+        setIsLoading(false);
+      }
+    });
+  }
+
+  const onLeave = async () => {
+    const didDelete = await deletePlayer(null);
+    if (didDelete) {
+      Router.push("/");
+    }
   }
 
   const onClosePlayerModal = () => {
@@ -329,6 +364,24 @@ export default function Tournament() {
     );
   }
 
+  const renderLeaveButton = () => {
+    if (data == null) {
+      return null;
+    }
+    const { isTeamTournament, isHost, isPlayer } = data;
+    if (isTeamTournament || isHost || !isPlayer) {
+      return null;
+    }
+    return (
+      <Button
+        color="error"
+        onClick={onLeave}
+      >
+        {t("leave_session")}
+      </Button>
+    );
+  }
+
   if (isLoading) {
     return (<div>
       <Header
@@ -372,8 +425,14 @@ export default function Tournament() {
                       metaLogos={data?.metaLogos}
                       onPlayer={onPlayer}
                     />)
-                  : (<SinglePlayerList players={data?.players} onPlayer={onPlayer}/>)
+                  : (<SinglePlayerList
+                      players={data?.players}
+                      onPlayer={onPlayer}
+                      onDeletePlayer={onDeletePlayer}
+                      isHost={data?.isHost}
+                    />)
               }
+              {renderLeaveButton()}
             </GridItem>
           </GridContainer>
         </div>
