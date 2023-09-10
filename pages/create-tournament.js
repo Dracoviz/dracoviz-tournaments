@@ -101,6 +101,7 @@ export default function CreateTournament() {
           <MenuItem value="Viperwave Cup">Viperwave Cup</MenuItem>
           <MenuItem value="Master League Unified">Master League Unified</MenuItem>
           <MenuItem value="Justicar Remix Cup">Justicar Remix Cup</MenuItem>
+          <MenuItem value="Spice Cup Remix">Spice Cup Remix</MenuItem>
         </Select>
       </GridItem>
     ))
