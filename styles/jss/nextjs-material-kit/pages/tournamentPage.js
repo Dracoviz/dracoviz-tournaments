@@ -8,6 +8,7 @@ const homePageStyle = {
   },
   actionButtonMiddle: {
     marginRight: 10,
+    marginBottom: 10,
   }
 }
 

@@ -146,7 +146,7 @@ export default function Tournament() {
     setIsTournamentInfoOpen(false);
   }
 
-  const generateShareLink = () => {
+  const generateJoinLink = () => {
     const { registrationNumber } = data;
     const isRegistrationNumberEmpty = registrationNumber == null || registrationNumber.trim() === "";
     const registrationParam = `&pid=${registrationNumber}`;
@@ -154,6 +154,12 @@ export default function Tournament() {
     const theUrl = `${baseUrl}/join-tournament?tid=${id}${isRegistrationNumberEmpty ? "" : registrationParam}`;
     return theUrl;
   }
+
+  const generateShareLink = () => {
+    const baseUrl = window.location.protocol + "//" + location.host;
+    const theUrl = `${baseUrl}/tournament/${id}`;
+    return theUrl;
+  } 
 
   const shareTournament = async () => {
     const shareLink = generateShareLink();
@@ -163,12 +169,24 @@ export default function Tournament() {
 
   const shareTeam = async () => {
     const { teamCode } = data;
-    const shareLink = `${generateShareLink()}&faction=${teamCode}`;
+    const shareLink = `${generateJoinLink()}&faction=${teamCode}`;
     await navigator.clipboard.writeText(shareLink);
     alert(t("copy_to_clipboard", { url: shareLink }));
   }
 
   const classes = useStyles();
+
+  const renderRegistrationStatus = () => {
+    if (data == null || data.state == null) {
+      return null;
+    }
+    const { registrationClosed } = data;
+    return (
+      <Alert severity="info" color={registrationClosed ? "warning" : "success"}>
+        <AlertTitle>{registrationClosed ? t("registration_closed") : t("registration_open")}</AlertTitle>
+      </Alert>
+    )
+  }
 
   const renderAlert = () => {
     if (data == null || data.state == null) {
@@ -188,11 +206,25 @@ export default function Tournament() {
     if (data == null) {
       return null;
     }
-    const { isHost, isPlayer, isTeamTournament, state, teamCode } = data;
-    const hasTournamentStarted = state === "POKEMON_VISIBLE";
+    const { isHost, isPlayer, isTeamTournament, state, teamCode, registrationClosed } = data;
     const buttons = [];
     if (!isHost && !isPlayer) {
-      return null;
+      if (registrationClosed) {
+        return null;
+      }
+      return (
+        <div className={classes.actions}>
+          <Button
+            href={generateJoinLink()}
+            className={classes.actionButtonMiddle}
+            variant="contained"
+            color="primary"
+            key="JOIN_TOURNAMENT"
+          >
+            {t("join_tournament")}
+          </Button>
+        </div>
+      );
     }
     buttons.push(
       <Button
@@ -205,7 +237,7 @@ export default function Tournament() {
         {t("tournament_share_button")}
       </Button>
     );
-    if (isTeamTournament && !hasTournamentStarted && teamCode != null && teamCode !== "") {
+    if (isTeamTournament && !registrationClosed && teamCode != null && teamCode !== "") {
       buttons.push(
         <Button
           onClick={shareTeam}
@@ -227,11 +259,12 @@ export default function Tournament() {
     }
     const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink } = data;
     const buttons = [];
-    if (bracketLink != null) {
+    if (bracketLink != null && bracketLink !== "") {
       buttons.push(
         <Button
           href={bracketLink}
           target="_blank"
+          variant="outlined"
           className={classes.actionButtonMiddle}
           key="SEE_BRACKET"
         >
@@ -322,6 +355,7 @@ export default function Tournament() {
         <Button
           color="secondary"
           key="SEE_TM"
+          style={{ marginBottom: 10 }}
           onClick={() => setIsTournamentInfoOpen(true)}
         >
           {t("tournament_view_information")}
@@ -410,6 +444,9 @@ export default function Tournament() {
           <TournamentInfoModal open={isTournamentInfoOpen} data={data} onClose={onCloseTournamentModal} />
           <GridContainer justify="center">
             <GridItem xs={12}>
+              <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
+              <p style={{ marginBottom: 20 }}>{data?.description}</p>
+              {renderRegistrationStatus()}
               {renderAlert()}
               {renderRegistrationNumber()}
               {/* {renderTeamNumber()} */}

@@ -23,6 +23,8 @@
 	"api_player_not_found": "Player not found",
 	"api_pokemon_length_invalid": "Invalid Pokémon length",
 	"api_pokemon_team_invalid": "Pokémon team invalid",
+	"api_registration_closed_join": "Registration for this tournament is closed",
+	"api_registration_closed_leave": "This tournament has already started. If you would like to be removed, please contact an organizer.",
 	"api_same_player_in_slot": "Cannot use the same player in multiple slots",
 	"api_server_link_invalid": "Server invite link is not a valid website",
 	"api_session_already_finished_error": "Session has already finished",
@@ -92,6 +94,8 @@
 	"please_create_account_to_participate": "Please create an account to participate in community lead tournaments for Pokémon GO PvP",
 	"pokemon_shadow": ", Shadow",
 	"register_pokemon_name": "Register your team of Pokémon",
+	"registration_closed": "Registration Closed",
+	"registration_open": "Registration Open",
 	"remove_player": "Remove Player",
 	"save": "Save",
 	"save_settings_button": "Save Settings",
@@ -156,7 +160,7 @@
 	"visibility_none": "Not required",
 	"visit_page": "Visit Page",
 	"your_tournaments": "Your Tournaments",
-	"tournament_share_button": "Share tournament invite",
+	"tournament_share_button": "Share tournament page",
 	"tournament_team_share_button": "Invite players to your team",
-	"copy_to_clipboard": "Copied to clipboard: {{url}}"
+	"copy_to_clipboard": "Copied to clipboard '{{url}}', please share this link"
 }
