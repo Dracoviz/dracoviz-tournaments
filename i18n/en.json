@@ -7,6 +7,8 @@
 	"api_faction_already_exists": "Faction already exists",
 	"api_faction_full": "The team is already full",
 	"api_faction_not_found": "Could not find team with that name",
+	"api_faction_not_in_session": "This team is not in this tournament",
+	"api_faction_missing_player": "One or more of the assigned players is not on the team",
 	"api_host_join_error": "A host cannot join their own tournament",
 	"api_host_leave_error": "A host cannot leave their own tournament",
 	"api_invalid_friend_code": "Invalid friend code",
