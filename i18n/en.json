@@ -50,6 +50,7 @@
 	"charged_move": "Charged Move",
 	"conclude_tournament": "Conclude Tournament",
 	"confirm_remove_player": "Are you sure you want to remove this player?",
+	"confirm_remove_player_team": "Are you sure you want to remove this player? NOTE: Removing the captain will delete the team and its players",
 	"cp": "CP",
 	"cp_visibility": "CP Registration",
 	"create_a_tournament": "Create a Tournament",

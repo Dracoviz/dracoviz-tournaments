@@ -461,6 +461,8 @@ export default function Tournament() {
                       players={data?.players}
                       metaLogos={data?.metaLogos}
                       onPlayer={onPlayer}
+                      onDeletePlayer={onDeletePlayer}
+                      isHost={data?.isHost}
                     />)
                   : (<SinglePlayerList
                       players={data?.players}

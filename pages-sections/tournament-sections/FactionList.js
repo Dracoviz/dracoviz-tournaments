@@ -23,7 +23,7 @@ const byTournamentPosition = (a, b) => {
 }
 
 export default function FactionList(props) {
-  const { players, factions, metaLogos, onPlayer } = props;
+  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedFactions, setSearchedFactions] = useState([]);
@@ -114,9 +114,20 @@ export default function FactionList(props) {
                       )}
                       <h4>{player.name} {player.isCaptain ? t("captain") : ""}</h4>
                     </div>
-                    <Button onClick={() => onPlayer(player.name)}>
-                      {t("view_profile")}
-                    </Button>
+                    <div>
+                      <Button onClick={() => onPlayer(player.name)}>
+                        {t("view_profile")}
+                      </Button>
+                      {
+                        isHost && (<Button color="error" onClick={() => {
+                          if (confirm(t("confirm_remove_player_team"))) {
+                            onDeletePlayer(player.name)
+                          }
+                        }}>
+                          {t("remove_player")}
+                        </Button>)
+                      }
+                    </div>
                   </div>
                   <div className={classes.pokemonRow}>
                     {renderPokemon(player.pokemon)}
