@@ -102,6 +102,8 @@ export default function CreateTournament() {
           <MenuItem value="Master League Unified">Master League Unified</MenuItem>
           <MenuItem value="Justicar Remix Cup">Justicar Remix Cup</MenuItem>
           <MenuItem value="Spice Cup Remix">Spice Cup Remix</MenuItem>
+          <MenuItem value="Flash (Dojo Cup)">Flash (Dojo Cup)</MenuItem>
+          <MenuItem value="NMFC (Midnight Cup)">NMFC (Midnight Cup)</MenuItem>
         </Select>
       </GridItem>
     ))
