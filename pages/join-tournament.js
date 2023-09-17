@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
-import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
+import { Button, Checkbox, CircularProgress } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
 

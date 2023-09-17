@@ -15,6 +15,7 @@ import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
+import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
 import FactionList from "../../pages-sections/tournament-sections/FactionList";
 
@@ -60,6 +61,7 @@ export default function Tournament() {
   const { id } = router.query;
   const [ authId, setAuthId ] = useState();
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
+  const [ isTournamentEditOpen, setIsTournamentEditOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
 
   const getTournamentData = (newAuthId) => {
@@ -105,6 +107,23 @@ export default function Tournament() {
     return true;
   }
 
+  const onEditTournament = async (data) => {
+    const response = await fetchApi(`session/edit/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      ...data,
+      tournamentId: id,
+    }));
+    const newData = await response.json();
+    if (newData.error != null) {
+      alert(t(newData.error));
+    } else {
+      setIsTournamentEditOpen(false);
+      getTournamentData(authId);
+    }
+  }
+
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
@@ -144,6 +163,10 @@ export default function Tournament() {
 
   const onCloseTournamentModal = () => {
     setIsTournamentInfoOpen(false);
+  }
+
+  const onCloseTournamentEditModal = () => {
+    setIsTournamentEditOpen(false);
   }
 
   const generateJoinLink = () => {
@@ -320,11 +343,16 @@ export default function Tournament() {
           </Button>
         )
       }
-      // buttons.push(
-      //   <Button color="secondary" key="EDIT_TM">
-      //     {t("edit_tournament_information_button")}
-      //   </Button>
-      // );
+      buttons.push(
+        <Button
+          color="secondary"
+          key="EDIT_TM"
+          style={{ marginBottom: 10 }}
+          onClick={() => setIsTournamentEditOpen(true)}
+        >
+          {t("edit_tournament_information_button")}
+        </Button>
+      );
     } else {
       if (isCaptain) {
         buttons.push(
@@ -442,6 +470,7 @@ export default function Tournament() {
         <div className={classes.main}>
           <PlayerInfoModal open={profileToView != null} data={profileToView} onClose={onClosePlayerModal} />
           <TournamentInfoModal open={isTournamentInfoOpen} data={data} onClose={onCloseTournamentModal} />
+          <EditTournamentModal open={isTournamentEditOpen} data={data} onClose={onCloseTournamentEditModal} onSave={onEditTournament} />
           <GridContainer justify="center">
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>

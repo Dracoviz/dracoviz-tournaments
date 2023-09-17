@@ -9,7 +9,6 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
-import i18n from "../i18n";
 import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
@@ -185,8 +184,8 @@ export default function CreateTournament() {
                   />
                 </GridItem>
                 <GridItem xs={12} md={7}>
-                {t("is_tournament_private")}
-                  <Checkbox {...register("isPrivate")}/>
+                  {t("is_tournament_private")}
+                    <Checkbox {...register("isPrivate")}/>
                 </GridItem>
               </GridContainer>
             </Card>
