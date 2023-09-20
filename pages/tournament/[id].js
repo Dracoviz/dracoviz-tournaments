@@ -63,6 +63,7 @@ export default function Tournament() {
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
   const [ isTournamentEditOpen, setIsTournamentEditOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
+  const isConcluded = data?.concluded;
 
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
@@ -87,6 +88,24 @@ export default function Tournament() {
       newState: state,
     }))
     .then(() => getTournamentData(authId));
+  }
+
+  const onConclude = () => {
+    setIsLoading(true);
+    fetchApi(`session/conclude/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+      } else {
+        setIsTournamentEditOpen(false);
+        getTournamentData(authId);
+      }
+    });
   }
 
   const deletePlayer = async (playerName) => {
@@ -199,8 +218,20 @@ export default function Tournament() {
 
   const classes = useStyles();
 
+  const renderConcludeStatus = () => {
+    if (data == null || !isConcluded) {
+      return null;
+    }
+    return (
+      <Alert severity="info" color="info">
+        <AlertTitle>{t("concluded_tournament")}</AlertTitle>
+        {t("concluded_tournament_message")}
+      </Alert>
+    )
+  }
+
   const renderRegistrationStatus = () => {
-    if (data == null || data.state == null) {
+    if (data == null || data.state == null || isConcluded) {
       return null;
     }
     const { registrationClosed } = data;
@@ -212,7 +243,7 @@ export default function Tournament() {
   }
 
   const renderAlert = () => {
-    if (data == null || data.state == null) {
+    if (data == null || data.state == null || isConcluded) {
       return null;
     }
     const { state } = data;
@@ -226,7 +257,7 @@ export default function Tournament() {
   }
 
   const renderShareButtons = () => {
-    if (data == null) {
+    if (data == null || isConcluded) {
       return null;
     }
     const { isHost, isPlayer, isTeamTournament, state, teamCode, registrationClosed } = data;
@@ -279,6 +310,19 @@ export default function Tournament() {
   const renderActionButtons = () => {
     if (data == null) {
       return null;
+    }
+    const seeTmButton = (
+      <Button
+        color="secondary"
+        key="SEE_TM"
+        style={{ marginBottom: 10 }}
+        onClick={() => setIsTournamentInfoOpen(true)}
+      >
+        {t("tournament_view_information")}
+      </Button>
+    );
+    if (isConcluded) {
+      return [seeTmButton];
     }
     const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink } = data;
     const buttons = [];
@@ -379,22 +423,13 @@ export default function Tournament() {
           </Button>
         );
       }
-      buttons.push(
-        <Button
-          color="secondary"
-          key="SEE_TM"
-          style={{ marginBottom: 10 }}
-          onClick={() => setIsTournamentInfoOpen(true)}
-        >
-          {t("tournament_view_information")}
-        </Button>
-      );
+      buttons.push(seeTmButton);
     }
     return buttons;
   }
 
   const renderRegistrationNumber = () => {
-    if (data == null) {
+    if (data == null || isConcluded) {
       return null;
     }
     const { isHost, registrationNumber, isPlayer, state, isPrivate } = data;
@@ -411,7 +446,7 @@ export default function Tournament() {
   }
 
   const renderTeamNumber = () => {
-    if (data == null) {
+    if (data == null || isConcluded) {
       return null;
     }
     const { isTeamTournament, state, teamCode } = data;
@@ -427,7 +462,7 @@ export default function Tournament() {
   }
 
   const renderLeaveButton = () => {
-    if (data == null) {
+    if (data == null || isConcluded) {
       return null;
     }
     const { isTeamTournament, isHost, isPlayer } = data;
@@ -469,12 +504,23 @@ export default function Tournament() {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           <PlayerInfoModal open={profileToView != null} data={profileToView} onClose={onClosePlayerModal} />
-          <TournamentInfoModal open={isTournamentInfoOpen} data={data} onClose={onCloseTournamentModal} />
-          <EditTournamentModal open={isTournamentEditOpen} data={data} onClose={onCloseTournamentEditModal} onSave={onEditTournament} />
+          <TournamentInfoModal
+            open={isTournamentInfoOpen}
+            data={data}
+            onClose={onCloseTournamentModal}
+          />
+          <EditTournamentModal
+            open={isTournamentEditOpen}
+            data={data}
+            onClose={onCloseTournamentEditModal}
+            onSave={onEditTournament}
+            onConclude={onConclude}
+          />
           <GridContainer justify="center">
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
               <p style={{ marginBottom: 20 }}>{data?.description}</p>
+              {renderConcludeStatus()}
               {renderRegistrationStatus()}
               {renderAlert()}
               {renderRegistrationNumber()}

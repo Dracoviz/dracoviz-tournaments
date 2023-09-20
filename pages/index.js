@@ -13,7 +13,7 @@ import i18n from "../i18n";
 import { useTranslation } from 'react-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Tab, Tabs } from "@mui/material";
 import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 
@@ -25,6 +25,7 @@ export default function Index() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
   const [data, setData] = useState(null);
+  const [currentTab, setCurrentTab] = useState(0);
 
   const getSharedData = useCallback((id) => {
     setAuthId(id);
@@ -79,6 +80,10 @@ export default function Index() {
     setCurrentModal(null);
   }
 
+  const handleChange = (_event, newTab) => {
+    setCurrentTab(newTab);
+  };
+
   const renderProfile = () => {
     const { description, name, avatar } = data;
     return (
@@ -91,12 +96,14 @@ export default function Index() {
     )
   }
 
-  const renderTournaments = () => {
+  const renderTournaments = useCallback(() => {
     const { sessions } = data;
+    const isConcludedTab = currentTab === 1;
+    const listItems = sessions?.filter((s) => (s.concluded ?? false) === isConcludedTab);
     return (
-      <TournamentList sessions={sessions} />
+      <TournamentList sessions={listItems} />
     )
-  }
+  }, [currentTab, data]);
 
   const renderEditProfileModal = () => {
     return (
@@ -142,6 +149,20 @@ export default function Index() {
                         </Button>
                       </div>
                     </div>
+                  </GridItem>
+                  <GridItem xs={12}>
+                    <Tabs value={currentTab} onChange={handleChange} aria-label="tournaments tabs">
+                      <Tab
+                        label="Active"
+                        id="active-tab"
+                        aria-controls="simple-tabpanel-0"
+                      />
+                      <Tab
+                        label="Concluded"
+                        id="concluded-tab"
+                        aria-controls="simple-tabpanel-1"
+                      />
+                    </Tabs>
                   </GridItem>
                   <GridItem xs={12}>
                     {renderTournaments()}
