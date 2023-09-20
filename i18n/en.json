@@ -74,6 +74,7 @@
 	"edit_profile": "Edit Profile",
 	"edit_team_of_players": "Edit Team of Players",
 	"edit_tournament_information_button": "Edit Tournament Information",
+	"faction_censor_disclaimer": "Note: Innapropriate kanguage will be censored during tournament play",
 	"faction_created": "Please share the team code '{{factionCode}}' so your teammates can join.",
 	"faction_joined": "You have joined the tournament under the team name {{factionName}}.",
 	"fast_move": "Fast Move",

@@ -124,6 +124,7 @@ export default function Team() {
             }}
             error={errors.description}
           />
+          <small>{t("faction_censor_disclaimer")}</small>
         </GridItem>
         <GridItem xs={12}>
           <div style={{ height: 30 }} />

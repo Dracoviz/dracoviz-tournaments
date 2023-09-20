@@ -211,6 +211,7 @@ export default function JoinTournament() {
                   }}
                   error={errors.teamName}
                 />
+                <small>{t("faction_censor_disclaimer")}</small>
               </GridItem>
             )
           }
