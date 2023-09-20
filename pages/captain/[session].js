@@ -10,11 +10,24 @@ import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
 import fetchApi from "../../api/fetchApi";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'footer',
+      ])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 const useStyles = makeStyles(styles);
 

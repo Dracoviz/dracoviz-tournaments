@@ -9,13 +9,25 @@ import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import fetchApi from "../api/fetchApi.js";
-import i18n from "../i18n";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
 import { Button, CircularProgress, Tab, Tabs } from "@mui/material";
 import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'footer',
+      ])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 const useStyles = makeStyles(styles);
 

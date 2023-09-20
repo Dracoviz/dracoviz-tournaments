@@ -10,8 +10,20 @@ import firebase from 'firebase/compat/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CircularProgress from "@mui/material/CircularProgress";
 import Router from "next/router";
-import i18n from "../i18n";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'footer',
+      ])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
 import fetchApi from "../api/fetchApi";

@@ -5,7 +5,7 @@ import React from "react";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { Button } from "@mui/material";
 
 function TournamentInfoModal(props) {

@@ -4,7 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import React from "react";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 function PlayerInfoModal(props) {
   const { t } = useTranslation();

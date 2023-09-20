@@ -7,8 +7,7 @@ import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import { Alert, AlertTitle, Button, CircularProgress } from "@mui/material";
-import i18n from "../../i18n";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import Router, { useRouter } from 'next/router';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
@@ -18,31 +17,21 @@ import TournamentInfoModal from "../../pages-sections/tournament-sections/Tourna
 import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
 import FactionList from "../../pages-sections/tournament-sections/FactionList";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'footer',
+      ])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 const useStyles = makeStyles(styles);
-
-const statusLabels = {
-  "POKEMON_VISIBLE": {
-    title: i18n.t('tournament_status_pokemon_visible_title'),
-    message: i18n.t('tournament_status_pokemon_visible_message')
-  },
-  "REGISTER_TEAM": {
-    title: i18n.t('tournament_status_rosters_visible_title'),
-    message: i18n.t('tournament_status_rosters_visible_message')
-  },
-  "MATCHUPS_VISIBLE": {
-    title: i18n.t('tournament_status_rosters_visible_title'),
-    message: i18n.t('tournament_status_rosters_visible_message')
-  },
-  "REGISTER_ROSTER": {
-    title: i18n.t('tournament_status_round_not_started_title'),
-    message: i18n.t('tournament_status_round_not_started_message')
-  },
-  "NOT_STARTED": {
-    title: i18n.t('tournament_status_round_not_started_title'),
-    message: i18n.t('tournament_status_round_not_started_message')
-  },
-}
 
 const statusColors = {
   "POKEMON_VISIBLE": "success",
@@ -64,6 +53,29 @@ export default function Tournament() {
   const [ isTournamentEditOpen, setIsTournamentEditOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
   const isConcluded = data?.concluded;
+
+  const statusLabels = {
+    "POKEMON_VISIBLE": {
+      title: t('tournament_status_pokemon_visible_title'),
+      message: t('tournament_status_pokemon_visible_message')
+    },
+    "REGISTER_TEAM": {
+      title: t('tournament_status_rosters_visible_title'),
+      message: t('tournament_status_rosters_visible_message')
+    },
+    "MATCHUPS_VISIBLE": {
+      title: t('tournament_status_rosters_visible_title'),
+      message: t('tournament_status_rosters_visible_message')
+    },
+    "REGISTER_ROSTER": {
+      title: t('tournament_status_round_not_started_title'),
+      message: t('tournament_status_round_not_started_message')
+    },
+    "NOT_STARTED": {
+      title: t('tournament_status_round_not_started_title'),
+      message: t('tournament_status_round_not_started_message')
+    },
+  }
 
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
