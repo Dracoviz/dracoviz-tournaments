@@ -44,6 +44,7 @@
     "next": "12.2.5",
     "next-i18next": "^14.0.3",
     "nouislider": "15.1.0",
+    "path": "^0.12.7",
     "prop-types": "15.8.1",
     "react": ">=17.0.0",
     "react-cookies": "^0.1.1",
