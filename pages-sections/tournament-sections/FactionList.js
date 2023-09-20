@@ -63,8 +63,13 @@ export default function FactionList(props) {
   }, []);
 
   const onSearch = (e) => {
-    const searchString = e.target.value;
-    setSearchedFactions(factions.filter((val) => val.name.toLowerCase().includes(searchString.toLowerCase())));
+    const searchString = e.target.value.toLowerCase();
+    setSearchedFactions(factions.filter((faction) => {
+      const factionName = faction.name.toLowerCase();
+      const includedInFaction = factionName.includes(searchString);
+      const includedInPlayers = faction.players.filter((p) => p.name.toLowerCase().includes(searchString)).length > 0;
+      return includedInPlayers || includedInFaction;
+    }));
   }
 
   const renderPokemon = (pokemon) => {
