@@ -5,8 +5,7 @@ import Card from "../../components/Card/Card";
 import Badge from "../../components/Badge/Badge";
 import styles from "/styles/jss/nextjs-material-kit/sections/tournamentListStyle.js";
 import { makeStyles } from "@mui/styles";
-import i18n from "../../i18n";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 const useStyles = makeStyles(styles);
 
@@ -14,14 +13,6 @@ const badgeColor = {
   "Player": "info",
   "Host": "primary",
   "Captain": "success",
-}
-
-const statusName = {
-  "POKEMON_VISIBLE": i18n.t('tournament_status_pokemon_visible'),
-  "MATCHUPS_VISIBLE": i18n.t('tournament_status_matchups_visible'),
-  "REGISTER_TEAM": i18n.t('tournament_status_register_team'),
-  "REGISTER_ROSTER": i18n.t('tournament_status_register_roster'),
-  "NOT_STARTED": i18n.t('tournament_status_not_started'),
 }
 
 const statusColor = {
@@ -36,6 +27,14 @@ function TournamentList(props) {
   const { sessions } = props;
   const classes = useStyles();
   const { t } = useTranslation();
+
+  const statusName = {
+    "POKEMON_VISIBLE": t('tournament_status_pokemon_visible'),
+    "MATCHUPS_VISIBLE": t('tournament_status_matchups_visible'),
+    "REGISTER_TEAM": t('tournament_status_register_team'),
+    "REGISTER_ROSTER": t('tournament_status_register_roster'),
+    "NOT_STARTED": t('tournament_status_not_started'),
+  }
 
   if (sessions == null || sessions.length <= 0) {
     return (

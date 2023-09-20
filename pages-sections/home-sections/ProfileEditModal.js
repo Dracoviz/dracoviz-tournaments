@@ -8,8 +8,7 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
-import i18n from "../../i18n";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function ProfileEditModal(props) {
