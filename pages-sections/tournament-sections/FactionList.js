@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Button } from "@mui/material";
 import Card from "../../components/Card/Card";
@@ -6,6 +6,7 @@ import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.j
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "react-i18next";
 import formatMove from "../../api/formatMove";
+import Filter from "bad-words";
 
 const useStyles = makeStyles(styles);
 
@@ -21,6 +22,9 @@ const byTournamentPosition = (a, b) => {
   }
   return a.tournamentPosition - b.tournamentPosition;
 }
+
+const filter = new Filter();
+filter.addWords("racist"); //Darn Pocket
 
 export default function FactionList(props) {
   const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost } = props;
@@ -50,6 +54,13 @@ export default function FactionList(props) {
     })
     setSearchedFactions(factionsWithPlayers);
   }, [factions, players]);
+
+  const cleanText = useCallback((text) => {
+    if (filter?.clean == null || text == null || text === "") {
+      return text;
+    }
+    return filter.clean(text);
+  }, []);
 
   const onSearch = (e) => {
     const searchString = e.target.value;
@@ -99,8 +110,8 @@ export default function FactionList(props) {
         noSearchResults ? <p>{t('no_factions_in_search')}</p>
         : searchedFactions?.map((faction) => (
           <Card key={faction.key}>
-            <h3 style={{ marginLeft: 30, marginRight: 30 }}>{faction.name}</h3>
-            <p style={{ marginLeft: 30, marginRight: 30 }}>{faction.description}</p>
+            <h3 style={{ marginLeft: 30, marginRight: 30 }}>{cleanText(faction.name)}</h3>
+            <p style={{ marginLeft: 30, marginRight: 30 }}>{cleanText(faction.description)}</p>
             {
               faction?.players?.sort(byTournamentPosition).map((player, index) => (
                 <div className={classes.root} key={index}>
