@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function EditTournamentModal(props) {
   const { t } = useTranslation();
-  const { open, data, Transition, onClose, onSave } = props;
+  const { open, data, Transition, onClose, onSave, onConclude } = props;
   const { register, handleSubmit, watch, formState: { errors, isValid, isDirty } } = useForm({
     defaultValues: {
       name: data?.name,
@@ -31,6 +31,11 @@ function EditTournamentModal(props) {
       registrationClosed: data.registrationClosed === "closed"
     });
     setIsLoading(false);
+  }
+  const onClick = () => {
+    if (confirm(t("confirm_conclude"))) {
+      onConclude();
+    }
   }
   const isRegistrationClosed = watch("registrationClosed");
   return(
@@ -122,9 +127,17 @@ function EditTournamentModal(props) {
           )}
           <DialogActions>
             <Button
+              type="button"
+              color="error"
+              onClick={onClick}
+            >
+              {t("conclude_tournament")}
+            </Button>
+            <Button
               type="submit"
               color="primary"
               disabled={!isDirty || !isValid || isLoading}
+              style={{ float: "left" }}
             >
               {t("save")}
             </Button>
