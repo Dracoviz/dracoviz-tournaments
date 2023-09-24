@@ -28,7 +28,14 @@ export default function HeaderLinks(props) {
   const onLangChange = (e) => {
     const locale = e.target.value;
     cookie.save('NEXT_LOCALE', locale);
-    router.replace(router.pathname, router.pathname, { locale });
+    router.push({
+        pathname: router.pathname,
+        query: router.query
+      }, {
+        pathname: router.pathname,
+        query: router.query
+      }, { locale }
+    );
   }
   const onLoginClick = () => {
     if (isSignedIn) {
