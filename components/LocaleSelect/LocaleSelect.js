@@ -1,13 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Select, MenuItem } from "@mui/material";
-import cookie from "react-cookies";
+import { setCookie } from 'cookies-next';
 
 export default function LocaleSelect() {
     const { locale, push, pathname, query } = useRouter();
     const onLangChange = (e) => {
       const newLocale = e.target.value;
-      cookie.save('NEXT_LOCALE', newLocale);
+      setCookie('NEXT_LOCALE', newLocale);
       push({
           pathname,
           query
