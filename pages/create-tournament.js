@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
@@ -9,12 +9,25 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'footer',
+      ])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 const useStyles = makeStyles(styles);
 
@@ -29,6 +42,7 @@ export default function CreateTournament() {
       maxMatchTeamSize: 1,
     }
   });
+  const router = useRouter();
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
   const isTeamTournament = watch("isTeamTournament");
@@ -75,6 +89,10 @@ export default function CreateTournament() {
         alert(t(err));
       });
     setIsLoading(false);
+  }
+
+  const goHome = () => {
+    router.push("/");
   }
 
   const renderMetas = useCallback(() => {
@@ -306,7 +324,13 @@ export default function CreateTournament() {
                 >
                   {t("create_tournament")}
                 </Button>
-                <Button href="/"  color="error" fullWidth>Cancel</Button>
+                <Button
+                  onClick={goHome}
+                  color="error"
+                  fullWidth
+                >
+                  Cancel
+                </Button>
               </GridItem>
             </GridContainer>
           </form>

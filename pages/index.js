@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
@@ -9,13 +9,26 @@ import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import fetchApi from "../api/fetchApi.js";
-import i18n from "../i18n";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
 import { Button, CircularProgress, Tab, Tabs } from "@mui/material";
 import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
+
+export async function getServerSideProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, [
+        'common',
+        'footer',
+      ])),
+      // Will be passed to the page component as props
+    },
+  }
+}
 
 const useStyles = makeStyles(styles);
 
@@ -26,6 +39,11 @@ export default function Index() {
   const [currentModal, setCurrentModal] = useState(null);
   const [data, setData] = useState(null);
   const [currentTab, setCurrentTab] = useState(0);
+  const router = useRouter();
+
+  const goToRoute = (route) => {
+    router.push(route);
+  }
 
   const getSharedData = useCallback((id) => {
     setAuthId(id);
@@ -138,14 +156,17 @@ export default function Index() {
                     {renderProfile()}
                   </GridItem>
                   <GridItem xs={12}>
+                    <LocaleSelect />
+                  </GridItem>
+                  <GridItem xs={12}>
                     <div className={classes.tournamentHead}>
                       <h3>{t("your_tournaments")}</h3>
                       <div>
-                        <Button color="primary" href="/join-tournament">
-                        {t("join_a_tournament")}
+                        <Button color="primary" onClick={() => goToRoute("/join-tournament")}>
+                          {t("join_a_tournament")}
                         </Button>
-                        <Button color="primary" style={{ marginLeft: 20 }} href="/create-tournament">
-                        {t("create_a_tournament")}
+                        <Button color="primary" style={{ marginLeft: 20 }} onClick={() => goToRoute("/create-tournament")}>
+                          {t("create_a_tournament")}
                         </Button>
                       </div>
                     </div>
@@ -153,12 +174,12 @@ export default function Index() {
                   <GridItem xs={12}>
                     <Tabs value={currentTab} onChange={handleChange} aria-label="tournaments tabs">
                       <Tab
-                        label="Active"
+                        label={t("tab_active")}
                         id="active-tab"
                         aria-controls="simple-tabpanel-0"
                       />
                       <Tab
-                        label="Concluded"
+                        label={t("tab_concluded")}
                         id="concluded-tab"
                         aria-controls="simple-tabpanel-1"
                       />

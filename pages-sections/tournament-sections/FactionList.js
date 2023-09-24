@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import formatMove from "../../api/formatMove";
 import Filter from "bad-words";
 

@@ -16,12 +16,14 @@ import Drawer from "@mui/material/Drawer";
 import Menu from "@mui/icons-material/Menu";
 // core components
 import styles from "/styles/jss/nextjs-material-kit/components/headerStyle.js";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles(styles);
 const logoUrl = "https://www.dracoviz.com/static/dracoviz_logo-9f243a043b673a48d015a7e5927ac1d9.svg";
 
 export default function Header(props) {
   const classes = useStyles();
+  const { locale } = useRouter();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
@@ -63,7 +65,7 @@ export default function Header(props) {
     [classes.fixed]: fixed
   });
   const brandComponent = (
-    <Link href="/" as="/">
+    <Link href="/" as="/" locale={locale}>
       <Button className={classes.title}>
         <img src={logoUrl} alt="Dracoviz" width={133} height={27.77} />
       </Button>

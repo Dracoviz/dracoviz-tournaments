@@ -1,6 +1,5 @@
 /*eslint-disable*/
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 
 // @mui/material components
 import { makeStyles } from "@mui/styles";
@@ -10,12 +9,15 @@ import Tooltip from "@mui/material/Tooltip";
 import Button from "/components/CustomButtons/Button.js";
 import Router from "next/router";
 import firebase from "firebase/compat/app";
+import { useTranslation } from "next-i18next";
 
 import styles from "/styles/jss/nextjs-material-kit/components/headerLinksStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+  const { t } = useTranslation();
+
   const classes = useStyles();
   const { isSignedIn } = props;
   const onLoginClick = () => {
@@ -32,7 +34,7 @@ export default function HeaderLinks(props) {
       <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-twitter"
-          title="Follow us on twitter"
+          title={t("header_twitter")}
           placement={"top"}
           classes={{ tooltip: classes.tooltip }}
         >
@@ -49,7 +51,7 @@ export default function HeaderLinks(props) {
       <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-discord"
-          title="Join our discord"
+          title={t("header_discord")}
           placement={"top"}
           classes={{ tooltip: classes.tooltip }}
         >
@@ -65,25 +67,8 @@ export default function HeaderLinks(props) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Tooltip
-          id="instagram-tooltip"
-          title="Follow us on instagram"
-          placement={"top"}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <Button
-            color="transparent"
-            href="https://www.instagram.com/dracoviz.co?ref=creativetim"
-            target="_blank"
-            className={classes.navLink}
-          >
-            <i className={classes.socialIcons + " fab fa-instagram"} />
-          </Button>
-        </Tooltip>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <Tooltip
             id="instagram-logout"
-            title={isSignedIn ? "Log out" : "Log in"}
+            title={isSignedIn ? t("logout") : t("login")}
             placement={"top"}
             classes={{ tooltip: classes.tooltip }}
           >
@@ -92,7 +77,7 @@ export default function HeaderLinks(props) {
               className={classes.registerNavLink}
               onClick={onLoginClick}
             >
-              {isSignedIn ? "Log out" : "Log in"}
+              {isSignedIn ? t("logout") : t("login")}
             </Button>
           </Tooltip>
       </ListItem>
