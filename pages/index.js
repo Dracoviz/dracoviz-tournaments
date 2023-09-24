@@ -159,13 +159,13 @@ export default function Index() {
                     <LocaleSelect />
                   </GridItem>
                   <GridItem xs={12}>
-                    <div className={classes.tournamentHead}>
+                    <div className="tournament-head">
                       <h3>{t("your_tournaments")}</h3>
                       <div>
-                        <Button color="primary" onClick={() => goToRoute("/join-tournament")}>
+                        <Button color="primary" variant="contained" style={{ marginRight: 20, marginBottom: 10 }} onClick={() => goToRoute("/join-tournament")}>
                           {t("join_a_tournament")}
                         </Button>
-                        <Button color="primary" style={{ marginLeft: 20 }} onClick={() => goToRoute("/create-tournament")}>
+                        <Button color="primary" variant="outlined" style={{ marginBottom: 10 }} onClick={() => goToRoute("/create-tournament")}>
                           {t("create_a_tournament")}
                         </Button>
                       </div>

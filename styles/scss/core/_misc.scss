@@ -130,3 +130,15 @@ img {
 form {
   margin-bottom: 1.125rem;
 }
+.tournament-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 20px 0 10px 0;
+}
+
+@media (max-width: 720px) {
+  .tournament-head {
+    flex-direction: column;
+  }
+}
