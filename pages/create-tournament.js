@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
@@ -42,6 +42,7 @@ export default function CreateTournament() {
       maxMatchTeamSize: 1,
     }
   });
+  const router = useRouter();
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
   const isTeamTournament = watch("isTeamTournament");
@@ -88,6 +89,10 @@ export default function CreateTournament() {
         alert(t(err));
       });
     setIsLoading(false);
+  }
+
+  const goHome = () => {
+    router.push("/");
   }
 
   const renderMetas = useCallback(() => {
@@ -319,7 +324,13 @@ export default function CreateTournament() {
                 >
                   {t("create_tournament")}
                 </Button>
-                <Button href="/"  color="error" fullWidth>Cancel</Button>
+                <Button
+                  onClick={goHome}
+                  color="error"
+                  fullWidth
+                >
+                  Cancel
+                </Button>
               </GridItem>
             </GridContainer>
           </form>

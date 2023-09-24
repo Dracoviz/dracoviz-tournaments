@@ -77,6 +77,10 @@ export default function Tournament() {
     },
   }
 
+  const goToRoute = (route) => {
+    router.push(route);
+  }
+
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
     setIsLoading(true);
@@ -281,7 +285,7 @@ export default function Tournament() {
       return (
         <div className={classes.actions}>
           <Button
-            href={generateJoinLink()}
+            onClick={() => goToRoute(generateJoinLink())}
             className={classes.actionButtonMiddle}
             variant="contained"
             color="primary"
@@ -341,7 +345,7 @@ export default function Tournament() {
     if (bracketLink != null && bracketLink !== "") {
       buttons.push(
         <Button
-          href={bracketLink}
+          onClick={() => goToRoute(bracketLink)}
           target="_blank"
           variant="outlined"
           className={classes.actionButtonMiddle}
@@ -416,7 +420,7 @@ export default function Tournament() {
             color="primary"
             className={classes.actionButtonMiddle}
             key="EDIT_ROSTER"
-            href={`/captain/${id}`}
+            onClick={() => goToRoute(`/captain/${id}`)}
           >
             {t("team_manage_roster")}
           </Button>
@@ -429,7 +433,7 @@ export default function Tournament() {
             color="primary"
             className={classes.actionButtonMiddle}
             key="EDIT_POKEMON"
-            href={`/team/${id}`}
+            onClick={() => goToRoute(`/team/${id}`)}
           >
             {pokemonEditTitle}
           </Button>

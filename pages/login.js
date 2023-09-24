@@ -27,6 +27,7 @@ export async function getServerSideProps({ locale }) {
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
 import fetchApi from "../api/fetchApi";
+import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
 
 const useStyles = makeStyles(styles);
 
@@ -99,6 +100,9 @@ export default function LoginPage(props) {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           <GridContainer>
+            <GridItem xs={12}>
+              <LocaleSelect />
+            </GridItem>
             <GridItem xs={0} md={2} lg={3}/>
             <GridItem xs={12} md={8} lg={6}>
               <Card className={classes[cardAnimaton]}>

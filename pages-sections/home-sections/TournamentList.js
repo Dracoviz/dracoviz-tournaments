@@ -6,6 +6,7 @@ import Badge from "../../components/Badge/Badge";
 import styles from "/styles/jss/nextjs-material-kit/sections/tournamentListStyle.js";
 import { makeStyles } from "@mui/styles";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles(styles);
 
@@ -27,6 +28,7 @@ function TournamentList(props) {
   const { sessions } = props;
   const classes = useStyles();
   const { t } = useTranslation();
+  const { push } = useRouter();
 
   const statusName = {
     "POKEMON_VISIBLE": t('tournament_status_pokemon_visible'),
@@ -59,7 +61,7 @@ function TournamentList(props) {
                   <p>{t("tournament_round")} {currentRoundNumber}</p>
                 </p>
                 <Button
-                  href={`/tournament/${_id}`}
+                  onClick={() => push(`/tournament/${_id}`)}
                   color="primary"
                   style={{ marginLeft: -7 }}
                 >
