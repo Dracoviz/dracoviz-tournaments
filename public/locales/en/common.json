@@ -47,7 +47,7 @@
 	"api_unauthorized": "Unauthorized",
 	"api_wrong_faction_code": "Wrong team code",
 	"cancel": "Cancel",
-	"captain": "(Captain)",
+	"captain_label": "(Captain)",
 	"charged_move": "Charged Move",
 	"conclude_tournament": "Conclude Tournament",
 	"concluded_tournament": "Tournament is concluded",
@@ -175,5 +175,8 @@
 	"your_tournaments": "Your Tournaments",
 	"tournament_share_button": "Share tournament page",
 	"tournament_team_share_button": "Invite players to your team",
-	"copy_to_clipboard": "Copied to clipboard '{{url}}', please share this link"
+	"copy_to_clipboard": "Copied to clipboard '{{url}}', please share this link",
+	"player": "Player",
+	"host": "Host",
+	"captain": "Captain"
 }

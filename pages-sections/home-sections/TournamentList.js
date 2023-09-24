@@ -55,7 +55,7 @@ function TournamentList(props) {
               <div className={classes.content}>
                 <p>
                   <strong className={classes.title}>{name}</strong>
-                  <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{role}</Badge>
+                  <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{t(role.toLowerCase())}</Badge>
                   <br />
                   {t("tournament_status")} <span className={classes[statusColor[status]]}>{statusName[status]}</span>
                   <p>{t("tournament_round")} {currentRoundNumber}</p>

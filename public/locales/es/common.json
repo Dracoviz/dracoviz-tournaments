@@ -47,7 +47,7 @@
 	"api_unauthorized": "No autorizado",
 	"api_wrong_faction_code": "Código de equipo incorrecto",
 	"cancel": "Cancelar",
-	"captain": "(Capitán)",
+	"captain_label": "(Capitán)",
 	"charged_move": "Movimiento Cargado",
 	"conclude_tournament": "Concluir Torneo",
 	"concluded_tournament": "El torneo ha concluido",
@@ -175,5 +175,8 @@
 	"your_tournaments": "Tus Torneos",
 	"tournament_share_button": "Compartir página del torneo",
 	"tournament_team_share_button": "Invitar jugadores a tu equipo",
-	"copy_to_clipboard": "Copiado al portapapeles '{{url}}', por favor comparte este enlace"
+	"copy_to_clipboard": "Copiado al portapapeles '{{url}}', por favor comparte este enlace",
+	"player": "Jugador",
+	"host": "Anfitrión",
+	"captain": "Capitán"
 }

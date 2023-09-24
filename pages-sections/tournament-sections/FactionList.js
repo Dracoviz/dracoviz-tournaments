@@ -128,7 +128,7 @@ export default function FactionList(props) {
                           style={{width: 50, height: 50, marginRight: 10, objectFit: 'contain'}}
                         />
                       )}
-                      <h4>{player.name} {player.isCaptain ? t("captain") : ""}</h4>
+                      <h4>{player.name} {player.isCaptain ? t("captain_label") : ""}</h4>
                     </div>
                     <div>
                       <Button onClick={() => onPlayer(player.name)}>
