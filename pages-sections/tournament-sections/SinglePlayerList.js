@@ -21,8 +21,15 @@ export default function SinglePlayerList(props) {
   }, [players]);
 
   const onSearch = (e) => {
-    const searchString = e.target.value;
-    setSearchedPlayers(players.filter((val) => val.name.toLowerCase().includes(searchString.toLowerCase())));
+    const targetValue = e.target.value;
+    const searchStrings = targetValue.split("&");
+    const matchingPlayers = players.filter(player => {
+      const matches = searchStrings.some(searchStr => {
+        return player.name.toLowerCase().includes(searchStr.toLowerCase())
+      });
+      return matches;
+    });
+    setSearchedPlayers(matchingPlayers);
   }
 
   const renderPokemon = (pokemon) => {
