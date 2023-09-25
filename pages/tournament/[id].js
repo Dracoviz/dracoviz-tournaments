@@ -345,7 +345,7 @@ export default function Tournament() {
     if (bracketLink != null && bracketLink !== "") {
       buttons.push(
         <Button
-          onClick={() => goToRoute(bracketLink)}
+          href={bracketLink}
           target="_blank"
           variant="outlined"
           className={classes.actionButtonMiddle}
