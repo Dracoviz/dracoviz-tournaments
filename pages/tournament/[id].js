@@ -19,6 +19,7 @@ import EditTournamentModal from "../../pages-sections/tournament-sections/EditTo
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
 import FactionList from "../../pages-sections/tournament-sections/FactionList";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Brackets from "../../pages-sections/tournament-sections/Brackets";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -553,6 +554,7 @@ export default function Tournament() {
                 {renderActionButtons()}
               </div>
               {renderShareButtons()}
+              <Brackets />
               {
                 data?.isTeamTournament
                   ? (<FactionList

@@ -181,5 +181,7 @@
 	"captain": "Captain",
 	"hide_teams_from_host": "Hide teams from host before registration completes?",
 	"host_cannot_see_teams": "The host CANNOT see teams before registration completes",
-	"host_can_see_teams": "The host CAN see teams before registration completes"
+	"host_can_see_teams": "The host CAN see teams before registration completes",
+	"round_label": "Round {{round}}",
+	"disputed_note": "*Players reported different scores"
 }
