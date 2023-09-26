@@ -127,7 +127,7 @@
 	"team_tournament_captain": "This is a team tournament. Would you like to captain a new team?",
 	"tournament_are_cps_required": "Are Pokémon CPs required to be registered?",
 	"tournament_bracket_link": "Bracket Link (Challonge, Matcherino, etc.)",
-	"tournament_description": "Tournament Description*",
+	"tournament_description": "Tournament Description (Max 5,000 characters)*",
 	"tournament_details": "Tournament Details",
 	"tournament_edit_pokemon_button": "Edit your Pokémon",
 	"tournament_game_settings": "Game Settings",
