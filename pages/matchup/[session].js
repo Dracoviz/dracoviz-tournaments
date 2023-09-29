@@ -43,6 +43,7 @@ const exampleMatchup = {
   gameAmount: 5,
   playAllMatches: false,
   score: [0, 2],
+  hasOpponent: true,
   opponent: {
     name: "Opponent Name",
     discord: "2",
@@ -336,26 +337,34 @@ export default function Matchup() {
               ) : (
                 <>
                   <GridItem xs={12}>
-                    <div className={classes.profileRow}>
-                      <h3>{exampleMatchup.opponent.name}</h3>
-                      <Button
-                        onClick={openProfileModal}
-                        type="button"
-                      >
-                        {t("view_profile")}
-                      </Button>
-                    </div>
-                    <Card className={classes.pokemonCard}>
-                      <PokemonView pokemon={exampleMatchup.opponent.pokemon} />
-                    </Card>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      onClick={openReportModal}
-                    >
-                      {hasScore ? t("edit_score") : t("report_score")}
-                    </Button>
+                    {
+                      exampleMatchup.hasOpponent ? (
+                        <>
+                          <div className={classes.profileRow}>
+                            <h3>{exampleMatchup.opponent.name}</h3>
+                            <Button
+                              onClick={openProfileModal}
+                              type="button"
+                            >
+                              {t("view_profile")}
+                            </Button>
+                          </div>
+                          <Card className={classes.pokemonCard}>
+                            <PokemonView pokemon={exampleMatchup.opponent.pokemon} />
+                          </Card>
+                          <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            onClick={openReportModal}
+                          >
+                            {hasScore ? t("edit_score") : t("report_score")}
+                          </Button>
+                        </>
+                      ) : (
+                        <p>{t("no_opponent_notice")}</p>
+                      )
+                    }
                     <h3>{t("tournament_see_pokemon_button")}</h3>
                     <Card className={classes.pokemonCard}>
                       <PokemonView pokemon={exampleMatchup.player.pokemon} />
