@@ -46,6 +46,7 @@ export default function CreateTournament() {
   const hasMultipleMetas = watch("hasMultipleMetas");
   const maxMatchTeamSize = watch("maxMatchTeamSize");
   const isTeamTournament = watch("isTeamTournament");
+  const bracketType = watch("bracketType");
   const theMetas = watch("metas");
 
   // Listen to the Firebase Auth state and set the local state.
@@ -192,18 +193,57 @@ export default function CreateTournament() {
                   />
                 </GridItem>
                 <GridItem xs={12} md={7}>
-                  <CustomInput
-                    labelText={t("tournament_bracket_link")}
-                    id="bracketLink"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      ...register("bracketLink"),
-                    }}
-                    error={errors.bracketLink}
-                  />
+                  <InputLabel>{t("bracket_type")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`bracketType`, { required: true})}
+                  >
+                    <MenuItem value="none">{t("bracket_type_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("bracket_type_swiss")}</MenuItem>
+                    <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem>
+                  </Select>
+                  <small>
+                    Note: Brackets currently only work for single player tournaments only
+                  </small>
                 </GridItem>
+                {
+                  (bracketType === "hidden" || bracketType === "roundrobin") && (
+                    <>
+                      <GridItem xs={12} md={7} style={{ marginTop: 10 }}>
+                        <InputLabel>{t("game_amount_label")}</InputLabel>
+                        <Select
+                          fullWidth
+                          {...register(`gameAmount`, { required: true})}
+                        >
+                          <MenuItem value={1}>1</MenuItem>
+                          <MenuItem value={3}>3</MenuItem>
+                          <MenuItem value={5}>5</MenuItem>
+                        </Select>
+                      </GridItem>
+                      <GridItem xs={12} md={7}>
+                        {t("play_all_matches_label")}
+                          <Checkbox {...register("playAllMatches")}/>
+                      </GridItem>
+                    </>
+                  )
+                }
+                {
+                  bracketType === "none" && (
+                    <GridItem xs={12} md={7}>
+                      <CustomInput
+                        labelText={t("tournament_bracket_link")}
+                        id="bracketLink"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          ...register("bracketLink"),
+                        }}
+                        error={errors.bracketLink}
+                      />
+                    </GridItem>
+                  )
+                }
                 <GridItem xs={12} md={7}>
                   {t("is_tournament_private")}
                     <Checkbox {...register("isPrivate")}/>

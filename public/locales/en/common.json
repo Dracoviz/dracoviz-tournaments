@@ -183,5 +183,18 @@
 	"host_cannot_see_teams": "The host CANNOT see teams before registration completes",
 	"host_can_see_teams": "The host CAN see teams before registration completes",
 	"round_label": "Round {{round}}",
-	"disputed_note": "*Players reported different scores"
+	"disputed_note": "*Players reported different scores",
+	"touched_note": "*Host has edited this outcome",
+	"bracket_type": "Bracket Type",
+	"bracket_type_none": "No bracket (use bracket link)",
+	"bracket_type_swiss": "Swiss Bracket",
+	"bracket_type_round_robin": "Round Robin",
+	"view_matchup": "View your matchup",
+	"your_matchup": "Your matchup",
+	"report_score": "Report score",
+	"edit_score": "Edit your previous score report",
+	"game_amount_label": "Number of games per round",
+	"play_all_matches_label": "Require players to play all matches",
+	"games_won_label": "Number of games you won",
+	"games_lost_label": "Number of games your opponent won"
 }

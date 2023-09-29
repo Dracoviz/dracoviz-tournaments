@@ -1,10 +1,4 @@
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
 import React from "react";
-import GridContainer from "/components/Grid/GridContainer.js";
-import GridItem from "/components/Grid/GridItem.js";
-import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
@@ -133,9 +127,9 @@ const exampleRound4 = {
       ]
     },
     { // Dispute
-      seed: 5,
+      seed: 4,
       score: [[0, 0]],
-      disputed: true,
+      disputed: [true],
       participants: [
         [
           {
@@ -148,8 +142,9 @@ const exampleRound4 = {
       ]
     },
     { // Dropped
-      seed: 4,
+      seed: 5,
       score: [[0, 2]],
+      touched: [true],
       participants: [
         [
           {
@@ -186,17 +181,12 @@ const bracketStyles = {
 
 function Match(props) {
   const { match, isTeamTournament } = props;
-  const { seed, score, disputed, participants } = match;
+  const { seed, score, disputed, participants, touched } = match;
   const scores = score[0];
   const { t } = useTranslation();
   const isReported = scores.reduce((a, b) => a+b, 0) > 0;
   const higherScore = Math.max(scores[0], scores[1]);
   const classes = useStyles();
-
-  if (isTeamTournament) {
-    // TODO: Team tourney
-    return null;
-  }
 
   const renderParticipants = () => {
     return participants[0].map((participant, i) => {
@@ -218,6 +208,11 @@ function Match(props) {
     })
   }
 
+  if (isTeamTournament) {
+    // TODO: Team tourney
+    return null;
+  }
+
   return (
     <div className={classes.matchRoot}>
       <div className={classes.matchItem}>
@@ -229,7 +224,8 @@ function Match(props) {
         </div>
       </div>
       <small>
-        {disputed && t("disputed_note")}
+        {disputed?.[0] && t("disputed_note")}
+        {touched?.[0] && t("touched_note")}
       </small>
     </div>
   )

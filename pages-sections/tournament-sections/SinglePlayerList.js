@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
 import { Button } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
-import formatMove from "../../api/formatMove";
+import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
 
 const useStyles = makeStyles(styles);
@@ -31,27 +30,6 @@ export default function SinglePlayerList(props) {
       return matches;
     });
     setSearchedPlayers(matchingPlayers);
-  }
-
-  const renderPokemon = (pokemon) => {
-    if (pokemon == null || pokemon.length <= 0) {
-      return null;
-    }
-    return pokemon.map((pokemonObj) => (
-      <div className={classes.pokemonRoot}>
-        <img
-          src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonObj.sid}.png/public`}
-          alt={pokemonObj.speciesName}
-          style={{width: 100, height: 100, objectFit: 'contain'}}
-        />
-        <h5>{pokemonObj.speciesName}</h5>
-        <p>
-          {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
-          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
-          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
-        </p>
-      </div>
-    ))
   }
 
   const noSearchResults = searchedPlayers == null || searchedPlayers.length <= 0;
@@ -94,9 +72,7 @@ export default function SinglePlayerList(props) {
                   }
                 </div>
               </div>
-              <div className={classes.pokemonRow}>
-                {renderPokemon(player.pokemon)}
-              </div>
+              <PokemonView pokemon={player.pokemon} />
             </div>
           </Card>
         ))

@@ -481,6 +481,24 @@ export default function Tournament() {
     );
   }
 
+  const renderBracketActions = () => {
+    const { isPlayer } = data;
+    if (!isPlayer) {
+      return null;
+    }
+    return (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => goToRoute(`/matchup/${id}`)}
+        fullWidth
+        style={{ marginTop: 20, marginBottom: 20 }}
+      >
+        {t("view_matchup")}
+      </Button>
+    )
+  }
+
   const renderLeaveButton = () => {
     if (data == null || isConcluded) {
       return null;
@@ -513,6 +531,8 @@ export default function Tournament() {
       </div>
     </div>)
   }
+
+  console.log(data)
 
   return (
     <div>
@@ -554,6 +574,7 @@ export default function Tournament() {
                 {renderActionButtons()}
               </div>
               {renderShareButtons()}
+              {renderBracketActions()}
               <Brackets />
               {
                 data?.isTeamTournament

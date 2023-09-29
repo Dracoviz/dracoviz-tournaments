@@ -5,8 +5,8 @@ import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
-import formatMove from "../../api/formatMove";
 import Filter from "bad-words";
+import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
 
 const useStyles = makeStyles(styles);
@@ -73,27 +73,6 @@ export default function FactionList(props) {
     }));
   }
 
-  const renderPokemon = (pokemon) => {
-    if (pokemon == null || pokemon.length <= 0) {
-      return null;
-    }
-    return pokemon.map((pokemonObj) => (
-      <div className={classes.pokemonRoot} key={pokemonObj.speciesId}>
-        <img
-          src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonObj.sid}.png/public`}
-          alt={pokemonObj.speciesName}
-          style={{width: 100, height: 100, objectFit: 'contain'}}
-        />
-        <h5>{pokemonObj.speciesName}</h5>
-        <p>
-          {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
-          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
-          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
-        </p>
-      </div>
-    ))
-  }
-
   const noSearchResults = searchedFactions == null || searchedFactions.length <= 0;
 
   if (factions == null || factions.length <= 0) {
@@ -146,9 +125,7 @@ export default function FactionList(props) {
                       }
                     </div>
                   </div>
-                  <div className={classes.pokemonRow}>
-                    {renderPokemon(player.pokemon)}
-                  </div>
+                  <PokemonView pokemon={player.pokemon} />
                 </div>
               ))
             }
