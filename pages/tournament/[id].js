@@ -9,6 +9,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import { Alert, AlertTitle, Button, CircularProgress } from "@mui/material";
 import { useTranslation } from 'next-i18next';
 import Router, { useRouter } from 'next/router';
+import Linkify from 'react-linkify';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
@@ -535,7 +536,9 @@ export default function Tournament() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
-              <p>{data?.description}</p>
+              <Linkify>
+                <p style={{ whiteSpace: "pre-wrap" }}>{data?.description}</p>
+              </Linkify>
               <p style={{ marginBottom: 20 }}>
                 <b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b>
               </p>

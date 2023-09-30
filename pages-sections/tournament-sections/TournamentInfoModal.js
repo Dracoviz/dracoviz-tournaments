@@ -7,6 +7,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import { Button } from "@mui/material";
+import Linkify from 'react-linkify';
 
 function TournamentInfoModal(props) {
   const { t } = useTranslation();
@@ -29,7 +30,9 @@ function TournamentInfoModal(props) {
         >
             <GridContainer>
                 <GridItem xs={12}>
-                    <p>{data.description}</p>
+                    <Linkify>
+                        <p style={{ whiteSpace: "pre-wrap" }}>{data.description}</p>
+                    </Linkify>
                     <p><b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b></p>
                 </GridItem>
                 <GridItem xs={6}>
