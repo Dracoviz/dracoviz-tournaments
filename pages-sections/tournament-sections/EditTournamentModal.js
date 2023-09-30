@@ -145,7 +145,7 @@ function EditTournamentModal(props) {
             <Button
               type="submit"
               color="primary"
-              disabled={!isDirty || !isValid || isLoading}
+              disabled={!isDirty || isLoading}
               style={{ float: "left" }}
             >
               {t("save")}
