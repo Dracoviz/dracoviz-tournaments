@@ -3,7 +3,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import React, { useState } from "react";
-import { Button, InputLabel, Select, MenuItem } from "@mui/material";
+import { Button, InputLabel, Select, MenuItem, Checkbox } from "@mui/material";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
@@ -21,8 +21,11 @@ function EditTournamentModal(props) {
       bracketLink: data?.bracketLink,
       serverInviteLink: data?.serverInviteLink,
       registrationClosed: data?.registrationClosed ? "closed" : "open",
+      hideTeamsFromHost: data?.hideTeamsFromHost
     }
   });
+
+  const hideTeamsFromHost = watch("hideTeamsFromHost");
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -122,6 +125,12 @@ function EditTournamentModal(props) {
                   <MenuItem value="closed">{t("registration_closed")}</MenuItem>
                   <MenuItem value="open">{t("registration_open")}</MenuItem>
                 </Select>
+              </GridItem>
+              <GridItem xs={12}>
+                <div style={{ marginTop: 10, marginBottom: 10 }}>
+                  {t("hide_teams_from_host")}
+                  <Checkbox {...register("hideTeamsFromHost")} checked={hideTeamsFromHost} />
+                </div>
               </GridItem>
             </GridContainer>
           )}

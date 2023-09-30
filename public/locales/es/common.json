@@ -178,5 +178,8 @@
 	"copy_to_clipboard": "Copiado al portapapeles '{{url}}', por favor comparte este enlace",
 	"player": "Jugador",
 	"host": "Anfitrión",
-	"captain": "Capitán"
+	"captain": "Capitán",
+	"hide_teams_from_host": "¿Ocultar equipos al anfitrión antes de que se complete el registro?",
+	"host_cannot_see_teams": "El anfitrión NO PUEDE ver los equipos antes de que se complete el registro",
+	"host_can_see_teams": "El anfitrión PUEDE ver los equipos antes de que se complete el registro"
 }

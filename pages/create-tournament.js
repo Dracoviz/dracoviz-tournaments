@@ -312,6 +312,12 @@ export default function CreateTournament() {
                   ) : null
                 }
                 {renderMetas()}
+                <GridItem xs={12}>
+                  <div style={{ marginTop: 10, marginBottom: 10 }}>
+                    {t("hide_teams_from_host")}
+                    <Checkbox {...register("hideTeamsFromHost")} />
+                  </div>
+                </GridItem>
               </GridContainer>
             </Card>
             <GridContainer>

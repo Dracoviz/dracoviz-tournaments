@@ -535,7 +535,10 @@ export default function Tournament() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
-              <p style={{ marginBottom: 20 }}>{data?.description}</p>
+              <p>{data?.description}</p>
+              <p style={{ marginBottom: 20 }}>
+                <b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b>
+              </p>
               {renderConcludeStatus()}
               {renderRegistrationStatus()}
               {renderAlert()}
