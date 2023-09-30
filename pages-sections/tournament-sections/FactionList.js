@@ -7,6 +7,7 @@ import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import formatMove from "../../api/formatMove";
 import Filter from "bad-words";
+import getValidLabel from "../../api/getValidLabel";
 
 const useStyles = makeStyles(styles);
 
@@ -27,7 +28,7 @@ const filter = new Filter();
 filter.addWords("racist"); //Darn Pocket
 
 export default function FactionList(props) {
-  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost } = props;
+  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedFactions, setSearchedFactions] = useState([]);
@@ -128,7 +129,7 @@ export default function FactionList(props) {
                           style={{width: 50, height: 50, marginRight: 10, objectFit: 'contain'}}
                         />
                       )}
-                      <h4>{player.name} {player.isCaptain ? t("captain_label") : ""}</h4>
+                      <h4>{player.name} {player.isCaptain ? t("captain_label") : ""} {getValidLabel(showValid, player.valid)}</h4>
                     </div>
                     <div>
                       <Button onClick={() => onPlayer(player.name)}>

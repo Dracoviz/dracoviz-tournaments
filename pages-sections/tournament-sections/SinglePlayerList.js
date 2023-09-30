@@ -7,11 +7,12 @@ import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.j
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import formatMove from "../../api/formatMove";
+import getValidLabel from "../../api/getValidLabel";
 
 const useStyles = makeStyles(styles);
 
 export default function SinglePlayerList(props) {
-  const { players, onPlayer, onDeletePlayer, isHost } = props;
+  const { players, onPlayer, onDeletePlayer, isHost, showValid } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
@@ -77,7 +78,7 @@ export default function SinglePlayerList(props) {
           <Card>
             <div className={classes.root}>
               <div className={classes.playerNameRow}>
-                <h4>{player.name}</h4>
+                <h4>{player.name} {getValidLabel(showValid, player.valid)}</h4>
                 <div>
                   <Button onClick={() => onPlayer(player.name)}>
                     {t("view_profile")}

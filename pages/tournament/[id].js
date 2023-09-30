@@ -78,6 +78,8 @@ export default function Tournament() {
     },
   }
 
+  const showValid = data?.isHost && !data?.registrationClosed;
+
   const goToRoute = (route) => {
     router.push(route);
   }
@@ -560,12 +562,14 @@ export default function Tournament() {
                       onPlayer={onPlayer}
                       onDeletePlayer={onDeletePlayer}
                       isHost={data?.isHost}
+                      showValid={showValid}
                     />)
                   : (<SinglePlayerList
                       players={data?.players}
                       onPlayer={onPlayer}
                       onDeletePlayer={onDeletePlayer}
                       isHost={data?.isHost}
+                      showValid={showValid}
                     />)
               }
               {renderLeaveButton()}
