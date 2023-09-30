@@ -199,7 +199,7 @@ export default function CreateTournament() {
                     {...register(`bracketType`, { required: true})}
                   >
                     <MenuItem value="none">{t("bracket_type_none")}</MenuItem>
-                    <MenuItem value="hidden">{t("bracket_type_swiss")}</MenuItem>
+                    <MenuItem value="swiss">{t("bracket_type_swiss")}</MenuItem>
                     <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem>
                   </Select>
                   <small>
@@ -207,7 +207,7 @@ export default function CreateTournament() {
                   </small>
                 </GridItem>
                 {
-                  (bracketType === "hidden" || bracketType === "roundrobin") && (
+                  (bracketType === "swiss" || bracketType === "roundrobin") && (
                     <>
                       <GridItem xs={12} md={7} style={{ marginTop: 10 }}>
                         <InputLabel>{t("game_amount_label")}</InputLabel>
