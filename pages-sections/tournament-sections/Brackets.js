@@ -23,6 +23,9 @@ const bracketStyles = {
 function Match(props) {
   const { match, isTeamTournament } = props;
   const { seed, score, disputed, participants, touched } = match;
+  if (score == null) {
+    return null;
+  }
   const scores = score[0];
   const { t } = useTranslation();
   const isReported = scores.reduce((a, b) => a+b, 0) > 0;
@@ -83,7 +86,7 @@ function Brackets(props) {
         backgroundColor: "#F6F5F5"
       }}
     >
-      <div className={classes.rounds} style={{ width: bracket.length * 350 }}>
+      <div className={classes.rounds} style={{ minWidth: bracket.length * 350 }}>
         {bracket.map((roundObj) => {
           const { round, matches } = roundObj;
           return (

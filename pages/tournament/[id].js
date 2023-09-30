@@ -85,6 +85,28 @@ export default function Tournament() {
     router.push(route);
   }
 
+  const startBracket = () => {
+    setIsLoading(true);
+    fetchApi(`session/bracket-start/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+        setIsLoading(false);
+      } else {
+        getTournamentData(authId);
+      }
+    });
+  }
+
+  const progressBracket = () => {
+    // TODO
+  }
+
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
     setIsLoading(true);
@@ -482,10 +504,36 @@ export default function Tournament() {
   }
 
   const renderBracketActions = () => {
-    if (data == null) {
+    if (data == null || isConcluded) {
       return null;
     }
-    const { isPlayer, currentRoundNumber } = data;
+    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds } = data;
+    if (isHost && !(bracketType == null || bracketType === "none") && totalRounds !== currentRoundNumber) {
+      if (currentRoundNumber === 0) {
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={startBracket}
+            fullWidth
+            style={{ marginTop: 20, marginBottom: 20 }}
+          >
+            {t("start_bracket")}
+          </Button>
+        )
+      }
+      return (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={progressBracket}
+          fullWidth
+          style={{ marginTop: 20, marginBottom: 20 }}
+        >
+          {t("progress_bracket")}
+        </Button>
+      )
+    }
     if (!isPlayer || !(currentRoundNumber > 0)) {
       return null;
     }
@@ -592,7 +640,7 @@ export default function Tournament() {
               </div>
               {renderShareButtons()}
               {renderBracketActions()}
-              <Brackets />
+              <Brackets bracket={data?.bracket}/>
               {
                 data?.isTeamTournament
                   ? (<FactionList

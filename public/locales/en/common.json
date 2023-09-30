@@ -2,7 +2,9 @@
 	"additional_profile_options": "Additional profile options will come in future updates",
 	"api_already_entered_error": "Already entered",
 	"api_authorization_missing": "Missing authorization header",
+	"api_bracket_already_started": "Brackets have already started",
 	"api_bracket_link_invalid": "Bracket link is not a valid website",
+	"api_bracket_not_enough_players": "Not enough players to begin",
 	"api_cannot_log_in": "Cannot log in",
 	"api_faction_already_exists": "Faction already exists",
 	"api_faction_full": "The team is already full",
@@ -197,5 +199,7 @@
 	"play_all_matches_label": "Require players to play all matches",
 	"games_won_label": "Number of games you won",
 	"games_lost_label": "Number of games your opponent won",
-	"no_opponent_notice": "You have no opponent. Take a break this round :)"
+	"no_opponent_notice": "You have no opponent. Take a break this round :)",
+	"start_bracket": "Start bracket",
+	"progress_bracket": "Progress bracket round"
 }
