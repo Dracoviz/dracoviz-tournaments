@@ -5,165 +5,6 @@ import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
 
 const useStyles = makeStyles(styles);
 
-const exampleRound1 = {
-  round: 1,
-  matches: [
-    { // Normal left win
-      seed: 1,
-      score: [[2, 0]],
-      participants: [
-        [
-          {
-            name: "Player 1"
-          },
-          {
-            name: "Player 4"
-          }
-        ]
-      ]
-    },
-    { // Normal right win
-      seed: 2,
-      score: [[0, 2]],
-      participants: [
-        [
-          {
-            name: "Player 2"
-          },
-          {
-            name: "Player 3"
-          }
-        ]
-      ]
-    },
-    { // Normal left win
-      seed: 3,
-      score: [[2, 0]],
-      participants: [
-        [
-          {
-            name: "Player 5"
-          },
-          {
-            name: "Player 6"
-          }
-        ]
-      ]
-    },
-    { // Normal left win
-      seed: 4,
-      score: [[1, 2]],
-      participants: [
-        [
-          {
-            name: "Player 7"
-          },
-          {
-            name: "Player 8"
-          }
-        ]
-      ]
-    },
-    { // Normal left win
-      seed: 5,
-      score: [[2, 1]],
-      participants: [
-        [
-          {
-            name: "Player 10"
-          },
-          {
-            name: "Player 9"
-          }
-        ]
-      ]
-    },
-  ]
-}
-
-const exampleRound4 = {
-  round: 4,
-  matches: [
-    { // Normal right win
-      seed: 1,
-      score: [[0, 2]],
-      participants: [
-        [
-          {
-            name: "Player 1"
-          },
-          {
-            name: "Player 2"
-          }
-        ]
-      ]
-    },
-    { // Normal left win
-      seed: 2,
-      score: [[2, 0]],
-      participants: [
-        [
-          {
-            name: "Player 3"
-          },
-          {
-            name: "Player 4"
-          }
-        ]
-      ]
-    },
-    { // Incomplete
-      seed: 3,
-      score: [[0, 0]],
-      participants: [
-        [
-          {
-            name: "Player 5"
-          },
-          {
-            name: "Player 6"
-          }
-        ]
-      ]
-    },
-    { // Dispute
-      seed: 4,
-      score: [[0, 0]],
-      disputed: [true],
-      participants: [
-        [
-          {
-            name: "Player 9",
-          },
-          {
-            name: "Player 10"
-          }
-        ]
-      ]
-    },
-    { // Dropped
-      seed: 5,
-      score: [[0, 2]],
-      touched: [true],
-      participants: [
-        [
-          {
-            name: "Player 7",
-            removed: true
-          },
-          {
-            name: "Player 8"
-          }
-        ]
-      ]
-    },
-  ]
-}
-
-const exampleBracket = [
-  exampleRound1, {...exampleRound1, round: 2}, {...exampleRound1, round: 3}, exampleRound4
-]
-
 const bracketStyles = {
   "win": {
     color: "#34343",
@@ -208,11 +49,6 @@ function Match(props) {
     })
   }
 
-  if (isTeamTournament) {
-    // TODO: Team tourney
-    return null;
-  }
-
   return (
     <div className={classes.matchRoot}>
       <div className={classes.matchItem}>
@@ -234,7 +70,10 @@ function Match(props) {
 function Brackets(props) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { isTeamTournament } = props;
+  const { isTeamTournament, bracket } = props;
+  if (bracket == null || isTeamTournament) {
+    return null;
+  }
   return(
     <div
       className="scroller"
@@ -244,8 +83,8 @@ function Brackets(props) {
         backgroundColor: "#F6F5F5"
       }}
     >
-      <div className={classes.rounds} style={{ width: exampleBracket.length * 350 }}>
-        {exampleBracket.map((roundObj) => {
+      <div className={classes.rounds} style={{ width: bracket.length * 350 }}>
+        {bracket.map((roundObj) => {
           const { round, matches } = roundObj;
           return (
             <section className={classes.round}>

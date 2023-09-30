@@ -6,7 +6,7 @@ import Footer from "/components/Footer/Footer.js";
 import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { Alert, AlertTitle, Button, CircularProgress } from "@mui/material";
+import { Alert, AlertTitle, Button, CircularProgress, Chip } from "@mui/material";
 import { useTranslation } from 'next-i18next';
 import Router, { useRouter } from 'next/router';
 import Linkify from 'react-linkify';
@@ -482,8 +482,11 @@ export default function Tournament() {
   }
 
   const renderBracketActions = () => {
-    const { isPlayer } = data;
-    if (!isPlayer) {
+    if (data == null) {
+      return null;
+    }
+    const { isPlayer, currentRoundNumber } = data;
+    if (!isPlayer || !(currentRoundNumber > 0)) {
       return null;
     }
     return (
@@ -496,6 +499,21 @@ export default function Tournament() {
       >
         {t("view_matchup")}
       </Button>
+    )
+  }
+
+  const renderBracketChip = () => {
+    if (data == null) {
+      return null;
+    }
+    const { bracketType } = data;
+    const bracketLabels = {
+      "none": "bracket_type_none",
+	    "swiss": "bracket_type_swiss",
+	    "roundrobin": "bracket_type_round_robin"
+    }
+    return (
+      <Chip label={t(bracketLabels[bracketType ?? "none"])} style={{ marginBottom: 20 }} />
     )
   }
 
@@ -532,8 +550,6 @@ export default function Tournament() {
     </div>)
   }
 
-  console.log(data)
-
   return (
     <div>
       <Header
@@ -559,6 +575,7 @@ export default function Tournament() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
+              {renderBracketChip()}
               <Linkify>
                 <p style={{ whiteSpace: "pre-wrap" }}>{data?.description}</p>
               </Linkify>
