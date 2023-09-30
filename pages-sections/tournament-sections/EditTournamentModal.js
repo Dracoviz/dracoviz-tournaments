@@ -84,7 +84,7 @@ function EditTournamentModal(props) {
                   }}
                   inputProps={{
                     multiline: true,
-                    ...register("description", { required: true, maxLength: 300 })
+                    ...register("description", { required: true, maxLength: 5000 })
                   }}
                   error={errors.description}
                 />
