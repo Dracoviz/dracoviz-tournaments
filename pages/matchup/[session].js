@@ -39,146 +39,6 @@ export async function getServerSideProps({ locale }) {
   }
 }
 
-const exampleMatchup = {
-  gameAmount: 5,
-  playAllMatches: false,
-  score: [0, 2],
-  hasOpponent: true,
-  opponent: {
-    name: "Opponent Name",
-    discord: "2",
-    friendCode: "2",
-    telegram: "2",
-    pokemon: [
-      {
-          "sid": 14720,
-          "speciesName": "Abomasnow (Shadow)",
-          "cp": 1489,
-          "chargedMoves": [
-              "WEATHER_BALL_ICE",
-              "ENERGY_BALL"
-          ],
-          "fastMove": "POWDER_SNOW"
-      },
-      {
-          "sid": 5472,
-          "speciesName": "Lanturn",
-          "cp": 1483,
-          "chargedMoves": [
-              "SURF",
-              "THUNDERBOLT"
-          ],
-          "fastMove": "SPARK"
-      },
-      {
-          "sid": 8320,
-          "speciesName": "Swampert (Shadow)",
-          "cp": 1492,
-          "chargedMoves": [
-              "HYDRO_CANNON",
-              "SLUDGE_WAVE"
-          ],
-          "fastMove": "WATER_GUN"
-      },
-      {
-          "sid": 24064,
-          "speciesName": "Araquanid",
-          "cp": 1491,
-          "chargedMoves": [
-              "BUBBLE_BEAM",
-              "BUG_BUZZ"
-          ],
-          "fastMove": "BUG_BITE"
-      },
-      {
-          "sid": 19072,
-          "speciesName": "Galvantula",
-          "cp": 1496,
-          "chargedMoves": [
-              "DISCHARGE",
-              "LUNGE"
-          ],
-          "fastMove": "VOLT_SWITCH"
-      },
-      {
-          "sid": 22112,
-          "speciesName": "Dragalge",
-          "cp": 1499,
-          "chargedMoves": [
-              "AQUA_TAIL",
-              "OUTRAGE"
-          ],
-          "fastMove": "DRAGON_TAIL"
-      }
-    ]
-  },
-  player: {
-    name: "Player Name",
-    pokemon: [
-      {
-          "sid": 14720,
-          "speciesName": "Abomasnow (Shadow)",
-          "cp": 1489,
-          "chargedMoves": [
-              "WEATHER_BALL_ICE",
-              "ENERGY_BALL"
-          ],
-          "fastMove": "POWDER_SNOW"
-      },
-      {
-          "sid": 5472,
-          "speciesName": "Lanturn",
-          "cp": 1483,
-          "chargedMoves": [
-              "SURF",
-              "THUNDERBOLT"
-          ],
-          "fastMove": "SPARK"
-      },
-      {
-          "sid": 8320,
-          "speciesName": "Swampert (Shadow)",
-          "cp": 1492,
-          "chargedMoves": [
-              "HYDRO_CANNON",
-              "SLUDGE_WAVE"
-          ],
-          "fastMove": "WATER_GUN"
-      },
-      {
-          "sid": 24064,
-          "speciesName": "Araquanid",
-          "cp": 1491,
-          "chargedMoves": [
-              "BUBBLE_BEAM",
-              "BUG_BUZZ"
-          ],
-          "fastMove": "BUG_BITE"
-      },
-      {
-          "sid": 19072,
-          "speciesName": "Galvantula",
-          "cp": 1496,
-          "chargedMoves": [
-              "DISCHARGE",
-              "LUNGE"
-          ],
-          "fastMove": "VOLT_SWITCH"
-      },
-      {
-          "sid": 22112,
-          "speciesName": "Dragalge",
-          "cp": 1499,
-          "chargedMoves": [
-              "AQUA_TAIL",
-              "OUTRAGE"
-          ],
-          "fastMove": "DRAGON_TAIL"
-      }
-    ]
-  }
-}
-
 const useStyles = makeStyles(styles);
 
 export default function Matchup() {
@@ -187,29 +47,32 @@ export default function Matchup() {
   const [showProfile, setShowProfile] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const router = useRouter();
   const [authId, setAuthId] = useState();
-  const { session, player1, player2 } = router.query;
+  const { session } = router.query;
 
   const getMatchup = (id) => {
     setAuthId(id);
-    setValue("gamesWon", exampleMatchup.score[0]);
-    setValue("gamesLost", exampleMatchup.score[1]);
-    // setIsLoading(true);
-    // fetchApi(`matchup/?tournamentId=${session}&player1=${player1}&player2=${player2}`, "GET", {
-    //   x_session_id: id,
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   if (data.error != null) {
-    //     alert(t(data.error));
-    //     Router.push(`/tournament/${session}`);
-    //     return;
-    //   }
+    setIsLoading(true);
+    fetchApi(`session/matchup/?tournamentId=${session}`, "GET", {
+      x_session_id: id,
+    })
+    .then(response => response.json())
+    .then(newData => {
+      console.log(newData)
+      if (newData.error != null) {
+        alert(t(newData.error));
+        Router.push(`/tournament/${session}`);
+        return;
+      }
+      setData(newData);
+      setValue("gamesWon", newData.score[0]);
+      setValue("gamesLost", newData.score[1]);
       setIsLoading(false);
-    // });
+    });
   }
 
   // Listen to the Firebase Auth state and set the local state.
@@ -227,8 +90,8 @@ export default function Matchup() {
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (x) => {
+    console.log(x);
   }
 
   const openProfileModal = () => {
@@ -244,12 +107,15 @@ export default function Matchup() {
     setShowReport(false);
   }
 
-  const hasScore = exampleMatchup.score != null && exampleMatchup.score[0] + exampleMatchup.score[1] > 0;
+  const hasScore = data?.score != null && data.score[0] + data.score[1] > 0;
 
   const classes = useStyles();
 
   const getGamesCount = () => {
-    const { gameAmount, playAllMatches } = exampleMatchup;
+    if (data == null) {
+      return 0;
+    }
+    const { gameAmount, playAllMatches } = data;
     if (playAllMatches) {
       return gameAmount;
     }
@@ -257,6 +123,9 @@ export default function Matchup() {
   }
 
   const renderScoreReportModal = () => {
+    if (data == null) {
+      return null;
+    }
     const menuItems = Array.from({ length: getGamesCount() + 1 }, (_value, index) => index);
     return (
       <Dialog
@@ -318,6 +187,8 @@ export default function Matchup() {
     )
   }
 
+  const hasPokemon = data?.player.pokemon != null && data?.player.pokemon.length > 0;
+
   return (
     <div>
       <Header
@@ -328,7 +199,7 @@ export default function Matchup() {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           <h2>{t('your_matchup')}</h2>
-          <PlayerInfoModal open={showProfile} data={exampleMatchup.opponent} onClose={onClose} />
+          <PlayerInfoModal open={showProfile} data={data?.opponent} onClose={onClose} />
           {renderScoreReportModal()}
           <GridContainer style={{ marginTop: 20 }}>
             {
@@ -338,10 +209,10 @@ export default function Matchup() {
                 <>
                   <GridItem xs={12}>
                     {
-                      exampleMatchup.hasOpponent ? (
+                      data?.hasOpponent ? (
                         <>
                           <div className={classes.profileRow}>
-                            <h3>{exampleMatchup.opponent.name}</h3>
+                            <h3>{data?.opponent.name}</h3>
                             <Button
                               onClick={openProfileModal}
                               type="button"
@@ -350,7 +221,7 @@ export default function Matchup() {
                             </Button>
                           </div>
                           <Card className={classes.pokemonCard}>
-                            <PokemonView pokemon={exampleMatchup.opponent.pokemon} />
+                            <PokemonView pokemon={data?.opponent.pokemon} />
                           </Card>
                           <Button
                             fullWidth
@@ -365,10 +236,16 @@ export default function Matchup() {
                         <p>{t("no_opponent_notice")}</p>
                       )
                     }
-                    <h3>{t("tournament_see_pokemon_button")}</h3>
-                    <Card className={classes.pokemonCard}>
-                      <PokemonView pokemon={exampleMatchup.player.pokemon} />
-                    </Card>
+                    {
+                      hasPokemon && (
+                        <>
+                          <h3>{t("tournament_see_pokemon_button")}</h3>
+                          <Card className={classes.pokemonCard}>
+                            <PokemonView pokemon={data?.player.pokemon} />
+                          </Card>
+                        </>
+                      )
+                    }
                   </GridItem>
                 </>
               )

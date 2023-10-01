@@ -8,7 +8,7 @@ const matchupPageStyle = {
     justifyContent: "space-between",
   },
   pokemonCard: {
-    padding: "0 20px",
+    padding: "10px 20px",
   }
 }
 
