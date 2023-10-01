@@ -24,13 +24,13 @@ const getGamesCount = (data) => {
   }
 
 function ReportScoreModal(props) {
-    const { data, onClose, visible, onSubmit, formProps } = props;
-    const hasScore = data?.score != null && data.score[0] + data.score[1] > 0;
+    const { data, onClose, visible, onSubmit, useNames, formProps } = props;
+    const hasScore = data?.score != null && (data.score[0] + data.score[1]) > 0;
     const { t } = useTranslation();
     if (data == null || formProps == null) {
         return null;
     }
-    const { register, handleSubmit, watch, formState: { isValid, isDirty } } = formProps;
+    const { register, handleSubmit, watch, formState: { isValid, isDirty, isSubmitting } } = formProps;
     const menuItems = Array.from({ length: getGamesCount(data) + 1 }, (_value, index) => index);
     return (
         <Dialog
@@ -42,7 +42,7 @@ function ReportScoreModal(props) {
             <DialogTitle
                 id="report-modal-slide-title"
             >
-                {hasScore ? t("report_score") : t("edit_score")}
+                {hasScore ? t("edit_score") : t("report_score")}
             </DialogTitle>
             <DialogContent
                 id="report-modal-slide-description"
@@ -50,10 +50,10 @@ function ReportScoreModal(props) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <GridContainer>
                 <GridItem xs={12}>
-                    <InputLabel>{t("games_won_label")}</InputLabel>
+                    <InputLabel>{useNames ? data?.player1 : t("games_won_label")}</InputLabel>
                     <Select
                         fullWidth
-                        style={{ backgroundColor: "#abf7e7" }}
+                        style={{ backgroundColor: useNames ? 'white' : "#abf7e7" }}
                         {...register(`gamesWon`, { required: true})}
                         value={watch("gamesWon")}
                     >
@@ -65,10 +65,10 @@ function ReportScoreModal(props) {
                     </Select>
                 </GridItem>
                 <GridItem xs={12} style={{ marginTop: 10, marginBottom: 10 }}>
-                    <InputLabel>{t("games_lost_label")}</InputLabel>
+                    <InputLabel>{useNames ? data?.player2 : t("games_lost_label")}</InputLabel>
                     <Select
                         fullWidth
-                        style={{ backgroundColor: "#f7abab" }}
+                        style={{ backgroundColor: useNames ? 'white' : "#f7abab" }}
                         {...register(`gamesLost`, { required: true })}
                         value={watch("gamesLost")}
                     >
@@ -82,7 +82,7 @@ function ReportScoreModal(props) {
                 <GridItem xs={12}>
                     <Button
                         type="submit"
-                        disabled={!isValid || !isDirty}
+                        disabled={!isValid || !isDirty || isSubmitting}
                         fullWidth
                     >{t("save")}</Button>
                 </GridItem>

@@ -21,7 +21,7 @@ const bracketStyles = {
 }
 
 function Match(props) {
-  const { match, isTeamTournament } = props;
+  const { match, matchIndex, roundIndex, onBracketSelect, isTeamTournament } = props;
   const { seed, score, disputed, participants, touched } = match;
   if (score == null) {
     return null;
@@ -39,8 +39,14 @@ function Match(props) {
       const bracketStyle = isReported ? (
         hasHigherScore ? bracketStyles.win : bracketStyles.loss
       ) : bracketStyles.unreported;
+      const onClick = () => {
+        onBracketSelect(
+          roundIndex,
+          matchIndex,
+        )
+      }
       return (
-        <div style={bracketStyle} className={classes.participant}>
+        <div onClick={onClick} style={bracketStyle} className={classes.participant}>
           <div style={{ textDecoration: removed ? "line-through" : "none" }}>
             {name}
           </div>
@@ -73,7 +79,7 @@ function Match(props) {
 function Brackets(props) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { isTeamTournament, bracket } = props;
+  const { isTeamTournament, bracket, onBracketSelect } = props;
   if (bracket == null || isTeamTournament) {
     return null;
   }
@@ -87,7 +93,7 @@ function Brackets(props) {
       }}
     >
       <div className={classes.rounds} style={{ minWidth: bracket.length * 350 }}>
-        {bracket.map((roundObj) => {
+        {bracket.map((roundObj, roundIndex) => {
           const { round, matches } = roundObj;
           return (
             <section className={classes.round}>
@@ -95,8 +101,14 @@ function Brackets(props) {
                 {t('round_label', { round })}
               </h3>
               {
-                matches.map((match) => (
-                  <Match match={match} isTeamTournament={isTeamTournament} />
+                matches.map((match, matchIndex) => (
+                  <Match
+                    match={match}
+                    matchIndex={matchIndex}
+                    roundIndex={roundIndex}
+                    isTeamTournament={isTeamTournament}
+                    onBracketSelect={onBracketSelect}
+                  />
                 ))
               }
             </section>

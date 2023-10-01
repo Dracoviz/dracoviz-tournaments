@@ -20,6 +20,8 @@ import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfo
 import FactionList from "../../pages-sections/tournament-sections/FactionList";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Brackets from "../../pages-sections/tournament-sections/Brackets";
+import ReportScoreModal from "../../pages-sections/tournament-sections/ReportScoreModal";
+import { useForm } from "react-hook-form";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -48,12 +50,16 @@ export default function Tournament() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
+  const formProps = useForm();
+  const { setValue, formState: { isSubmitting } } = formProps;
   const router = useRouter();
   const { id } = router.query;
   const [ authId, setAuthId ] = useState();
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
   const [ isTournamentEditOpen, setIsTournamentEditOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
+  const [ selectedRound, setSelectedRound ] = useState(null);
+  const [ isReportScoreOpen, setIsReportScoreOpen ] = useState(false);
   const isConcluded = data?.concluded;
 
   const statusLabels = {
@@ -229,6 +235,40 @@ export default function Tournament() {
   const onCloseTournamentEditModal = () => {
     setIsTournamentEditOpen(false);
   }
+
+  const onCloseReportScoreModal = () => {
+    if (isSubmitting) {
+      return;
+    }
+    setIsReportScoreOpen(false);
+    setSelectedRound(null);
+  }
+
+  const reportScore = (scores) => {
+    console.log(scores);
+  }
+
+  const onBracketSelect = (roundIndex, matchIndex) => {
+    const bracket = data?.bracket[roundIndex]?.matches[matchIndex];
+    if (bracket == null) {
+      return;
+    }
+    setSelectedRound({
+      roundIndex,
+      matchIndex,
+      score: bracket.score[0],
+      player1: bracket.participants[0][0].name,
+      player2: bracket.participants[0][1].name,
+      gameAmount: data?.gameAmount,
+      playAllMatches: data?.playAllMatches,
+    });
+  }
+
+  useEffect(() => {
+    if (selectedRound != null) {
+      setIsReportScoreOpen(true);
+    }
+  }, [selectedRound])
 
   const generateJoinLink = () => {
     const { registrationNumber } = data;
@@ -608,6 +648,14 @@ export default function Tournament() {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           <PlayerInfoModal open={profileToView != null} data={profileToView} onClose={onClosePlayerModal} />
+          <ReportScoreModal
+            data={selectedRound}
+            visible={isReportScoreOpen}
+            onSubmit={reportScore}
+            onClose={onCloseReportScoreModal}
+            formProps={formProps}
+            useNames={true}
+          />
           <TournamentInfoModal
             open={isTournamentInfoOpen}
             data={data}
@@ -640,7 +688,7 @@ export default function Tournament() {
               </div>
               {renderShareButtons()}
               {renderBracketActions()}
-              <Brackets bracket={data?.bracket}/>
+              <Brackets bracket={data?.bracket} onBracketSelect={onBracketSelect} isTeamTournament={data?.isTeamTournament}/>
               {
                 data?.isTeamTournament
                   ? (<FactionList
