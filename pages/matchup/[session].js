@@ -13,19 +13,14 @@ import { useTranslation } from 'next-i18next';
 import styles from "/styles/jss/nextjs-material-kit/pages/matchupPage.js";
 import {
   Button,
-  Select,
-  InputLabel,
-  MenuItem,
   CircularProgress,
-  Dialog,
-  DialogContent,
-  DialogTitle
 } from "@mui/material";
 import Card from "../../components/Card/Card";
 import fetchApi from "../../api/fetchApi";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import PokemonView from "../../components/PokemonView/PokemonView";
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
+import ReportScoreModal from "../../pages-sections/tournament-sections/ReportScoreModal";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -48,8 +43,8 @@ export default function Matchup() {
   const [showReport, setShowReport] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
-  const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
+  const formProps = useForm();
+  const { setValue } = formProps;
   const router = useRouter();
   const [authId, setAuthId] = useState();
   const { session } = router.query;
@@ -122,71 +117,6 @@ export default function Matchup() {
     return gameAmount / 2 + gameAmount % 2;
   }
 
-  const renderScoreReportModal = () => {
-    if (data == null) {
-      return null;
-    }
-    const menuItems = Array.from({ length: getGamesCount() + 1 }, (_value, index) => index);
-    return (
-      <Dialog
-      open={showReport}
-      onClose={onClose}
-      aria-labelledby="report-modal-slide-title"
-      aria-describedby="report-modal-slide-description"
-    >
-      <DialogTitle
-        id="report-modal-slide-title"
-      >
-        {hasScore ? t("report_score") : t("edit_score")}
-      </DialogTitle>
-      <DialogContent
-        id="report-modal-slide-description"
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <GridContainer>
-            <GridItem xs={12}>
-              <InputLabel>{t("games_won_label")}</InputLabel>
-              <Select
-                fullWidth
-                style={{ backgroundColor: "#abf7e7" }}
-                {...register(`gamesWon`, { required: true})}
-                value={watch("gamesWon")}
-              >
-                {
-                  menuItems.map((i) => (
-                    <MenuItem value={i} key={i}>{i}</MenuItem>
-                  ))
-                }
-              </Select>
-            </GridItem>
-            <GridItem xs={12} style={{ marginTop: 10, marginBottom: 10 }}>
-              <InputLabel>{t("games_lost_label")}</InputLabel>
-              <Select
-                fullWidth
-                style={{ backgroundColor: "#f7abab" }}
-                {...register(`gamesLost`, { required: true })}
-                value={watch("gamesLost")}
-              >
-                {
-                  menuItems.map((i) => (
-                    <MenuItem value={i} key={i}>{i}</MenuItem>
-                  ))
-                }
-              </Select>
-            </GridItem>
-            <GridItem xs={12}>
-              <Button
-                type="submit"
-                fullWidth
-              >{t("save")}</Button>
-            </GridItem>
-          </GridContainer>
-        </form>
-      </DialogContent>
-  </Dialog>
-    )
-  }
-
   const hasPokemon = data?.player.pokemon != null && data?.player.pokemon.length > 0;
 
   return (
@@ -200,7 +130,7 @@ export default function Matchup() {
         <div className={classes.main}>
           <h2>{t('your_matchup')}</h2>
           <PlayerInfoModal open={showProfile} data={data?.opponent} onClose={onClose} />
-          {renderScoreReportModal()}
+          <ReportScoreModal data={data} onClose={onClose} visible={showReport} onSubmit={onSubmit} formProps={formProps} />
           <GridContainer style={{ marginTop: 20 }}>
             {
               isLoading ? (
