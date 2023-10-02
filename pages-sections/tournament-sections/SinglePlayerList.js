@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@mui/styles";
-import { Button } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
-import formatMove from "../../api/formatMove";
+import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
 
 const useStyles = makeStyles(styles);
+
+const sortingAlgo = (a, b) => {
+  if (a.wins != null) {
+    return ((b.wins * 10) + b.gameWins) - ((a.wins * 10) + a.gameWins);
+  }
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
+}
 
 export default function SinglePlayerList(props) {
   const { players, onPlayer, onDeletePlayer, isHost, showValid } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
+
+  console.log(players);
 
   useEffect(() => {
     setSearchedPlayers(players);
@@ -33,25 +47,17 @@ export default function SinglePlayerList(props) {
     setSearchedPlayers(matchingPlayers);
   }
 
-  const renderPokemon = (pokemon) => {
-    if (pokemon == null || pokemon.length <= 0) {
+  const renderStats = (player) => {
+    if (player?.wins == null) {
       return null;
     }
-    return pokemon.map((pokemonObj) => (
-      <div className={classes.pokemonRoot}>
-        <img
-          src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${pokemonObj.sid}.png/public`}
-          alt={pokemonObj.speciesName}
-          style={{width: 100, height: 100, objectFit: 'contain'}}
-        />
-        <h5>{pokemonObj.speciesName}</h5>
-        <p>
-          {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
-          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
-          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
-        </p>
-      </div>
-    ))
+    const { wins, losses, gameWins, gameLosses } = player;
+    return (
+      <Chip
+        style={{ marginLeft: 10 }}
+        label={t('winLoss', { wins, losses, gameWins, gameLosses })}
+      />
+    )
   }
 
   const noSearchResults = searchedPlayers == null || searchedPlayers.length <= 0;
@@ -74,11 +80,14 @@ export default function SinglePlayerList(props) {
       />
       {
         noSearchResults ? <p>{t('no_players_in_search')}</p>
-        : searchedPlayers?.map((player) => (
+        : searchedPlayers.sort(sortingAlgo)?.map((player) => (
           <Card>
             <div className={classes.root}>
-              <div className={classes.playerNameRow}>
-                <h4>{player.name} {getValidLabel(showValid, player.valid)}</h4>
+              <div className={`${classes.playerNameRow} realign`}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <h4>{player.name} {getValidLabel(showValid, player.valid)}</h4>
+                  {renderStats(player)}
+                </div>
                 <div>
                   <Button onClick={() => onPlayer(player.name)}>
                     {t("view_profile")}
@@ -94,9 +103,7 @@ export default function SinglePlayerList(props) {
                   }
                 </div>
               </div>
-              <div className={classes.pokemonRow}>
-                {renderPokemon(player.pokemon)}
-              </div>
+              <PokemonView pokemon={player.pokemon} />
             </div>
           </Card>
         ))

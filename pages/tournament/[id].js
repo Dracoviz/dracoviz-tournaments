@@ -6,7 +6,7 @@ import Footer from "/components/Footer/Footer.js";
 import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { Alert, AlertTitle, Button, CircularProgress } from "@mui/material";
+import { Alert, AlertTitle, Button, CircularProgress, Chip } from "@mui/material";
 import { useTranslation } from 'next-i18next';
 import Router, { useRouter } from 'next/router';
 import Linkify from 'react-linkify';
@@ -19,6 +19,9 @@ import EditTournamentModal from "../../pages-sections/tournament-sections/EditTo
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
 import FactionList from "../../pages-sections/tournament-sections/FactionList";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import Brackets from "../../pages-sections/tournament-sections/Brackets";
+import ReportScoreModal from "../../pages-sections/tournament-sections/ReportScoreModal";
+import { useForm } from "react-hook-form";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -47,12 +50,16 @@ export default function Tournament() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
+  const formProps = useForm();
+  const { setValue, formState: { isSubmitting } } = formProps;
   const router = useRouter();
   const { id } = router.query;
   const [ authId, setAuthId ] = useState();
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
   const [ isTournamentEditOpen, setIsTournamentEditOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
+  const [ selectedRound, setSelectedRound ] = useState(null);
+  const [ isReportScoreOpen, setIsReportScoreOpen ] = useState(false);
   const isConcluded = data?.concluded;
 
   const statusLabels = {
@@ -84,6 +91,44 @@ export default function Tournament() {
     router.push(route);
   }
 
+  const startBracket = () => {
+    setIsLoading(true);
+    fetchApi(`session/bracket-start/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+        setIsLoading(false);
+      } else {
+        getTournamentData(authId);
+      }
+    });
+  }
+
+  const progressBracket = () => {
+    setIsLoading(true);
+    fetchApi(`session/progress/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+        setIsLoading(false);
+      } else {
+        getTournamentData(authId);
+      }
+    });
+  }
+
   const getTournamentData = (newAuthId) => {
     setAuthId(newAuthId);
     setIsLoading(true);
@@ -106,7 +151,14 @@ export default function Tournament() {
       tournamentId: id,
       newState: state,
     }))
-    .then(() => getTournamentData(authId));
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+      } else {
+        getTournamentData(authId);
+      }
+    });
   }
 
   const onConclude = () => {
@@ -117,6 +169,7 @@ export default function Tournament() {
     }, JSON.stringify({
       tournamentId: id,
     }))
+    .then(response => response.json())
     .then((newData) => {
       if (newData.error != null) {
         alert(t(newData.error));
@@ -206,6 +259,63 @@ export default function Tournament() {
   const onCloseTournamentEditModal = () => {
     setIsTournamentEditOpen(false);
   }
+
+  const onCloseReportScoreModal = () => {
+    if (isSubmitting) {
+      return;
+    }
+    setIsReportScoreOpen(false);
+    setSelectedRound(null);
+  }
+
+  const reportScore = async (scores) => {
+    const { player1, player2 } = scores;
+    const { matchIndex } = selectedRound;
+    const response = await fetchApi(`session/report/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+      player1,
+      player2,
+      matchIndex,
+      scoreIndex: 0, // TODO: Teams
+    }));
+    const newData = await response.json();
+    if (newData.error != null) {
+      alert(t(newData.error));
+    } else {
+      setIsReportScoreOpen(false);
+      getTournamentData(authId);
+    }
+  }
+
+  const onBracketSelect = (roundIndex, matchIndex) => {
+    const bracket = data?.bracket[roundIndex]?.matches[matchIndex];
+    if (bracket == null
+      || data?.bracket[roundIndex].round !== data?.currentRoundNumber
+      || data?.isHost !== true
+    ) {
+      return;
+    }
+    setValue("player1", bracket.score[0][0]);
+    setValue("player2", bracket.score[0][1]);
+    setSelectedRound({
+      roundIndex,
+      matchIndex,
+      score: bracket.score[0],
+      player1: bracket.participants[0][0].name,
+      player2: bracket.participants[0][1].name,
+      gameAmount: data?.gameAmount,
+      playAllMatches: data?.playAllMatches,
+    });
+  }
+
+  useEffect(() => {
+    if (selectedRound != null) {
+      setIsReportScoreOpen(true);
+    }
+  }, [selectedRound])
 
   const generateJoinLink = () => {
     const { registrationNumber } = data;
@@ -480,6 +590,80 @@ export default function Tournament() {
     );
   }
 
+  const renderBracketDisclaimer = () => {
+    if (data == null || isConcluded || !(data?.currentRoundNumber > 0)) {
+      return null;
+    }
+    const { requireBothPlayersToReport } = data;
+    return (
+      <small>
+        {requireBothPlayersToReport ? t("both_players_disclaimer_true") : t("both_players_disclaimer_false")}
+      </small>
+    )
+  }
+
+  const renderBracketActions = () => {
+    if (data == null || isConcluded) {
+      return null;
+    }
+    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds } = data;
+    if (isHost && !(bracketType == null || bracketType === "none") && totalRounds !== currentRoundNumber) {
+      if (currentRoundNumber === 0) {
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={startBracket}
+            fullWidth
+            style={{ marginTop: 20, marginBottom: 20 }}
+          >
+            {t("start_bracket")}
+          </Button>
+        )
+      }
+      return (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={progressBracket}
+          fullWidth
+          style={{ marginTop: 20, marginBottom: 20 }}
+        >
+          {t("progress_bracket")}
+        </Button>
+      )
+    }
+    if (!isPlayer || !(currentRoundNumber > 0)) {
+      return null;
+    }
+    return (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => goToRoute(`/matchup/${id}`)}
+        fullWidth
+        style={{ marginTop: 20, marginBottom: 20 }}
+      >
+        {t("view_matchup")}
+      </Button>
+    )
+  }
+
+  const renderBracketChip = () => {
+    if (data == null) {
+      return null;
+    }
+    const { bracketType } = data;
+    const bracketLabels = {
+      "none": "bracket_type_none",
+	    "swiss": "bracket_type_swiss",
+	    "roundrobin": "bracket_type_round_robin"
+    }
+    return (
+      <Chip label={t(bracketLabels[bracketType ?? "none"])} style={{ marginBottom: 20 }} />
+    )
+  }
+
   const renderLeaveButton = () => {
     if (data == null || isConcluded) {
       return null;
@@ -523,6 +707,14 @@ export default function Tournament() {
       <div className={classes.pageHeader}>
         <div className={classes.main}>
           <PlayerInfoModal open={profileToView != null} data={profileToView} onClose={onClosePlayerModal} />
+          <ReportScoreModal
+            data={selectedRound}
+            visible={isReportScoreOpen}
+            onSubmit={reportScore}
+            onClose={onCloseReportScoreModal}
+            formProps={formProps}
+            useNames={true}
+          />
           <TournamentInfoModal
             open={isTournamentInfoOpen}
             data={data}
@@ -538,6 +730,7 @@ export default function Tournament() {
           <GridContainer justify="center">
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
+              {renderBracketChip()}
               <Linkify>
                 <p style={{ whiteSpace: "pre-wrap" }}>{data?.description}</p>
               </Linkify>
@@ -553,6 +746,9 @@ export default function Tournament() {
                 {renderActionButtons()}
               </div>
               {renderShareButtons()}
+              {renderBracketActions()}
+              {renderBracketDisclaimer()}
+              <Brackets bracket={data?.bracket} onBracketSelect={onBracketSelect} isTeamTournament={data?.isTeamTournament}/>
               {
                 data?.isTeamTournament
                   ? (<FactionList
