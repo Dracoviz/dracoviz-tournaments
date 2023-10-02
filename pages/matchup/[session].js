@@ -106,17 +106,6 @@ export default function Matchup() {
 
   const classes = useStyles();
 
-  const getGamesCount = () => {
-    if (data == null) {
-      return 0;
-    }
-    const { gameAmount, playAllMatches } = data;
-    if (playAllMatches) {
-      return gameAmount;
-    }
-    return gameAmount / 2 + gameAmount % 2;
-  }
-
   const hasPokemon = data?.player.pokemon != null && data?.player.pokemon.length > 0;
 
   return (

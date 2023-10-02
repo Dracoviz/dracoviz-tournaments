@@ -7,6 +7,7 @@
 	"api_bracket_not_started": "Brackets have not started",
 	"api_bracket_could_not_find_match": "Could not find match",
 	"api_bracket_not_enough_players": "Not enough players to begin",
+	"api_bracket_invalid_score": "Invalid score",
 	"api_cannot_log_in": "Cannot log in",
 	"api_faction_already_exists": "Faction already exists",
 	"api_faction_full": "The team is already full",

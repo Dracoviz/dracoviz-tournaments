@@ -244,13 +244,34 @@ export default function Tournament() {
     setSelectedRound(null);
   }
 
-  const reportScore = (scores) => {
-    console.log(scores);
+  const reportScore = async (scores) => {
+    const { player1, player2 } = scores;
+    const { matchIndex } = selectedRound;
+    const response = await fetchApi(`session/report/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+      player1,
+      player2,
+      matchIndex,
+      scoreIndex: 0, // TODO: Teams
+    }));
+    const newData = await response.json();
+    if (newData.error != null) {
+      alert(t(newData.error));
+    } else {
+      setIsReportScoreOpen(false);
+      getTournamentData(authId);
+    }
   }
 
   const onBracketSelect = (roundIndex, matchIndex) => {
     const bracket = data?.bracket[roundIndex]?.matches[matchIndex];
-    if (bracket == null) {
+    if (bracket == null
+      || data?.bracket[roundIndex].round !== data?.currentRoundNumber
+      || data?.isHost !== true
+    ) {
       return;
     }
     setValue("player1", bracket.score[0][0]);

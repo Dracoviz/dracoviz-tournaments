@@ -5,6 +5,7 @@
 	"api_bracket_link_invalid": "El enlace del bracket no es un sitio web válido",
 	"api_bracket_already_started": "El cuadro ya ha comenzado",
 	"api_bracket_not_started": "Los corchetes no han comenzado",
+	"api_bracket_invalid_score": "Puntuación inválida",
 	"api_bracket_could_not_find_match": "No se pudo encontrar el partido",
 	"api_bracket_not_enough_players": "Ingresuficientes jugadores para comenzar",
 	"api_cannot_log_in": "No se puede iniciar sesión",
