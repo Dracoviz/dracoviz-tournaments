@@ -200,7 +200,7 @@ export default function CreateTournament() {
                   >
                     <MenuItem value="none">{t("bracket_type_none")}</MenuItem>
                     <MenuItem value="swiss">{t("bracket_type_swiss")}</MenuItem>
-                    <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem>
+                    {/* <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem> */}
                   </Select>
                   <small>
                     Note: Brackets currently only work for single player tournaments only
@@ -223,6 +223,10 @@ export default function CreateTournament() {
                       <GridItem xs={12} md={7}>
                         {t("play_all_matches_label")}
                           <Checkbox {...register("playAllMatches")}/>
+                      </GridItem>
+                      <GridItem xs={12} md={7}>
+                        {t("require_both_players_to_report")}
+                          <Checkbox {...register("requireBothPlayersToReport")}/>
                       </GridItem>
                     </>
                   )

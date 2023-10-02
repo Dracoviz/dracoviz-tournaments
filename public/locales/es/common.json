@@ -4,6 +4,8 @@
 	"api_authorization_missing": "Falta encabezado de autorización",
 	"api_bracket_link_invalid": "El enlace del bracket no es un sitio web válido",
 	"api_bracket_already_started": "El cuadro ya ha comenzado",
+	"api_bracket_not_started": "Los corchetes no han comenzado",
+	"api_bracket_could_not_find_match": "No se pudo encontrar el partido",
 	"api_bracket_not_enough_players": "Ingresuficientes jugadores para comenzar",
 	"api_cannot_log_in": "No se puede iniciar sesión",
 	"api_faction_already_exists": "La facción ya existe",
@@ -201,5 +203,8 @@
 	"host_cannot_see_teams": "El anfitrión NO PUEDE ver los equipos antes de que se complete el registro",
 	"host_can_see_teams": "El anfitrión PUEDE ver los equipos antes de que se complete el registro",
 	"start_bracket": "Comenzar el cuadro",
-	"progress_bracket": "Avanzar a la siguiente ronda del cuadro"
+	"progress_bracket": "Avanzar a la siguiente ronda del cuadro",
+	"require_both_players_to_report": "Requiere que ambos jugadores informen su puntuación",
+	"both_players_disclaimer_true": "Nota: Solo uno de los jugadores debe informar su puntuación antes de que aparezca en el cuadro",
+	"both_players_disclaimer_false": "Nota: Ambos jugadores deben informar su puntuación antes de que aparezca en el cuadro"
 }

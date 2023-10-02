@@ -30,6 +30,7 @@ function ReportScoreModal(props) {
     if (data == null || formProps == null) {
         return null;
     }
+    const { shouldReverse } = data;
     const { register, handleSubmit, watch, formState: { isValid, isDirty, isSubmitting } } = formProps;
     const menuItems = Array.from({ length: getGamesCount(data) + 1 }, (_value, index) => index);
     return (
@@ -54,8 +55,8 @@ function ReportScoreModal(props) {
                     <Select
                         fullWidth
                         style={{ backgroundColor: useNames ? 'white' : "#abf7e7" }}
-                        {...register(`gamesWon`, { required: true})}
-                        value={watch("gamesWon")}
+                        {...register(shouldReverse ? `player2` : 'player1', { required: true})}
+                        value={watch(shouldReverse ? `player2` : 'player1')}
                     >
                     {
                         menuItems.map((i) => (
@@ -69,8 +70,8 @@ function ReportScoreModal(props) {
                     <Select
                         fullWidth
                         style={{ backgroundColor: useNames ? 'white' : "#f7abab" }}
-                        {...register(`gamesLost`, { required: true })}
-                        value={watch("gamesLost")}
+                        {...register(shouldReverse ? `player1` : 'player2', { required: true })}
+                        value={watch(shouldReverse ? `player1` : 'player2')}
                     >
                     {
                         menuItems.map((i) => (

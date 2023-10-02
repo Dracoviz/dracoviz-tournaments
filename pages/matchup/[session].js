@@ -64,8 +64,8 @@ export default function Matchup() {
         return;
       }
       setData(newData);
-      setValue("gamesWon", newData.score[0]);
-      setValue("gamesLost", newData.score[1]);
+      setValue("player1", newData.score[0]);
+      setValue("player2", newData.score[1]);
       setIsLoading(false);
     });
   }
@@ -130,7 +130,13 @@ export default function Matchup() {
         <div className={classes.main}>
           <h2>{t('your_matchup')}</h2>
           <PlayerInfoModal open={showProfile} data={data?.opponent} onClose={onClose} />
-          <ReportScoreModal data={data} onClose={onClose} visible={showReport} onSubmit={onSubmit} formProps={formProps} />
+          <ReportScoreModal
+            data={data}
+            onClose={onClose}
+            visible={showReport}
+            onSubmit={onSubmit}
+            formProps={formProps}
+          />
           <GridContainer style={{ marginTop: 20 }}>
             {
               isLoading ? (
@@ -153,14 +159,18 @@ export default function Matchup() {
                           <Card className={classes.pokemonCard}>
                             <PokemonView pokemon={data?.opponent.pokemon} />
                           </Card>
-                          <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            onClick={openReportModal}
-                          >
-                            {hasScore ? t("edit_score") : t("report_score")}
-                          </Button>
+                          {
+                            (data?.touched !== true) && (
+                              <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={openReportModal}
+                              >
+                                {hasScore ? t("edit_score") : t("report_score")}
+                              </Button>
+                            )
+                          }
                         </>
                       ) : (
                         <p>{t("no_opponent_notice")}</p>

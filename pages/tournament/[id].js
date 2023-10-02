@@ -253,6 +253,8 @@ export default function Tournament() {
     if (bracket == null) {
       return;
     }
+    setValue("player1", bracket.score[0][0]);
+    setValue("player2", bracket.score[0][1]);
     setSelectedRound({
       roundIndex,
       matchIndex,
@@ -543,6 +545,18 @@ export default function Tournament() {
     );
   }
 
+  const renderBracketDisclaimer = () => {
+    if (data == null || isConcluded || !(data?.currentRoundNumber > 0)) {
+      return null;
+    }
+    const { requireBothPlayersToReport } = data;
+    return (
+      <small>
+        {requireBothPlayersToReport ? t("both_players_disclaimer_true") : t("both_players_disclaimer_false")}
+      </small>
+    )
+  }
+
   const renderBracketActions = () => {
     if (data == null || isConcluded) {
       return null;
@@ -688,6 +702,7 @@ export default function Tournament() {
               </div>
               {renderShareButtons()}
               {renderBracketActions()}
+              {renderBracketDisclaimer()}
               <Brackets bracket={data?.bracket} onBracketSelect={onBracketSelect} isTeamTournament={data?.isTeamTournament}/>
               {
                 data?.isTeamTournament
