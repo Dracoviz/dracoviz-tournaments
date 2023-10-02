@@ -44,7 +44,7 @@ export default function Matchup() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
   const formProps = useForm();
-  const { setValue } = formProps;
+  const { setValue, formState: { isSubmitting } } = formProps;
   const router = useRouter();
   const [authId, setAuthId] = useState();
   const { session } = router.query;
@@ -85,8 +85,22 @@ export default function Matchup() {
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
 
-  const onSubmit = (x) => {
-    console.log(x);
+  const onSubmit = async (scores) => {
+    const { player1, player2 } = scores;
+    const response = await fetchApi(`session/report/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: session,
+      player1,
+      player2,
+    }));
+    const newData = await response.json();
+    if (newData.error != null) {
+      alert(t(newData.error));
+    } else {
+      Router.push(`/tournament/${session}`);
+    }
   }
 
   const openProfileModal = () => {
@@ -98,6 +112,9 @@ export default function Matchup() {
   }
 
   const onClose = () => {
+    if (isSubmitting) {
+      return;
+    }
     setShowProfile(false);
     setShowReport(false);
   }
