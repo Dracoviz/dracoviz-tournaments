@@ -99,6 +99,7 @@ export default function Tournament() {
     }, JSON.stringify({
       tournamentId: id,
     }))
+    .then(response => response.json())
     .then((newData) => {
       if (newData.error != null) {
         alert(t(newData.error));
@@ -110,7 +111,22 @@ export default function Tournament() {
   }
 
   const progressBracket = () => {
-    // TODO
+    setIsLoading(true);
+    fetchApi(`session/progress/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+        setIsLoading(false);
+      } else {
+        getTournamentData(authId);
+      }
+    });
   }
 
   const getTournamentData = (newAuthId) => {
@@ -135,7 +151,14 @@ export default function Tournament() {
       tournamentId: id,
       newState: state,
     }))
-    .then(() => getTournamentData(authId));
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+      } else {
+        getTournamentData(authId);
+      }
+    });
   }
 
   const onConclude = () => {
@@ -146,6 +169,7 @@ export default function Tournament() {
     }, JSON.stringify({
       tournamentId: id,
     }))
+    .then(response => response.json())
     .then((newData) => {
       if (newData.error != null) {
         alert(t(newData.error));
