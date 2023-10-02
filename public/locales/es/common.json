@@ -207,5 +207,6 @@
 	"progress_bracket": "Avanzar a la siguiente ronda del cuadro",
 	"require_both_players_to_report": "Requiere que ambos jugadores informen su puntuación",
 	"both_players_disclaimer_true": "Nota: Solo uno de los jugadores debe informar su puntuación antes de que aparezca en el cuadro",
-	"both_players_disclaimer_false": "Nota: Ambos jugadores deben informar su puntuación antes de que aparezca en el cuadro"
+	"both_players_disclaimer_false": "Nota: Ambos jugadores deben informar su puntuación antes de que aparezca en el cuadro",
+	"winLoss": "Victorias: {{wins}} ({{gameWins}}) - Bajas: {{losses}} ({{gameLosses}})"
 }

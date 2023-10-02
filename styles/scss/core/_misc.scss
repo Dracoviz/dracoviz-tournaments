@@ -150,6 +150,12 @@ form {
   border-radius: 10px;
 }
 
+@media (max-width: 1080px) {
+  .realign {
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 720px) {
   .tournament-head {
     flex-direction: column;

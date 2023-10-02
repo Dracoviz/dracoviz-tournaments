@@ -207,5 +207,6 @@
 	"progress_bracket": "Progress bracket round",
 	"require_both_players_to_report": "Require both players to report their score",
 	"both_players_disclaimer_true": "Note: Only one player needs to report their score before it is displayed on the bracket",
-	"both_players_disclaimer_false": "Note: Only both players need to report their score before it is displayed on the bracket"
+	"both_players_disclaimer_false": "Note: Only both players need to report their score before it is displayed on the bracket",
+	"winLoss": "Wins: {{wins}} ({{gameWins}}) - Losses: {{losses}} ({{gameLosses}})"
 }
