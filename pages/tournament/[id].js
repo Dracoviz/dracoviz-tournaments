@@ -460,6 +460,7 @@ export default function Tournament() {
         <Button
           href={bracketLink}
           target="_blank"
+          rel="noreferrer"
           variant="outlined"
           className={classes.actionButtonMiddle}
           key="SEE_BRACKET"
@@ -731,8 +732,10 @@ export default function Tournament() {
             <GridItem xs={12}>
               <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
               {renderBracketChip()}
-              <Linkify>
-                <p style={{ whiteSpace: "pre-wrap" }}>{data?.description}</p>
+              <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+                <a href={decoratedHref} target="_blank" rel="noreferrer" key={key}>{decoratedText}</a>
+              )} >
+                <p style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{data?.description}</p>
               </Linkify>
               <p style={{ marginBottom: 20 }}>
                 <b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b>

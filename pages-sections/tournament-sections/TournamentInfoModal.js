@@ -36,10 +36,10 @@ function TournamentInfoModal(props) {
                     <p><b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b></p>
                 </GridItem>
                 <GridItem xs={6}>
-                    <Button href={data?.bracketLink} target="_blank" fullWidth>{t("tournament_see_bracket_button")}</Button>
+                    <Button href={data?.bracketLink} target="_blank" rel="noreferrer" fullWidth>{t("tournament_see_bracket_button")}</Button>
                 </GridItem>
                 <GridItem xs={6}>
-                    <Button href={data?.serverInviteLink} target="_blank" fullWidth>{t("server_invite_link")}</Button>
+                    <Button href={data?.serverInviteLink} target="_blank" rel="noreferrer" fullWidth>{t("server_invite_link")}</Button>
                 </GridItem>
                 <GridItem xs={12}>
                     <div style={{ marginTop: 20 }}/>

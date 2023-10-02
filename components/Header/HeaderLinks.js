@@ -41,6 +41,7 @@ export default function HeaderLinks(props) {
           <Button
             href="https://twitter.com/Dracoviz?ref=dracoviz"
             target="_blank"
+            rel="noreferrer"
             color="transparent"
             className={classes.navLink}
           >
@@ -59,6 +60,7 @@ export default function HeaderLinks(props) {
             color="transparent"
             href="https://discord.gg/tzZM3Ay93f"
             target="_blank"
+            rel="noreferrer"
             className={classes.navLink}
           >
             <i className={classes.socialIcons + " fab fa-discord"} />
