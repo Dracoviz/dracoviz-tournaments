@@ -57,7 +57,6 @@ export default function Matchup() {
     })
     .then(response => response.json())
     .then(newData => {
-      console.log(newData)
       if (newData.error != null) {
         alert(t(newData.error));
         Router.push(`/tournament/${session}`);
