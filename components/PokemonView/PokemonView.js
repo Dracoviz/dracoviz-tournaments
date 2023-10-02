@@ -25,6 +25,7 @@ export default function PokemonView(props) {
         <h5>{pokemonObj.speciesName}</h5>
         <p>
           {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
+          {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
           {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
           {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
         </p>

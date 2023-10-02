@@ -274,7 +274,7 @@ export default function CreateTournament() {
                   />
                 </GridItem>
                 <GridItem xs={12} md={6}>
-                  <InputLabel>{t("cp_visibility")}</InputLabel>
+                  <InputLabel style={{ marginTop: 10 }}>{t("cp_visibility")}</InputLabel>
                   <Select
                     fullWidth
                     {...register(`cpVisibility`, { required: true })}
@@ -285,7 +285,18 @@ export default function CreateTournament() {
                   </Select>
                 </GridItem>
                 <GridItem xs={12} md={6}>
-                  <InputLabel>{t("moveset_visibility")}</InputLabel>
+                  <InputLabel style={{ marginTop: 10 }}>{t("hp_visibility")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`hpVisibility`, { required: true })}
+                  >
+                    <MenuItem value="none">{t("visibility_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
+                    <MenuItem value="global">{t("visibility_global")}</MenuItem>
+                  </Select>
+                </GridItem>
+                <GridItem xs={12} md={6}>
+                  <InputLabel style={{ marginTop: 10 }}>{t("moveset_visibility")}</InputLabel>
                   <Select
                     fullWidth
                     {...register(`movesetVisibility`, { required: true})}
@@ -295,7 +306,7 @@ export default function CreateTournament() {
                     <MenuItem value="global">{t("visibility_global")}</MenuItem>
                   </Select>
                 </GridItem>
-                <GridItem xs={12}>
+                <GridItem xs={12} md={6}>
                   <InputLabel style={{ marginTop: 10 }}>{t("draft_mode")}</InputLabel>
                   <Select
                     fullWidth

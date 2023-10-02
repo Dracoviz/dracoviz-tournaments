@@ -40,6 +40,7 @@ export default function Team() {
   const [submitting, setSubmitting] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [movesRequired, setMovesRequired] = useState(false);
+  const [hpRequired, setHpRequired] = useState(false);
   const [cpRequired, setCpRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
@@ -65,8 +66,10 @@ export default function Team() {
       setCanEdit(data.canEdit);
       setMovesRequired(data.movesetsRequired);
       setCpRequired(data.cpRequired);
+      setHpRequired(data.hpRequired);
       setPokemonOptions(data.pokemonData);
       setValue("cp", data.cp, { shouldValidate: false });
+      setValue("hp", data.hp, { shouldValidate: false });
       setValue("pokemon", data.pokemon, { shouldValidate: false });
       setValue("chargedMoves", data.chargedMoves, { shouldValidate: false });
       setValue("fastMoves", data.fastMoves, { shouldValidate: false });
@@ -222,7 +225,27 @@ export default function Team() {
                           max: 100000
                         }),
                     }}
-                    error={errors.maxMatchTeamSize}
+                  />
+                )
+              }
+              {
+                hpRequired && (
+                  <CustomInput
+                    labelText={t('hp')}
+                    id={`hp.${index}`}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      type: "number",
+                      ...register(
+                        `hp.${index}`,
+                        {
+                          required: hpRequired,
+                          min: 1,
+                          max: 100000
+                        }),
+                    }}
                   />
                 )
               }
