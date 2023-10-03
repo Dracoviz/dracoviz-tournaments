@@ -608,7 +608,20 @@ export default function Tournament() {
       return null;
     }
     const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds } = data;
-    if (isHost && !(bracketType == null || bracketType === "none") && totalRounds !== currentRoundNumber) {
+    if (isHost && !(bracketType == null || bracketType === "none")) {
+      if (totalRounds === currentRoundNumber) {
+        return (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onConclude}
+            fullWidth
+            style={{ marginTop: 20, marginBottom: 20 }}
+          >
+            {t("conclude_tournament")}
+          </Button>
+        )
+      }
       if (currentRoundNumber === 0) {
         return (
           <Button
