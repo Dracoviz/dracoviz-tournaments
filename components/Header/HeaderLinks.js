@@ -9,6 +9,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Button from "/components/CustomButtons/Button.js";
 import Router from "next/router";
 import firebase from "firebase/compat/app";
+import kofi from "../../public/img/kofi.svg";
 import { useTranslation } from "next-i18next";
 
 import styles from "/styles/jss/nextjs-material-kit/components/headerLinksStyle.js";
@@ -16,6 +17,7 @@ import styles from "/styles/jss/nextjs-material-kit/components/headerLinksStyle.
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
+  console.log(kofi);
   const { t } = useTranslation();
 
   const classes = useStyles();
@@ -44,6 +46,7 @@ export default function HeaderLinks(props) {
             rel="noreferrer"
             color="transparent"
             className={classes.navLink}
+            style={{ color: "#1DA1F2" }}
           >
             <i className={classes.socialIcons + " fab fa-twitter"} />
           </Button>
@@ -62,8 +65,34 @@ export default function HeaderLinks(props) {
             target="_blank"
             rel="noreferrer"
             className={classes.navLink}
+            style={{ color: "#7289da" }}
           >
             <i className={classes.socialIcons + " fab fa-discord"} />
+          </Button>
+        </Tooltip>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Tooltip
+          id="instagram-kofi"
+          title={t("header_kofi")}
+          placement={"top"}
+          classes={{ tooltip: classes.tooltip }}
+        >
+          <Button
+            color="transparent"
+            href="https://discord.gg/tzZM3Ay93f"
+            target="_blank"
+            rel="noreferrer"
+            className={classes.navLink}
+          >
+            <img
+              className={classes.socialIcons}
+              src={kofi.src}
+              style={{ marginTop: -3 }}
+              height={25}
+              width={25}
+              alt="kofi"
+            />
           </Button>
         </Tooltip>
       </ListItem>
