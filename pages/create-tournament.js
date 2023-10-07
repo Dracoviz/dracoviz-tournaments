@@ -174,7 +174,7 @@ export default function CreateTournament() {
                     }}
                     inputProps={{
                       multiline: true,
-                      ...register("description", { required: true, maxLength: 5000 })
+                      ...register("description", { maxLength: 5000 })
                     }}
                     error={errors.description}
                   />
