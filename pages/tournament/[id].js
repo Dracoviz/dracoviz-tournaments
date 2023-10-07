@@ -198,6 +198,23 @@ export default function Tournament() {
     return true;
   }
 
+  const deleteTournament = async () => {
+    setIsLoading(true);
+    const response = await fetchApi(`session/delete/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }));
+    const newData = await response.json();
+    if (newData.error != null) {
+      alert(t(newData.error));
+      setIsLoading(false);
+      return false;
+    }
+    return true;
+  }
+
   const onEditTournament = async (data) => {
     const response = await fetchApi(`session/edit/`, "POST", {
       "x_session_id": authId,
@@ -245,6 +262,18 @@ export default function Tournament() {
     const didDelete = await deletePlayer(null);
     if (didDelete) {
       Router.push("/");
+    }
+  }
+
+  const onDelete = () => {
+    if (confirm(t("delete_tournament_disclaimer"))) {
+      deleteTournament().then((didSucceed) => {
+        if (didSucceed) {
+          Router.push("/");
+        } else {
+          setIsLoading(false);
+        }
+      });
     }
   }
 
@@ -696,6 +725,24 @@ export default function Tournament() {
     );
   }
 
+  const renderDeleteButton = () => {
+    if (data == null || isConcluded) {
+      return null;
+    }
+    const { isHost } = data;
+    if (!isHost) {
+      return null;
+    }
+    return (
+      <Button
+        color="error"
+        onClick={onDelete}
+      >
+        {t("delete_tournament")}
+      </Button>
+    );
+  }
+
   if (isLoading) {
     return (<div>
       <Header
@@ -785,6 +832,7 @@ export default function Tournament() {
                     />)
               }
               {renderLeaveButton()}
+              {renderDeleteButton()}
             </GridItem>
           </GridContainer>
         </div>
