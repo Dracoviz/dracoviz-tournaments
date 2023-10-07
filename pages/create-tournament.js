@@ -268,7 +268,7 @@ export default function CreateTournament() {
                     }}
                     inputProps={{
                       type: "number",
-                      ...register("maxTeams", { required: true, min: 3, max: 128 })
+                      ...register("maxTeams", { required: true, min: 3, max: 300 })
                     }}
                     error={errors.maxTeams}
                   />

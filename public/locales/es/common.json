@@ -140,7 +140,7 @@
 	"tournament_hide_pokemon_button": "Ocultar Pokémon",
 	"tournament_hide_rosters_button": "Ocultar Rosters",
 	"tournament_max_team_size": "Tamaño Máximo del Equipo (Incluyendo Suplentes, Máximo 20)*",
-	"tournament_max_teams": "Máximo de Equipos (Máximo 128, Mínimo 3)*",
+	"tournament_max_teams": "Máximo de Equipos (Máximo 300, Mínimo 3)*",
 	"tournament_multiple_metas_enabled": "¿Quieres habilitar múltiples metas para este torneo?",
 	"tournament_name": "Nombre del Torneo*",
 	"tournament_number": "Número del Torneo*",
