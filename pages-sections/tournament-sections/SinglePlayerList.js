@@ -14,10 +14,10 @@ const sortingAlgo = (a, b) => {
   if (a.wins != null) {
     return ((b.wins * 10) + b.gameWins) - ((a.wins * 10) + a.gameWins);
   }
-  if (a.name < b.name) {
+  if (a.name?.toLowerCase() < b.name?.toLowerCase()) {
     return -1;
   }
-  if (a.name > b.name) {
+  if (a.name?.toLowerCase() > b.name?.toLowerCase()) {
     return 1;
   }
   return 0;
