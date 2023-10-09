@@ -211,5 +211,6 @@
 	"both_players_disclaimer_true": "Note: Both players need to report their score before it is displayed on the bracket",
 	"winLoss": "Wins: {{wins}} ({{gameWins}}) - Losses: {{losses}} ({{gameLosses}})",
 	"hp": "HP",
-	"hp_visibility": "HP Visibility"
+	"hp_visibility": "HP Visibility",
+	"bye_award_label": "How many points are awarded for a bye?"
 }

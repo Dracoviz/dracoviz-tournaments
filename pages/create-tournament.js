@@ -48,6 +48,7 @@ export default function CreateTournament() {
   const isTeamTournament = watch("isTeamTournament");
   const bracketType = watch("bracketType");
   const theMetas = watch("metas");
+  const gameAmount = watch("gameAmount");
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -220,6 +221,22 @@ export default function CreateTournament() {
                           <MenuItem value={5}>5</MenuItem>
                         </Select>
                       </GridItem>
+                      {
+                        (gameAmount != null && gameAmount > 0) &&
+                        <GridItem xs={12} md={7} style={{ marginTop: 10 }}>
+                          <InputLabel>{t("bye_award_label")}</InputLabel>
+                          <Select
+                            fullWidth
+                            {...register(`byeAward`, { required: true})}
+                          >
+                            {
+                              Array(gameAmount).fill(0).map((_, i) => (
+                                <MenuItem value={i + 1}>{i + 1}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </GridItem>
+                      }
                       <GridItem xs={12} md={7}>
                         {t("play_all_matches_label")}
                           <Checkbox {...register("playAllMatches")}/>

@@ -211,5 +211,6 @@
 	"both_players_disclaimer_true": "Nota: Ambos jugadores deben informar su puntuación antes de que aparezca en el cuadro",
 	"winLoss": "Victorias: {{wins}} ({{gameWins}}) - Bajas: {{losses}} ({{gameLosses}})",
 	"hp": "HP",
-	"hp_visibility": "Registro de HP"
+	"hp_visibility": "Registro de HP",
+	"bye_award_label": "¿Cuántos puntos se otorgan por un descanso?"
 }
