@@ -7,6 +7,7 @@ import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
+import NoPlayers from "../../components/NoPlayers/NoPlayers";
 
 const useStyles = makeStyles(styles);
 
@@ -63,7 +64,7 @@ export default function SinglePlayerList(props) {
   const noSearchResults = searchedPlayers == null || searchedPlayers.length <= 0;
 
   if (players == null || players.length <= 0) {
-    return <p>{t('no_players_in_tournament')}</p>
+    return <NoPlayers />
   }
 
   return (

@@ -106,7 +106,7 @@
 	"no_factions_in_search": "No se encontraron equipos.",
 	"no_factions_in_tournament": "Todavía no se han unido equipos a este torneo.",
 	"no_players_in_search": "No se encontraron jugadores.",
-	"no_players_in_tournament": "Todavía no se han unido jugadores a este torneo.",
+	"no_players_in_tournament": "Todavía no se han unido jugadores a este torneo. Encuentra un amigo para {{name}}.",
 	"please_create_account_to_participate": "Por favor, crea una cuenta para participar en los torneos de la comunidad de Pokémon GO PvP.",
 	"pokemon_shadow": ", Sombra",
 	"register_pokemon_name": "Registra tu equipo de Pokémon",

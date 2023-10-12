@@ -636,7 +636,10 @@ export default function Tournament() {
     if (data == null || isConcluded) {
       return null;
     }
-    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds } = data;
+    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds, players } = data;
+    if (players?.length < 2) {
+      return null;
+    }
     if (isHost && !(bracketType == null || bracketType === "none")) {
       if (totalRounds === currentRoundNumber) {
         return (

@@ -17,7 +17,6 @@ import styles from "/styles/jss/nextjs-material-kit/components/headerLinksStyle.
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
-  console.log(kofi);
   const { t } = useTranslation();
 
   const classes = useStyles();

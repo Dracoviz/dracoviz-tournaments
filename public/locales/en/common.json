@@ -106,7 +106,7 @@
 	"no_factions_in_search": "No teams found.",
 	"no_factions_in_tournament": "No teams have joined this tournament yet.",
 	"no_players_in_search": "No players found.",
-	"no_players_in_tournament": "No players have joined this tournament yet.",
+	"no_players_in_tournament": "No players have joined this tournament yet. Find a friend for {{name}}.",
 	"please_create_account_to_participate": "Please create an account to participate in community lead tournaments for Pokémon GO PvP",
 	"pokemon_shadow": ", Shadow",
 	"register_pokemon_name": "Register your team of Pokémon",

@@ -8,6 +8,7 @@ import { useTranslation } from "next-i18next";
 import Filter from "bad-words";
 import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
+import NoPlayers from "../../components/NoPlayers/NoPlayers";
 
 const useStyles = makeStyles(styles);
 
@@ -76,7 +77,7 @@ export default function FactionList(props) {
   const noSearchResults = searchedFactions == null || searchedFactions.length <= 0;
 
   if (factions == null || factions.length <= 0) {
-    return <p>{t('no_factions_in_tournament')}</p>
+    return <NoPlayers />
   }
 
   return (
