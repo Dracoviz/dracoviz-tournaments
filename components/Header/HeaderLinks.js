@@ -79,7 +79,7 @@ export default function HeaderLinks(props) {
         >
           <Button
             color="transparent"
-            href="https://discord.gg/tzZM3Ay93f"
+            href="https://ko-fi.com/dracoviz"
             target="_blank"
             rel="noreferrer"
             className={classes.navLink}
