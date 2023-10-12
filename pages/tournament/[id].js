@@ -793,7 +793,7 @@ export default function Tournament() {
           />
           <GridContainer justify="center">
             <GridItem xs={12}>
-              <h1 style={{ marginTop: 0 }}>{data?.name}</h1>
+              <h1 style={{ marginTop: 0, wordBreak: "break-word" }}>{data?.name}</h1>
               {renderBracketChip()}
               <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
                 <a href={decoratedHref} target="_blank" rel="noreferrer" key={key}>{decoratedText}</a>
