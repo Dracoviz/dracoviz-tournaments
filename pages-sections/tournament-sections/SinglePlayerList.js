@@ -30,8 +30,6 @@ export default function SinglePlayerList(props) {
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
 
-  console.log(players);
-
   useEffect(() => {
     setSearchedPlayers(players);
   }, [players]);

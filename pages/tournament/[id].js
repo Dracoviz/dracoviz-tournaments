@@ -297,6 +297,32 @@ export default function Tournament() {
     setSelectedRound(null);
   }
 
+  const exportData = () => {
+    if (data == null || data.isHost !== true || data.state !== "POKEMON_VISIBLE") {
+      return null
+    }
+    const { players } = data;
+    const exportedData = players?.map(p => {
+      const { wins, losses, gameWins, gameLosses, name, pokemon } = p;
+      return {
+        wins,
+        losses,
+        gameWins,
+        gameLosses,
+        name,
+        pokemon,
+      }
+    })
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(exportedData)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json";
+
+    link.click();
+  };
+
   const reportScore = async (scores) => {
     const { player1, player2 } = scores;
     const { matchIndex } = selectedRound;
@@ -375,6 +401,17 @@ export default function Tournament() {
   }
 
   const classes = useStyles();
+
+  const renderExportButton = () => {
+    if (data == null || data.isHost !== true || data.state !== "POKEMON_VISIBLE") {
+      return null
+    }
+    return (
+      <Button onClick={exportData} style={{ float: "right" }}>
+        {t("export_team_data")}
+      </Button>
+    )
+  }
 
   const renderConcludeStatus = () => {
     if (data == null || !isConcluded) {
@@ -479,10 +516,10 @@ export default function Tournament() {
         {t("tournament_view_information")}
       </Button>
     );
+    const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink } = data;
     if (isConcluded) {
       return [seeTmButton];
     }
-    const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink } = data;
     const buttons = [];
     if (bracketLink != null && bracketLink !== "") {
       buttons.push(
@@ -793,6 +830,7 @@ export default function Tournament() {
           />
           <GridContainer justify="center">
             <GridItem xs={12}>
+              {renderExportButton()}
               <h1 style={{ marginTop: 0, wordBreak: "break-word" }}>{data?.name}</h1>
               {renderBracketChip()}
               <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (

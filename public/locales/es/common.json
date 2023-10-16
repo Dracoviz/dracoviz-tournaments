@@ -212,5 +212,6 @@
 	"winLoss": "Victorias: {{wins}} ({{gameWins}}) - Bajas: {{losses}} ({{gameLosses}})",
 	"hp": "HP",
 	"hp_visibility": "Registro de HP",
-	"bye_award_label": "¿Cuántos puntos se otorgan por un descanso?"
+	"bye_award_label": "¿Cuántos puntos se otorgan por un descanso?",
+	"export_team_data": "Exportar datos del equipo"
 }

@@ -212,5 +212,6 @@
 	"winLoss": "Wins: {{wins}} ({{gameWins}}) - Losses: {{losses}} ({{gameLosses}})",
 	"hp": "HP",
 	"hp_visibility": "HP Visibility",
-	"bye_award_label": "How many points are awarded for a bye?"
+	"bye_award_label": "How many points are awarded for a bye?",
+	"export_team_data": "Export team data"
 }
