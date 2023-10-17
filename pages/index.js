@@ -40,6 +40,8 @@ export default function Index() {
   const [data, setData] = useState(null);
   const [currentTab, setCurrentTab] = useState(0);
   const router = useRouter();
+  const { query } = router;
+  const { isNewUser } = query;
 
   const goToRoute = (route) => {
     router.push(route);
@@ -51,7 +53,13 @@ export default function Index() {
       x_session_id: id,
     })
     .then(response => response.json())
-    .then(newData => setData(newData));
+    .then(newData => {
+      setData(newData)
+      if (isNewUser === "true") {
+        router.replace('/', undefined, { shallow: true });
+        setCurrentModal("profile");
+      }
+    });
   }, [])
 
   // Listen to the Firebase Auth state and set the local state.

@@ -43,10 +43,11 @@ export default function LoginPage(props) {
       fetchApi("shared/login/", "GET", {
         "x_session_id": uid,
       })
-      .then((response) => {
+      .then(async (response) => {
         if (response.status === 200) {
           // Successfully found user
-          Router.push("/");
+          const responseJSON = await response.json();
+          Router.push(`/?isNewUser=${responseJSON?.isNewUser}`);
         } else {
           // Cannot generate user, delete firebase copy
           alert("Failed to log you in. Please try again");
