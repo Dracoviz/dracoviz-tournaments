@@ -219,5 +219,9 @@
     "round_length_min": "{{time}} 分",
     "round_length_hour": "{{time}} 時間",
     "round_length_week": "1週間",
-    "round_time_remaining": "ラウンド終了までの時間"
+    "round_time_remaining": "ラウンド終了までの時間",
+    "no_tournaments_in_search": "トーナメントが見つかりませんでした。別のキーワードで検索してみてください。",
+    "search_tournaments": "受付中のトーナメントを検索",
+    "no_tournaments_found": "トーナメントが見つかりませんでした",
+    "players": "プレイヤー"
 }

@@ -8,6 +8,7 @@ import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
+import TournamentsList from "../pages-sections/tournament-sections/TournamentsList";
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'next-i18next';
 
@@ -35,6 +36,7 @@ export default function JoinTournament() {
   const { t } = useTranslation();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [authId, setAuthId] = useState("");
+  const [isFormLoading, setIsFormLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [tournaments, setTournaments] = useState([]);
   const [numberOfPages, setNumberOfPages] = useState(0);
@@ -45,22 +47,26 @@ export default function JoinTournament() {
   const { tid, pid, faction } = router.query;
 
   const getPublicTournaments = (id) => {
-    // setIsLoading(true);
-    // //TODO: API
+    setIsLoading(true);
     setAuthId(id);
-    // setIsLoading(false);
+    fetchApi("session/all/", "GET", { "x_session_id": id })
+      .then((response) => response.json())
+      .then((data) => {
+        setTournaments(data?.filteredSessions ?? []);
+        setIsLoading(false);
+      });
   }
 
   const onSubmit = (allData) => {
     const { firebaseId, ...data } = allData;
     const theId = firebaseId ?? authId;
     if (step === 0) {
-      setIsLoading(true);
+      setIsFormLoading(true);
       fetchApi("session/join/", "POST", { "x_session_id": theId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then((response) => response.json())
       .then((newData) => {
         const { isTeamTournament, id, error, alreadyEntered } = newData;
-        setIsLoading(false);
+        setIsFormLoading(false);
         if (alreadyEntered) {
           Router.push(`/tournament/${id}`);
         } else if (error != null) {
@@ -74,11 +80,11 @@ export default function JoinTournament() {
         }
       })
       .catch(() => {
-        setIsLoading(false);
+        setIsFormLoading(false);
       })
     } else if (step === 1) {
       const { isCaptain, factionCode, factionName, tournamentId } = data;
-      setIsLoading(true);
+      setIsFormLoading(true);
       // create faction endpoint
       if (isCaptain) {
         fetchApi(
@@ -90,7 +96,7 @@ export default function JoinTournament() {
         .then((response) => response.json())
         .then((newData) => {
           const { factionCode, tournamentId, factionName, error } = newData;
-          setIsLoading(false);
+          setIsFormLoading(false);
           if (error != null) {
             alert(t(error));
             return;
@@ -108,7 +114,7 @@ export default function JoinTournament() {
         .then((response) => response.json())
         .then((newData) => {
           const { tournamentId, factionName, error } = newData;
-          setIsLoading(false);
+          setIsFormLoading(false);
           if (error != null) {
             alert(t(error));
             return;
@@ -250,13 +256,13 @@ export default function JoinTournament() {
                 </GridItem>
                 {renderTournamentByLink()}
                 {
-                  isLoading ? (
+                  isFormLoading ? (
                     <CircularProgress />
                   ) : (
                     <GridItem xs={12}>
                       <Button
                         type="submit"
-                        disabled={isLoading || !isValid}
+                        disabled={isFormLoading || !isValid}
                         style={{ marginBottom: 10 }}
                       >
                         {t("join_tournament")}
@@ -278,12 +284,18 @@ export default function JoinTournament() {
               </GridContainer>
             </form>
           </Card>
-          <small>{t("tournament_public_browsing_soon")}</small>
-          {/* <GridContainer>
-            <GridItem xs={12}>
-              <h3>All tournaments</h3>
-            </GridItem>
-          </GridContainer> */}
+          {
+            isLoading ? (
+              <CircularProgress />
+            ) : (
+              <GridContainer>
+                <GridItem xs={12}>
+                  <h3>All tournaments</h3>
+                  <TournamentsList tournaments={tournaments}/>
+                </GridItem>
+              </GridContainer>
+            )
+          }
         </div>
       </div>
       <Footer />

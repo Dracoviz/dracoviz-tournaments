@@ -4,6 +4,19 @@ const singlePlayerStyle = {
     paddingLeft: 30,
     paddingRight: 30,
   },
+  tourneyRoot: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    display: "flex",
+    alignItems: "center",
+  },
+  metas: {
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: 30,
+  },
   playerMetaRow: {
     display: "flex",
   },
@@ -25,6 +38,11 @@ const singlePlayerStyle = {
     justifyContent: "center",
     textAlign: "center",
     width: "30%",
+  },
+  description: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
   }
 }
   

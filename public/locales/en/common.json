@@ -219,5 +219,9 @@
 	"round_length_min": "{{time}} minutes",
 	"round_length_hour": "{{time}} hours",
 	"round_length_week": "1 week",
-	"round_time_remaining": "Time until round end"
+	"round_time_remaining": "Time until round end",
+	"no_tournaments_in_search": "No tournaments found. Maybe search for something else?",
+	"search_tournaments": "Search tournaments with open registration",
+	"no_tournaments_found": "No tournaments found",
+	"players": "Players"
 }
