@@ -36,7 +36,7 @@ const Countdown = ({ endDate }) => {
   return (
     <div style={{ textAlign: "center", border: "solid 1px gray", paddingTop: 10, marginTop: 30 }}>
       <p>{t("round_time_remaining")}</p>
-      <h1 style={{ marginTop: 0 }}>
+      <h1 style={{ marginTop: 0, fontSize: "2.5rem" }}>
         <span>{days < 10 ? '0' + days : days}</span>:
         <span>{hours < 10 ? '0' + hours : hours}</span>:
         <span>{minutes < 10 ? '0' + minutes : minutes}</span>:
