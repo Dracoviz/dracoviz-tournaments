@@ -218,5 +218,6 @@
     "round_length_none": "タイム制限なし",
     "round_length_min": "{{time}} 分",
     "round_length_hour": "{{time}} 時間",
-    "round_length_week": "1週間"
+    "round_length_week": "1週間",
+    "round_time_remaining": "ラウンド終了までの時間"
 }

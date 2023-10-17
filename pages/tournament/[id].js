@@ -23,6 +23,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Brackets from "../../pages-sections/tournament-sections/Brackets";
 import ReportScoreModal from "../../pages-sections/tournament-sections/ReportScoreModal";
 import { useForm } from "react-hook-form";
+import Countdown from "../../components/Countdown/Countdown";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -452,6 +453,22 @@ export default function Tournament() {
     )
   }
 
+  const renderCountdown = () => {
+    if (
+      data == null
+      || isConcluded
+      || data.roundEndTime == null
+      || data.currentRoundNumber <= 0
+      || data.timeControl == null
+      || data.timeControl <= 0
+    ) {
+      return null;
+    }
+    return (
+      <Countdown endDate={new Date(data.roundEndTime)} />
+    )
+  }
+
   const renderShareButtons = () => {
     if (data == null || isConcluded) {
       return null;
@@ -855,6 +872,7 @@ export default function Tournament() {
                 {renderActionButtons()}
               </div>
               {renderShareButtons()}
+              {renderCountdown()}
               {renderBracketActions()}
               {renderBracketDisclaimer()}
               <Brackets bracket={data?.bracket} onBracketSelect={onBracketSelect} isTeamTournament={data?.isTeamTournament}/>

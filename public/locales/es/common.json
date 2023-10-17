@@ -218,5 +218,6 @@
 	"round_length_none": "Sin límite de tiempo",
 	"round_length_min": "{{time}} minutos",
 	"round_length_hour": "{{time}} horas",
-	"round_length_week": "1 semana"
+	"round_length_week": "1 semana",
+	"round_time_remaining": "Tiempo restante para el final de la ronda"
 }

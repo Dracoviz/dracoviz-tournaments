@@ -218,5 +218,6 @@
 	"round_length_none": "Not timed",
 	"round_length_min": "{{time}} minutes",
 	"round_length_hour": "{{time}} hours",
-	"round_length_week": "1 week"
+	"round_length_week": "1 week",
+	"round_time_remaining": "Time until round end"
 }
