@@ -213,5 +213,10 @@
     "hp": "HP",
     "hp_visibility": "HPの表示",
     "bye_award_label": "バイ（不戦勝）のために授与されるポイント数",
-    "export_team_data": "チームデータのエクスポート"
+    "export_team_data": "チームデータのエクスポート",
+    "round_length": "ラウンドの長さ",
+    "round_length_none": "タイム制限なし",
+    "round_length_min": "{{time}} 分",
+    "round_length_hour": "{{time}} 時間",
+    "round_length_week": "1週間"
 }

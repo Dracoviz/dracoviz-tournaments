@@ -13,6 +13,7 @@ import Linkify from 'react-linkify';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
+import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
@@ -732,18 +733,22 @@ export default function Tournament() {
     )
   }
 
-  const renderBracketChip = () => {
+  const renderChips = () => {
     if (data == null) {
       return null;
     }
-    const { bracketType } = data;
+    const { bracketType, timeControl } = data;
     const bracketLabels = {
       "none": "bracket_type_none",
 	    "swiss": "bracket_type_swiss",
 	    "roundrobin": "bracket_type_round_robin"
     }
+    const roundLabels = getRoundLengthLabel(t);
     return (
-      <Chip label={t(bracketLabels[bracketType ?? "none"])} style={{ marginBottom: 20 }} />
+      <div style={{ marginBottom: 20 }}>
+        <Chip label={t(bracketLabels[bracketType ?? "none"])} style={{ marginRight: 10 }} />
+        <Chip label={`${t("round_length")}: ${roundLabels[timeControl ?? 0]}`} color="info" />
+      </div>
     )
   }
 
@@ -832,7 +837,7 @@ export default function Tournament() {
             <GridItem xs={12}>
               {renderExportButton()}
               <h1 style={{ marginTop: 0, wordBreak: "break-word" }}>{data?.name}</h1>
-              {renderBracketChip()}
+              {renderChips()}
               <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
                 <a href={decoratedHref} target="_blank" rel="noreferrer" key={key}>{decoratedText}</a>
               )} >

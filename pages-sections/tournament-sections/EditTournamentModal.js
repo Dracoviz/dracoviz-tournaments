@@ -7,6 +7,7 @@ import { Button, InputLabel, Select, MenuItem, Checkbox } from "@mui/material";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
+import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -21,7 +22,8 @@ function EditTournamentModal(props) {
       bracketLink: data?.bracketLink,
       serverInviteLink: data?.serverInviteLink,
       registrationClosed: data?.registrationClosed ? "closed" : "open",
-      hideTeamsFromHost: data?.hideTeamsFromHost
+      hideTeamsFromHost: data?.hideTeamsFromHost,
+      timeControl: data?.timeControl
     }
   });
 
@@ -41,6 +43,8 @@ function EditTournamentModal(props) {
     }
   }
   const isRegistrationClosed = watch("registrationClosed");
+  const timeControl = watch("timeControl");
+  const roundLabels = getRoundLengthLabel(t);
   return(
     <Dialog
       open={open}
@@ -114,6 +118,17 @@ function EditTournamentModal(props) {
                   }}
                   error={errors.bracketLink}
                 />
+              </GridItem>
+              <GridItem xs={12} style={{ marginBottom: 10 }}>
+                <InputLabel>{t("round_length")}</InputLabel>
+                <Select
+                  fullWidth
+                  {...register(`timeControl`, { required: true})}
+                >
+                  {Object.keys(roundLabels).map((k) => (
+                    <MenuItem value={k} key={k}>{roundLabels[k]}</MenuItem>
+                  ))}
+                </Select>
               </GridItem>
               <GridItem xs={12}>
                 <InputLabel>{t("registration_status")}</InputLabel>

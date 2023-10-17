@@ -10,6 +10,7 @@ import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'next-i18next';
+import getRoundLengthLabel from "../api/getRoundLengthLabel";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem } from "@mui/material";
@@ -132,6 +133,7 @@ export default function CreateTournament() {
   }, [hasMultipleMetas, maxMatchTeamSize]);
 
   const classes = useStyles();
+  const roundLabels = getRoundLengthLabel(t);
 
   return (
     <div>
@@ -192,6 +194,17 @@ export default function CreateTournament() {
                     }}
                     error={errors.serverInviteLink}
                   />
+                </GridItem>
+                <GridItem xs={12} md={7} style={{ marginBottom: 10 }}>
+                  <InputLabel>{t("round_length")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`timeControl`, { required: true})}
+                  >
+                    {Object.keys(roundLabels).map((k) => (
+                      <MenuItem value={k} key={k}>{roundLabels[k]}</MenuItem>
+                    ))}
+                  </Select>
                 </GridItem>
                 <GridItem xs={12} md={7}>
                   <InputLabel>{t("bracket_type")}</InputLabel>

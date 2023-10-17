@@ -213,5 +213,10 @@
 	"hp": "HP",
 	"hp_visibility": "Registro de HP",
 	"bye_award_label": "¿Cuántos puntos se otorgan por un descanso?",
-	"export_team_data": "Exportar datos del equipo"
+	"export_team_data": "Exportar datos del equipo",
+	"round_length": "Duración de la ronda",
+	"round_length_none": "Sin límite de tiempo",
+	"round_length_min": "{{time}} minutos",
+	"round_length_hour": "{{time}} horas",
+	"round_length_week": "1 semana"
 }

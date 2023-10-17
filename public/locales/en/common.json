@@ -213,5 +213,10 @@
 	"hp": "HP",
 	"hp_visibility": "HP Visibility",
 	"bye_award_label": "How many points are awarded for a bye?",
-	"export_team_data": "Export team data"
+	"export_team_data": "Export team data",
+	"round_length": "Round length",
+	"round_length_none": "Not timed",
+	"round_length_min": "{{time}} minutes",
+	"round_length_hour": "{{time}} hours",
+	"round_length_week": "1 week"
 }
