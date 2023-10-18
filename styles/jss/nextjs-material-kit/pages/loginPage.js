@@ -16,6 +16,7 @@ const signupPageStyle = {
   },
   card: {
     padding: "20px 20px",
+    textAlign: "center",
   },
   cardHeader: {
     width: "auto",

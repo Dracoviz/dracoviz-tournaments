@@ -100,25 +100,37 @@ export default function LoginPage(props) {
       />
       <div className={classes.pageHeader}>
         <div className={classes.main}>
-          <GridContainer>
-            <GridItem xs={12}>
-              <LocaleSelect />
-            </GridItem>
-            <GridItem xs={0} md={2} lg={3}/>
-            <GridItem xs={12} md={8} lg={6}>
-              <Card className={classes[cardAnimaton]}>
-                <div className={classes.card}>
-                  <h2>
-                    <b>Pokémon GO</b>
-                    <br />
-                    {t("grassroots_tournaments")}
-                  </h2>
-                  <p style={{ marginBottom: 40 }}>{t("please_create_account_to_participate")}</p>
-                  {isLoading ? <CircularProgress className={classes.progress} /> : <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />}
-                </div>
-              </Card>
-            </GridItem>
-          </GridContainer>
+          <div>
+            <GridContainer>
+              <GridItem xs={12}>
+                <LocaleSelect />
+              </GridItem>
+              <GridItem xs={0} md={2} />
+              <GridItem xs={12} md={8}>
+                <Card className={classes[cardAnimaton]}>
+                  <div className={classes.card}>
+                    <h2>
+                      <b>Pokémon GO</b>
+                      <br />
+                      {t("grassroots_tournaments")}
+                    </h2>
+                    <p style={{ marginBottom: 20 }}>{t("please_create_account_to_participate")}</p>
+                    {isLoading
+                      ? <CircularProgress className={classes.progress} />
+                      : <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                    }
+                    <iframe
+                      src="https://www.youtube.com/embed/h36HulR8eoc?si=YtEb8MD1L-IKYjjZ"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="Embedded youtube"
+                      style={{ maxWidth: 600, width: "100%", border: "none", aspectRatio: "16/9" }}
+                    />
+                  </div>
+                </Card>
+              </GridItem>
+            </GridContainer>
+          </div>
         </div>
         <Footer />
       </div>
