@@ -10,7 +10,7 @@ export default function getRoundLengthLabel(t) {
     1440: t("round_length_hour", { time: 24 }),
     2880: t("round_length_hour", { time: 48 }),
     4320: t("round_length_hour", { time: 72 }),
-    5760: t("round_length_hour", { time: 92 }),
+    5760: t("round_length_hour", { time: 96 }),
     10080: t("round_length_week")
   };
 }
