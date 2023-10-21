@@ -120,7 +120,7 @@ export default function LoginPage(props) {
                       : <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                     }
                     <iframe
-                      src="https://www.youtube.com/embed/h36HulR8eoc?si=YtEb8MD1L-IKYjjZ"
+                      src="https://www.youtube.com/embed/ykFltS4b2MI?si=y__K2kTS2bXTPO5O"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                       title="Embedded youtube"
