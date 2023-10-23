@@ -1,4 +1,5 @@
 {
+    "avatar": "アバター",
 	"additional_profile_options": "追加のプロフィールオプションは将来の更新で提供されます",
 	"api_already_entered_error": "既に登録済みです",
 	"api_authorization_missing": "認証ヘッダーが不足しています",

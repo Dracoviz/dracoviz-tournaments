@@ -1,4 +1,5 @@
 {
+	"avatar": "Avatar",
 	"additional_profile_options": "Las opciones de perfil adicionales estarán disponibles en futuras actualizaciones",
 	"api_already_entered_error": "Ya ingresado",
 	"api_authorization_missing": "Falta encabezado de autorización",

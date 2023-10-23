@@ -1,4 +1,5 @@
 {
+	"avatar": "Avatar",
 	"additional_profile_options": "Additional profile options will come in future updates",
 	"api_already_entered_error": "Already entered",
 	"api_authorization_missing": "Missing authorization header",

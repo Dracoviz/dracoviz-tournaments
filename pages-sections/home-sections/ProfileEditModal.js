@@ -2,8 +2,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import React, { useState } from "react";
-import { Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Select, InputLabel, MenuItem } from "@mui/material";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
@@ -14,13 +14,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 function ProfileEditModal(props) {
   const { t } = useTranslation();
   const { open, onClose, onSave, player, Transition } = props;
-  const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
+  const { register, handleSubmit, watch, setValue, formState: { errors, isDirty, isValid } } = useForm({
     defaultValues: {
       name: player?.name,
       friendCode: player?.friendCode,
       description: player?.description,
       discord: player?.discord,
       telegram: player?.telegram,
+      avatar: player?.avatarKey,
     }
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,13 @@ function ProfileEditModal(props) {
     await onSave?.(data);
     setIsLoading(false);
   }
+  useEffect(() => {
+    if (player?.avatarKey != null) {
+      setValue("avatar", player.avatarKey);
+    }
+  }, [player?.avatarKey])
+  const avatarOptions = player?.avatars == null ? null : Object.keys(player?.avatars)
+  const theAvatar = watch(`avatar`);
   return(
     <Dialog
       open={open}
@@ -51,7 +59,7 @@ function ProfileEditModal(props) {
               id="profile-modal-slide-description"
             >
               <GridContainer>
-                <GridItem xs={12} sm={6}>
+                <GridItem xs={12}>
                   <CustomInput
                     labelText={t("trainer_name")}
                     id="name"
@@ -64,6 +72,37 @@ function ProfileEditModal(props) {
                     }}
                     error={errors.trainerName}
                   />
+                </GridItem>
+                <GridItem xs={12}>
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20
+                  }}>
+                    <div style={{ width: "100%", marginRight: 20 }}>
+                      <InputLabel>{t("avatar")}</InputLabel>
+                      <Select
+                        fullWidth
+                        {...register(`avatar`, { required: true })}
+                        value={theAvatar}
+                      >
+                        {
+                          avatarOptions?.map((a, index) => (
+                            <MenuItem value={a} key={index}>
+                              {player?.avatars[a]?.name}
+                            </MenuItem>
+                          ))
+                        }
+                      </Select>
+                    </div>
+                    <img
+                      src={player?.avatars[theAvatar]?.src}
+                      alt={player?.avatars[theAvatar]?.name}
+                      width={100}
+                      height={80}
+                      style={{ objectFit: "contain" }}
+                    />
+                  </div>
                 </GridItem>
                 <GridItem xs={12} sm={6}>
                   <CustomInput
