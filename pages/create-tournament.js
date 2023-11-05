@@ -125,7 +125,7 @@ export default function CreateTournament() {
           <MenuItem value="Flash (Dojo Cup)">Flash (Dojo Cup)</MenuItem>
           <MenuItem value="NMFC (Midnight Cup)">NMFC (Midnight Cup)</MenuItem>
           <MenuItem value="Flash (Nature Cup)">Flash (Nature Cup)</MenuItem>
-          <MenuItem value="NMFC (Salvation Cup)">Flash (Salvation Cup)</MenuItem>
+          <MenuItem value="Flash (Salvation Cup)">NMFC (Salvation Cup)</MenuItem>
           <MenuItem value="Nimbus Cup">Nimbus Cup</MenuItem>
           <MenuItem value="BTW (Neutral Cup)">BTW (Neutral Cup)</MenuItem>
         </Select>
