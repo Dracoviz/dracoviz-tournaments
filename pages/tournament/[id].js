@@ -112,6 +112,25 @@ export default function Tournament() {
     });
   }
 
+  const revertBracket = () => {
+    setIsLoading(true);
+    fetchApi(`session/revert/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+        setIsLoading(false);
+      } else {
+        getTournamentData(authId);
+      }
+    });
+  }
+
   const progressBracket = () => {
     setIsLoading(true);
     fetchApi(`session/progress/`, "POST", {
