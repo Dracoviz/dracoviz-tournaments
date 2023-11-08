@@ -8,15 +8,18 @@ const useStyles = makeStyles(styles);
 const bracketStyles = {
   "win": {
     color: "#34343",
-    backgroundColor: "#69F37E"
+    backgroundColor: "#69F37E",
+    cursor: "pointer",
   },
   "loss": {
     color: "white",
-    backgroundColor: "#FF0000"
+    backgroundColor: "#FF0000",
+    cursor: "pointer",
   },
   "unreported": {
     color: "#34343",
-    backgroundColor: "#F2E5E5"
+    backgroundColor: "#F2E5E5",
+    cursor: "pointer",
   }
 }
 
