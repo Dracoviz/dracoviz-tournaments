@@ -118,6 +118,7 @@ export default function CreateTournament() {
           <MenuItem value="Great League">{t("great_league")}</MenuItem>
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
+          <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series 2024</MenuItem>
           <MenuItem value="Viperwave Cup">Viperwave Cup</MenuItem>
           <MenuItem value="Master League Unified">Master League Unified</MenuItem>
           <MenuItem value="Justicar Remix Cup">Justicar Remix Cup</MenuItem>
