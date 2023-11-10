@@ -224,5 +224,9 @@
 	"no_tournaments_in_search": "No tournaments found. Maybe search for something else?",
 	"search_tournaments": "Search tournaments with open registration",
 	"no_tournaments_found": "No tournaments found",
-	"players": "Players"
+	"players": "Players",
+	"purified_visibility": "Purified Visibility",
+	"bestBuddyVisibility": "Best Buddy Visibility",
+	"nickname_visibility": "Nickname Visibility",
+	"api_team_validation_purified": "One or more of your Pokémon registered as purified cannot be purified"
 }

@@ -340,6 +340,38 @@ export default function CreateTournament() {
                   </Select>
                 </GridItem>
                 <GridItem xs={12} md={6}>
+                  <InputLabel style={{ marginTop: 10 }}>{t("purified_visibility")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`purifiedVisibility`, { required: true})}
+                  >
+                    <MenuItem value="none">{t("visibility_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
+                    <MenuItem value="global">{t("visibility_global")}</MenuItem>
+                  </Select>
+                </GridItem>
+                <GridItem xs={12} md={6}>
+                  <InputLabel style={{ marginTop: 10 }}>{t("best_buddy_visibility")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`bestBuddyVisibility`, { required: true})}
+                  >
+                    <MenuItem value="none">{t("visibility_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
+                    <MenuItem value="global">{t("visibility_global")}</MenuItem>
+                  </Select>
+                </GridItem>
+                <GridItem xs={12} md={6}>
+                  <InputLabel style={{ marginTop: 10 }}>{t("nickname_visibility")}</InputLabel>
+                  <Select
+                    fullWidth
+                    {...register(`nicknameVisibility`, { required: true})}
+                  >
+                    <MenuItem value="none">{t("visibility_none")}</MenuItem>
+                    <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
+                  </Select>
+                </GridItem>
+                <GridItem xs={12} md={6}>
                   <InputLabel style={{ marginTop: 10 }}>{t("draft_mode")}</InputLabel>
                   <Select
                     fullWidth
