@@ -226,7 +226,13 @@
 	"no_tournaments_found": "No tournaments found",
 	"players": "Players",
 	"purified_visibility": "Purified Visibility",
-	"bestBuddyVisibility": "Best Buddy Visibility",
+	"best_buddy_visibility": "Best Buddy Visibility",
 	"nickname_visibility": "Nickname Visibility",
-	"api_team_validation_purified": "One or more of your Pokémon registered as purified cannot be purified"
+	"best_buddy": "Best Buddy",
+	"purified": "Purified",
+	"nickname": "Nickname",
+	"yes": "Yes",
+	"no": "No",
+	"api_team_validation_purified": "One or more of your Pokémon registered as purified cannot be purified",
+	"api_max_best_buddies": "Max best buddies exceeded"
 }

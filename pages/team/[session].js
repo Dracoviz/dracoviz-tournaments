@@ -42,6 +42,9 @@ export default function Team() {
   const [movesRequired, setMovesRequired] = useState(false);
   const [hpRequired, setHpRequired] = useState(false);
   const [cpRequired, setCpRequired] = useState(false);
+  const [purifiedRequired, setPurifiedRequired] = useState(false);
+  const [bestBuddyRequired, setBestBuddyRequired] = useState(false);
+  const [nicknameRequired, setNicknameRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
   const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
@@ -67,12 +70,18 @@ export default function Team() {
       setMovesRequired(data.movesetsRequired);
       setCpRequired(data.cpRequired);
       setHpRequired(data.hpRequired);
+      setPurifiedRequired(data.purifiedRequired);
+      setBestBuddyRequired(data.bestBuddyRequired);
+      setNicknameRequired(data.nicknameRequired);
       setPokemonOptions(data.pokemonData);
       setValue("cp", data.cp, { shouldValidate: false });
       setValue("hp", data.hp, { shouldValidate: false });
       setValue("pokemon", data.pokemon, { shouldValidate: false });
       setValue("chargedMoves", data.chargedMoves, { shouldValidate: false });
       setValue("fastMoves", data.fastMoves, { shouldValidate: false });
+      setValue("nickname", data.nickname, { shouldValidate: false });
+      setValue("purified", data.purified, { shouldValidate: false });
+      setValue("bestBuddy", data.bestBuddy, { shouldValidate: false });
       setPokemonItems(Object.keys(data.pokemonData)
         .map((key)=>{
           return {
@@ -208,6 +217,24 @@ export default function Team() {
             <GridItem xs={8} md={9} style={{ marginTop: 10 }}>
               {renderPokemonSelector(index)}
               {
+                nicknameRequired && (
+                  <CustomInput
+                    labelText={t('nickname')}
+                    id={`nickname.${index}`}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      ...register(
+                        `nickname.${index}`,
+                        {
+                          required: nicknameRequired,
+                        }),
+                    }}
+                  />
+                )
+              }
+              {
                 cpRequired && (
                   <CustomInput
                     labelText={t('cp')}
@@ -247,6 +274,42 @@ export default function Team() {
                         }),
                     }}
                   />
+                )
+              }
+              {
+                purifiedRequired && (
+                  <>
+                    <InputLabel style={{ marginTop: 15 }}>{t('purified')} 1</InputLabel>
+                    <Select
+                      fullWidth
+                      {...register(`purified.${index}.0`, {
+                        required: purifiedRequired,
+                      })}
+                      value={watch(`purified.${index}.0`)}
+                      variant="standard"
+                    >
+                      <MenuItem value={false}>{t("no")}</MenuItem>
+                      <MenuItem value={true}>{t("yes")}</MenuItem>
+                    </Select>
+                  </>
+                )
+              }
+              {
+                bestBuddyRequired && (
+                  <>
+                    <InputLabel style={{ marginTop: 15 }}>{t('best_buddy')} 1</InputLabel>
+                    <Select
+                      fullWidth
+                      {...register(`bestBuddy.${index}.0`, {
+                        required: purifiedRequired,
+                      })}
+                      value={watch(`bestBuddy.${index}.0`)}
+                      variant="standard"
+                    >
+                      <MenuItem value={false}>{t("no")}</MenuItem>
+                      <MenuItem value={true}>{t("yes")}</MenuItem>
+                    </Select>
+                  </>
                 )
               }
               {

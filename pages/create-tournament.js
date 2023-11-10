@@ -354,7 +354,7 @@ export default function CreateTournament() {
                   <InputLabel style={{ marginTop: 10 }}>{t("best_buddy_visibility")}</InputLabel>
                   <Select
                     fullWidth
-                    {...register(`bestBuddyVisibility`, { required: true})}
+                    {...register(`best_buddy_visibility`, { required: true})}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
