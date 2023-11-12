@@ -234,5 +234,7 @@
 	"yes": "Yes",
 	"no": "No",
 	"api_team_validation_purified": "One or more of your Pokémon registered as purified cannot be purified",
-	"api_max_best_buddies": "Max best buddies exceeded"
+	"api_max_best_buddies": "Max best buddies exceeded",
+	"play_preset_prompt": "Please provide a name for your Play! Pokémon GO Championship Series Tournament.",
+	"generate_play_pokemon_preset": "Use the Play! Pokémon GO Championship Series Preset"
 }

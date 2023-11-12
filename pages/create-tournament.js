@@ -13,7 +13,7 @@ import { useTranslation } from 'next-i18next';
 import getRoundLengthLabel from "../api/getRoundLengthLabel";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
-import { Button, Checkbox, Select, InputLabel, MenuItem } from "@mui/material";
+import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -50,6 +50,15 @@ export default function CreateTournament() {
   const bracketType = watch("bracketType");
   const theMetas = watch("metas");
   const gameAmount = watch("gameAmount");
+  const cpVisibility = watch("cpVisibility");
+  const hpVisibility = watch("hpVisibility");
+  const movesetVisibility = watch("movesetVisibility");
+  const purifiedVisibility = watch("purifiedVisibility");
+  const bestBuddyVisibility = watch("bestBuddyVisibility");
+  const nicknameVisibility = watch("nicknameVisibility");
+  const timeControl = watch("timeControl");
+  const draftMode = watch("draftMode");
+  const isPrivate = watch("isPrivate");
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -74,6 +83,34 @@ export default function CreateTournament() {
       setValue("metas", [theMetas?.[0]] ?? []);
       setValue("hasMultipleMetas", false);
     }
+  }
+
+  const onPlayPokemonPress = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const title = prompt(t("play_preset_prompt"));
+      if (title == null) {
+        setIsLoading(false);
+        return;
+      }
+      setValue("name", title);
+      setValue("timeControl", 0);
+      setValue("maxTeams", 128);
+      setValue("maxTeamSize", 1);
+      setValue("maxMatchTeamSize", 1);
+      setValue("metas", ["Play Pokemon 2024"]);
+      setValue("hasMultipleMetas", false);
+      setValue("bracketType", "none");
+      setValue("isPrivate", true);
+      setValue("cpVisibility", "global");
+      setValue("hpVisibility", "none");
+      setValue("movesetVisibility", "hidden");
+      setValue("purifiedVisibility", "global");
+      setValue("bestBuddyVisibility", "global");
+      setValue("nicknameVisibility", "hidden");
+      setValue("draftMode", "none");
+      setIsLoading(false);
+    }, 100)
   }
 
   const onSubmit = async (data) => {
@@ -114,6 +151,7 @@ export default function CreateTournament() {
         <Select
           fullWidth
           {...register(`metas.${index}`, { required: true, defaultValue: "Great League" })}
+          value={theMetas?.[index]}
         >
           <MenuItem value="Great League">{t("great_league")}</MenuItem>
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
@@ -138,6 +176,28 @@ export default function CreateTournament() {
   const classes = useStyles();
   const roundLabels = getRoundLengthLabel(t);
 
+  if (isLoading) {
+    return (
+      <div>
+        <Header
+          absolute
+          color="white"
+          rightLinks={<HeaderLinks isSignedIn={isSignedIn} />}
+        />
+        <div className={classes.pageHeader}>
+          <div className={classes.main}>
+            <GridContainer>
+              <GridItem xs={12}>
+                <h2>{t("create_a_tournament")}</h2>
+                <CircularProgress />
+              </GridItem>
+            </GridContainer>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <Header
@@ -151,6 +211,9 @@ export default function CreateTournament() {
             <GridContainer>
               <GridItem xs={12}>
                 <h2>{t("create_a_tournament")}</h2>
+                <Button onClick={onPlayPokemonPress}>
+                  {t("generate_play_pokemon_preset")}
+                </Button>
               </GridItem>
             </GridContainer>
             <Card>
@@ -203,6 +266,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`timeControl`, { required: true})}
+                    value={timeControl}
                   >
                     {Object.keys(roundLabels).map((k) => (
                       <MenuItem value={k} key={k}>{roundLabels[k]}</MenuItem>
@@ -214,6 +278,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`bracketType`, { required: true})}
+                    value={bracketType}
                   >
                     <MenuItem value="none">{t("bracket_type_none")}</MenuItem>
                     <MenuItem value="swiss">{t("bracket_type_swiss")}</MenuItem>
@@ -283,7 +348,7 @@ export default function CreateTournament() {
                 }
                 <GridItem xs={12} md={7}>
                   {t("is_tournament_private")}
-                    <Checkbox {...register("isPrivate")}/>
+                    <Checkbox {...register("isPrivate")} checked={isPrivate}/>
                 </GridItem>
               </GridContainer>
             </Card>
@@ -311,6 +376,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`cpVisibility`, { required: true })}
+                    value={cpVisibility}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
@@ -322,6 +388,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`hpVisibility`, { required: true })}
+                    value={hpVisibility}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
@@ -333,6 +400,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`movesetVisibility`, { required: true})}
+                    value={movesetVisibility}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
@@ -344,6 +412,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`purifiedVisibility`, { required: true})}
+                    value={purifiedVisibility}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
@@ -354,7 +423,8 @@ export default function CreateTournament() {
                   <InputLabel style={{ marginTop: 10 }}>{t("best_buddy_visibility")}</InputLabel>
                   <Select
                     fullWidth
-                    {...register(`best_buddy_visibility`, { required: true})}
+                    {...register(`bestBuddyVisibility`, { required: true})}
+                    value={bestBuddyVisibility}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
@@ -366,6 +436,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`nicknameVisibility`, { required: true})}
+                    value={nicknameVisibility}
                   >
                     <MenuItem value="none">{t("visibility_none")}</MenuItem>
                     <MenuItem value="hidden">{t("visibility_hidden")}</MenuItem>
@@ -376,6 +447,7 @@ export default function CreateTournament() {
                   <Select
                     fullWidth
                     {...register(`draftMode`, { required: true })}
+                    value={draftMode}
                   >
                     <MenuItem value="none">{t("draft_mode_none")}</MenuItem>
                     <MenuItem value="team">{t("draft_mode_team")}</MenuItem>
