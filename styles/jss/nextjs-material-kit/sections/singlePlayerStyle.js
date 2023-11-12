@@ -43,6 +43,21 @@ const singlePlayerStyle = {
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
+  },
+  pokemonImgWrapper: {
+    position: "relative",
+    width: 125,
+    height: 100,
+  },
+  iconOverlayBottom: {
+    position: "absolute",
+    bottom: 0,
+    right: 0
+  },
+  iconOverlayTop: {
+    position: "absolute",
+    top: 0,
+    right: 0
   }
 }
   
