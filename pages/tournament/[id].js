@@ -24,6 +24,7 @@ import Brackets from "../../pages-sections/tournament-sections/Brackets";
 import ReportScoreModal from "../../pages-sections/tournament-sections/ReportScoreModal";
 import { useForm } from "react-hook-form";
 import Countdown from "../../components/Countdown/Countdown";
+import TeamSheetModal from "../../pages-sections/tournament-sections/TeamSheetModal";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -59,6 +60,7 @@ export default function Tournament() {
   const [ authId, setAuthId ] = useState();
   const [ isTournamentInfoOpen, setIsTournamentInfoOpen ] = useState(false);
   const [ isTournamentEditOpen, setIsTournamentEditOpen ] = useState(false);
+  const [ isTeamSheetOpen, setIsTeamSheetOpen ] = useState(false);
   const [ profileToView, setProfileToView ] = useState(null);
   const [ selectedRound, setSelectedRound ] = useState(null);
   const [ isReportScoreOpen, setIsReportScoreOpen ] = useState(false);
@@ -298,6 +300,10 @@ export default function Tournament() {
     }
   }
 
+  const onCloseTeamSheet = () => {
+    setIsTeamSheetOpen(false);
+  }
+
   const onClosePlayerModal = () => {
     setProfileToView(null);
   }
@@ -422,6 +428,17 @@ export default function Tournament() {
   }
 
   const classes = useStyles();
+
+  const renderTeamSheetButton = () => {
+    if (data == null || data.isHost !== true) {
+      return null;
+    }
+    return (
+      <Button onClick={() => setIsTeamSheetOpen(true)}>
+        {t("create_team_sheets")}
+      </Button>
+    )
+  }
 
   const renderExportButton = () => {
     if (data == null || data.isHost !== true || data.state !== "POKEMON_VISIBLE") {
@@ -869,8 +886,14 @@ export default function Tournament() {
             onSave={onEditTournament}
             onConclude={onConclude}
           />
+          <TeamSheetModal
+            open={isTeamSheetOpen}
+            data={data}
+            onClose={onCloseTeamSheet}
+          />
           <GridContainer justify="center">
             <GridItem xs={12}>
+              {renderTeamSheetButton()}
               {renderExportButton()}
               <h1 style={{ marginTop: 0, wordBreak: "break-word" }}>{data?.name}</h1>
               {renderChips()}

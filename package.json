@@ -55,6 +55,7 @@
     "react-i18next": "^13.2.2",
     "react-linkify": "^1.0.0-alpha",
     "react-slick": "0.29.0",
+    "react-to-print": "^2.14.15",
     "sass": "1.54.4",
     "styled-components": "5.3.5",
     "webpack": "5.74.0"

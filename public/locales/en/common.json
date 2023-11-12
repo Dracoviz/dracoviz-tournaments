@@ -236,5 +236,12 @@
 	"api_team_validation_purified": "One or more of your Pokémon registered as purified cannot be purified",
 	"api_max_best_buddies": "Max best buddies exceeded",
 	"play_preset_prompt": "Please provide a name for your Play! Pokémon GO Championship Series Tournament.",
-	"generate_play_pokemon_preset": "Use the Play! Pokémon GO Championship Series Preset"
+	"generate_play_pokemon_preset": "Use the Play! Pokémon GO Championship Series Preset",
+	"create_team_sheets": "Generate team sheets",
+	"single_print_label": "Print one team sheet per page?",
+	"hide_no_shows_print_label": "Hide no shows (players without teams)",
+	"pokemon_team_sheet": "Pokémon {{index}}",
+	"charged_move_team_sheet": "Charged Attack {{index}}",
+	"fast_move_team_sheet": "Fast Attack",
+	"name": "Name"
 }
