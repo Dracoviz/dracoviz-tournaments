@@ -279,7 +279,7 @@ export default function Team() {
               {
                 purifiedRequired && (
                   <>
-                    <InputLabel style={{ marginTop: 15 }}>{t('purified')} 1</InputLabel>
+                    <InputLabel style={{ marginTop: 15 }}>{t('purified')}</InputLabel>
                     <Select
                       fullWidth
                       {...register(`purified.${index}.0`, {
@@ -297,7 +297,7 @@ export default function Team() {
               {
                 bestBuddyRequired && (
                   <>
-                    <InputLabel style={{ marginTop: 15 }}>{t('best_buddy')} 1</InputLabel>
+                    <InputLabel style={{ marginTop: 15 }}>{t('best_buddy')}</InputLabel>
                     <Select
                       fullWidth
                       {...register(`bestBuddy.${index}.0`, {
