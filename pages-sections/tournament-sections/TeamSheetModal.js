@@ -33,7 +33,7 @@ class ComponentToPrint extends React.PureComponent {
     const { players } = data;
     const values = [];
     players.forEach((p) => {
-      const { pokemon } = p;
+      const { pokemon, name } = p;
       if (pokemon == null || pokemon.length <= 0) {
         return true;
       }
@@ -46,6 +46,7 @@ class ComponentToPrint extends React.PureComponent {
         fastMove: [],
         bestBuddy: [],
         purified: [],
+        name,
       }
       pokemon.forEach((pok) => {
         value.speciesName.push(pok.speciesName ?? "");
@@ -69,10 +70,11 @@ class ComponentToPrint extends React.PureComponent {
         {
           teams.map((team, i) => (
             <div style={{
-              pageBreakAfter: (singlePage || (i+1)%5 === 0) ? "always" : "auto",
+              pageBreakAfter: (singlePage || (i+1)%3 === 0) ? "always" : "auto",
               padding: "2rem",
               width: "100vw",
             }}>
+              <p style={{ marginTop: 0 }}>{t("player_name")}: {team.name}</p>
               <table style={{ borderSpacing: 0, width: "100%", }}>
                 <tr>
                   <th style={emptyCellStyle}></th>
