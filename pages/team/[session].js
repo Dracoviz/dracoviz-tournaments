@@ -47,7 +47,7 @@ export default function Team() {
   const [nicknameRequired, setNicknameRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
-  const { register, control, setValue, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const router = useRouter();
   const pokemons = watch("pokemon");
   const [authId, setAuthId] = useState();
@@ -282,11 +282,8 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('purified')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`purified.${index}`, {
-                        required: purifiedRequired,
-                        validate: (value) => value != null,
-                      })}
-                      value={watch(`purified.${index}`)}
+                      {...register(`purified.${index}`)}
+                      value={watch(`purified.${index}`) ?? false}
                       variant="standard"
                     >
                       <MenuItem value={false}>{t("no")}</MenuItem>
@@ -301,11 +298,8 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('best_buddy')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`bestBuddy.${index}`, {
-                        required: purifiedRequired,
-                        validate: (value) => value != null,
-                      })}
-                      value={watch(`bestBuddy.${index}`)}
+                      {...register(`bestBuddy.${index}`)}
+                      value={watch(`bestBuddy.${index}`) ?? false}
                       variant="standard"
                     >
                       <MenuItem value={false}>{t("no")}</MenuItem>
@@ -392,7 +386,7 @@ export default function Team() {
                   <GridItem xs={12} style={{ marginTop: 30 }}>
                     <Button
                       type="submit"
-                      disabled={isLoading || submitting}
+                      disabled={isLoading || submitting || !isValid}
                       fullWidth
                       style={{ marginBottom: 10 }}
                     >
