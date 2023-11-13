@@ -47,6 +47,7 @@ export default function Team() {
   const [nicknameRequired, setNicknameRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
+  const [metaClasses, setMetaClasses] = useState(null);
   const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const router = useRouter();
   const pokemons = watch("pokemon");
@@ -74,6 +75,7 @@ export default function Team() {
       setBestBuddyRequired(data.bestBuddyRequired);
       setNicknameRequired(data.nicknameRequired);
       setPokemonOptions(data.pokemonData);
+      setMetaClasses(data.metaClasses);
       setValue("cp", data.cp, { shouldValidate: false });
       setValue("hp", data.hp, { shouldValidate: false });
       setValue("pokemon", data.pokemon, { shouldValidate: false });
@@ -82,6 +84,7 @@ export default function Team() {
       setValue("nickname", data.nickname, { shouldValidate: false });
       setValue("purified", data.purified, { shouldValidate: false });
       setValue("bestBuddy", data.bestBuddy, { shouldValidate: false });
+      setValue("metaClass", data.metaClass, { shouldValidate: false });
       setPokemonItems(Object.keys(data.pokemonData)
         .map((key)=>{
           return {
@@ -381,6 +384,25 @@ export default function Team() {
           <h2>{t('register_pokemon_name')}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <GridContainer style={{ marginTop: 20 }}>
+                {
+                  (metaClasses != null && metaClasses.length > 0) && (
+                    <GridItem xs={12} style={{ marginBottom: 30 }}>
+                      <InputLabel style={{ marginTop: 15 }}>{t('meta_class')}</InputLabel>
+                      <Select
+                        fullWidth
+                        {...register(`metaClass`)}
+                        value={watch(`metaClass`)}
+                        variant="standard"
+                      >
+                        {
+                          metaClasses.map((m => (
+                            <MenuItem value={m}>{m}</MenuItem>
+                          )))
+                        }
+                      </Select>
+                    </GridItem>
+                  )
+                }
                 {renderPokemon()}
                 {canEdit && (
                   <GridItem xs={12} style={{ marginTop: 30 }}>

@@ -196,6 +196,8 @@ export default function CreateTournament() {
           <MenuItem value="Nimbus Cup">Nimbus Cup</MenuItem>
           <MenuItem value="BTW (Neutral Cup)">BTW (Neutral Cup)</MenuItem>
           <MenuItem value="Region Cup">Region Cup</MenuItem>
+          <MenuItem value="Merciless Cup">Syndicate (The Chronicles)</MenuItem>
+          <MenuItem value="Maota Cup">Maota Cup</MenuItem>
         </Select>
       </GridItem>
     ))

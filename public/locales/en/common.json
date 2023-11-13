@@ -243,5 +243,6 @@
 	"pokemon_team_sheet": "Pokémon {{index}}",
 	"charged_move_team_sheet": "Charged Attack {{index}}",
 	"fast_move_team_sheet": "Fast Attack",
-	"name": "Name"
+	"name": "Name",
+	"meta_class": "Class"
 }
