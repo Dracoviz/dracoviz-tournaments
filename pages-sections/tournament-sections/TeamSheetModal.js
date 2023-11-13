@@ -63,7 +63,7 @@ class ComponentToPrint extends React.PureComponent {
   }
   render() {
     const { singlePage, t } = this.props;
-    const teams = [...this.getTeams(), ...this.getTeams()];
+    const teams = this.getTeams();
     return (
       <div>
         {
