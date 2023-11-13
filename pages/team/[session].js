@@ -282,10 +282,10 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('purified')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`purified.${index}.0`, {
+                      {...register(`purified.${index}`, {
                         required: purifiedRequired,
                       })}
-                      value={watch(`purified.${index}.0`)}
+                      value={watch(`purified.${index}`)}
                       variant="standard"
                     >
                       <MenuItem value={false}>{t("no")}</MenuItem>
@@ -300,10 +300,10 @@ export default function Team() {
                     <InputLabel style={{ marginTop: 15 }}>{t('best_buddy')}</InputLabel>
                     <Select
                       fullWidth
-                      {...register(`bestBuddy.${index}.0`, {
+                      {...register(`bestBuddy.${index}`, {
                         required: purifiedRequired,
                       })}
-                      value={watch(`bestBuddy.${index}.0`)}
+                      value={watch(`bestBuddy.${index}`)}
                       variant="standard"
                     >
                       <MenuItem value={false}>{t("no")}</MenuItem>
