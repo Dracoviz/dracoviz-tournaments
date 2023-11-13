@@ -47,7 +47,7 @@ export default function Team() {
   const [nicknameRequired, setNicknameRequired] = useState(false);
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
-  const { register, control, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
+  const { register, control, setValue, handleSubmit, watch, formState: { errors } } = useForm();
   const router = useRouter();
   const pokemons = watch("pokemon");
   const [authId, setAuthId] = useState();
@@ -284,6 +284,7 @@ export default function Team() {
                       fullWidth
                       {...register(`purified.${index}`, {
                         required: purifiedRequired,
+                        validate: (value) => value != null,
                       })}
                       value={watch(`purified.${index}`)}
                       variant="standard"
@@ -302,6 +303,7 @@ export default function Team() {
                       fullWidth
                       {...register(`bestBuddy.${index}`, {
                         required: purifiedRequired,
+                        validate: (value) => value != null,
                       })}
                       value={watch(`bestBuddy.${index}`)}
                       variant="standard"
@@ -390,7 +392,7 @@ export default function Team() {
                   <GridItem xs={12} style={{ marginTop: 30 }}>
                     <Button
                       type="submit"
-                      disabled={isLoading || !isValid || submitting}
+                      disabled={isLoading || submitting}
                       fullWidth
                       style={{ marginBottom: 10 }}
                     >
