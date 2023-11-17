@@ -19,19 +19,17 @@ class MyDocument extends Document {
           <link
             rel="stylesheet"
             type="text/css"
+            href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
           />
           <link
             href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
             rel="stylesheet"
           />
-          {/* <!-- Nepcha Analytics (nepcha.com) -->
-          <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. --> */}
-          <script
-            defer
-            data-site="tournaments.dracoviz.com"
-            src="https://api.nepcha.com/js/nepcha-analytics.js"
-          ></script>
         </Head>
         <body>
           <div id="page-transition"></div>

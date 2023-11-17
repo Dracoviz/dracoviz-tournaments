@@ -84,7 +84,7 @@ export default function CreateTournament() {
       setValue("hasMultipleMetas", false);
     }
   }
-
+  
   const onPlayPokemonPress = () => {
     setIsLoading(true);
     setTimeout(() => {
@@ -103,35 +103,7 @@ export default function CreateTournament() {
       setValue("bracketType", "none");
       setValue("isPrivate", true);
       setValue("cpVisibility", "global");
-      setValue("hpVisibility", "none");
-      setValue("movesetVisibility", "hidden");
-      setValue("purifiedVisibility", "global");
-      setValue("bestBuddyVisibility", "global");
-      setValue("nicknameVisibility", "hidden");
-      setValue("draftMode", "none");
-      setIsLoading(false);
-    }, 100)
-  }
-  
-  const onNewPlayPokemonPress = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const title = prompt(t("play_preset_prompt"));
-      if (title == null) {
-        setIsLoading(false);
-        return;
-      }
-      setValue("name", title);
-      setValue("timeControl", 0);
-      setValue("maxTeams", 128);
-      setValue("maxTeamSize", 1);
-      setValue("maxMatchTeamSize", 1);
-      setValue("metas", ["Play Pokemon 2024"]);
-      setValue("hasMultipleMetas", false);
-      setValue("bracketType", "none");
-      setValue("isPrivate", true);
-      setValue("cpVisibility", "global");
-      setValue("hpVisibility", "global");
+      setValue("hpVisibility", "hidden");
       setValue("movesetVisibility", "global");
       setValue("purifiedVisibility", "global");
       setValue("bestBuddyVisibility", "global");
@@ -243,10 +215,6 @@ export default function CreateTournament() {
                 <h2>{t("create_a_tournament")}</h2>
                 <Button onClick={onPlayPokemonPress}>
                   {t("generate_play_pokemon_preset")}
-                </Button>
-                <br />
-                <Button onClick={onNewPlayPokemonPress}>
-                  {t("generate_play_pokemon_preset")} (Post Nov 17)
                 </Button>
               </GridItem>
             </GridContainer>

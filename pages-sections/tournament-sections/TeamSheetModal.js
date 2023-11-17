@@ -3,9 +3,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import React, { useState, useRef } from "react";
-import { Button, InputLabel, Select, MenuItem, Checkbox } from "@mui/material";
+import { Button, Checkbox } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { useReactToPrint } from 'react-to-print';
+import formatMove from "../../api/formatMove";
 
 const color = "#edebeb";
 const border = `solid ${color} 0.5px`;
@@ -52,9 +53,9 @@ class ComponentToPrint extends React.PureComponent {
         value.speciesName.push(pok.speciesName ?? "");
         value.cp.push(pok.cp ?? "");
         // value.hp.push(pok.hp ?? "");
-        // value.chargedMove1.push(pok.chargedMoves[0] ?? "");
-        // value.chargedMove2.push(pok.chargedMoves[1] ?? "");
-        // value.fastMove.push(pok.fastMove ?? "");
+        value.chargedMove1.push(pok.chargedMoves[0] ?? "");
+        value.chargedMove2.push(pok.chargedMoves[1] ?? "");
+        value.fastMove.push(pok.fastMove ?? "");
         value.bestBuddy.push(pok.bestBuddy ?? false);
         value.purified.push(pok.purified ?? false);
       })
@@ -70,8 +71,8 @@ class ComponentToPrint extends React.PureComponent {
         {
           teams.map((team, i) => (
             <div style={{
-              pageBreakAfter: (singlePage || (i+1)%3 === 0) ? "always" : "auto",
-              padding: "2rem",
+              pageBreakAfter: (singlePage || (i+1)%2 === 0) ? "always" : "auto",
+              padding: "2.5rem",
               width: "100vw",
             }}>
               <p style={{ marginTop: 0 }}>{t("player_name")}: {team.name}</p>
@@ -106,6 +107,30 @@ class ComponentToPrint extends React.PureComponent {
                   {
                     team.purified.map((item) => (
                       <td style={cellStyle}>{item === true ? t("yes") : t("no")}</td>
+                    ))
+                  }
+                </tr>
+                <tr>
+                  <td style={cellStyle}><b>{t("fast_move_team_sheet")}</b></td>
+                  {
+                    team.fastMove.map((item) => (
+                      <td style={cellStyle}>{formatMove(item)}</td>
+                    ))
+                  }
+                </tr>
+                <tr>
+                  <td style={cellStyle}><b>{t("charged_move_team_sheet", { index: 1 })}</b></td>
+                  {
+                    team.chargedMove1.map((item) => (
+                      <td style={cellStyle}>{formatMove(item)}</td>
+                    ))
+                  }
+                </tr>
+                <tr>
+                  <td style={cellStyle}><b>{t("charged_move_team_sheet", { index: 2 })}</b></td>
+                  {
+                    team.chargedMove2.map((item) => (
+                      <td style={cellStyle}>{formatMove(item)}</td>
                     ))
                   }
                 </tr>

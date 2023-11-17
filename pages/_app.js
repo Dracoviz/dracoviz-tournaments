@@ -20,7 +20,6 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
-import Script from "next/script";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { createTheme } from '@mui/material/styles';
@@ -46,7 +45,6 @@ import PageChange from "/components/PageChange/PageChange.js";
 import "/styles/scss/nextjs-material-kit.scss?v=1.2.0";
 
 Router.events.on("routeChangeStart", (url) => {
-  console.log(`Loading: ${url}`);
   document.body.classList.add("body-page-transition");
   ReactDOM.render(
     <PageChange path={url} />,
@@ -85,7 +83,6 @@ class MyApp extends App {
             />
             <title>Dracoviz Tournaments</title>
           </Head>
-          <Script src="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&display=swap" />
           <Component {...pageProps} />
         </React.Fragment>
       </ThemeProvider>
