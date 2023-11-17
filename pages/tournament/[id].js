@@ -434,7 +434,7 @@ export default function Tournament() {
       return null;
     }
     return (
-      <Button onClick={() => setIsTeamSheetOpen(true)}>
+      <Button onClick={() => setIsTeamSheetOpen(true)} variant="contained" color="success">
         {t("create_team_sheets")}
       </Button>
     )
@@ -895,7 +895,7 @@ export default function Tournament() {
             <GridItem xs={12}>
               {renderTeamSheetButton()}
               {renderExportButton()}
-              <h1 style={{ marginTop: 0, wordBreak: "break-word" }}>{data?.name}</h1>
+              <h1 style={{ marginTop: 10, wordBreak: "break-word" }}>{data?.name}</h1>
               {renderChips()}
               <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
                 <a href={decoratedHref} target="_blank" rel="noreferrer" key={key}>{decoratedText}</a>
