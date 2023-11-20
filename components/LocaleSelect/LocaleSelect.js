@@ -22,7 +22,8 @@ export default function LocaleSelect() {
             <MenuItem value="en">🇺🇸 English</MenuItem>
             <MenuItem value="es">🇪🇸 Spanish</MenuItem>
             <MenuItem value="jp">🇯🇵 Japanese</MenuItem>
-            <MenuItem value="pt">🇵🇹 Portuguese</MenuItem>
+            <MenuItem value="kr">🇰🇷 Korean</MenuItem>
+            <MenuItem value="pt">🇧🇷 Portuguese (Brasil)</MenuItem>
         </Select>
     )
 }
