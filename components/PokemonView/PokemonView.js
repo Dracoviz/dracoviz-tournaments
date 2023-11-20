@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { makeStyles } from "@mui/styles";
 import styles from "../../styles/jss/nextjs-material-kit/sections/singlePlayerStyle";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import formatMove from "../../api/formatMove";
 import Shadow from "../../public/img/draco_icon_circle_shadow.png";
 import Purified from "../../public/img/draco_icon_circle_purified.png";
@@ -11,11 +12,9 @@ const useStyles = makeStyles(styles);
 
 export default function PokemonView(props) {
   const classes = useStyles();
+  const { locale } = useRouter();
   const { pokemon } = props;
   const { t } = useTranslation();
-  if (pokemon == null || pokemon.length <= 0) {
-    return null;
-  }
   
   const renderPokemon = useCallback(() => {
     return pokemon.map((pokemonObj) => (
@@ -59,12 +58,16 @@ export default function PokemonView(props) {
           {pokemonObj.nickname != null && (<div>{t("nickname")}: {pokemonObj.nickname}</div>)}
           {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
           {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
-          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove)}</div>)}
-          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0])}, {formatMove(pokemonObj.chargedMoves[1])}</div>)}
+          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove, locale)}</div>)}
+          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0], locale)}, {formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
         </p>
       </div>
     ))
   }, [pokemon])
+
+  if (pokemon == null || pokemon.length <= 0) {
+    return null;
+  }
 
   return (
     <div className={classes.pokemonRow}>

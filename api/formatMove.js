@@ -1,8 +1,9 @@
-const formatMove = (move) => {
-    const words = move.split("_");
-    return words.map((word) => { 
-        return word[0].toUpperCase() + word.substring(1).toLowerCase(); 
-    }).join(" ");
+import movesJSON from "./moves.json";
+
+const formatMove = (move, language = "en") => {
+    const moveObj = movesJSON[move];
+    const moveLabel = moveObj?.[language] ?? move;
+    return moveLabel;
 }
 
 export default formatMove;

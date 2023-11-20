@@ -138,7 +138,7 @@ export default function Team() {
       return null;
     }
     return thePokemon.fastMoves.map((move) => (
-      <MenuItem value={move} key={move}>{formatMove(move)}</MenuItem>
+      <MenuItem value={move} key={move}>{formatMove(move, router.locale)}</MenuItem>
     ))
   }
 
@@ -148,7 +148,7 @@ export default function Team() {
       return null;
     }
     const chargedMoves = thePokemon.chargedMoves.map((move) => (
-      <MenuItem value={move} key={move}>{formatMove(move)}</MenuItem>
+      <MenuItem value={move} key={move}>{formatMove(move, router.locale)}</MenuItem>
     ));
     if (thePokemon.tags?.includes("shadoweligible")) {
       chargedMoves.push(<MenuItem value={"RETURN"} key={"RETURN"}>Return</MenuItem>);
