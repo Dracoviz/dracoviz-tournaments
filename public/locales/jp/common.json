@@ -224,5 +224,27 @@
     "no_tournaments_in_search": "トーナメントが見つかりませんでした。別のキーワードで検索してみてください。",
     "search_tournaments": "受付中のトーナメントを検索",
     "no_tournaments_found": "トーナメントが見つかりませんでした",
-    "players": "プレイヤー"
+    "players": "プレイヤー",
+    "purified_visibility": "浄化された可視性",
+    "best_buddy_visibility": "ベストバディの可視性",
+    "nickname_visibility": "ニックネームの可視性",
+    "best_buddy": "ベストバディ",
+    "purified": "浄化",
+    "nickname": "ニックネーム",
+    "yes": "はい",
+    "no": "いいえ",
+    "api_team_validation_purified": "浄化されたと登録された1つ以上のポケモンは浄化できません",
+    "api_max_best_buddies": "最大のベストバディ数を超えています",
+    "play_preset_prompt": "Play! Pokémon GO Championship Seriesトーナメントに名前を付けてください。",
+    "generate_play_pokemon_preset": "Play! Pokémon GO Championship Seriesプリセットを使用する",
+    "create_team_sheets": "チームシートを生成する",
+    "single_print_label": "1ページごとに1つのチームシートを印刷しますか？",
+    "hide_no_shows_print_label": "非表示にする（チームのないプレイヤー）",
+    "pokemon_team_sheet": "ポケモン{{index}}",
+    "charged_move_team_sheet": "チャージドアタック{{index}}",
+    "fast_move_team_sheet": "ファストアタック",
+    "name": "名前",
+    "meta_class": "クラス",
+    "player_name": "プレイヤー名"
+
 }
