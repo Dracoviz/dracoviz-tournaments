@@ -19,9 +19,10 @@ export default function LocaleSelect() {
     }
     return (
         <Select value={locale} onChange={onLangChange} variant="standard">
-            <MenuItem value="en">🇺🇸 EN</MenuItem>
-            <MenuItem value="es">🇪🇸 ES</MenuItem>
-            <MenuItem value="jp">🇯🇵 JP</MenuItem>
+            <MenuItem value="en">🇺🇸 English</MenuItem>
+            <MenuItem value="es">🇪🇸 Spanish</MenuItem>
+            <MenuItem value="jp">🇯🇵 Japanese</MenuItem>
+            <MenuItem value="pt">🇵🇹 Portuguese</MenuItem>
         </Select>
     )
 }
