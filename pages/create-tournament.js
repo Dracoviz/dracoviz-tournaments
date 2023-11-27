@@ -170,6 +170,8 @@ export default function CreateTournament() {
           <MenuItem value="Region Cup">Region Cup</MenuItem>
           <MenuItem value="Merciless Cup">Syndicate (The Chronicles)</MenuItem>
           <MenuItem value="Maota Cup">Maota Cup</MenuItem>
+          <MenuItem value="Fateful Cup">Syndicate (Fateful Cup)</MenuItem>
+          <MenuItem value="Arctic Cup">Flash (Arctic Cup)</MenuItem>
         </Select>
       </GridItem>
     ))
