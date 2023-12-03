@@ -157,6 +157,7 @@ export default function Tournament() {
     setIsLoading(true);
     fetchApi(`session/get/?id=${id}`, "GET", {
       "x_session_id": newAuthId,
+      x_locale: router.locale,
     })
     .then(response => response.json())
     .then(newData => {

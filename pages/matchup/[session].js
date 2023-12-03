@@ -54,6 +54,7 @@ export default function Matchup() {
     setIsLoading(true);
     fetchApi(`session/matchup/?tournamentId=${session}`, "GET", {
       x_session_id: id,
+      x_locale: router.locale,
     })
     .then(response => response.json())
     .then(newData => {
