@@ -59,6 +59,7 @@ export default function Team() {
     setIsLoading(true);
     fetchApi(`pokemon/?tournamentId=${session}`, "GET", {
       x_session_id: id,
+      x_locale: router.locale,
     })
     .then(response => response.json())
     .then(data => {
