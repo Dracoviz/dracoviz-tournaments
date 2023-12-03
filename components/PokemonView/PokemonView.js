@@ -20,7 +20,9 @@ export default function PokemonView(props) {
     return pokemon.map((pokemonObj) => (
       <div className={classes.pokemonRoot}>
         <div className={classes.pokemonImgWrapper}>
-          {pokemonObj.speciesName.includes("Shadow") && (
+          {(pokemonObj.speciesName.includes("Shadow")
+            || pokemonObj.speciesName.includes("しゃどう")
+            ) && (
             <div className={classes.iconOverlayBottom}>
               <img
                 src={Shadow.src}
