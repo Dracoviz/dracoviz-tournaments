@@ -61,7 +61,11 @@ export default function FactionList(props) {
     if (filter?.clean == null || text == null || text === "") {
       return text;
     }
-    return filter.clean(text);
+    if (text.replace(/[^\x00-\x7F]/g, "").trim() === "") {
+      return text;
+    }
+    const filteredText = filter.clean(text);
+    return filteredText;
   }, []);
 
   const onSearch = (e) => {
