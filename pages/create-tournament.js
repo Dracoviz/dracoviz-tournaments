@@ -172,6 +172,7 @@ export default function CreateTournament() {
           <MenuItem value="Maota Cup">Maota Cup</MenuItem>
           <MenuItem value="Fateful Cup">Syndicate (Fateful Cup)</MenuItem>
           <MenuItem value="Arctic Cup">Flash (Arctic Cup)</MenuItem>
+          <MenuItem value="Wasteland Cup">Wasteland Cup</MenuItem>
         </Select>
       </GridItem>
     ))
