@@ -246,5 +246,6 @@
 	"name": "Nombre",
 	"meta_class": "Clase",
 	"player_name": "Nombre del Jugador",
-	"confirm_bracket_progress": "¿Estás seguro de que deseas avanzar en el cuadro? Por favor, verifica si todos los partidos han sido informados."
+	"confirm_bracket_progress": "¿Estás seguro de que deseas avanzar en el cuadro? Por favor, verifica si todos los partidos han sido informados.",
+	"rounds": "Rondas"
 }

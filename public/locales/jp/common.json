@@ -246,5 +246,6 @@
     "name": "名前",
     "meta_class": "クラス",
     "player_name": "プレイヤー名",
-    "confirm_bracket_progress": "ブラケットを進めてもよろしいですか？すべての試合が報告されているか確認してください。"
+    "confirm_bracket_progress": "ブラケットを進めてもよろしいですか？すべての試合が報告されているか確認してください。",
+    "rounds": "ラウンド"
 }

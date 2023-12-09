@@ -79,7 +79,7 @@ function Match(props) {
 function Brackets(props) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { isTeamTournament, bracket, onBracketSelect } = props;
+  const { isTeamTournament, bracket, onBracketSelect, currentRoundNumber, totalRounds } = props;
   if (bracket == null || isTeamTournament) {
     return null;
   }
@@ -115,6 +115,9 @@ function Brackets(props) {
           )
         })}
       </div>
+      <p style={{ textAlign: "center", direction: "ltr" }}>
+        {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
+      </p>
     </div>
   )
 }

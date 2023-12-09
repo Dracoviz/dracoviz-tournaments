@@ -921,7 +921,13 @@ export default function Tournament() {
               {renderCountdown()}
               {renderBracketActions()}
               {renderBracketDisclaimer()}
-              <Brackets bracket={data?.bracket} onBracketSelect={onBracketSelect} isTeamTournament={data?.isTeamTournament}/>
+              <Brackets
+                bracket={data?.bracket}
+                onBracketSelect={onBracketSelect}
+                isTeamTournament={data?.isTeamTournament}
+                currentRoundNumber={data?.currentRoundNumber}
+                totalRounds={data?.totalRounds}
+              />
               {
                 data?.isTeamTournament
                   ? (<FactionList
