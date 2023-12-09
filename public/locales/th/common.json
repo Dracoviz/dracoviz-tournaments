@@ -245,5 +245,6 @@
 	"fast_move_team_sheet": "การโจมตี Fast",
 	"name": "ชื่อ",
 	"meta_class": "ชั้น",
-	"player_name": "ชื่อผู้เล่น"
+	"player_name": "ชื่อผู้เล่น",
+	"confirm_bracket_progress": "คุณแน่ใจหรือไม่ที่คุณต้องการดำเนินการที่ bracket? โปรดตรวจสอบว่าทุกแมตช์ได้รับรายงานแล้วหรือไม่"
 }

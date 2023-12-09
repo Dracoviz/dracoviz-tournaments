@@ -134,22 +134,24 @@ export default function Tournament() {
   }
 
   const progressBracket = () => {
-    setIsLoading(true);
-    fetchApi(`session/progress/`, "POST", {
-      "x_session_id": authId,
-      "Content-Type": "application/json"
-    }, JSON.stringify({
-      tournamentId: id,
-    }))
-    .then(response => response.json())
-    .then((newData) => {
-      if (newData.error != null) {
-        alert(t(newData.error));
-        setIsLoading(false);
-      } else {
-        getTournamentData(authId);
-      }
-    });
+    if (confirm(t('confirm_bracket_progress'))) {
+      setIsLoading(true);
+      fetchApi(`session/progress/`, "POST", {
+        "x_session_id": authId,
+        "Content-Type": "application/json"
+      }, JSON.stringify({
+        tournamentId: id,
+      }))
+      .then(response => response.json())
+      .then((newData) => {
+        if (newData.error != null) {
+          alert(t(newData.error));
+          setIsLoading(false);
+        } else {
+          getTournamentData(authId);
+        }
+      });
+    }
   }
 
   const getTournamentData = (newAuthId) => {
@@ -353,7 +355,7 @@ export default function Tournament() {
 
   const reportScore = async (scores) => {
     const { player1, player2 } = scores;
-    const { matchIndex } = selectedRound;
+    const { matchIndex, roundIndex } = selectedRound;
     const response = await fetchApi(`session/report/`, "POST", {
       "x_session_id": authId,
       "Content-Type": "application/json"
@@ -363,6 +365,7 @@ export default function Tournament() {
       player2,
       matchIndex,
       scoreIndex: 0, // TODO: Teams
+      targetRoundIndex: roundIndex,
     }));
     const newData = await response.json();
     if (newData.error != null) {
@@ -376,8 +379,8 @@ export default function Tournament() {
   const onBracketSelect = (roundIndex, matchIndex) => {
     const bracket = data?.bracket[roundIndex]?.matches[matchIndex];
     if (bracket == null
-      || data?.bracket[roundIndex].round !== data?.currentRoundNumber
       || data?.isHost !== true
+      || isConcluded
     ) {
       return;
     }

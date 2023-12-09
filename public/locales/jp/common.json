@@ -245,6 +245,6 @@
     "fast_move_team_sheet": "ファストアタック",
     "name": "名前",
     "meta_class": "クラス",
-    "player_name": "プレイヤー名"
-
+    "player_name": "プレイヤー名",
+    "confirm_bracket_progress": "ブラケットを進めてもよろしいですか？すべての試合が報告されているか確認してください。"
 }
