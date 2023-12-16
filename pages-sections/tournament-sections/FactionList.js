@@ -120,7 +120,7 @@ export default function FactionList(props) {
                         {t("view_profile")}
                       </Button>
                       {
-                        isHost && (<Button color="error" onClick={() => {
+                        (isHost && !player.removed) && (<Button color="error" onClick={() => {
                           if (confirm(t("confirm_remove_player_team"))) {
                             onDeletePlayer(player.name)
                           }

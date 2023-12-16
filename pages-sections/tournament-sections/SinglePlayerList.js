@@ -84,7 +84,9 @@ export default function SinglePlayerList(props) {
             <div className={classes.root}>
               <div className={`${classes.playerNameRow} realign`}>
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <h4>{player.name} {getValidLabel(showValid, player.valid)}</h4>
+                  <h4 style={{ textDecoration: player.removed ? "line-through" : "none" }}>
+                    {player.name} {getValidLabel(showValid, player.valid)}
+                  </h4>
                   {renderStats(player)}
                 </div>
                 <div>
@@ -92,7 +94,7 @@ export default function SinglePlayerList(props) {
                     {t("view_profile")}
                   </Button>
                   {
-                    isHost && (<Button color="error" onClick={() => {
+                    (isHost && !player.removed) && (<Button color="error" onClick={() => {
                       if (confirm(t("confirm_remove_player"))) {
                         onDeletePlayer(player.name)
                       }
