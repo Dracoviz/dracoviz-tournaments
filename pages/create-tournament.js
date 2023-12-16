@@ -165,6 +165,9 @@ export default function CreateTournament() {
           <MenuItem value="Wasteland Cup">Wasteland Cup</MenuItem>
           <MenuItem value="Nuu Cup">Nuu Cup</MenuItem>
           <MenuItem value="Solitude Cup">Syndicate (Solitude Cup)</MenuItem>
+          <MenuItem value="Enchanted Domain">Enchanted Domain</MenuItem>
+          <MenuItem value="Serene Domain">Serene Domain</MenuItem>
+          <MenuItem value="Primordial Domain">Primordial Domain</MenuItem>
         </Select>
       </GridItem>
     ))
