@@ -3,6 +3,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/router";
 import { Button, Checkbox } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { useReactToPrint } from 'react-to-print';
@@ -64,7 +65,7 @@ class ComponentToPrint extends React.PureComponent {
     return values;
   }
   render() {
-    const { singlePage, t } = this.props;
+    const { singlePage, t, locale } = this.props;
     const teams = this.getTeams();
     return (
       <div>
@@ -114,7 +115,7 @@ class ComponentToPrint extends React.PureComponent {
                   <td style={cellStyle}><b>{t("fast_move_team_sheet")}</b></td>
                   {
                     team.fastMove.map((item) => (
-                      <td style={cellStyle}>{formatMove(item)}</td>
+                      <td style={cellStyle}>{formatMove(item, locale)}</td>
                     ))
                   }
                 </tr>
@@ -122,7 +123,7 @@ class ComponentToPrint extends React.PureComponent {
                   <td style={cellStyle}><b>{t("charged_move_team_sheet", { index: 1 })}</b></td>
                   {
                     team.chargedMove1.map((item) => (
-                      <td style={cellStyle}>{formatMove(item)}</td>
+                      <td style={cellStyle}>{formatMove(item, locale)}</td>
                     ))
                   }
                 </tr>
@@ -130,7 +131,7 @@ class ComponentToPrint extends React.PureComponent {
                   <td style={cellStyle}><b>{t("charged_move_team_sheet", { index: 2 })}</b></td>
                   {
                     team.chargedMove2.map((item) => (
-                      <td style={cellStyle}>{formatMove(item)}</td>
+                      <td style={cellStyle}>{formatMove(item, locale)}</td>
                     ))
                   }
                 </tr>
@@ -146,6 +147,7 @@ class ComponentToPrint extends React.PureComponent {
 function TeamSheetModal(props) {
   const { t } = useTranslation();
   const { open, data, Transition, onClose } = props;
+  const { locale } = useRouter();
   const componentRef = useRef();
   const [singlePage, setSinglePage] = useState(true); 
   const handlePrint = useReactToPrint({
@@ -184,7 +186,7 @@ function TeamSheetModal(props) {
           overflowY: "scroll",
           maxHeight: 200,
         }}>
-          <ComponentToPrint ref={componentRef} data={data} singlePage={singlePage} t={t} />
+          <ComponentToPrint ref={componentRef} data={data} singlePage={singlePage} locale={locale} t={t} />
         </div>
         <DialogActions>
           <Button
