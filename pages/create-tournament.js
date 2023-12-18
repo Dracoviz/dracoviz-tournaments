@@ -168,6 +168,7 @@ export default function CreateTournament() {
           <MenuItem value="Enchanted Domain">Enchanted Domain</MenuItem>
           <MenuItem value="Serene Domain">Serene Domain</MenuItem>
           <MenuItem value="Primordial Domain">Primordial Domain</MenuItem>
+          <MenuItem value="Knockout Cup">Knockout Cup</MenuItem>
         </Select>
       </GridItem>
     ))
