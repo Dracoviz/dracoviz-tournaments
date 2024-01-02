@@ -247,5 +247,10 @@
 	"meta_class": "Class",
 	"player_name": "Player Name",
 	"confirm_bracket_progress": "Are you sure you want to progress the bracket? Please check if all matches have been reported.",
-	"rounds": "Rounds"
+	"rounds": "Rounds",
+	"api_slug_already_used": "Slug already used for another collection",
+	"api_cannot_find_series": "Cannot find colleciton",
+	"api_session_already_added": "Tournament already added",
+	"api_series_host_mismatch": "The host of this tournament needs to be either an admin or host of this collection",
+	"api_user_already_added": "User already added"
 }
