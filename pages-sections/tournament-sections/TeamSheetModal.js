@@ -51,12 +51,12 @@ class ComponentToPrint extends React.PureComponent {
         name,
       }
       pokemon.forEach((pok) => {
-        value.speciesName.push(pok.speciesName ?? "");
-        value.cp.push(pok.cp ?? "");
+        value.speciesName.push(pok.speciesName ?? "-");
+        value.cp.push(pok.cp ?? "-");
         // value.hp.push(pok.hp ?? "");
-        value.chargedMove1.push(pok.chargedMoves[0] ?? "");
-        value.chargedMove2.push(pok.chargedMoves[1] ?? "");
-        value.fastMove.push(pok.fastMove ?? "");
+        value.chargedMove1.push(pok.chargedMoves?.[0] ?? "-");
+        value.chargedMove2.push(pok.chargedMoves?.[1] ?? "-");
+        value.fastMove.push(pok.fastMove ?? "-");
         value.bestBuddy.push(pok.bestBuddy ?? false);
         value.purified.push(pok.purified ?? false);
       })
