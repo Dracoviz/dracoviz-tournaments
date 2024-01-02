@@ -252,5 +252,22 @@
 	"api_cannot_find_series": "Cannot find colleciton",
 	"api_session_already_added": "Tournament already added",
 	"api_series_host_mismatch": "The host of this tournament needs to be either an admin or host of this collection",
-	"api_user_already_added": "User already added"
+	"api_user_already_added": "User already added",
+	"your_collections": "Your Collections",
+	"create_a_collection": "Create a collection",
+	"no_collections": "You are not an admin or host of any collections",
+	"collection_name": "Collection name",
+	"collection_description": "Collection description",
+	"collection_slug": "Url Slug",
+	"collection_slug_tip": "Set a custom domain for your collection. It must be unique and it can only contain letters, dashes, and numbers.",
+	"create_collection": "Create collection",
+	"collection_sessions": "Tournaments",
+	"collection_admins": "Admins",
+	"collection_admins_details": "Admins can fully manage a collection",
+	"collection_hosts": "Hosts",
+	"collection_hosts_details": "Hosts can only add tournaments to a collection",
+	"none": "None",
+	"add_admin": "Add Admin",
+	"add_host": "Add Host",
+	"add_session": "Add Tournament"
 }
