@@ -3791,6 +3791,22 @@
         "th": "สปารค",
         "tr": "Kıvılcım"
     },
+    "SPIRIT_SHACKLE": {
+        "en": "Spirit Shackle",
+        "pt": "Manilha Sombria",
+        "zhhant": "縫影",
+        "fr": "Tisse Ombre",
+        "de": "Schattenfessel",
+        "hi": "Spirit Shackle",
+        "id": "Spirit Shackle",
+        "it": "Cucitura d'Ombra",
+        "jp": "かげぬい",
+        "kr": "그림자꿰매기",
+        "ru": "Спиритические Оковы",
+        "es": "Puntada Sombría",
+        "th": "Spirit Shackle",
+        "tr": "Spirit Shackle"
+    },
     "SPLASH": {
         "en": "Splash",
         "pt": "Borrifada",
