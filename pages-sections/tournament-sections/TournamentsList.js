@@ -45,7 +45,7 @@ export default function TournamentsList(props) {
 
   const renderMetas = (metas) => {
     return metas?.map((m) => (
-      <img src={m} height={50} width={50} style={{ marginTop: -30 }} />
+      <img src={m} height={50} width={50} style={{ marginTop: -30, objectFit: "contain" }} />
     ))
   }
 
