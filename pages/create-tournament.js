@@ -172,6 +172,7 @@ export default function CreateTournament() {
           <MenuItem value="Naruto Cup">Naruto Cup</MenuItem>
           <MenuItem value="Turok Cup">Turok Cup</MenuItem>
           <MenuItem value="Vanu Cup">Vanu Cup</MenuItem>
+          <MenuItem value="Sovereign Cup">Sovereign Cup</MenuItem>
         </Select>
       </GridItem>
     ))

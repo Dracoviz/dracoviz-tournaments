@@ -261,7 +261,7 @@
 	"collection_slug": "Url Slug",
 	"collection_slug_tip": "Set a custom domain for your collection. It must be unique and it can only contain letters, dashes, and numbers.",
 	"create_collection": "Create collection",
-	"collection_sessions": "Tournaments",
+	"collection_tournaments": "Tournaments",
 	"collection_admins": "Admins",
 	"collection_admins_details": "Admins can fully manage a collection",
 	"collection_hosts": "Hosts",
@@ -269,5 +269,7 @@
 	"none": "None",
 	"add_admin": "Add Admin",
 	"add_host": "Add Host",
-	"add_session": "Add Tournament"
+	"add_session": "Add Tournament",
+	"api_team_validation_charge_move": "Invalid charged move",
+	"api_team_validation_fast_move": "Invalid fast move",
 }
