@@ -173,6 +173,9 @@ export default function CreateTournament() {
           <MenuItem value="Turok Cup">Turok Cup</MenuItem>
           <MenuItem value="Vanu Cup">Vanu Cup</MenuItem>
           <MenuItem value="Sovereign Cup">Sovereign Cup</MenuItem>
+          <MenuItem value="Remoraiderz Royale">Remoraiderz Royale</MenuItem>
+          <MenuItem value="Alofa Cup">Alofa Cup</MenuItem>
+          <MenuItem value="Evolution Cup">Evolution Cup</MenuItem>
         </Select>
       </GridItem>
     ))
