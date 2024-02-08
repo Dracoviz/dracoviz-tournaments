@@ -176,6 +176,7 @@ export default function CreateTournament() {
           <MenuItem value="Remoraiderz Royale">Remoraiderz Royale</MenuItem>
           <MenuItem value="Alofa Cup">Alofa Cup</MenuItem>
           <MenuItem value="Evolution Cup">Evolution Cup</MenuItem>
+          <MenuItem value="Dominion Cup">Dominion Cup</MenuItem>
         </Select>
       </GridItem>
     ))
