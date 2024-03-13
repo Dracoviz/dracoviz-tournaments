@@ -154,6 +154,7 @@ export default function CreateTournament() {
           value={theMetas?.[index]}
         >
           <MenuItem value="Great League">{t("great_league")}</MenuItem>
+          <MenuItem value="Great League Megas">Anything Goes (Great League)</MenuItem>
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
           <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series 2024</MenuItem>
