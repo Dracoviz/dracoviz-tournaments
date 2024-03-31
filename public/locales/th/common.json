@@ -247,5 +247,6 @@
 	"meta_class": "ชั้น",
 	"player_name": "ชื่อผู้เล่น",
 	"confirm_bracket_progress": "คุณแน่ใจหรือไม่ที่คุณต้องการดำเนินการที่ bracket? โปรดตรวจสอบว่าทุกแมตช์ได้รับรายงานแล้วหรือไม่",
-	"rounds": "รอบ"
+	"rounds": "รอบ",
+	"hide_teams_from_spectators": "ซ่อนทีมจากผู้ชม"
 }

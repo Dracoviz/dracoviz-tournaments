@@ -56,6 +56,7 @@ export default function CreateTournament() {
   const purifiedVisibility = watch("purifiedVisibility");
   const bestBuddyVisibility = watch("bestBuddyVisibility");
   const nicknameVisibility = watch("nicknameVisibility");
+  const hideFromGuests = watch("hideFromGuests");
   const timeControl = watch("timeControl");
   const draftMode = watch("draftMode");
   const isPrivate = watch("isPrivate");
@@ -364,6 +365,10 @@ export default function CreateTournament() {
                 <GridItem xs={12} md={7}>
                   {t("is_tournament_private")}
                     <Checkbox {...register("isPrivate")} checked={isPrivate}/>
+                </GridItem>
+                <GridItem xs={12} md={7}>
+                  {t("hide_teams_from_spectators")}
+                    <Checkbox {...register("hideFromGuests")} checked={hideFromGuests}/>
                 </GridItem>
               </GridContainer>
             </Card>

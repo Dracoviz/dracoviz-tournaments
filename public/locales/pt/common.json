@@ -247,5 +247,6 @@
     "meta_class": "Classe",
     "player_name": "Nome do Jogador",
     "confirm_bracket_progress": "Tem certeza de que deseja avançar no bracket? Por favor, verifique se todas as partidas foram relatadas.",
-    "rounds": "Rodadas"
+    "rounds": "Rodadas",
+    "hide_teams_from_spectators": "Esconder equipes dos espectadores"
 }
