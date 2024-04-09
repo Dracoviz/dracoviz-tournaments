@@ -126,7 +126,7 @@ function ProfileEditModal(props) {
                       fullWidth: true
                     }}
                     inputProps={{
-                      ...register("description", { maxLength: 100 }),
+                      ...register("description", { maxLength: 500 }),
                       defaultValue: player?.description
                     }}
                   />
