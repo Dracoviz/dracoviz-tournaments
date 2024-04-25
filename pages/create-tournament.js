@@ -186,6 +186,7 @@ export default function CreateTournament() {
           <MenuItem value="The Silver Citadel">The Silver Citadel</MenuItem>
           <MenuItem value="PaoLaf Cup">PaoLaf Cup</MenuItem>
           <MenuItem value="BTW (Mystical Fields)">BTW (Mystical Fields)</MenuItem>
+          <MenuItem value="Genetic Cup">Genetic Cup</MenuItem>
         </Select>
       </GridItem>
     ))
