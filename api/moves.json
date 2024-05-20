@@ -1807,6 +1807,22 @@
         "th": "แสนแรงมา",
         "tr": "Yüksek Beygir Gücü"
     },
+    "HIGH_JUMP_KICK": {
+        "en": "High Jump Kick",
+        "pt": "High Jump Kick",
+        "zhhant": "High Jump Kick",
+        "fr": "High Jump Kick",
+        "de": "High Jump Kick",
+        "hi": "High Jump Kick",
+        "id": "High Jump Kick",
+        "it": "High Jump Kick",
+        "jp": "High Jump Kick",
+        "kr": "High Jump Kick",
+        "ru": "High Jump Kick",
+        "es": "High Jump Kick",
+        "th": "High Jump Kick",
+        "tr": "High Jump Kick"
+    },
     "HORN_ATTACK": {
         "en": "Horn Attack",
         "pt": "Ataque de Chifre",
@@ -3374,6 +3390,22 @@
         "es": "Espada Santa",
         "th": "ดาบศักดิ์สิทธิ์",
         "tr": "Kutsal Kılıç"
+    },
+    "SAND_ATTACK": {
+        "en": "Sand Attack",
+        "pt": "Sand Attack",
+        "zhhant": "Sand Attack",
+        "fr": "Sand Attack",
+        "de": "Sand Attack",
+        "hi": "Sand Attack",
+        "id": "Sand Attack",
+        "it": "Sand Attack",
+        "jp": "Sand Attack",
+        "kr": "Sand Attack",
+        "ru": "Sand Attack",
+        "es": "Sand Attack",
+        "th": "Sand Attack",
+        "tr": "Sand Attack"
     },
     "SAND_TOMB": {
         "en": "Sand Tomb",
