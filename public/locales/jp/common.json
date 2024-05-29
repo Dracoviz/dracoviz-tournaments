@@ -134,7 +134,7 @@
     "team_tournament_captain": "これはチームトーナメントです。新しいチームのキャプテンになりますか？",
     "tournament_are_cps_required": "ポケモンのCPは登録が必要ですか？",
     "tournament_bracket_link": "ブラケットリンク（Challonge、Matcherinoなど）",
-    "tournament_description": "トーナメントの説明（最大5,000文字）",
+    "tournament_description": "トーナメントの説明（最大5,000文字）*",
     "tournament_details": "トーナメントの詳細",
     "tournament_edit_pokemon_button": "ポケモンを編集",
     "tournament_game_settings": "ゲーム設定",

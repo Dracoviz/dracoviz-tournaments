@@ -134,7 +134,7 @@
 	"team_tournament_captain": "Questo è un torneo di squadra. Vuoi essere il capitano di una nuova squadra?",
 	"tournament_are_cps_required": "È richiesto il CP dei Pokémon per la registrazione?",
 	"tournament_bracket_link": "Link del Tabellone (Challonge, Matcherino, ecc.)",
-	"tournament_description": "Descrizione del Torneo (Massimo 5.000 caratteri)",
+	"tournament_description": "Descrizione del Torneo (Massimo 5.000 caratteri)*",
 	"tournament_details": "Dettagli del Torneo",
 	"tournament_edit_pokemon_button": "Modifica i tuoi Pokémon",
 	"tournament_game_settings": "Impostazioni di Gioco",

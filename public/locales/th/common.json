@@ -134,7 +134,7 @@
 	"team_tournament_captain": "นี่คือทัวร์นาเมนต์ทีม คุณต้องการเป็นกัปตันทีมใหม่หรือไม่?",
 	"tournament_are_cps_required": "ต้องการลงทะเบียน Pokemon CP หรือไม่?",
 	"tournament_bracket_link": "ลิงก์แบร็กเก็ต (Challonge, Matcherino, ฯลฯ)",
-	"tournament_description": "คำอธิบายทัวร์นาเมนต์ (สูงสุด 5,000 ตัวอักษร)",
+	"tournament_description": "คำอธิบายทัวร์นาเมนต์ (สูงสุด 5,000 ตัวอักษร)*",
 	"tournament_details": "รายละเอียดทัวร์นาเมนต์",
 	"tournament_edit_pokemon_button": "แก้ไข Pokemon ของคุณ",
 	"tournament_game_settings": "การตั้งค่าเกม",

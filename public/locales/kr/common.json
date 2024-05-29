@@ -134,7 +134,7 @@
     "team_tournament_captain": "이것은 팀 토너먼트입니다. 새로운 팀 대장이 되시겠습니까?",
     "tournament_are_cps_required": "포켓몬 CP가 등록되어야 하는가요?",
     "tournament_bracket_link": "브라켓 링크 (Challonge, Matcherino 등)",
-    "tournament_description": "토너먼트 설명 (최대 5,000자)",
+    "tournament_description": "토너먼트 설명 (최대 5,000자)*",
     "tournament_details": "토너먼트 세부 정보",
     "tournament_edit_pokemon_button": "포켓몬 편집",
     "tournament_game_settings": "게임 설정",
