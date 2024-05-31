@@ -58,10 +58,11 @@ export default function FactionList(props) {
   }, [factions, players]);
 
   const cleanText = useCallback((text) => {
-    if (filter?.clean == null || text == null || text === "") {
+    const splitRegex = /\b/;
+    if (splitRegex.exec(text)?.[0] == null || filter?.clean == null || text == null || text.trim() === "") {
       return text;
     }
-    if (text.replace(/[^\x00-\x7F]/g, "").trim() === "") {
+    if (text.replace(/[^\x00-\x7F]/g, "").replaceAll(".").trim() === "") {
       return text;
     }
     const filteredText = filter.clean(text);
@@ -98,44 +99,48 @@ export default function FactionList(props) {
       />
       {
         noSearchResults ? <p>{t('no_factions_in_search')}</p>
-        : searchedFactions?.map((faction) => (
-          <Card key={faction.key}>
-            <h3 style={{ marginLeft: 30, marginRight: 30 }}>{cleanText(faction.name)}</h3>
-            <p style={{ marginLeft: 30, marginRight: 30 }}>{cleanText(faction.description)}</p>
-            {
-              faction?.players?.sort(byTournamentPosition).map((player, index) => (
-                <div className={classes.root} key={index}>
-                  <div className={classes.playerNameRow}>
-                    <div className={classes.playerMetaRow}>
-                      {(player.tournamentPosition > -1) && (
-                        <img
-                          src={metaLogos[index]}
-                          style={{width: 50, height: 50, marginRight: 10, objectFit: 'contain'}}
-                        />
-                      )}
-                      <h4>{player.name} {player.isCaptain ? t("captain_label") : ""} {getValidLabel(showValid, player.valid)}</h4>
+        : searchedFactions?.map((faction) => {
+          const name = cleanText(faction.name);
+          const description = cleanText(faction.description);
+          return (
+            <Card key={faction.key}>
+              <h3 style={{ marginLeft: 30, marginRight: 30 }}>{name}</h3>
+              <p style={{ marginLeft: 30, marginRight: 30 }}>{description}</p>
+              {
+                faction?.players?.sort(byTournamentPosition).map((player, index) => (
+                  <div className={classes.root} key={index}>
+                    <div className={classes.playerNameRow}>
+                      <div className={classes.playerMetaRow}>
+                        {(player.tournamentPosition > -1) && (
+                          <img
+                            src={metaLogos[index]}
+                            style={{width: 50, height: 50, marginRight: 10, objectFit: 'contain'}}
+                          />
+                        )}
+                        <h4>{player.name} {player.isCaptain ? t("captain_label") : ""} {getValidLabel(showValid, player.valid)}</h4>
+                      </div>
+                      <div>
+                        <Button onClick={() => onPlayer(player.name)}>
+                          {t("view_profile")}
+                        </Button>
+                        {
+                          (isHost && !player.removed) && (<Button color="error" onClick={() => {
+                            if (confirm(t("confirm_remove_player_team"))) {
+                              onDeletePlayer(player.name)
+                            }
+                          }}>
+                            {t("remove_player")}
+                          </Button>)
+                        }
+                      </div>
                     </div>
-                    <div>
-                      <Button onClick={() => onPlayer(player.name)}>
-                        {t("view_profile")}
-                      </Button>
-                      {
-                        (isHost && !player.removed) && (<Button color="error" onClick={() => {
-                          if (confirm(t("confirm_remove_player_team"))) {
-                            onDeletePlayer(player.name)
-                          }
-                        }}>
-                          {t("remove_player")}
-                        </Button>)
-                      }
-                    </div>
+                    <PokemonView pokemon={player.pokemon} />
                   </div>
-                  <PokemonView pokemon={player.pokemon} />
-                </div>
-              ))
-            }
-          </Card>
-        ))
+                ))
+              }
+            </Card>
+          )
+        })
       }
     </div>
   )
