@@ -187,6 +187,7 @@ export default function CreateTournament() {
           <MenuItem value="PaoLaf Cup">PaoLaf Cup</MenuItem>
           <MenuItem value="BTW (Mystical Fields)">BTW (Mystical Fields)</MenuItem>
           <MenuItem value="Genetic Cup">Genetic Cup</MenuItem>
+          <MenuItem value="Tundra Cup">Tundra Cup</MenuItem>
         </Select>
       </GridItem>
     ))
