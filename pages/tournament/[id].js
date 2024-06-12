@@ -328,7 +328,7 @@ export default function Tournament() {
   }
 
   const exportData = () => {
-    if (data == null || data.state !== "POKEMON_VISIBLE") {
+    if (data == null) {
       return null
     }
     const { players } = data;
