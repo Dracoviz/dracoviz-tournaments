@@ -445,7 +445,7 @@ export default function Tournament() {
   }
 
   const renderExportButton = () => {
-    if (data == null || data.state !== "POKEMON_VISIBLE") {
+    if (data == null || (data.state !== "POKEMON_VISIBLE" && !isHost)) {
       return null
     }
     return (
