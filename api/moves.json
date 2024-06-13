@@ -319,6 +319,22 @@
         "th": "เตะเปลวเพลิง",
         "tr": "Alev Tekmesi"
     },
+    "BLEAKWIND_STORM": {
+        "en": "Bleakwind Storm",
+        "pt": "Bleakwind Storm",
+        "zhhant": "Bleakwind Storm",
+        "fr": "Bleakwind Storm",
+        "de": "Bleakwind Storm",
+        "hi": "Bleakwind Storm",
+        "id": "Bleakwind Storm",
+        "it": "Bleakwind Storm",
+        "jp": "Bleakwind Storm",
+        "kr": "Bleakwind Storm",
+        "ru": "Bleakwind Storm",
+        "es": "Bleakwind Storm",
+        "th": "Bleakwind Storm",
+        "tr": "Bleakwind Storm"
+    },
     "BLIZZARD": {
         "en": "Blizzard",
         "pt": "Nevasca",
@@ -3423,6 +3439,22 @@
         "th": "สุสานทรายดูด",
         "tr": "Kum Mezar"
     },
+    "SANDSEAR_STORM": {
+        "en": "Sandsear Storm",
+        "pt": "Sandsear Storm",
+        "zhhant": "Sandsear Storm",
+        "fr": "Sandsear Storm",
+        "de": "Sandsear Storm",
+        "hi": "Sandsear Storm",
+        "id": "Sandsear Storm",
+        "it": "Sandsear Storm",
+        "jp": "Sandsear Storm",
+        "kr": "Sandsear Storm",
+        "ru": "Sandsear Storm",
+        "es": "Sandsear Storm",
+        "th": "Sandsear Storm",
+        "tr": "Sandsear Storm"
+    },
     "SCALD": {
         "en": "Scald",
         "pt": "Escaldada",
@@ -4510,6 +4542,22 @@
         "es": "Voltio Cruel",
         "th": "ไวลดโวลต",
         "tr": "Yabani Şarj"
+    },
+    "WILDBOLT_STORM": {
+        "en": "Wildbolt Storm",
+        "pt": "Wildbolt Storm",
+        "zhhant": "Wildbolt Storm",
+        "fr": "Wildbolt Storm",
+        "de": "Wildbolt Storm",
+        "hi": "Wildbolt Storm",
+        "id": "Wildbolt Storm",
+        "it": "Wildbolt Storm",
+        "jp": "Wildbolt Storm",
+        "kr": "Wildbolt Storm",
+        "ru": "Wildbolt Storm",
+        "es": "Wildbolt Storm",
+        "th": "Wildbolt Storm",
+        "tr": "Wildbolt Storm"
     },
     "WING_ATTACK": {
         "en": "Wing Attack",
