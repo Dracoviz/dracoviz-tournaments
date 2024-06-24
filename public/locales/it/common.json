@@ -248,5 +248,6 @@
 	"player_name": "Nome Giocatore",
 	"confirm_bracket_progress": "Sei sicuro di voler avanzare nel tabellone? Controlla se tutte le partite sono state segnalate.",
 	"rounds": "Turni",
-	"hide_teams_from_spectators": "Nascondi squadre agli spettatori"
+	"hide_teams_from_spectators": "Nascondi squadre agli spettatori",
+	"hosted_by": "Ospitato da"
 }

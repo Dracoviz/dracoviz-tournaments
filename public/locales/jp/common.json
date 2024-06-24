@@ -248,5 +248,6 @@
     "player_name": "プレイヤー名",
     "confirm_bracket_progress": "ブラケットを進めてもよろしいですか？すべての試合が報告されているか確認してください。",
     "rounds": "ラウンド",
-    "hide_teams_from_spectators": "チームを観客から隠す"
+    "hide_teams_from_spectators": "チームを観客から隠す",
+    "hosted_by": "ホスト"
 }

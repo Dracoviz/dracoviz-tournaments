@@ -455,6 +455,15 @@ export default function Tournament() {
     )
   }
 
+  const renderHosts = () => {
+    if (data == null || data.hostNames == null) {
+      return null
+    }
+    return (
+      <p><b>{t('hosted_by')}:</b> {data.hostNames.filter(x => x !== "").join(", ")}</p>
+    )
+  }
+
   const renderConcludeStatus = () => {
     if (data == null || !isConcluded) {
       return null;
@@ -900,6 +909,7 @@ export default function Tournament() {
               {renderTeamSheetButton()}
               {renderExportButton()}
               <h1 style={{ marginTop: 10, wordBreak: "break-word" }}>{data?.name}</h1>
+              {renderHosts()}
               {renderChips()}
               <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
                 <a href={decoratedHref} target="_blank" rel="noreferrer" key={key}>{decoratedText}</a>

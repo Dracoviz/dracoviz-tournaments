@@ -131,6 +131,18 @@ export default function Index() {
     )
   }, [currentTab, data]);
 
+  const renderCollections = useCallback(() => {
+    const { collections } = data;
+    if (collections == null || collections.length <= 0) {
+      return (
+        <div>{t("no_collections")}</div>
+      )
+    }
+    return collections.map((d) => (
+      <div>{JSON.stringify(d)}</div>
+    ));
+  }, [data]);
+
   const renderEditProfileModal = () => {
     return (
       <ProfileEditModal 
@@ -196,6 +208,19 @@ export default function Index() {
                   <GridItem xs={12}>
                     {renderTournaments()}
                   </GridItem>
+                  {/* <GridItem xs={12}>
+                    <div className="tournament-head">
+                      <h3>{t("your_collections")}</h3>
+                      <div>
+                        <Button color="primary" variant="contained" style={{ marginBottom: 10 }} onClick={() => goToRoute("/create-collection")}>
+                          {t("create_a_collection")}
+                        </Button>
+                      </div>
+                    </div>
+                  </GridItem>
+                  <GridItem xs={12}>
+                    {renderCollections()}
+                  </GridItem> */}
                 </>
               )
             }

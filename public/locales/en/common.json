@@ -272,5 +272,6 @@
 	"add_session": "Add Tournament",
 	"api_team_validation_charge_move": "Invalid charged move",
 	"api_team_validation_fast_move": "Invalid fast move",
-	"hide_teams_from_spectators": "Hide teams from spectators"
+	"hide_teams_from_spectators": "Hide teams from spectators",
+	"hosted_by": "Hosted By"
 }
