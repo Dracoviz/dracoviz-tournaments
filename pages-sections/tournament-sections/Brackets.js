@@ -45,10 +45,12 @@ function Match(props) {
           matchIndex,
         )
       }
+      const participantReported = participant.score.reduce((a, b) => a+b, 0) > 0;
+      const hasUnfinalReport = !isReported && participantReported;
       return (
         <div onClick={onClick} style={bracketStyle} className={classes.participant}>
           <div style={{ textDecoration: removed ? "line-through" : "none" }}>
-            {name}
+            {name} {hasUnfinalReport ? "🟢" : ""}
           </div>
           <span className={classes.score}>
             {scores[i]}
