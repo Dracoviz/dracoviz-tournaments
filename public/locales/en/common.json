@@ -201,7 +201,7 @@
 	"report_score": "Report score",
 	"edit_score": "Edit your previous score report",
 	"game_amount_label": "Number of games per round",
-	"play_all_matches_label": "Require players to play all matches",
+	"play_all_matches_label": "Allow players to report additional games (e.i. Bo3 can report 3-0)",
 	"games_won_label": "Number of games you won",
 	"games_lost_label": "Number of games your opponent won",
 	"no_opponent_notice": "You have no opponent. Take a break this round :)",
