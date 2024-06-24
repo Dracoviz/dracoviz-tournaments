@@ -48,14 +48,18 @@ function TournamentList(props) {
       {
         sessions.map((session) => {
           const { _id, name, playerValues, currentRoundNumber } = session;
-          const { status, role, meta } = playerValues;
+          const { status, roles, meta } = playerValues;
           return (
             <Card className={classes.root} key={_id}>
               <img src={meta} alt="meta" height={70} width={70} />
               <div className={classes.content}>
                 <p>
                   <strong className={classes.title}>{name}</strong>
-                  <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{t(role.toLowerCase())}</Badge>
+                  {
+                    roles?.map((role) => (
+                      <Badge style={{ marginLeft: 10 }} color={badgeColor[role]}>{t(role.toLowerCase())}</Badge>
+                    ))
+                  }
                   <br />
                   {t("tournament_status")} <span className={classes[statusColor[status]]}>{statusName[status]}</span>
                   <p>{t("tournament_round")} {currentRoundNumber}</p>

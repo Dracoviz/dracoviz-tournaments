@@ -522,9 +522,9 @@ export default function Tournament() {
     if (data == null || isConcluded) {
       return null;
     }
-    const { isHost, isPlayer, isTeamTournament, state, teamCode, registrationClosed } = data;
+    const { isPlayer, isTeamTournament, teamCode, registrationClosed } = data;
     const buttons = [];
-    if (!isHost && !isPlayer) {
+    if (!isPlayer) {
       if (registrationClosed) {
         return null;
       }
