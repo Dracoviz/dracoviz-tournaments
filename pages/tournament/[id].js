@@ -602,6 +602,31 @@ export default function Tournament() {
         </Button>
       );
     }
+    if (isCaptain) {
+      buttons.push(
+        <Button
+          color="primary"
+          className={classes.actionButtonMiddle}
+          key="EDIT_ROSTER"
+          onClick={() => goToRoute(`/captain/${id}`)}
+        >
+          {t("team_manage_roster")}
+        </Button>
+      )
+    }
+    if (isPlayer) {
+      const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? t("tournament_edit_pokemon_button") : t("tournament_see_pokemon_button");
+      buttons.push(
+        <Button
+          color="primary"
+          className={classes.actionButtonMiddle}
+          key="EDIT_POKEMON"
+          onClick={() => goToRoute(`/team/${id}`)}
+        >
+          {pokemonEditTitle}
+        </Button>
+      );
+    }
     if (isHost) {
       if (state === "POKEMON_VISIBLE") {
         const newState = isTeamTournament ? "MATCHUPS_VISIBLE" : "REGISTER_TEAM";
@@ -661,31 +686,6 @@ export default function Tournament() {
         </Button>
       );
     } else {
-      if (isCaptain) {
-        buttons.push(
-          <Button
-            color="primary"
-            className={classes.actionButtonMiddle}
-            key="EDIT_ROSTER"
-            onClick={() => goToRoute(`/captain/${id}`)}
-          >
-            {t("team_manage_roster")}
-          </Button>
-        )
-      }
-      if (isPlayer) {
-        const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? t("tournament_edit_pokemon_button") : t("tournament_see_pokemon_button");
-        buttons.push(
-          <Button
-            color="primary"
-            className={classes.actionButtonMiddle}
-            key="EDIT_POKEMON"
-            onClick={() => goToRoute(`/team/${id}`)}
-          >
-            {pokemonEditTitle}
-          </Button>
-        );
-      }
       buttons.push(seeTmButton);
     }
     return buttons;
@@ -744,59 +744,66 @@ export default function Tournament() {
     if (players?.length < 2) {
       return null;
     }
+    const buttons = [];
     if (isHost && !(bracketType == null || bracketType === "none")) {
       if (totalRounds === currentRoundNumber) {
-        return (
+        buttons.push(
           <Button
             variant="contained"
             color="primary"
             onClick={onConclude}
             fullWidth
-            style={{ marginTop: 20, marginBottom: 20 }}
+            style={{ marginTop: 20 }}
           >
             {t("conclude_tournament")}
           </Button>
         )
-      }
-      if (currentRoundNumber === 0) {
-        return (
+      } else if (currentRoundNumber === 0) {
+        buttons.push(
           <Button
             variant="contained"
             color="primary"
             onClick={startBracket}
             fullWidth
-            style={{ marginTop: 20, marginBottom: 20 }}
+            style={{ marginTop: 20 }}
           >
             {t("start_bracket")}
           </Button>
         )
       }
-      return (
+      buttons.push(
         <Button
           variant="contained"
           color="primary"
           onClick={progressBracket}
           fullWidth
-          style={{ marginTop: 20, marginBottom: 20 }}
+          style={{ marginTop: 20 }}
         >
           {t("progress_bracket")}
         </Button>
       )
     }
-    if (!isPlayer || !(currentRoundNumber > 0)) {
+    if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
     }
+    if (isPlayer) {
+      buttons.push(
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => goToRoute(`/matchup/${id}`)}
+          fullWidth
+          style={{ marginTop: 20 }}
+        >
+          {t("view_matchup")}
+        </Button>
+      )
+    }
     return (
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => goToRoute(`/matchup/${id}`)}
-        fullWidth
-        style={{ marginTop: 20, marginBottom: 20 }}
-      >
-        {t("view_matchup")}
-      </Button>
-    )
+      <div style={{marginBottom: 20}}>
+        {buttons}
+      </div>
+    );
   }
 
   const renderChips = () => {

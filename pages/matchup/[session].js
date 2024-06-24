@@ -94,6 +94,7 @@ export default function Matchup() {
       tournamentId: session,
       player1,
       player2,
+      ignoreHost: true
     }));
     const newData = await response.json();
     if (newData.error != null) {
