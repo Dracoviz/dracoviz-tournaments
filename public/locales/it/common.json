@@ -249,5 +249,6 @@
 	"confirm_bracket_progress": "Sei sicuro di voler avanzare nel tabellone? Controlla se tutte le partite sono state segnalate.",
 	"rounds": "Turni",
 	"hide_teams_from_spectators": "Nascondi squadre agli spettatori",
-	"hosted_by": "Ospitato da"
+	"hosted_by": "Ospitato da",
+	"scan_qr": "Scansiona questo codice nel menu amici della tua app Pokémon GO"
 }

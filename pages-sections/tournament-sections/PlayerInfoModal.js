@@ -4,6 +4,7 @@ import DialogContent from "@mui/material/DialogContent";
 import React from "react";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
+import QRCode from "react-qr-code";
 import { useTranslation } from "next-i18next";
 
 function PlayerInfoModal(props) {
@@ -31,7 +32,7 @@ function PlayerInfoModal(props) {
                     <img src={data?.avatar} alt={data?.name} height={60} width={60} style={{ objectFit: "contain" }} />
                     <p>{data?.description}</p>
                    </div>
-                    <p>{t("friend_code")}: {data?.friendCode}</p>
+                  <div style={{ border: "solid 1px lightgray", padding: "0 10px", borderRadius: 5 }}>
                     {
                         data?.discord?.length > 0 && (
                             <p>Discord: {data?.discord}</p>
@@ -42,6 +43,23 @@ function PlayerInfoModal(props) {
                             <p>Telegram: {data?.telegram}</p>
                         )
                     }
+                    <p>{t("friend_code")}: {data?.friendCode}</p>
+                    {
+                      data?.friendCode != null && (
+                        <div style={{ textAlign: "center" }}>
+                          <div style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}>
+                            <QRCode
+                              size={256}
+                              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                              value={data?.friendCode}
+                              viewBox={`0 0 256 256`}
+                            />
+                          </div>
+                          <small>{t('scan_qr')}</small>
+                        </div>
+                      )
+                    }
+                  </div>
                 </GridItem>
             </GridContainer>
         </DialogContent>

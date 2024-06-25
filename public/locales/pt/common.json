@@ -249,5 +249,6 @@
     "confirm_bracket_progress": "Tem certeza de que deseja avançar no bracket? Por favor, verifique se todas as partidas foram relatadas.",
     "rounds": "Rodadas",
     "hide_teams_from_spectators": "Esconder equipes dos espectadores",
-    "hosted_by": "Hospedado por"
+    "hosted_by": "Hospedado por",
+    "scan_qr": "Escaneie este código no menu de amigos do seu aplicativo Pokémon GO"
 }
