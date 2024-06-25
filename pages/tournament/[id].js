@@ -787,7 +787,7 @@ export default function Tournament() {
     if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
     }
-    if (isPlayer) {
+    if (isPlayer && currentRoundNumber > 0) {
       buttons.push(
         <Button
           variant="contained"
