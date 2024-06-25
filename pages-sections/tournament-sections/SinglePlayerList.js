@@ -25,7 +25,7 @@ const sortingAlgo = (a, b) => {
 }
 
 export default function SinglePlayerList(props) {
-  const { players, onPlayer, onDeletePlayer, isHost, showValid } = props;
+  const { players, onPlayer, onDeletePlayer, isHost, showValid, e } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
@@ -33,6 +33,13 @@ export default function SinglePlayerList(props) {
   useEffect(() => {
     setSearchedPlayers(players);
   }, [players]);
+
+  useEffect(() => {
+    if (e == null) {
+      return;
+    }
+    onSearch(e);
+  }, [e]);
 
   const onSearch = (e) => {
     const targetValue = e.target.value;
@@ -67,16 +74,6 @@ export default function SinglePlayerList(props) {
 
   return (
     <div>
-      <CustomInput
-        labelText={t("search_players")}
-        id="players"
-        formControlProps={{
-          fullWidth: true
-        }}
-        inputProps={{
-          onChange: onSearch
-        }}
-      />
       {
         noSearchResults ? <p>{t('no_players_in_search')}</p>
         : searchedPlayers.sort(sortingAlgo)?.map((player) => (

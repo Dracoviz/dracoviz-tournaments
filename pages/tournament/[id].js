@@ -7,6 +7,7 @@ import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import { Alert, AlertTitle, Button, CircularProgress, Chip } from "@mui/material";
+import CustomInput from "/components/CustomInput/CustomInput";
 import { useTranslation } from 'next-i18next';
 import Router, { useRouter } from 'next/router';
 import Linkify from 'react-linkify';
@@ -64,6 +65,7 @@ export default function Tournament() {
   const [ profileToView, setProfileToView ] = useState(null);
   const [ selectedRound, setSelectedRound ] = useState(null);
   const [ isReportScoreOpen, setIsReportScoreOpen ] = useState(false);
+  const [ e, setE ] = useState(null);
   const isConcluded = data?.concluded;
 
   const statusLabels = {
@@ -131,6 +133,10 @@ export default function Tournament() {
         getTournamentData(authId);
       }
     });
+  }
+
+  const onSearch = (event) => {
+    setE(event);
   }
 
   const progressBracket = () => {
@@ -940,12 +946,23 @@ export default function Tournament() {
               {renderCountdown()}
               {renderBracketActions()}
               {renderBracketDisclaimer()}
+              <CustomInput
+                labelText={t("search_players")}
+                id="players"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  onChange: onSearch
+                }}
+              />
               <Brackets
                 bracket={data?.bracket}
                 onBracketSelect={onBracketSelect}
                 isTeamTournament={data?.isTeamTournament}
                 currentRoundNumber={data?.currentRoundNumber}
                 totalRounds={data?.totalRounds}
+                e={e}
               />
               {
                 data?.isTeamTournament
@@ -957,6 +974,7 @@ export default function Tournament() {
                       onDeletePlayer={onDeletePlayer}
                       isHost={data?.isHost}
                       showValid={showValid}
+                      e={e}
                     />)
                   : (<SinglePlayerList
                       players={data?.players}
@@ -964,6 +982,7 @@ export default function Tournament() {
                       onDeletePlayer={onDeletePlayer}
                       isHost={data?.isHost}
                       showValid={showValid}
+                      e={e}
                     />)
               }
               {renderLeaveButton()}

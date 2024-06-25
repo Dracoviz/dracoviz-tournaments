@@ -29,7 +29,7 @@ const filter = new Filter();
 filter.addWords("racist"); //Darn Pocket
 
 export default function FactionList(props) {
-  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid } = props;
+  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid, e } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedFactions, setSearchedFactions] = useState([]);
@@ -56,6 +56,13 @@ export default function FactionList(props) {
     })
     setSearchedFactions(factionsWithPlayers);
   }, [factions, players]);
+
+  useEffect(() => {
+    if (e == null) {
+      return;
+    }
+    onSearch(e);
+  }, [e]);
 
   const cleanText = useCallback((text) => {
     const splitRegex = /\b/;
@@ -87,16 +94,6 @@ export default function FactionList(props) {
 
   return (
     <div>
-      <CustomInput
-        labelText={t("search_faction")}
-        id="factions"
-        formControlProps={{
-          fullWidth: true
-        }}
-        inputProps={{
-          onChange: onSearch
-        }}
-      />
       {
         noSearchResults ? <p>{t('no_factions_in_search')}</p>
         : searchedFactions?.map((faction) => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
@@ -21,7 +21,7 @@ const bracketStyles = {
 }
 
 function Match(props) {
-  const { match, matchIndex, roundIndex, onBracketSelect, isTeamTournament } = props;
+  const { match, matchIndex, roundIndex, onBracketSelect, isTeamTournament, playersToLookup } = props;
   const { seed, score, disputed, participants, touched } = match;
   if (score == null) {
     return null;
@@ -31,6 +31,17 @@ function Match(props) {
   const isReported = scores.reduce((a, b) => a+b, 0) > 0;
   const higherScore = Math.max(scores[0], scores[1]);
   const classes = useStyles();
+  
+  if (playersToLookup != null) {
+    const doesNameMatch = participants[0].find((participant) => (
+      playersToLookup.some(searchStr => {
+        return participant.name.toLowerCase().includes(searchStr.toLowerCase())
+      }) != []
+    ));
+    if (!doesNameMatch) {
+      return null;
+    }
+  }
 
   const renderParticipants = () => {
     return participants[0].map((participant, i) => {
@@ -81,7 +92,24 @@ function Match(props) {
 function Brackets(props) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { isTeamTournament, bracket, onBracketSelect, currentRoundNumber, totalRounds } = props;
+  const { isTeamTournament, bracket, onBracketSelect, currentRoundNumber, totalRounds, e } = props;
+  const [playersToLookup, setPlayersToLookup] = useState(null);
+
+  useEffect(() => {
+    if (e == null) {
+      return;
+    }
+    onSearch(e);
+  }, [e]);
+
+  const onSearch = (e) => {
+    const targetValue = e.target.value;
+    if (targetValue == null || targetValue === '') {
+      return setPlayersToLookup(null);
+    }
+    const searchStrings = targetValue.split("&");
+    setPlayersToLookup(searchStrings);
+  }
   if (bracket == null || isTeamTournament) {
     return null;
   }
@@ -110,6 +138,7 @@ function Brackets(props) {
                     roundIndex={roundIndex}
                     isTeamTournament={isTeamTournament}
                     onBracketSelect={onBracketSelect}
+                    playersToLookup={playersToLookup}
                   />
                 ))
               }
