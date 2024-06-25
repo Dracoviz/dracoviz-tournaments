@@ -196,6 +196,7 @@
 	"bracket_type_none": "Nessun tabellone (usa il link del tabellone)",
 	"bracket_type_swiss": "Tabellone Svizzero",
 	"bracket_type_round_robin": "Round Robin",
+	"bracket_type_single_elim": "Eliminazione Singola",
 	"view_matchup": "Visualizza il tuo incontro",
 	"your_matchup": "Il tuo incontro",
 	"report_score": "Segnala il punteggio",

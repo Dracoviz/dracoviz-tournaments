@@ -196,6 +196,7 @@
 	"bracket_type_none": "ไม่มีแบร็กเก็ต (ใช้ลิงก์แบร็กเก็ต)",
 	"bracket_type_swiss": "Swiss Bracket",
 	"bracket_type_round_robin": "Round Robin",
+	"bracket_type_single_elim": "การแข่งขันแบบลบคนเดียว",
 	"view_matchup": "ดู Matchup ของคุณ",
 	"your_matchup": "Matchup ของคุณ",
 	"report_score": "รายงานคะแนน",

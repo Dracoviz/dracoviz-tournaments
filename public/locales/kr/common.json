@@ -196,6 +196,7 @@
 	"bracket_type_none": "브라켓 없음 (브라켓 링크 사용)",
 	"bracket_type_swiss": "스위스 브라켓",
 	"bracket_type_round_robin": "라운드 로빈",
+    "bracket_type_single_elim": "단일 교차전",
 	"view_matchup": "매치업 보기",
 	"your_matchup": "당신의 매치업",
 	"report_score": "점수 보내기",

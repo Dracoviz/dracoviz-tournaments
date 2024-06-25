@@ -196,6 +196,7 @@
     "bracket_type_none": "ブラケットなし（ブラケットリンクを使用）",
     "bracket_type_swiss": "スイス方式ブラケット",
     "bracket_type_round_robin": "ラウンドロビン",
+    "bracket_type_single_elim": "シングルエリミネーション",
     "view_matchup": "あなたの対戦相手を見る",
     "your_matchup": "あなたの対戦相手",
     "report_score": "スコアを報告",

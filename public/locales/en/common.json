@@ -196,6 +196,7 @@
 	"bracket_type_none": "No bracket (use bracket link)",
 	"bracket_type_swiss": "Swiss Bracket",
 	"bracket_type_round_robin": "Round Robin",
+	"bracket_type_single_elim": "Single Elimination",
 	"view_matchup": "View your matchup",
 	"your_matchup": "Your matchup",
 	"report_score": "Report score",

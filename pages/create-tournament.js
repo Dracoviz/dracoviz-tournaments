@@ -303,13 +303,14 @@ export default function CreateTournament() {
                     <MenuItem value="none">{t("bracket_type_none")}</MenuItem>
                     <MenuItem value="swiss">{t("bracket_type_swiss")}</MenuItem>
                     <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem>
+                    <MenuItem value="singleElim">{t("bracket_type_single_elim")}</MenuItem>
                   </Select>
                   <small>
                     Note: Brackets currently only work for single player tournaments only
                   </small>
                 </GridItem>
                 {
-                  (bracketType === "swiss" || bracketType === "roundrobin") && (
+                  (bracketType != null && bracketType !== "none") && (
                     <>
                       <GridItem xs={12} md={7} style={{ marginTop: 10 }}>
                         <InputLabel>{t("game_amount_label")}</InputLabel>

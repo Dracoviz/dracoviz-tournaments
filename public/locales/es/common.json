@@ -193,6 +193,7 @@
 	"bracket_type_none": "Sin bracket (use enlace de bracket)",
 	"bracket_type_swiss": "Swiss Bracket",
 	"bracket_type_round_robin": "Round Robin",
+	"bracket_type_single_elim": "Eliminación Simple",
 	"view_matchup": "Ver tu enfrentamiento",
 	"your_matchup": "Tu enfrentamiento",
 	"report_score": "Puntuación del informe",

@@ -31,7 +31,8 @@ export default function TournamentsList(props) {
     const bracketLabels = {
       "none": "bracket_type_none",
 	    "swiss": "bracket_type_swiss",
-	    "roundrobin": "bracket_type_round_robin"
+	    "roundrobin": "bracket_type_round_robin",
+      "singleElim": "bracket_type_single_elim",
     }
     return (
       <div style={{ marginBottom: 10 }}>
