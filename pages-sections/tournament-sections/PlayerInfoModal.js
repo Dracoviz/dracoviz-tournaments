@@ -45,18 +45,20 @@ function PlayerInfoModal(props) {
                     }
                     {
                       data?.friendCode?.length > 0 && (
-                        <div style={{ textAlign: "center" }}>
+                        <>
                           <p>{t("friend_code")}: {data?.friendCode}</p>
-                          <div style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}>
-                            <QRCode
-                              size={256}
-                              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                              value={data?.friendCode}
-                              viewBox={`0 0 256 256`}
-                            />
+                          <div style={{ textAlign: "center" }}>
+                            <div style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}>
+                              <QRCode
+                                size={256}
+                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                value={data?.friendCode}
+                                viewBox={`0 0 256 256`}
+                              />
+                            </div>
+                            <small>{t('scan_qr')}</small>
                           </div>
-                          <small>{t('scan_qr')}</small>
-                        </div>
+                        </>
                       )
                     }
                   </div>
