@@ -43,10 +43,10 @@ function PlayerInfoModal(props) {
                             <p>Telegram: {data?.telegram}</p>
                         )
                     }
-                    <p>{t("friend_code")}: {data?.friendCode}</p>
                     {
-                      data?.friendCode != null && (
+                      data?.friendCode?.length > 0 && (
                         <div style={{ textAlign: "center" }}>
+                          <p>{t("friend_code")}: {data?.friendCode}</p>
                           <div style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}>
                             <QRCode
                               size={256}
