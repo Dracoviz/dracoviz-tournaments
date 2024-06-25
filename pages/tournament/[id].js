@@ -770,18 +770,19 @@ export default function Tournament() {
             {t("start_bracket")}
           </Button>
         )
+      } else {
+        buttons.push(
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={progressBracket}
+            fullWidth
+            style={{ marginTop: 20 }}
+          >
+            {t("progress_bracket")}
+          </Button>
+        )
       }
-      buttons.push(
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={progressBracket}
-          fullWidth
-          style={{ marginTop: 20 }}
-        >
-          {t("progress_bracket")}
-        </Button>
-      )
     }
     if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
@@ -814,7 +815,8 @@ export default function Tournament() {
     const bracketLabels = {
       "none": "bracket_type_none",
 	    "swiss": "bracket_type_swiss",
-	    "roundrobin": "bracket_type_round_robin"
+	    "roundrobin": "bracket_type_round_robin",
+      "singleElim": "bracket_type_single_elim",
     }
     const roundLabels = getRoundLengthLabel(t);
     return (
