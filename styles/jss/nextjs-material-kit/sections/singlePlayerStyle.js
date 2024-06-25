@@ -26,18 +26,15 @@ const singlePlayerStyle = {
     marginBottom: 10,
   },
   pokemonRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
+    display: "grid",
   },
   pokemonRoot: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
+    height: 220,
     textAlign: "center",
-    width: "30%",
   },
   description: {
     overflow: "hidden",
@@ -46,8 +43,8 @@ const singlePlayerStyle = {
   },
   pokemonImgWrapper: {
     position: "relative",
-    width: 125,
-    height: 100,
+    height: 80,
+    width: 80,
   },
   iconOverlayBottom: {
     position: "absolute",
