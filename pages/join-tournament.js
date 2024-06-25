@@ -137,7 +137,7 @@ export default function JoinTournament() {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
-        Router.push("/login");
+        Router.push(`/login?returnUrl=${router.asPath}`);
       } else {
         if (tid != null && tid !== "") {
           const autoData = { tournamentId: tid, registrationNumber: "", firebaseId: user.uid }

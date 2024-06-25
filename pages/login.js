@@ -9,7 +9,7 @@ import Card from "/components/Card/Card.js";
 import firebase from 'firebase/compat/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import CircularProgress from "@mui/material/CircularProgress";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
@@ -35,6 +35,7 @@ export default function LoginPage(props) {
   const { t } = useTranslation();
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const onSignIn = useCallback((user) => {
     setIsLoading(true);
@@ -47,7 +48,11 @@ export default function LoginPage(props) {
         if (response.status === 200) {
           // Successfully found user
           const responseJSON = await response.json();
-          Router.push(`/?isNewUser=${responseJSON?.isNewUser}`);
+          if (router.query?.returnUrl != null) {
+            Router.push(router.query?.returnUrl);
+          } else {
+            Router.push(`/?isNewUser=${responseJSON?.isNewUser}`);
+          }
         } else {
           // Cannot generate user, delete firebase copy
           alert("Failed to log you in. Please try again");
