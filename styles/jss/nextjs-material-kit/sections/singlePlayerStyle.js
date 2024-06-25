@@ -33,7 +33,6 @@ const singlePlayerStyle = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-around",
-    height: 220,
     textAlign: "center",
   },
   description: {

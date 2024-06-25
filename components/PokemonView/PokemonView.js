@@ -13,9 +13,9 @@ const useStyles = makeStyles(styles);
 
 function getTemplateColumns(width) {
   if (width > 1000) {
-    return "auto auto auto auto auto auto";
+    return "16% 16% 16% 16% 16% 16% ";
   }
-  return "auto auto auto";
+  return "33% 33% 33%";
 }
 
 export default function PokemonView(props) {
@@ -65,14 +65,16 @@ export default function PokemonView(props) {
             style={{width: 70, height: 70, objectFit: 'contain'}}
           />
         </div>
-        <h5 style={{ fontSize: "0.9rem" }}><b>{pokemonObj.speciesName}</b></h5>
-        <p style={{ fontSize: "0.8rem" }}>
-          {pokemonObj.nickname != null && (<div>{t("nickname")}: {pokemonObj.nickname}</div>)}
-          {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
-          {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
-          {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove, locale)}</div>)}
-          {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0], locale)}<br/>{formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
-        </p>
+        <div>
+          <h5 style={{ fontSize: "0.9rem" }}><b>{pokemonObj.speciesName}</b></h5>
+          <p style={{ fontSize: "0.8rem" }}>
+            {pokemonObj.nickname != null && (<div>{t("nickname")}: {pokemonObj.nickname}</div>)}
+            {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
+            {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
+            {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove, locale)}</div>)}
+            {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0], locale)}<br/>{formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
+          </p>
+        </div>
       </div>
     ))
   }, [pokemon])
