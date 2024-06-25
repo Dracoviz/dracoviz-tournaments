@@ -8,6 +8,7 @@ import Shadow from "../../public/img/draco_icon_circle_shadow.png";
 import Purified from "../../public/img/draco_icon_circle_purified.png";
 import BestBuddy from "../../public/img/draco_icon_circle_buddy.png";
 import useWindowSize from "../../utils/use-window-size";
+import getMoveIcon from "../../utils/get-moves-icon";
 
 const useStyles = makeStyles(styles);
 
@@ -71,8 +72,8 @@ export default function PokemonView(props) {
             {pokemonObj.nickname != null && (<div>{t("nickname")}: {pokemonObj.nickname}</div>)}
             {pokemonObj.cp != null && (<div>{t("cp")}: {pokemonObj.cp}</div>)}
             {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
-            {pokemonObj.fastMove != null && (<div>{formatMove(pokemonObj.fastMove, locale)}</div>)}
-            {pokemonObj.chargedMoves != null && (<div>{formatMove(pokemonObj.chargedMoves[0], locale)}<br/>{formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
+            {pokemonObj.fastMove != null && (<div>{getMoveIcon(pokemonObj.fastMove)} {formatMove(pokemonObj.fastMove, locale)}</div>)}
+            {pokemonObj.chargedMoves != null && (<div>{getMoveIcon(pokemonObj.chargedMoves[0])} {formatMove(pokemonObj.chargedMoves[0], locale)}<br/>{getMoveIcon(pokemonObj.chargedMoves[1])} {formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
           </p>
         </div>
       </div>
