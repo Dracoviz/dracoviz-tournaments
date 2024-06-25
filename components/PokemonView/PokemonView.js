@@ -13,7 +13,7 @@ const useStyles = makeStyles(styles);
 
 function getTemplateColumns(width) {
   if (width > 1000) {
-    return "16% 16% 16% 16% 16% 16% ";
+    return "16.6% 16.6% 16.6% 16.6% 16.6% 16.6% ";
   }
   return "33% 33% 33%";
 }
