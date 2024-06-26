@@ -17,13 +17,14 @@ import Menu from "@mui/icons-material/Menu";
 // core components
 import styles from "/styles/jss/nextjs-material-kit/components/headerStyle.js";
 import { useRouter } from "next/router";
+import { useTheme } from "@mui/material";
 
 const useStyles = makeStyles(styles);
-const logoUrl = "https://www.dracoviz.com/static/dracoviz_logo-9f243a043b673a48d015a7e5927ac1d9.svg";
 
 export default function Header(props) {
   const classes = useStyles();
   const { locale } = useRouter();
+  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
@@ -35,6 +36,9 @@ export default function Header(props) {
       }
     };
   });
+  const logoUrl = theme.palette.mode === "dark"
+    ? "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/e47dfe5b-4bca-4d8b-8fd6-3ce409f0ea00/public"
+    : "https://www.dracoviz.com/static/dracoviz_logo-9f243a043b673a48d015a7e5927ac1d9.svg";
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
