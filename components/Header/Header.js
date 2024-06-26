@@ -26,6 +26,7 @@ export default function Header(props) {
   const { locale } = useRouter();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
     if (props.changeColorOnScroll) {
       window.addEventListener("scroll", headerColorChange);
@@ -36,6 +37,9 @@ export default function Header(props) {
       }
     };
   });
+  React.useEffect(() => {
+    setIsLoading(false);
+  }, [])
   const logoUrl = theme.palette.mode === "dark"
     ? "https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/e47dfe5b-4bca-4d8b-8fd6-3ce409f0ea00/public"
     : "https://www.dracoviz.com/static/dracoviz_logo-9f243a043b673a48d015a7e5927ac1d9.svg";
@@ -75,6 +79,9 @@ export default function Header(props) {
       </Button>
     </Link>
   );
+  if (isLoading) {
+    return null;
+  }
   return (
     <AppBar className={appBarClasses}>
       <Toolbar className={classes.container}>
