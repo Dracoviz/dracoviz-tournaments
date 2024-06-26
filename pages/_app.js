@@ -67,7 +67,7 @@ function MyApp({ Component, pageProps }) {
   const [mode, setMode] = React.useState("dark");
 
   useEffect(() => {
-    const nextTheme = getCookie("NEXT_THEME");
+    const nextTheme = getCookie("NEXT_THEME") ?? "dark";
     if (nextTheme === 'dark') {
       document.querySelector("body").classList.add("dark-theme");
     } else {
