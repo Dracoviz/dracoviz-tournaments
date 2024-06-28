@@ -9,7 +9,8 @@ import {
   MenuItem,
   Dialog,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  useTheme
 } from "@mui/material";
 
 const getGamesCount = (data) => {
@@ -27,6 +28,9 @@ function ReportScoreModal(props) {
     const { data, onClose, visible, onSubmit, useNames, formProps } = props;
     const hasScore = data?.score != null && (data.score[0] + data.score[1]) > 0;
     const { t } = useTranslation();
+    const theme = useTheme();
+    const isDark = theme.palette.mode === "dark";
+    const whiteColor = isDark ? "#252a31" : "white";
     if (data == null || formProps == null) {
         return null;
     }
@@ -54,7 +58,7 @@ function ReportScoreModal(props) {
                     <InputLabel>{useNames ? data?.player1 : t("games_won_label")}</InputLabel>
                     <Select
                         fullWidth
-                        style={{ backgroundColor: useNames ? 'white' : "#abf7e7" }}
+                        style={{ backgroundColor: useNames ? whiteColor : "#abf7e7" }}
                         {...register(shouldReverse ? `player2` : 'player1', { required: true})}
                         value={watch(shouldReverse ? `player2` : 'player1')}
                     >
@@ -69,7 +73,7 @@ function ReportScoreModal(props) {
                     <InputLabel>{useNames ? data?.player2 : t("games_lost_label")}</InputLabel>
                     <Select
                         fullWidth
-                        style={{ backgroundColor: useNames ? 'white' : "#f7abab" }}
+                        style={{ backgroundColor: useNames ? whiteColor : "#f7abab" }}
                         {...register(shouldReverse ? `player1` : 'player2', { required: true })}
                         value={watch(shouldReverse ? `player1` : 'player2')}
                     >
