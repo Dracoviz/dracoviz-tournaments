@@ -9,17 +9,14 @@ import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import fetchApi from "../api/fetchApi.js";
-import ColorModeContext from "../utils/ColorModeContext.js";
 import { useTranslation } from 'next-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
-import { Button, CircularProgress, Tab, Tabs, useTheme, IconButton } from "@mui/material";
+import { Button, CircularProgress, Tab, Tabs } from "@mui/material";
 import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -45,8 +42,6 @@ export default function Index() {
   const router = useRouter();
   const { query } = router;
   const { isNewUser } = query;
-  const theme = useTheme();
-  const colorMode = useContext(ColorModeContext);
 
   const goToRoute = (route) => {
     router.push(route);
@@ -182,9 +177,6 @@ export default function Index() {
                   </GridItem>
                   <GridItem xs={12}>
                     <LocaleSelect />
-                    <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                      {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                    </IconButton>
                   </GridItem>
                   <GridItem xs={12}>
                     <div className="tournament-head">

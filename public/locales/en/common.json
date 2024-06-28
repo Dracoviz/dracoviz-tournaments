@@ -275,5 +275,6 @@
 	"api_team_validation_fast_move": "Invalid fast move",
 	"hide_teams_from_spectators": "Hide teams from spectators",
 	"hosted_by": "Hosted By",
-	"scan_qr": "Scan this code in the friends menu of your Pokémon GO app"
+	"scan_qr": "Scan this code in the friends menu of your Pokémon GO app",
+	"appearance": "Appearance"
 }

@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 // @mui/material components
 import { makeStyles } from "@mui/styles";
@@ -13,11 +13,17 @@ import kofi from "../../public/img/kofi.svg";
 import { useTranslation } from "next-i18next";
 
 import styles from "/styles/jss/nextjs-material-kit/components/headerLinksStyle.js";
+import { useTheme, IconButton } from "@mui/material";
+import ColorModeContext from "../../utils/ColorModeContext";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   const classes = useStyles();
   const { isSignedIn } = props;
@@ -94,6 +100,23 @@ export default function HeaderLinks(props) {
             />
           </Button>
         </Tooltip>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Tooltip
+            id="instagram-lightdark"
+            title={t("appearance")}
+            placement={"top"}
+            classes={{ tooltip: classes.tooltip }}
+          >
+            <IconButton
+              sx={{ mt: 0.5 }}
+              onClick={colorMode.toggleColorMode}
+              className={classes.navLink}
+              color="inherit"
+            >
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Tooltip>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Tooltip
