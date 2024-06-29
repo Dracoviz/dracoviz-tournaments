@@ -18,6 +18,7 @@ import Menu from "@mui/icons-material/Menu";
 import styles from "/styles/jss/nextjs-material-kit/components/headerStyle.js";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const useStyles = makeStyles(styles);
 
@@ -83,48 +84,51 @@ export default function Header(props) {
     return null;
   }
   return (
-    <AppBar className={appBarClasses}>
-      <Toolbar className={classes.container}>
-        {leftLinks !== undefined ? brandComponent : null}
-        <div className={classes.flex}>
-          {leftLinks !== undefined ? (
-            <Hidden mdDown implementation="css">
-              {leftLinks}
-            </Hidden>
-          ) : (
-            brandComponent
-          )}
-        </div>
-        <Hidden mdDown implementation="css">
-          {rightLinks}
-        </Hidden>
-        <Hidden mdUp>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerToggle}
-          >
-            <Menu />
-          </IconButton>
-        </Hidden>
-      </Toolbar>
-      <Hidden mdUp implementation="js">
-        <Drawer
-          variant="temporary"
-          anchor={"right"}
-          open={mobileOpen}
-          classes={{
-            paper: classes.drawerPaper
-          }}
-          onClose={handleDrawerToggle}
-        >
-          <div className={classes.appResponsive}>
-            {leftLinks}
-            {rightLinks}
+    <>
+      <AppBar className={appBarClasses}>
+        <Toolbar className={classes.container}>
+          {leftLinks !== undefined ? brandComponent : null}
+          <div className={classes.flex}>
+            {leftLinks !== undefined ? (
+              <Hidden mdDown implementation="css">
+                {leftLinks}
+              </Hidden>
+            ) : (
+              brandComponent
+            )}
           </div>
-        </Drawer>
-      </Hidden>
-    </AppBar>
+          <Hidden mdDown implementation="css">
+            {rightLinks}
+          </Hidden>
+          <Hidden mdUp>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerToggle}
+            >
+              <Menu />
+            </IconButton>
+          </Hidden>
+        </Toolbar>
+        <Hidden mdUp implementation="js">
+          <Drawer
+            variant="temporary"
+            anchor={"right"}
+            open={mobileOpen}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            onClose={handleDrawerToggle}
+          >
+            <div className={classes.appResponsive}>
+              {leftLinks}
+              {rightLinks}
+            </div>
+          </Drawer>
+        </Hidden>
+      </AppBar>
+      <GoogleAnalytics gaId="G-28LT7WYJGW" />
+    </>
   );
 }
 
