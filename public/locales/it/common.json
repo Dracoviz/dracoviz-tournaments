@@ -252,5 +252,10 @@
 	"hide_teams_from_spectators": "Nascondi squadre agli spettatori",
 	"hosted_by": "Ospitato da",
 	"scan_qr": "Scansiona questo codice nel menu amici della tua app Pokémon GO",
-	"appearance": "Aspetto"
+	"appearance": "Aspetto",
+	"tournament_see_stream_button": "Visita lo Stream di Twitch",
+	"apac_title": "Viaggio a Worlds",
+	"apac_description1": "Inizia {{startTime}}",
+	"apac_description2": "Guarda gli allenatori APAC qualificati per Worlds competere per un premio di viaggio finanziato dalla comunità per le Hawaii.",
+	"apac_description3": "Commentato da CalebPeng, Reis2Occasion, HurricaneKaz e PvPSteve"
 }

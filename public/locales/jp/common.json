@@ -252,5 +252,10 @@
     "hide_teams_from_spectators": "チームを観客から隠す",
     "hosted_by": "ホスト",
     "scan_qr": "ポケモンGOアプリのフレンドメニューでこのコードをスキャンしてください",
-    "appearance": "外見"
+    "appearance": "外見",
+    "tournament_see_stream_button": "Twitchストリームを訪問",
+    "apac_title": "ワールドへの旅",
+    "apac_description1": "{{startTime}}に開始",
+    "apac_description2": "コミュニティ資金によるハワイへの旅行賞をかけて戦う、ワールド資格を持つAPACトレーナーを観戦しよう。",
+    "apac_description3": "キャスター：CalebPeng、Reis2Occasion、HurricaneKaz、PvPSteve"
 }

@@ -17,6 +17,7 @@ import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
+import Announcement from "../components/Announcement/Announcement.js";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -172,6 +173,9 @@ export default function Index() {
                 <CircularProgress />
               ) : (
                 <>
+                  <GridItem xs={12}>
+                    <Announcement />
+                  </GridItem>
                   <GridItem xs={12}>
                     {renderProfile()}
                   </GridItem>

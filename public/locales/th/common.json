@@ -252,5 +252,10 @@
 	"hide_teams_from_spectators": "ซ่อนทีมจากผู้ชม",
 	"hosted_by": "โฮสต์โดย",
 	"scan_qr": "สแกนรหัสนี้ในเมนูเพื่อนของแอป Pokémon GO ของคุณ",
-	"appearance": "ลักษณะ"
+	"appearance": "ลักษณะ",
+	"tournament_see_stream_button": "เยี่ยมชมสตรีม Twitch",
+	"apac_title": "การเดินทางสู่ Worlds",
+	"apac_description1": "เริ่มต้น {{startTime}}",
+	"apac_description2": "ชมผู้ฝึกสอน APAC ที่ผ่านการคัดเลือกสำหรับ Worlds แข่งขันเพื่อชิงรางวัลการเดินทางไปฮาวายที่ได้รับทุนจากชุมชน",
+	"apac_description3": "บรรยายโดย CalebPeng, Reis2Occasion, HurricaneKaz และ PvPSteve"
 }

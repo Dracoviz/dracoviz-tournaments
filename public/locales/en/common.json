@@ -276,5 +276,10 @@
 	"hide_teams_from_spectators": "Hide teams from spectators",
 	"hosted_by": "Hosted By",
 	"scan_qr": "Scan this code in the friends menu of your Pokémon GO app",
-	"appearance": "Appearance"
+	"appearance": "Appearance",
+	"tournament_see_stream_button": "Visit Twitch Stream",
+	"apac_title": "Journey to Worlds",
+	"apac_description1": "Starting {{startTime}}",
+	"apac_description2": "Watch Worlds-qualified APAC trainers battle for a community-funded travel award to Hawaii.",
+	"apac_description3": "Casted by CalebPeng, Reis2Occasion, HurricaneKaz, and PvPSteve"
 }

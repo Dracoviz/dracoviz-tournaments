@@ -252,5 +252,10 @@
     "hide_teams_from_spectators": "팀을 관람객에게 숨기기",
     "hosted_by": "주최자",
     "scan_qr": "당신의 포켓몬 GO 앱의 친구 메뉴에서 이 코드를 스캔하세요",
-    "appearance": "외모"
+    "appearance": "외모",
+    "tournament_see_stream_button": "Twitch 스트림 방문",
+    "apac_title": "월드로의 여정",
+    "apac_description1": "{{startTime}} 시작",
+    "apac_description2": "커뮤니티 자금으로 지원된 하와이 여행 경품을 위해 월드 자격을 갖춘 APAC 트레이너들의 대결을 시청하세요.",
+    "apac_description3": "캐스터: CalebPeng, Reis2Occasion, HurricaneKaz, PvPSteve"
 }
