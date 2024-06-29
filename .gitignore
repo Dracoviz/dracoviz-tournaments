@@ -27,3 +27,4 @@ yarn-error.log*
 /dist
 /.next
 pnpm-lock.yaml
+Documentation/assets/js
