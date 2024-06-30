@@ -50,7 +50,7 @@ function Announcement(props) {
           </Button>
           <Button
             style={{ margin: "5px 0 5px 20px", minWidth: 200, marginRight: 20 }}
-            href='https://challonge.com/anicorisgone'
+            href='https://challonge.com/journeytoworldsapac'
             target="_blank"
             rel="noreferrer"
           >
