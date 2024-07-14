@@ -159,21 +159,9 @@ export default function CreateTournament() {
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
           <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series 2024</MenuItem>
-          <MenuItem value="Region Cup">Region Cup</MenuItem>
-          <MenuItem value="Maota Cup">Maota Cup</MenuItem>
-          <MenuItem value="Merciless Cup">Syndicate (The Chronicles)</MenuItem>
-          <MenuItem value="Fateful Cup">Syndicate (Fateful Cup)</MenuItem>
-          <MenuItem value="Arctic Cup">Flash (Arctic Cup)</MenuItem>
-          <MenuItem value="Wasteland Cup">Wasteland Cup</MenuItem>
-          <MenuItem value="Nuu Cup">Nuu Cup</MenuItem>
-          <MenuItem value="Solitude Cup">Syndicate (Solitude Cup)</MenuItem>
           <MenuItem value="Enchanted Domain">Enchanted Domain</MenuItem>
           <MenuItem value="Serene Domain">Serene Domain</MenuItem>
           <MenuItem value="Primordial Domain">Primordial Domain</MenuItem>
-          <MenuItem value="Knockout Cup">Knockout Cup</MenuItem>
-          <MenuItem value="Naruto Cup">Naruto Cup</MenuItem>
-          <MenuItem value="Turok Cup">Turok Cup</MenuItem>
-          <MenuItem value="Vanu Cup">Vanu Cup</MenuItem>
           <MenuItem value="Sovereign Cup">Sovereign Cup</MenuItem>
           <MenuItem value="Remoraiderz Royale">Remoraiderz Royale</MenuItem>
           <MenuItem value="Alofa Cup">Alofa Cup</MenuItem>
@@ -185,9 +173,11 @@ export default function CreateTournament() {
           <MenuItem value="Rainstorm Cup">Rainstorm Cup</MenuItem>
           <MenuItem value="The Silver Citadel">The Silver Citadel</MenuItem>
           <MenuItem value="PaoLaf Cup">PaoLaf Cup</MenuItem>
-          <MenuItem value="BTW (Mystical Fields)">BTW (Mystical Fields)</MenuItem>
           <MenuItem value="Genetic Cup">Genetic Cup</MenuItem>
           <MenuItem value="Tundra Cup">Tundra Cup</MenuItem>
+          <MenuItem value="Wasteland Domain">Wasteland Domain</MenuItem>
+          <MenuItem value="Polaris Domain">Polaris Domain</MenuItem>
+          <MenuItem value="Devon Invitational">Devon Invitational</MenuItem>
         </Select>
       </GridItem>
     ))
