@@ -178,6 +178,7 @@ export default function CreateTournament() {
           <MenuItem value="Wasteland Domain">Wasteland Domain</MenuItem>
           <MenuItem value="Polaris Domain">Polaris Domain</MenuItem>
           <MenuItem value="Devon Invitational">Devon Invitational</MenuItem>
+          <MenuItem value="Flash (Spice Cup Evolution)">Flash (Spice Cup Evolution)</MenuItem>
         </Select>
       </GridItem>
     ))
