@@ -25,11 +25,13 @@ function EditTournamentModal(props) {
       hideTeamsFromHost: data?.hideTeamsFromHost,
       timeControl: data?.timeControl,
       requireBothPlayersToReport: data?.requireBothPlayersToReport,
+      playAllMatches: data?.playAllMatches,
     }
   });
 
   const hideTeamsFromHost = watch("hideTeamsFromHost");
   const requireBothPlayersToReport = watch("requireBothPlayersToReport");
+  const playAllMatches = watch("playAllMatches");
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -152,6 +154,10 @@ function EditTournamentModal(props) {
               <GridItem xs={12} md={7}>
                 {t("require_both_players_to_report")}
                   <Checkbox {...register("requireBothPlayersToReport")} checked={requireBothPlayersToReport}/>
+              </GridItem>
+              <GridItem xs={12} md={7}>
+                {t("play_all_matches_label")}
+                  <Checkbox {...register("playAllMatches")} checked={playAllMatches}/>
               </GridItem>
             </GridContainer>
           )}
