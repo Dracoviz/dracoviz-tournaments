@@ -23,11 +23,13 @@ function EditTournamentModal(props) {
       serverInviteLink: data?.serverInviteLink,
       registrationClosed: data?.registrationClosed ? "closed" : "open",
       hideTeamsFromHost: data?.hideTeamsFromHost,
-      timeControl: data?.timeControl
+      timeControl: data?.timeControl,
+      requireBothPlayersToReport: data?.requireBothPlayersToReport,
     }
   });
 
   const hideTeamsFromHost = watch("hideTeamsFromHost");
+  const requireBothPlayersToReport = watch("requireBothPlayersToReport");
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -146,6 +148,10 @@ function EditTournamentModal(props) {
                   {t("hide_teams_from_host")}
                   <Checkbox {...register("hideTeamsFromHost")} checked={hideTeamsFromHost} />
                 </div>
+              </GridItem>
+              <GridItem xs={12} md={7}>
+                {t("require_both_players_to_report")}
+                  <Checkbox {...register("requireBothPlayersToReport")} checked={requireBothPlayersToReport}/>
               </GridItem>
             </GridContainer>
           )}
