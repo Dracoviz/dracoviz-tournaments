@@ -125,6 +125,9 @@ function Brackets(props) {
         backgroundColor: isDark ? "#252a31" : "#F6F5F5"
       }}
     >
+      <p style={{ textAlign: "center", direction: "ltr" }}>
+        {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
+      </p>
       <div className={classes.rounds} style={{ minWidth: bracket.length * 350 }}>
         {bracket.map((roundObj, roundIndex) => {
           const { round, matches } = roundObj;
@@ -149,9 +152,6 @@ function Brackets(props) {
           )
         })}
       </div>
-      <p style={{ textAlign: "center", direction: "ltr" }}>
-        {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
-      </p>
     </div>
   )
 }
