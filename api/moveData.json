@@ -339,6 +339,10 @@
         "moveId":"FOCUS_BLAST",
         "type":"fighting"
     },
+    "FORCE_PALM": {
+        "moveId": "FORCE_PALM",
+        "type": "fighting"
+    },
     "FOUL_PLAY":{
         "moveId":"FOUL_PLAY",
         "type":"dark"

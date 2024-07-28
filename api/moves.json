@@ -1471,6 +1471,22 @@
         "th": "หลอกลวง",
         "tr": "Hileli Oyun"
     },
+    "FORCE_PALM": {
+        "en": "Force Palm",
+        "pt": "Force Palm",
+        "zhhant": "Force Palm",
+        "fr": "Force Palm",
+        "de": "Force Palm",
+        "hi": "Force Palm",
+        "id": "Force Palm",
+        "it": "Force Palm",
+        "jp": "Force Palm",
+        "kr": "Force Palm",
+        "ru": "Force Palm",
+        "es": "Force Palm",
+        "th": "Force Palm",
+        "tr": "Force Palm"
+    },
     "FRENZY_PLANT": {
         "en": "Frenzy Plant",
         "pt": "Planta Mortal",
