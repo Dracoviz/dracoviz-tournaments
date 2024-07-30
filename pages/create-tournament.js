@@ -179,6 +179,7 @@ export default function CreateTournament() {
           <MenuItem value="Polaris Domain">Polaris Domain</MenuItem>
           <MenuItem value="Devon Invitational">Devon Invitational</MenuItem>
           <MenuItem value="Flash (Spice Cup Evolution)">Flash (Spice Cup Evolution)</MenuItem>
+          <MenuItem value="Ordinary Gauntlet">Ordinary Gauntlet</MenuItem>
         </Select>
       </GridItem>
     ))
