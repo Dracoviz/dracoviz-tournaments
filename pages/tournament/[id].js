@@ -249,6 +249,9 @@ export default function Tournament() {
 
   const addHost = async () => {
     const playerName = prompt(t("add_host_prompt"));
+    if (playerName == null) {
+      return;
+    }
     setIsLoading(true);
     const response = await fetchApi(`session/add-host/`, "POST", {
       "x_session_id": authId,
