@@ -242,6 +242,7 @@
 	"generate_play_pokemon_preset": "Play! Pokémon GO Championship Series 프리셋 사용",
 	"create_team_sheets": "팀 시트 생성",
 	"single_print_label": "페이지당 하나의 팀 시트 출력?",
+    "include_image_label": "포켓몬 이미지 포함",
 	"hide_no_shows_print_label": "팀이 없는 플레이어 숨기기",
 	"pokemon_team_sheet": "포켓몬 {{index}}",
 	"charged_move_team_sheet": "차지드 어택 {{index}}",

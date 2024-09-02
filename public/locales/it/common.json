@@ -242,6 +242,7 @@
 	"generate_play_pokemon_preset": "Usa il Preset della serie Play! Pokémon GO Championship",
 	"create_team_sheets": "Genera schede squadra",
 	"single_print_label": "Stampa una scheda squadra per pagina?",
+	"include_image_label": "Includi immagine di Pokémon",
 	"hide_no_shows_print_label": "Nascondi i non presenti (giocatori senza squadre)",
 	"pokemon_team_sheet": "Pokémon {{index}}",
 	"charged_move_team_sheet": "Mossa Carica {{index}}",

@@ -242,6 +242,7 @@
     "generate_play_pokemon_preset": "Use o Preset da Série Play! Pokémon GO Championship",
     "create_team_sheets": "Gerar folhas de equipe",
     "single_print_label": "Imprimir uma folha de equipe por página?",
+    "include_image_label": "Incluir imagem de Pokémon",
     "hide_no_shows_print_label": "Ocultar ausências (jogadores sem equipes)",
     "pokemon_team_sheet": "Pokémon {{index}}",
     "charged_move_team_sheet": "Ataque Carregado {{index}}",

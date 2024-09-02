@@ -41,6 +41,7 @@ class ComponentToPrint extends React.PureComponent {
       }
       const value = {
         speciesName: [],
+        sid: [],
         cp: [],
         hp: [],
         chargedMove1: [],
@@ -52,6 +53,7 @@ class ComponentToPrint extends React.PureComponent {
       }
       pokemon.forEach((pok) => {
         value.speciesName.push(pok.speciesName ?? "-");
+        value.sid.push(pok.sid ?? "");
         value.cp.push(pok.cp ?? "-");
         // value.hp.push(pok.hp ?? "");
         value.chargedMove1.push(pok.chargedMoves?.[0] ?? "-");
@@ -65,7 +67,7 @@ class ComponentToPrint extends React.PureComponent {
     return values;
   }
   render() {
-    const { singlePage, t, locale } = this.props;
+    const { singlePage, t, includeImage, locale } = this.props;
     const teams = this.getTeams();
     return (
       <div>
@@ -73,19 +75,26 @@ class ComponentToPrint extends React.PureComponent {
           teams.map((team, i) => (
             <div style={{
               pageBreakAfter: (singlePage || (i+1)%2 === 0) ? "always" : "auto",
-              padding: "2.5rem",
+              padding: "2rem",
               width: "100vw",
             }}>
               <p style={{ marginTop: 0 }}>{t("player_name")}: {team.name}</p>
               <table style={{ borderSpacing: 0, width: "100%", }}>
                 <tr>
                   <th style={emptyCellStyle}></th>
-                  <th style={headStyle}>{t("pokemon_team_sheet", { index: 1 })}</th>
-                  <th style={headStyle}>{t("pokemon_team_sheet", { index: 2 })}</th>
-                  <th style={headStyle}>{t("pokemon_team_sheet", { index: 3 })}</th>
-                  <th style={headStyle}>{t("pokemon_team_sheet", { index: 4 })}</th>
-                  <th style={headStyle}>{t("pokemon_team_sheet", { index: 5 })}</th>
-                  <th style={headStyle}>{t("pokemon_team_sheet", { index: 6 })}</th>
+                  {
+                    [...Array(6).keys()].map((_, i) => (
+                      <th style={headStyle}>
+                        {t("pokemon_team_sheet", { index: i + 1 })}
+                        {includeImage && (
+                          <>
+                            <br />
+                            <img src={`https://imagedelivery.net/2qzpDFW7Yl3NqBaOSqtWxQ/home_${team.sid[i]}.png/public`} width={60} height={60} style={{ objectFit: "contain" }} />
+                          </>
+                        )}
+                      </th>
+                    ))
+                  }
                 </tr>
                 <tr>
                   <td style={cellStyle}><b>{t("name")}</b></td>
@@ -150,11 +159,15 @@ function TeamSheetModal(props) {
   const { locale } = useRouter();
   const componentRef = useRef();
   const [singlePage, setSinglePage] = useState(true); 
+  const [includeImage, setIncludeImage] = useState(false); 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
   const handleSetSinglePage = () => {
     setSinglePage(prev => !prev);
+  }
+  const handleSetIncludeImage = () => {
+    setIncludeImage(prev => !prev);
   }
   return(
     <Dialog
@@ -181,12 +194,20 @@ function TeamSheetModal(props) {
             inputProps={{ 'aria-label': 'controlled' }}
           />
         </p>
+        <p>
+          {t("include_image_label")}
+          <Checkbox
+            checked={includeImage}
+            onChange={handleSetIncludeImage}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        </p>
         <div style={{
           border: "solid 1px gray",
           overflowY: "scroll",
           maxHeight: 200,
         }}>
-          <ComponentToPrint ref={componentRef} data={data} singlePage={singlePage} locale={locale} t={t} />
+          <ComponentToPrint ref={componentRef} data={data} singlePage={singlePage} locale={locale} includeImage={includeImage} t={t} />
         </div>
         <DialogActions>
           <Button

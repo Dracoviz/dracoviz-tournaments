@@ -242,6 +242,7 @@
     "generate_play_pokemon_preset": "Play! Pokémon GO Championship Seriesプリセットを使用する",
     "create_team_sheets": "チームシートを生成する",
     "single_print_label": "1ページごとに1つのチームシートを印刷しますか？",
+    "include_image_label": "ポケモンの画像を含める",
     "hide_no_shows_print_label": "非表示にする（チームのないプレイヤー）",
     "pokemon_team_sheet": "ポケモン{{index}}",
     "charged_move_team_sheet": "チャージドアタック{{index}}",

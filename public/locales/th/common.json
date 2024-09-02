@@ -242,6 +242,7 @@
 	"generate_play_pokemon_preset": "ใช้ Play! Pokémon GO Championship Series Preset",
 	"create_team_sheets": "สร้างแผ่นทีม",
 	"single_print_label": "พิมพ์แผ่นทีมหนึ่งใบต่อหน้า?",
+	"include_image_label": "รวมภาพโปเกมอน",
 	"hide_no_shows_print_label": "ซ่อนผู้ไม่มีการแข่งขัน (ผู้เล่นที่ไม่มีทีม)",
 	"pokemon_team_sheet": "Pokemon {{index}}",
 	"charged_move_team_sheet": "การโจมตี Charged {{index}}",

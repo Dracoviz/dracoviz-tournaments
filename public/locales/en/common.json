@@ -242,6 +242,7 @@
 	"generate_play_pokemon_preset": "Use the Play! Pokémon GO Championship Series Preset",
 	"create_team_sheets": "Generate team sheets",
 	"single_print_label": "Print one team sheet per page?",
+	"include_image_label": "Include Pokémon image",
 	"hide_no_shows_print_label": "Hide no shows (players without teams)",
 	"pokemon_team_sheet": "Pokémon {{index}}",
 	"charged_move_team_sheet": "Charged Attack {{index}}",
