@@ -1,5 +1,6 @@
 {
 	"avatar": "Avatar",
+	"add_host_prompt": "Inserisci il nome del giocatore che desideri aggiungere come ospite",
 	"additional_profile_options": "Ulteriori opzioni del profilo saranno disponibili nelle prossime aggiornamenti",
 	"api_already_entered_error": "Già inserito",
 	"api_authorization_missing": "Intestazione di autorizzazione mancante",
@@ -50,6 +51,7 @@
 	"api_team_validation_slot": "Il tuo team non corrisponde alle slot richieste per questa meta",
 	"api_team_validation_unreleased": "Il tuo team utilizza un Pokémon non ancora rilasciato",
 	"api_tournament_edit_reduce_value": "Non puoi ridurre questo valore",
+	"api_already_host": "Questo giocatore è già un ospite",
 	"api_unauthorized": "Non autorizzato",
 	"api_wrong_faction_code": "Codice squadra errato",
 	"cancel": "Annulla",

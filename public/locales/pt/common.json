@@ -1,5 +1,6 @@
 {
     "avatar": "Avatar",
+    "add_host_prompt": "Digite o nome do jogador que você gostaria de adicionar como anfitrião",
     "additional_profile_options": "Opções adicionais de perfil serão incluídas em futuras atualizações",
     "api_already_entered_error": "Já inscrito",
     "api_authorization_missing": "Cabeçalho de autorização ausente",
@@ -51,6 +52,7 @@
     "api_team_validation_unreleased": "Sua equipe usa um Pokémon não lançado",
     "api_tournament_edit_reduce_value": "Você não pode reduzir este valor",
     "api_unauthorized": "Não autorizado",
+    "api_already_host": "Este jogador já é um anfitrião",
     "api_wrong_faction_code": "Código de equipe incorreto",
     "cancel": "Cancelar",
     "captain_label": "(Capitão)",

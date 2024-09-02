@@ -1,5 +1,6 @@
 {
     "avatar": "アバター",
+    "add_host_prompt": "ホストとして追加したいプレイヤーの名前を入力してください",
 	"additional_profile_options": "追加のプロフィールオプションは将来の更新で提供されます",
 	"api_already_entered_error": "既に登録済みです",
 	"api_authorization_missing": "認証ヘッダーが不足しています",
@@ -51,6 +52,7 @@
 	"api_team_validation_unreleased": "あなたのチームが未リリースのポケモンを使用しています",
 	"api_tournament_edit_reduce_value": "この値を減らすことはできません",
 	"api_unauthorized": "認証されていません",
+    "api_already_host": "このプレイヤーはすでにホストです",
 	"api_wrong_faction_code": "間違ったチームコードです",
 	"cancel": "キャンセル",
 	"captain_label": "(キャプテン)",

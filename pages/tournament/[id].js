@@ -247,6 +247,25 @@ export default function Tournament() {
     return true;
   }
 
+  const addHost = async () => {
+    const playerName = prompt(t("add_host_prompt"));
+    setIsLoading(true);
+    const response = await fetchApi(`session/add-host/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      playerName,
+      tournamentId: id,
+    }));
+    const newData = await response.json();
+    setIsLoading(false);
+    if (newData.error != null) {
+      alert(t(newData.error));
+    } else {
+      getTournamentData(authId);
+    }
+  }
+
   const onEditTournament = async (data) => {
     const response = await fetchApi(`session/edit/`, "POST", {
       "x_session_id": authId,
@@ -466,7 +485,19 @@ export default function Tournament() {
       return null
     }
     return (
-      <p><b>{t('hosted_by')}:</b> {data.hostNames.filter(x => x !== "").join(", ")}</p>
+      <p>
+        <b>{t('hosted_by')}:</b>
+        {" "}
+        {data.hostNames.filter(x => x !== "").join(", ")}
+        {" "}
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={addHost}
+          style={{ width: 20, height: 20, minWidth: 20, padding: 0, borderRadius: "50%", marginBottom: 5 }}>
+          +
+        </Button>
+      </p>
     )
   }
 

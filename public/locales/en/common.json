@@ -1,5 +1,6 @@
 {
 	"avatar": "Avatar",
+	"add_host_prompt": "Enter the name of the player you would like to add as a host",
 	"additional_profile_options": "Additional profile options will come in future updates",
 	"api_already_entered_error": "Already entered",
 	"api_authorization_missing": "Missing authorization header",
@@ -50,6 +51,7 @@
 	"api_team_validation_slot": "Your team does match the required slots for this meta",
 	"api_team_validation_unreleased": "Your team uses an unreleased Pokémon",
 	"api_tournament_edit_reduce_value": "You cannot reduce this value",
+	"api_already_host": "This player is already a host",
 	"api_unauthorized": "Unauthorized",
 	"api_wrong_faction_code": "Wrong team code",
 	"cancel": "Cancel",

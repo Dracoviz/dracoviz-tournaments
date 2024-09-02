@@ -1,5 +1,6 @@
 {
-    "avatar": "อวาตาร์",
+  "avatar": "อวาตาร์",
+	"add_host_prompt": "กรุณาใส่ชื่อผู้เล่นที่คุณต้องการเพิ่มเป็นเจ้าภาพ",
 	"additional_profile_options": "ตัวเลือกโปรไฟล์เพิ่มเติมจะมาในการอัปเดตในอนาคต",
 	"api_already_entered_error": "เข้าร่วมแล้ว",
 	"api_authorization_missing": "ส่วนหัวการให้สิทธิขาดหาย",
@@ -51,6 +52,7 @@
 	"api_team_validation_unreleased": "ทีมของคุณใช้ Pokemon ที่ยังไม่ได้เปิดตัวสำหรับ Meta นี้",
 	"api_tournament_edit_reduce_value": "คุณไม่สามารถลดค่านี้ได้",
 	"api_unauthorized": "ไม่ได้รับอนุญาต",
+	"api_already_host": "ผู้เล่นนี้เป็นเจ้าภาพอยู่แล้ว",
 	"api_wrong_faction_code": "รหัสทีมไม่ถูกต้อง",
 	"cancel": "ยกเลิก",
 	"captain_label": "(กัปตัน)",
