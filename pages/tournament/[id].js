@@ -361,7 +361,7 @@ export default function Tournament() {
     }
     const { players } = data;
     const exportedData = players?.map(p => {
-      const { wins, losses, gameWins, gameLosses, name, pokemon } = p;
+      const { wins, losses, gameWins, gameLosses, name, pokemon, id } = p;
       return {
         wins,
         losses,
@@ -369,6 +369,7 @@ export default function Tournament() {
         gameLosses,
         name,
         pokemon,
+        id,
       }
     })
     const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
