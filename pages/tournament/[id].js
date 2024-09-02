@@ -490,13 +490,17 @@ export default function Tournament() {
         {" "}
         {data.hostNames.filter(x => x !== "").join(", ")}
         {" "}
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={addHost}
-          style={{ width: 20, height: 20, minWidth: 20, padding: 0, borderRadius: "50%", marginBottom: 5 }}>
-          +
-        </Button>
+        {
+          data.isHost && (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={addHost}
+              style={{ width: 20, height: 20, minWidth: 20, padding: 0, borderRadius: "50%", marginBottom: 5 }}>
+              +
+            </Button>
+          )
+        }
       </p>
     )
   }
