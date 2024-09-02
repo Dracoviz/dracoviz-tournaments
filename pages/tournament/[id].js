@@ -492,7 +492,7 @@ export default function Tournament() {
       <p>
         <b>{t('hosted_by')}:</b>
         {" "}
-        {data.hostNames.filter(x => x !== "").join(", ")}
+        {data.hostNames.filter(x => x !== "").join(", ").replace("AdibKhan", "Dracoviz")}
         {" "}
         {
           data.isHost && (
