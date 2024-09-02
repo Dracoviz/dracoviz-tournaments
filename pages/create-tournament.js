@@ -158,7 +158,7 @@ export default function CreateTournament() {
           <MenuItem value="Great League Megas">Anything Goes (Great League)</MenuItem>
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
-          <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series 2024</MenuItem>
+          <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series</MenuItem>
           <MenuItem value="Enchanted Domain">Enchanted Domain</MenuItem>
           <MenuItem value="Serene Domain">Serene Domain</MenuItem>
           <MenuItem value="Primordial Domain">Primordial Domain</MenuItem>
