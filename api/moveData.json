@@ -991,6 +991,10 @@
         "moveId":"SPARK",
         "type":"electric"
     },
+    "SPARKLING_ARIA":{
+        "moveId":"SPARKLING_ARIA",
+        "type":"water"
+    },
     "SPIRIT_SHACKLE":{
         "moveId":"SPIRIT_SHACKLE",
         "type":"ghost"
