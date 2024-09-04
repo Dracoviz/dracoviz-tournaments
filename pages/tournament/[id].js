@@ -995,6 +995,7 @@ export default function Tournament() {
                   onChange: onSearch
                 }}
               />
+              <p>{data?.players.length} {t("players")}</p>
               <Brackets
                 bracket={data?.bracket}
                 onBracketSelect={onBracketSelect}
