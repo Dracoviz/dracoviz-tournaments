@@ -628,7 +628,7 @@ export default function Tournament() {
         {t("tournament_view_information")}
       </Button>
     );
-    const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink } = data;
+    const { isHost, isCaptain, isTeamTournament, isPlayer, state, bracketLink, preserveTeamsOnRoster } = data;
     if (isConcluded) {
       return [seeTmButton];
     }
@@ -660,7 +660,14 @@ export default function Tournament() {
       )
     }
     if (isPlayer) {
-      const pokemonEditTitle = state !== "POKEMON_VISIBLE" ? t("tournament_edit_pokemon_button") : t("tournament_see_pokemon_button");
+      const pokemonEditTitle = (
+        state !== "POKEMON_VISIBLE"
+        && (
+          state !== "REGISTER_ROSTER" && preserveTeamsOnRoster
+        )
+      )
+        ? t("tournament_edit_pokemon_button")
+        : t("tournament_see_pokemon_button");
       buttons.push(
         <Button
           color="primary"
