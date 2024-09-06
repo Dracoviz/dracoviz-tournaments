@@ -260,5 +260,7 @@
     "apac_title": "ワールドへの旅",
     "apac_description1": "{{startTime}}に開始",
     "apac_description2": "コミュニティ資金によるハワイへの旅行賞をかけて戦う、ワールド資格を持つAPACトレーナーを観戦しよう。",
-    "apac_description3": "キャスター：CalebPeng、Reis2Occasion、HurricaneKaz、PvPSteve"
+    "apac_description3": "キャスター：CalebPeng、Reis2Occasion、HurricaneKaz、PvPSteve",
+    "waitlisted": "ウェイトリスト入り",
+    "waitlist_tooltip": "トーナメントはチームの上限に達しており、参加が保証されるわけではありません。チームを完全に登録し続けてください。登録締め切りまでに未登録のチームを、完全に登録されたウェイトリストのチームで置き換えます。"
 }

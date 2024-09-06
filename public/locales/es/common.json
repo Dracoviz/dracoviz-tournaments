@@ -260,5 +260,7 @@
 	"apac_title": "Viaje a Worlds",
 	"apac_description1": "Comienza {{startTime}}",
 	"apac_description2": "Mira a los entrenadores de APAC calificados para Worlds luchar por un premio de viaje financiado por la comunidad a Hawái.",
-	"apac_description3": "Transmitido por CalebPeng, Reis2Occasion, HurricaneKaz y PvPSteve"
+	"apac_description3": "Transmitido por CalebPeng, Reis2Occasion, HurricaneKaz y PvPSteve",
+	"waitlisted": "En lista de espera",
+	"waitlist_tooltip": "El torneo ha alcanzado su límite de equipos y no se garantiza un lugar en el torneo"
 }

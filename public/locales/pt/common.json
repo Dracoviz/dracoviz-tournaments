@@ -260,5 +260,7 @@
     "apac_title": "Jornada para Worlds",
     "apac_description1": "Começando {{startTime}}",
     "apac_description2": "Assista aos treinadores APAC qualificados para Worlds competirem por um prêmio de viagem financiado pela comunidade para o Havaí.",
-    "apac_description3": "Transmitido por CalebPeng, Reis2Occasion, HurricaneKaz e PvPSteve"
+    "apac_description3": "Transmitido por CalebPeng, Reis2Occasion, HurricaneKaz e PvPSteve",
+    "waitlisted": "Em lista de espera",
+    "waitlist_tooltip": "O torneio atingiu o limite de equipes e sua colocação no torneio não está garantida. Continue registrando sua equipe completamente, pois substituiremos qualquer equipe não registrada por equipes em lista de espera completamente registradas até o prazo de inscrição."
 }

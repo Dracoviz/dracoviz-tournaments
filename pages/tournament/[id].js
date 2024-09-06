@@ -1014,6 +1014,7 @@ export default function Tournament() {
                       onDeletePlayer={onDeletePlayer}
                       isHost={data?.isHost}
                       showValid={showValid}
+                      session={id}
                       e={e}
                     />)
                   : (<SinglePlayerList

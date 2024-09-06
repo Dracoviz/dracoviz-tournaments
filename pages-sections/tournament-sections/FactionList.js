@@ -9,6 +9,7 @@ import Filter from "bad-words";
 import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
 import NoPlayers from "../../components/NoPlayers/NoPlayers";
+import Tooltip from "@mui/material/Tooltip";
 
 const useStyles = makeStyles(styles);
 
@@ -29,7 +30,7 @@ const filter = new Filter();
 filter.addWords("racist"); //Darn Pocket
 
 export default function FactionList(props) {
-  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid, e } = props;
+  const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid, e, session } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedFactions, setSearchedFactions] = useState([]);
@@ -87,6 +88,7 @@ export default function FactionList(props) {
   }
 
   const noSearchResults = searchedFactions == null || searchedFactions.length <= 0;
+  const hasWaitlist = session === "unified";
 
   if (factions == null || factions.length <= 0) {
     return <NoPlayers />
@@ -96,12 +98,25 @@ export default function FactionList(props) {
     <div>
       {
         noSearchResults ? <p>{t('no_factions_in_search')}</p>
-        : searchedFactions?.map((faction) => {
+        : searchedFactions?.map((faction, index) => {
+          const position = index + 1;
           const name = cleanText(faction.name);
           const description = cleanText(faction.description);
+          const isWaitlisted = hasWaitlist && position > 64;
           return (
             <Card key={faction.key}>
-              <h3 style={{ marginLeft: 30, marginRight: 30 }}>{name}</h3>
+              <h3 style={{ marginLeft: 30, marginRight: 30 }}>
+                {hasWaitlist ? `${position}. ` : ""}
+                {name}
+                {isWaitlisted
+                  ? (
+                    <Tooltip title={t("waitlist_tooltip")}>
+                      <b style={{ color: "orange" }}> {t("waitlisted")}</b>
+                    </Tooltip>
+                  )
+                  : ""
+                }
+              </h3>
               <p style={{ marginLeft: 30, marginRight: 30 }}>{description}</p>
               {
                 faction?.players?.sort(byTournamentPosition).map((player, index) => (

@@ -260,5 +260,7 @@
     "apac_title": "월드로의 여정",
     "apac_description1": "{{startTime}} 시작",
     "apac_description2": "커뮤니티 자금으로 지원된 하와이 여행 경품을 위해 월드 자격을 갖춘 APAC 트레이너들의 대결을 시청하세요.",
-    "apac_description3": "캐스터: CalebPeng, Reis2Occasion, HurricaneKaz, PvPSteve"
+    "apac_description3": "캐스터: CalebPeng, Reis2Occasion, HurricaneKaz, PvPSteve",
+    "waitlisted": "대기 목록에 추가됨",
+    "waitlist_tooltip": "대회가 팀 정원에 도달했으며 대회 참가가 보장되지 않습니다. 팀을 완전히 등록해 주세요. 등록 마감일까지 등록되지 않은 팀은 대기 명단에 있는 완전 등록된 팀으로 대체됩니다."
 }
