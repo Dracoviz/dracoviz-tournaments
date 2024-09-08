@@ -102,7 +102,7 @@ export default function FactionList(props) {
           const position = index + 1;
           const name = cleanText(faction.name);
           const description = cleanText(faction.description);
-          const isWaitlisted = hasWaitlist && position > 64;
+          const isWaitlisted = hasWaitlist && position > 128;
           return (
             <Card key={faction.key}>
               <h3 style={{ marginLeft: 30, marginRight: 30 }}>
