@@ -262,5 +262,6 @@
 	"apac_description2": "Guarda gli allenatori APAC qualificati per Worlds competere per un premio di viaggio finanziato dalla comunità per le Hawaii.",
 	"apac_description3": "Commentato da CalebPeng, Reis2Occasion, HurricaneKaz e PvPSteve",
 	"waitlisted": "In lista d'attesa",
-	"waitlist_tooltip": "Il torneo ha raggiunto il limite massimo di squadre e non ti è garantito un posto nel torneo. Continua a registrare completamente la tua squadra, poiché sostituiremo qualsiasi squadra non registrata con squadre completamente registrate in lista d'attesa entro la scadenza di registrazione."
+	"waitlist_tooltip": "Il torneo ha raggiunto il limite massimo di squadre e non ti è garantito un posto nel torneo. Continua a registrare completamente la tua squadra, poiché sostituiremo qualsiasi squadra non registrata con squadre completamente registrate in lista d'attesa entro la scadenza di registrazione.",
+	"registration_warning": "Tre membri del tuo team devono registrare i loro team finali di Pokémon entro il 13 settembre alle 23:59 UTC. Se la registrazione non è completa, il tuo team verrà rimosso dal torneo."
 }

@@ -286,5 +286,6 @@
 	"apac_description2": "Watch Worlds-qualified APAC trainers battle for a community-funded travel award to Hawaii.",
 	"apac_description3": "Casted by CalebPeng, Reis2Occasion, HurricaneKaz, and PvPSteve",
 	"waitlisted": "Waitlisted",
-	"waitlist_tooltip": "The tournament has reached its team cap and you are not guaranteed a placement in the tournament. Please continue to register your team completely, as we will replace any unregistered teams with fully registered waitlisted teams by the registration deadline."
+	"waitlist_tooltip": "The tournament has reached its team cap and you are not guaranteed a placement in the tournament. Please continue to register your team completely, as we will replace any unregistered teams with fully registered waitlisted teams by the registration deadline.",
+	"registration_warning": "Three members of your team need to register their final teams of Pokémon by September 13th at 23:59pm UTC. If registration is not complete, your team will be removed from the tournament."
 }
