@@ -176,7 +176,7 @@ export default function Tournament() {
   }
 
   const showAlert = (newData, newAuthId) => {
-    const thePlayer = players.find((x) => x.session === newAuthId);
+    const thePlayer = newData.players?.find((x) => x.session === newAuthId);
     const shouldShowRegistrationWarning = (
       id === 'unified'
       && newData.isCaptain
