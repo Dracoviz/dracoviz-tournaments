@@ -806,7 +806,7 @@ export default function Tournament() {
     if (data == null || isConcluded) {
       return null;
     }
-    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds, players } = data;
+    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds, players, state } = data;
     if (players?.length < 2) {
       return null;
     }
@@ -853,7 +853,7 @@ export default function Tournament() {
     if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
     }
-    if (isPlayer && currentRoundNumber > 0) {
+    if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE") {
       buttons.push(
         <Button
           variant="contained"

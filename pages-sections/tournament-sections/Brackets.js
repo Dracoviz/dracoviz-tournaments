@@ -113,7 +113,7 @@ function Brackets(props) {
     const searchStrings = targetValue.split("&");
     setPlayersToLookup(searchStrings);
   }
-  if (bracket == null || isTeamTournament) {
+  if (bracket == null) {
     return null;
   }
   return(
