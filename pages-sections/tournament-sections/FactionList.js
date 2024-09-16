@@ -27,7 +27,7 @@ const byTournamentPosition = (a, b) => {
 }
 
 const filter = new Filter();
-filter.addWords("racist"); //Darn Pocket
+filter.addWords(["racist", "tinder"]); //Darn Pocket
 
 export default function FactionList(props) {
   const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid, e, session } = props;
