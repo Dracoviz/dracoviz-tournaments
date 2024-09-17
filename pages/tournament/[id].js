@@ -839,7 +839,7 @@ export default function Tournament() {
     if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
     }
-    if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE") {
+    if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE" && !isTeamTournament) {
       buttons.push(
         <Button
           variant="contained"
@@ -1009,6 +1009,7 @@ export default function Tournament() {
                 isTeamTournament={data?.isTeamTournament}
                 currentRoundNumber={data?.currentRoundNumber}
                 totalRounds={data?.totalRounds}
+                factions={data?.factions}
                 e={e}
               />
               {

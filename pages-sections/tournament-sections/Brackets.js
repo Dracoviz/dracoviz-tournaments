@@ -23,7 +23,7 @@ const bracketStyles = {
 }
 
 function Match(props) {
-  const { match, matchIndex, roundIndex, onBracketSelect, isTeamTournament, playersToLookup } = props;
+  const { match, matchIndex, roundIndex, onBracketSelect, factions, playersToLookup } = props;
   const { seed, score, disputed, participants, touched } = match;
   if (score == null) {
     return null;
@@ -45,8 +45,8 @@ function Match(props) {
     }
   }
 
-  const renderParticipants = () => {
-    return participants[0].map((participant, i) => {
+  const renderParticipants = (index) => {
+    return participants[index].map((participant, i) => {
       const { name, removed } = participant;
       const hasHigherScore = higherScore === scores[i];
       const bracketStyle = isReported ? (
@@ -72,15 +72,30 @@ function Match(props) {
       )
     })
   }
+  
+  function getFactions() {
+    const player1FactionId = participants[0][0].factionId;
+    const player2FactionId = participants[0][1].factionId;
+    const faction1 = factions.find((f) => f.key === player1FactionId);
+    const faction2 = factions.find((f) => f.key === player2FactionId);
+    return `${faction1?.name ?? "none"} vs ${faction2?.name ?? "none"}`;
+  }
 
   return (
     <div className={classes.matchRoot}>
+      {(participants.length > 1) && (
+        <h4>{getFactions()}</h4>
+      )}
       <div className={classes.matchItem}>
         <div className={classes.seed}>
           {seed}
         </div>
-        <div>
-          {renderParticipants()}
+        <div className={classes.participants}>
+          {participants.map((_, i) => (
+            <div>
+              {renderParticipants(i)}
+            </div>
+          ))}
         </div>
       </div>
       <small>
@@ -94,7 +109,11 @@ function Match(props) {
 function Brackets(props) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { isTeamTournament, bracket, onBracketSelect, currentRoundNumber, totalRounds, e } = props;
+  const {
+    isTeamTournament,
+    factions,
+    bracket, onBracketSelect, currentRoundNumber, totalRounds, e
+  } = props;
   const [playersToLookup, setPlayersToLookup] = useState(null);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -146,6 +165,7 @@ function Brackets(props) {
                     isTeamTournament={isTeamTournament}
                     onBracketSelect={onBracketSelect}
                     playersToLookup={playersToLookup}
+                    factions={factions}
                   />
                 ))
               }

@@ -35,6 +35,9 @@ function bracketsStyle(theme) {
       padding: "15px 0",
       borderRight: isDark ? "none" : "solid 1px white"
     },
+    participants: {
+      display: "flex",
+    },
     participant: {
       width: 250,
       height: 30,
@@ -42,6 +45,7 @@ function bracketsStyle(theme) {
       justifyContent: "space-between",
       alignItems: "center",
       paddingLeft: 10,
+      marginRight: 10,
       color: isDark ? "#000" : "auto",
       borderBottom: isDark ? "none" : "solid 1px white",
     },
