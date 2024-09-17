@@ -35,11 +35,14 @@ function Match(props) {
   const classes = useStyles();
 
   if (playersToLookup != null) {
-    const doesNameMatch = participants[0].find((participant) => (
+    const doesNameMatch = participants.flatMap(participantGroup => 
+      participantGroup // iterate through all participants in the group
+    ).find((participant) => (
       playersToLookup.some(searchStr => {
-        return participant.name.toLowerCase().includes(searchStr.toLowerCase())
-      }) != []
+        return participant.name.toLowerCase().includes(searchStr.toLowerCase());
+      })
     ));
+  
     if (!doesNameMatch) {
       return null;
     }
