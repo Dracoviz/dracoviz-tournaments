@@ -170,22 +170,8 @@ export default function Tournament() {
     .then(response => response.json())
     .then(newData => {
       setData(newData);
-      showAlert(newData, newAuthId);
       setIsLoading(false);
     });
-  }
-
-  const showAlert = (newData, newAuthId) => {
-    const thePlayer = newData.players?.find((x) => x.session === newAuthId);
-    const shouldShowRegistrationWarning = (
-      id === 'unified'
-      && newData.isCaptain
-      && thePlayer?.pokemon.length == 0
-    );
-    if (!shouldShowRegistrationWarning) {
-      return;
-    }
-    alert(t("registration_warning"));
   }
 
   const setTournamentState = (state) => {
