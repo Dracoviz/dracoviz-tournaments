@@ -3,13 +3,12 @@ import { makeStyles } from "@mui/styles";
 import { Button } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
-import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
-import Filter from "bad-words";
 import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
 import NoPlayers from "../../components/NoPlayers/NoPlayers";
 import Tooltip from "@mui/material/Tooltip";
+import cleanText from "../../utils/cleanText";
 
 const useStyles = makeStyles(styles);
 
@@ -25,9 +24,6 @@ const byTournamentPosition = (a, b) => {
   }
   return a.tournamentPosition - b.tournamentPosition;
 }
-
-const filter = new Filter();
-filter.addWords("racist", "tinder", "noggers", "nogger"); //Darn Pocket
 
 export default function FactionList(props) {
   const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid, e, session } = props;
@@ -64,18 +60,6 @@ export default function FactionList(props) {
     }
     onSearch(e);
   }, [e]);
-
-  const cleanText = useCallback((text) => {
-    const splitRegex = /\b/;
-    if (splitRegex.exec(text)?.[0] == null || filter?.clean == null || text == null || text.trim() === "") {
-      return text;
-    }
-    if (text.replace(/[^\x00-\x7F]/g, "").replaceAll(".").trim() === "") {
-      return text;
-    }
-    const filteredText = filter.clean(text);
-    return filteredText;
-  }, []);
 
   const onSearch = (e) => {
     const searchString = e.target.value.toLowerCase();

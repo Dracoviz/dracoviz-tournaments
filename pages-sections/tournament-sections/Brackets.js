@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
 import { useTheme } from "@mui/material";
+import cleanText from "../../utils/cleanText";
 
 const useStyles = makeStyles(styles);
 
@@ -62,7 +63,7 @@ function Match(props) {
       return (
         <div onClick={onClick} style={bracketStyle} className={classes.participant}>
           <div style={{ textDecoration: removed ? "line-through" : "none" }}>
-            {name} {hasUnfinalReport ? "🟢" : ""}
+            {cleanText(name)} {hasUnfinalReport ? "🟢" : ""}
           </div>
           <span className={classes.score}>
             {scores[i]}
