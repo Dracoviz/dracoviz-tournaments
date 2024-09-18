@@ -148,10 +148,10 @@ function Brackets(props) {
         backgroundColor: isDark ? "#252a31" : "#F6F5F5"
       }}
     >
-      <p style={{ textAlign: "center", direction: "ltr" }}>
+      <p style={{ textAlign: "center", direction: isTeamTournament ? "rtl" : "ltr" }}>
         {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
       </p>
-      <div className={classes.rounds} style={{ minWidth: bracket.length * 350 }}>
+      <div className={classes.rounds} style={{ minWidth: bracket.length * (isTeamTournament ? 900 : 350) }}>
         {bracket.map((roundObj, roundIndex) => {
           const { round, matches } = roundObj;
           return (
