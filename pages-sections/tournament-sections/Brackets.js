@@ -143,12 +143,12 @@ function Brackets(props) {
     <div
       className="scroller"
       style={{
-        direction: "rtl",
+        direction: isTeamTournament ? "ltr" : "rtl",
         overflowX: "scroll",
         backgroundColor: isDark ? "#252a31" : "#F6F5F5"
       }}
     >
-      <p style={{ textAlign: "center", direction: isTeamTournament ? "rtl" : "ltr" }}>
+      <p style={{ textAlign: "center", direction: "ltr" }}>
         {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
       </p>
       <div className={classes.rounds} style={{ minWidth: bracket.length * (isTeamTournament ? 900 : 350) }}>
