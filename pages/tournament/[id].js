@@ -792,7 +792,7 @@ export default function Tournament() {
     if (data == null || isConcluded) {
       return null;
     }
-    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds, players, state } = data;
+    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds, players, state, isTeamTournament } = data;
     if (players?.length < 2) {
       return null;
     }
