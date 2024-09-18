@@ -99,8 +99,8 @@ class ComponentToPrint extends React.PureComponent {
                 <tr>
                   <td style={cellStyle}><b>{t("name")}</b></td>
                   {
-                    team.speciesName.map(item => (
-                      <td style={cellStyle}>{item}</td>
+                    team.speciesName.map((item, index) => (
+                      <td style={cellStyle}>{item} {team.purified[index] ? t("purified") : ""}</td>
                     ))
                   }
                 </tr>
@@ -109,14 +109,6 @@ class ComponentToPrint extends React.PureComponent {
                   {
                     team.cp.map((item, j) => (
                       <td style={cellStyle}>{item}{team.bestBuddy[j] === true ? ` (${t("best_buddy")})` : ''}</td>
-                    ))
-                  }
-                </tr>
-                <tr>
-                  <td style={cellStyle}><b>{t("purified")}</b></td>
-                  {
-                    team.purified.map((item) => (
-                      <td style={cellStyle}>{item === true ? t("yes") : t("no")}</td>
                     ))
                   }
                 </tr>
