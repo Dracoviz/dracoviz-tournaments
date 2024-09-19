@@ -180,6 +180,9 @@ export default function CreateTournament() {
           <MenuItem value="Devon Invitational">Devon Invitational</MenuItem>
           <MenuItem value="Flash (Spice Cup Evolution)">Flash (Spice Cup Evolution)</MenuItem>
           <MenuItem value="Ordinary Gauntlet">Ordinary Gauntlet</MenuItem>
+          <MenuItem value="Devon Crypt Cup">Devon Crypt Cup</MenuItem>
+          <MenuItem value="Cavern Cup">Cavern Cup</MenuItem>
+          <MenuItem value="Community Cup">Community Cup</MenuItem>
         </Select>
       </GridItem>
     ))
