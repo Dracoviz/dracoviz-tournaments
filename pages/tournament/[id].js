@@ -384,7 +384,7 @@ export default function Tournament() {
 
   const reportScore = async (scores) => {
     const { player1, player2 } = scores;
-    const { matchIndex, roundIndex } = selectedRound;
+    const { matchIndex, roundIndex, participantIndex } = selectedRound;
     const response = await fetchApi(`session/report/`, "POST", {
       "x_session_id": authId,
       "Content-Type": "application/json"
@@ -393,7 +393,7 @@ export default function Tournament() {
       player1,
       player2,
       matchIndex,
-      scoreIndex: 0, // TODO: Teams
+      scoreIndex: participantIndex ?? 0,
       targetRoundIndex: roundIndex,
     }));
     const newData = await response.json();
@@ -405,7 +405,7 @@ export default function Tournament() {
     }
   }
 
-  const onBracketSelect = (roundIndex, matchIndex) => {
+  const onBracketSelect = (roundIndex, matchIndex, participantIndex = 0) => {
     const bracket = data?.bracket[roundIndex]?.matches[matchIndex];
     if (bracket == null
       || data?.isHost !== true
@@ -413,16 +413,17 @@ export default function Tournament() {
     ) {
       return;
     }
-    setValue("player1", bracket.score[0][0]);
-    setValue("player2", bracket.score[0][1]);
+    setValue("player1", bracket.score[participantIndex][0]);
+    setValue("player2", bracket.score[participantIndex][1]);
     setSelectedRound({
       roundIndex,
       matchIndex,
-      score: bracket.score[0],
-      player1: bracket.participants[0][0].name,
-      player2: bracket.participants[0][1].name,
+      score: bracket.score[participantIndex],
+      player1: bracket.participants[participantIndex][0].name,
+      player2: bracket.participants[participantIndex][1].name,
       gameAmount: data?.gameAmount,
       playAllMatches: data?.playAllMatches,
+      participantIndex,
     });
   }
 
@@ -792,7 +793,17 @@ export default function Tournament() {
     if (data == null || isConcluded) {
       return null;
     }
-    const { isPlayer, isHost, bracketType, currentRoundNumber, totalRounds, players, state, isTeamTournament } = data;
+    const {
+      isPlayer,
+      isHost,
+      bracketType,
+      currentRoundNumber,
+      totalRounds,
+      players,
+      state,
+      tournamentPosition,
+      isTeamTournament
+    } = data;
     if (players?.length < 2) {
       return null;
     }
@@ -839,7 +850,8 @@ export default function Tournament() {
     if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
     }
-    if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE" && !isTeamTournament) {
+    const isAlternate = tournamentPosition < 0 && isTeamTournament;
+    if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE" && !isAlternate) {
       buttons.push(
         <Button
           variant="contained"

@@ -28,10 +28,7 @@ function Match(props) {
   if (score == null) {
     return null;
   }
-  const scores = score[0];
   const { t } = useTranslation();
-  const isReported = scores.reduce((a, b) => a+b, 0) > 0;
-  const higherScore = Math.max(scores[0], scores[1]);
   const classes = useStyles();
 
   if (playersToLookup != null) {
@@ -49,6 +46,9 @@ function Match(props) {
   }
 
   const renderParticipants = (index) => {
+    const scores = score[index];
+    const isReported = scores.reduce((a, b) => a+b, 0) > 0;
+    const higherScore = Math.max(scores[0], scores[1]);
     return participants[index].map((participant, i) => {
       const { name, removed } = participant;
       const hasHigherScore = higherScore === scores[i];
@@ -59,6 +59,7 @@ function Match(props) {
         onBracketSelect(
           roundIndex,
           matchIndex,
+          index,
         )
       }
       const participantReported = participant.score.reduce((a, b) => a+b, 0) > 0;

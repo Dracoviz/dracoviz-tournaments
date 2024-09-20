@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { Button } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import { useTranslation } from "next-i18next";
@@ -71,6 +71,19 @@ export default function FactionList(props) {
     }));
   }
 
+  const renderStats = (player) => {
+    if (player?.wins == null) {
+      return null;
+    }
+    const { wins, losses, gameWins, gameLosses } = player;
+    return (
+      <Chip
+        style={{ marginLeft: 10, marginTop: 7.5 }}
+        label={t('winLoss', { wins, losses, gameWins, gameLosses })}
+      />
+    )
+  }
+
   const noSearchResults = searchedFactions == null || searchedFactions.length <= 0;
   const hasWaitlist = session === "unified";
 
@@ -114,6 +127,7 @@ export default function FactionList(props) {
                           />
                         )}
                         <h4>{player.name} {player.isCaptain ? t("captain_label") : ""} {getValidLabel(showValid, player.valid)}</h4>
+                        {renderStats(player)}
                       </div>
                       <div>
                         <Button onClick={() => onPlayer(player.name)}>
