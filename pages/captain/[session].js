@@ -184,7 +184,7 @@ export default function Team() {
                 <GridItem xs={12} style={{ marginTop: 30 }}>
                   <Button
                     type="submit"
-                    disabled={isLoading || !isValid || submitting}
+                    disabled={isLoading || !isValid || submitting || !canEdit}
                     fullWidth
                     style={{ marginBottom: 10 }}
                   >
