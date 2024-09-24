@@ -37,6 +37,7 @@ export default function Team() {
   const [isLoading, setIsLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+  const [key, setKey] = useState(null);
   const { register, setValue, handleSubmit, watch, formState: { errors, isValid } } = useForm();
   const [metaOptions, setMetaOptions] = useState([]);
   const [playerOptions, setPlayerOptions] = useState([]);
@@ -57,12 +58,13 @@ export default function Team() {
         Router.push(`/tournament/${session}`);
         return;
       }
-      const { metas, players, factionName, description, canEdit } = data;
+      const { metas, players, factionName, description, canEdit, key } = data;
       players.forEach((p) => {
         if (p.tournamentPosition > (-1)) {
           setValue(`slot.${p.tournamentPosition}`, p.session);
         }
       });
+      setKey(key);
       setValue("factionName", factionName);
       setValue("description", description);
       setMetaOptions(metas);
@@ -77,7 +79,7 @@ export default function Team() {
     fetchApi(`faction/edit/`, "POST",
       {
         x_session_id: authId, "Content-Type": "application/json"
-      }, JSON.stringify({ ...data, tournamentId: session })
+      }, JSON.stringify({ ...data, tournamentId: session, key })
     )
     .then(response => response.json())
     .then(data => {
