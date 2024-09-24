@@ -20,6 +20,10 @@ const singlePlayerStyle = {
   playerMetaRow: {
     display: "flex",
   },
+  factionNameRow: {
+    display: "flex",
+    alignItems: "center",
+  },
   playerNameRow: {
     display: "flex",
     justifyContent: "space-between",

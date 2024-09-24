@@ -47,11 +47,11 @@ function Match(props) {
 
   const renderParticipants = (index) => {
     const scores = score[index];
-    const isReported = scores.reduce((a, b) => a+b, 0) > 0;
-    const higherScore = Math.max(scores[0], scores[1]);
+    const isReported = scores != null && scores.reduce((a, b) => a+b, 0) > 0;
+    const higherScore = Math.max(scores?.[0], scores?.[1]);
     return participants[index].map((participant, i) => {
       const { name, removed } = participant;
-      const hasHigherScore = higherScore === scores[i];
+      const hasHigherScore = scores != null && higherScore === scores[i];
       const bracketStyle = isReported ? (
         hasHigherScore ? bracketStyles.win : bracketStyles.loss
       ) : bracketStyles.unreported;
@@ -62,7 +62,7 @@ function Match(props) {
           index,
         )
       }
-      const participantReported = participant.score.reduce((a, b) => a+b, 0) > 0;
+      const participantReported = participant.score?.reduce((a, b) => a+b, 0) > 0;
       const hasUnfinalReport = !isReported && participantReported;
       return (
         <div onClick={onClick} style={bracketStyle} className={classes.participant}>
@@ -70,7 +70,7 @@ function Match(props) {
             {cleanText(name)} {hasUnfinalReport ? "🟢" : ""}
           </div>
           <span className={classes.score}>
-            {scores[i]}
+            {scores?.[i] || 0}
           </span>
         </div>
       )

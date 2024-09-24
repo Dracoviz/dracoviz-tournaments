@@ -102,18 +102,23 @@ export default function FactionList(props) {
           const isWaitlisted = hasWaitlist && position > 128;
           return (
             <Card key={faction.key}>
-              <h3 style={{ marginLeft: 30, marginRight: 30 }}>
-                {hasWaitlist ? `${position}. ` : ""}
-                {name}
-                {isWaitlisted
-                  ? (
-                    <Tooltip title={t("waitlist_tooltip")}>
-                      <b style={{ color: "orange" }}> {t("waitlisted")}</b>
-                    </Tooltip>
-                  )
-                  : ""
-                }
-              </h3>
+              <div className={classes.factionNameRow}>
+                <h3 style={{ marginLeft: 30, marginRight: 30 }}>
+                  {hasWaitlist ? `${position}. ` : ""}
+                  {name}
+                  {isWaitlisted
+                    ? (
+                      <Tooltip title={t("waitlist_tooltip")}>
+                        <b style={{ color: "orange" }}> {t("waitlisted")}</b>
+                      </Tooltip>
+                    )
+                    : ""
+                  }
+                </h3>
+                <div style={{ marginTop: 7.5 }}>
+                  {renderStats(faction)}
+                </div>
+              </div>
               <p style={{ marginLeft: 30, marginRight: 30 }}>{description}</p>
               {
                 faction?.players?.sort(byTournamentPosition).map((player, index) => (
