@@ -847,11 +847,11 @@ export default function Tournament() {
         )
       }
     }
-    if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
-      return null;
-    }
-    const isAlternate = tournamentPosition === -1 && isTeamTournament;
-    if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE" && !isAlternate) {
+    // if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
+    //   return null;
+    // }
+    const isAlternate = tournamentPosition < 0 && isTeamTournament;
+    if (currentRoundNumber > 0 && state === "POKEMON_VISIBLE") {
       buttons.push(
         <Button
           variant="contained"
