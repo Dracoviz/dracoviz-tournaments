@@ -850,7 +850,7 @@ export default function Tournament() {
     if (!isHost && (!isPlayer || !(currentRoundNumber > 0))) {
       return null;
     }
-    const isAlternate = Number(tournamentPosition) < 0 && isTeamTournament;
+    const isAlternate = tournamentPosition === -1 && isTeamTournament;
     if (isPlayer && currentRoundNumber > 0 && state === "POKEMON_VISIBLE" && !isAlternate) {
       buttons.push(
         <Button
