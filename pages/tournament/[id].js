@@ -945,6 +945,29 @@ export default function Tournament() {
       </Button>
     );
   }
+  
+  const renderUnconcludeButton = () => {
+    if (data == null || !isConcluded) {
+      return null;
+    }
+    const { isHost } = data;
+    if (!isHost) {
+      return null;
+    }
+    const onConfirm = () => {
+      if (confirm(t("confirm_unconclude"))) {
+        onUnconclude();
+      }
+    }
+    return (
+      <Button
+        color="error"
+        onClick={onConfirm}
+      >
+        {t("unconclude_tournament")}
+      </Button>
+    );
+  }
 
   if (isLoading) {
     return (<div>
@@ -1066,6 +1089,7 @@ export default function Tournament() {
                       e={e}
                     />)
               }
+              {renderUnconcludeButton()}
               {renderLeaveButton()}
               {renderDeleteButton()}
             </GridItem>
