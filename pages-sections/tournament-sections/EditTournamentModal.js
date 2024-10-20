@@ -14,7 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function EditTournamentModal(props) {
   const { t } = useTranslation();
-  const { open, data, Transition, onClose, onSave, onConclude } = props;
+  const { open, data, Transition, onClose, onSave, onConclude, onUnconclude } = props;
   const { register, handleSubmit, watch, formState: { errors, isValid, isDirty } } = useForm({
     defaultValues: {
       name: data?.name,
@@ -28,7 +28,7 @@ function EditTournamentModal(props) {
       playAllMatches: data?.playAllMatches,
     }
   });
-
+  const isConcluded = data?.concluded;
   const hideTeamsFromHost = watch("hideTeamsFromHost");
   const requireBothPlayersToReport = watch("requireBothPlayersToReport");
   const playAllMatches = watch("playAllMatches");
@@ -42,7 +42,9 @@ function EditTournamentModal(props) {
     setIsLoading(false);
   }
   const onClick = () => {
-    if (confirm(t("confirm_conclude"))) {
+    if (isConcluded && confirm(t("confirm_unconclude"))) {
+      onUnconclude();
+    } else if (!isConcluded && confirm(t("confirm_conclude"))) {
       onConclude();
     }
   }
@@ -167,7 +169,9 @@ function EditTournamentModal(props) {
               color="error"
               onClick={onClick}
             >
-              {t("conclude_tournament")}
+              {isConcluded
+                ? t("unconclude_tournament")
+                : t("conclude_tournament")}
             </Button>
             <Button
               type="submit"

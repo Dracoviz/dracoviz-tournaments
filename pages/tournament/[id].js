@@ -212,6 +212,25 @@ export default function Tournament() {
     });
   }
 
+  const onUnconclude = () => {
+    setIsLoading(true);
+    fetchApi(`session/unconclude/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then(response => response.json())
+    .then((newData) => {
+      if (newData.error != null) {
+        alert(t(newData.error));
+      } else {
+        setIsTournamentEditOpen(false);
+        getTournamentData(authId);
+      }
+    });
+  }
+
   const deletePlayer = async (playerName) => {
     setIsLoading(true);
     const response = await fetchApi(`session/leave/`, "POST", {
@@ -971,6 +990,7 @@ export default function Tournament() {
             onClose={onCloseTournamentEditModal}
             onSave={onEditTournament}
             onConclude={onConclude}
+            onUnconclude={onUnconclude}
           />
           <TeamSheetModal
             open={isTeamSheetOpen}

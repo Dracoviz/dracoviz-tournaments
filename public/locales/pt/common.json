@@ -263,5 +263,7 @@
     "apac_description3": "Transmitido por CalebPeng, Reis2Occasion, HurricaneKaz e PvPSteve",
     "waitlisted": "Em lista de espera",
     "waitlist_tooltip": "O torneio atingiu o limite de equipes e sua colocação no torneio não está garantida. Continue registrando sua equipe completamente, pois substituiremos qualquer equipe não registrada por equipes em lista de espera completamente registradas até o prazo de inscrição.",
-    "registration_warning": "Três membros da sua equipe precisam registrar suas equipes finais de Pokémon até 13 de setembro às 23:59 UTC. Se o registro não for concluído, sua equipe será removida do torneio."
+    "registration_warning": "Três membros da sua equipe precisam registrar suas equipes finais de Pokémon até 13 de setembro às 23:59 UTC. Se o registro não for concluído, sua equipe será removida do torneio.",
+    "confirm_unconclude": "Tem certeza de que deseja reabrir o torneio?",
+    "unconclude_tournament": "Reabrir torneio"
 }
