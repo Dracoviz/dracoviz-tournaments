@@ -183,6 +183,7 @@ export default function CreateTournament() {
           <MenuItem value="Devon Crypt Cup">Devon Crypt Cup</MenuItem>
           <MenuItem value="Cavern Cup">Cavern Cup</MenuItem>
           <MenuItem value="Community Cup">Community Cup</MenuItem>
+          <MenuItem value="Chaos Cup">Chaos Cup</MenuItem>
         </Select>
       </GridItem>
     ))
