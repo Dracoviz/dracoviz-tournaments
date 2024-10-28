@@ -184,6 +184,7 @@ export default function CreateTournament() {
           <MenuItem value="Cavern Cup">Cavern Cup</MenuItem>
           <MenuItem value="Community Cup">Community Cup</MenuItem>
           <MenuItem value="Chaos Cup">Chaos Cup</MenuItem>
+          <MenuItem value="Myriad Cup">Myriad Cup</MenuItem>
         </Select>
       </GridItem>
     ))
