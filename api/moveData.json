@@ -831,6 +831,10 @@
         "moveId":"QUICK_ATTACK",
         "type":"normal"
     },
+    "RAGE_FIST": {
+        "moveId": "RAGE_FIST",
+        "type": "ghost"
+    },
     "RAZOR_LEAF":{
         "moveId":"RAZOR_LEAF",
         "type":"grass"
