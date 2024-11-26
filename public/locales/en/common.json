@@ -289,5 +289,6 @@
 	"waitlist_tooltip": "The tournament has reached its team cap and you are not guaranteed a placement in the tournament. Please continue to register your team completely, as we will replace any unregistered teams with fully registered waitlisted teams by the registration deadline.",
 	"registration_warning": "Three members of your team need to register their final teams of Pokémon by September 13th at 23:59pm UTC. If registration is not complete, your team will be removed from the tournament.",
 	"confirm_unconclude": "Are you sure you want to reopen the tournament?",
-	"unconclude_tournament": "Reopen tournament"
+	"unconclude_tournament": "Reopen tournament",
+	"hide_teams_from_players": "Hide all teams from players except for their opponent."
 }

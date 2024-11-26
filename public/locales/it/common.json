@@ -265,5 +265,6 @@
 	"waitlist_tooltip": "Il torneo ha raggiunto il limite massimo di squadre e non ti è garantito un posto nel torneo. Continua a registrare completamente la tua squadra, poiché sostituiremo qualsiasi squadra non registrata con squadre completamente registrate in lista d'attesa entro la scadenza di registrazione.",
 	"registration_warning": "Tre membri del tuo team devono registrare i loro team finali di Pokémon entro il 13 settembre alle 23:59 UTC. Se la registrazione non è completa, il tuo team verrà rimosso dal torneo.",
 	"confirm_unconclude": "Sei sicuro di voler riaprire il torneo?",
-	"unconclude_tournament": "Riaprire torneo"
+	"unconclude_tournament": "Riaprire torneo",
+	"hide_teams_from_players": "Nascondi tutte le squadre ai giocatori tranne il loro avversario."
 }

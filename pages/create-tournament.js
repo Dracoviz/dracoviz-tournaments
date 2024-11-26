@@ -57,6 +57,7 @@ export default function CreateTournament() {
   const bestBuddyVisibility = watch("bestBuddyVisibility");
   const nicknameVisibility = watch("nicknameVisibility");
   const hideFromGuests = watch("hideFromGuests");
+  const hideTeamsFromPlayers = watch("hideTeamsFromPlayers");
   const timeControl = watch("timeControl");
   const draftMode = watch("draftMode");
   const isPrivate = watch("isPrivate");
@@ -344,6 +345,10 @@ export default function CreateTournament() {
                       <GridItem xs={12} md={7}>
                         {t("require_both_players_to_report")}
                           <Checkbox {...register("requireBothPlayersToReport")}/>
+                      </GridItem>
+                      <GridItem xs={12} md={7}>
+                        {t("hide_teams_from_players")}
+                          <Checkbox {...register("hideTeamsFromPlayers")} checked={hideTeamsFromPlayers}/>
                       </GridItem>
                     </>
                   )
