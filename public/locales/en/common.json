@@ -290,5 +290,5 @@
 	"registration_warning": "Three members of your team need to register their final teams of Pokémon by September 13th at 23:59pm UTC. If registration is not complete, your team will be removed from the tournament.",
 	"confirm_unconclude": "Are you sure you want to reopen the tournament?",
 	"unconclude_tournament": "Reopen tournament",
-	"hide_teams_from_players": "Hide all teams from players except for their opponent."
+	"hide_teams_from_players": "Hide teams to all players except for their opponent's team."
 }
