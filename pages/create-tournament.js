@@ -41,6 +41,7 @@ export default function CreateTournament() {
     defaultValues: {
       maxTeamSize: 1,
       maxMatchTeamSize: 1,
+      bracketType: "none"
     }
   });
   const router = useRouter();
