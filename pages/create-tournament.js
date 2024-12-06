@@ -188,6 +188,8 @@ export default function CreateTournament() {
           <MenuItem value="Chaos Cup">Chaos Cup</MenuItem>
           <MenuItem value="Myriad Cup">Myriad Cup</MenuItem>
           <MenuItem value="Flaming Toxins">Flaming Toxins</MenuItem>
+          <MenuItem value="Devon (Pillar Cup)">Devon (Pillar Cup)</MenuItem>
+          <MenuItem value="Region Cup">Region Cup</MenuItem>
         </Select>
       </GridItem>
     ))
