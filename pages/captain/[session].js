@@ -61,7 +61,7 @@ export default function Team() {
       const { metas, players, factionName, description, canEdit, key } = data;
       players.forEach((p) => {
         if (p.tournamentPosition > (-1)) {
-          setValue(`slot.${p.tournamentPosition}`, p.session);
+          setValue(`slot.${p.tournamentPosition}`, p.id);
         }
       });
       setKey(key);
@@ -156,7 +156,7 @@ export default function Team() {
                 style={{ marginBottom: 5 }}
               >
                 {playerOptions.map((op) => (
-                  <MenuItem value={op.session} key={op.name}>{op.name}</MenuItem>
+                  <MenuItem value={op.id} key={op.name}>{op.name}</MenuItem>
                 ))}
               </Select>
             </GridItem>

@@ -42,7 +42,7 @@ export default function FactionList(props) {
         return;
       }
       const playerObj = player;
-      if (factionsWithPlayers[factionIndex].admins?.includes(playerObj.session)) {
+      if (factionsWithPlayers[factionIndex].admins?.includes(playerObj.id)) {
         playerObj.isCaptain = true;
       }
       if (factionsWithPlayers[factionIndex].players == null) {
