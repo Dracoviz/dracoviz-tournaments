@@ -62,6 +62,7 @@ export default function CreateTournament() {
   const timeControl = watch("timeControl");
   const draftMode = watch("draftMode");
   const isPrivate = watch("isPrivate");
+  const playerCanLeave = watch("playerCanLeave");
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -381,6 +382,10 @@ export default function CreateTournament() {
                 <GridItem xs={12} md={7}>
                   {t("hide_teams_from_spectators")}
                     <Checkbox {...register("hideFromGuests")} checked={hideFromGuests}/>
+                </GridItem>
+                <GridItem xs={12} md={7}>
+                  {t("can_player_leave")}
+                    <Checkbox {...register("playerCanLeave")} checked={playerCanLeave}/>
                 </GridItem>
               </GridContainer>
             </Card>

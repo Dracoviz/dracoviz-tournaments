@@ -266,5 +266,6 @@
     "registration_warning": "팀의 세 명의 멤버가 9월 13일 23:59 UTC까지 포켓몬 최종 팀을 등록해야 합니다. 등록이 완료되지 않으면 팀이 토너먼트에서 제외됩니다.",
     "confirm_unconclude": "토너먼트를 다시 열겠습니까?",
     "unconclude_tournament": "토너먼트 다시 열기",
-    "hide_teams_from_players": "플레이어에게 상대를 제외한 모든 팀을 숨깁니다."
+    "hide_teams_from_players": "플레이어에게 상대를 제외한 모든 팀을 숨깁니다.",
+    "can_player_leave": "토너먼트가 시작된 후 플레이어가 스스로 떠날 수 있나요?"
 }
