@@ -193,6 +193,7 @@ export default function CreateTournament() {
           <MenuItem value="Region Cup">Region Cup</MenuItem>
           <MenuItem value="Equator Cup">Equator Cup</MenuItem>
           <MenuItem value="Primeval Cup">Primeval Cup</MenuItem>
+          <MenuItem value="Devon (Ingot Cup)">Devon (Ingot Cup)</MenuItem>
         </Select>
       </GridItem>
     ))
