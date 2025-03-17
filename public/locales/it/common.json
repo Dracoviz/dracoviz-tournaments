@@ -267,5 +267,6 @@
 	"confirm_unconclude": "Sei sicuro di voler riaprire il torneo?",
 	"unconclude_tournament": "Riaprire torneo",
 	"hide_teams_from_players": "Nascondi tutte le squadre ai giocatori tranne il loro avversario.",
-	"can_player_leave": "Il giocatore può andarsene da solo dopo l'inizio del torneo?"
+	"can_player_leave": "Il giocatore può andarsene da solo dopo l'inizio del torneo?",
+	"show_all": "Mostra tutto"
 }

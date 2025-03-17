@@ -38,6 +38,7 @@ export default function Index() {
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState(0);
   const router = useRouter();
   const { query } = router;
@@ -61,6 +62,19 @@ export default function Index() {
       }
     });
   }, [])
+
+  const getShowMore = () => {
+    setIsLoading(true)
+    fetchApi("shared/get/?getAll=true", "GET", {
+      x_session_id: authId,
+    })
+    .then(response => response.json())
+    .then(newData => {
+      setData(newData)
+      setIsLoading(false)
+    })
+    .catch(() => setIsLoading(false))
+  }
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -207,6 +221,11 @@ export default function Index() {
                   </GridItem>
                   <GridItem xs={12}>
                     {renderTournaments()}
+                    {
+                      data.isNotAll && <Button onClick={getShowMore} disabled={isLoading}>
+                        {t('show_all')}
+                      </Button>
+                    }
                   </GridItem>
                   {/* <GridItem xs={12}>
                     <div className="tournament-head">

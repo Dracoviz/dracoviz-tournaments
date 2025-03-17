@@ -267,5 +267,6 @@
     "confirm_unconclude": "토너먼트를 다시 열겠습니까?",
     "unconclude_tournament": "토너먼트 다시 열기",
     "hide_teams_from_players": "플레이어에게 상대를 제외한 모든 팀을 숨깁니다.",
-    "can_player_leave": "토너먼트가 시작된 후 플레이어가 스스로 떠날 수 있나요?"
+    "can_player_leave": "토너먼트가 시작된 후 플레이어가 스스로 떠날 수 있나요?",
+    "show_all": "모두 보기"
 }

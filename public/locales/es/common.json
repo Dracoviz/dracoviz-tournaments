@@ -267,5 +267,6 @@
 	"confirm_unconclude": "¿Estás seguro de que deseas reabrir el torneo?",
 	"unconclude_tournament": "Reabrir torneo",
 	"hide_teams_from_players": "Ocultar todos los equipos de los jugadores, excepto su oponente.",
-	"can_player_leave": "¿Puede el jugador salir por su cuenta después de que comience el torneo?"
+	"can_player_leave": "¿Puede el jugador salir por su cuenta después de que comience el torneo?",
+	"show_all": "Mostrar todo"
 }

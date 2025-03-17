@@ -267,5 +267,6 @@
     "confirm_unconclude": "トーナメントを再開してもよろしいですか？",
     "unconclude_tournament": "トーナメントを再開する",
     "hide_teams_from_players": "対戦相手を除いて、プレイヤーにすべてのチームを非表示にします。",
-    "can_player_leave": "トーナメント開始後、プレイヤーは自分で退場できますか？"
+    "can_player_leave": "トーナメント開始後、プレイヤーは自分で退場できますか？",
+    "show_all": "すべて表示"
 }

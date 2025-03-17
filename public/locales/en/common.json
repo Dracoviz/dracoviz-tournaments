@@ -291,5 +291,6 @@
 	"confirm_unconclude": "Are you sure you want to reopen the tournament?",
 	"unconclude_tournament": "Reopen tournament",
 	"hide_teams_from_players": "Hide teams to all players except for their opponent's team.",
-	"can_player_leave": "Can the player leave on their own after the tournament starts?"
+	"can_player_leave": "Can the player leave on their own after the tournament starts?",
+	"show_all": "Show all"
 }
