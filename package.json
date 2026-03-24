@@ -8,7 +8,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev"
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev",
+    "update-moves": "node scripts/update-moves.js"
   },
   "repository": {
     "type": "git",
@@ -47,9 +48,9 @@
     "nouislider": "15.1.0",
     "path": "^0.12.7",
     "prop-types": "15.8.1",
-    "react": "18.2.0",
+    "react": ">=17.0.0",
     "react-datetime": "3.1.1",
-    "react-dom": "18.2.0",
+    "react-dom": ">=17.0.0",
     "react-firebaseui": "^6.0.0",
     "react-hook-form": "^7.43.9",
     "react-i18next": "13.2.2",
@@ -64,5 +65,8 @@
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0"
   }
 }
