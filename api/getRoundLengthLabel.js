@@ -2,6 +2,8 @@ export default function getRoundLengthLabel(t) {
   return {
     0: t("round_length_none"),
     15: t("round_length_min", { time: 15 }),
+    20: t("round_length_min", { time: 20 }),
+    25: t("round_length_min", { time: 25 }),
     30: t("round_length_min", { time: 30 }),
     45: t("round_length_min", { time: 45 }),
     60: t("round_length_min", { time: 60 }),
