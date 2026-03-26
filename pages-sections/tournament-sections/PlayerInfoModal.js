@@ -1,7 +1,7 @@
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import React from "react";
+import React, { useState } from "react";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import QRCode from "react-qr-code";
@@ -10,7 +10,9 @@ import { useTranslation } from "next-i18next";
 function PlayerInfoModal(props) {
   const { t } = useTranslation();
   const { open, data, Transition, onClose } = props;
+  const [qrZoomed, setQrZoomed] = useState(false);
   return(
+    <>
     <Dialog
       open={open}
       TransitionComponent={Transition}
@@ -48,7 +50,10 @@ function PlayerInfoModal(props) {
                         <>
                           <p>{t("friend_code")}: {data?.friendCode}</p>
                           <div style={{ textAlign: "center" }}>
-                            <div style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}>
+                            <div
+                              style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%", cursor: "pointer" }}
+                              onClick={() => setQrZoomed(true)}
+                            >
                               <QRCode
                                 size={256}
                                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
@@ -66,6 +71,31 @@ function PlayerInfoModal(props) {
             </GridContainer>
         </DialogContent>
     </Dialog>
+    <Dialog
+      open={qrZoomed}
+      onClose={() => setQrZoomed(false)}
+      onClick={() => setQrZoomed(false)}
+      fullScreen
+      PaperProps={{
+        style: {
+          backgroundColor: "white",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+        },
+      }}
+    >
+      <div style={{ width: "80vmin", height: "80vmin", maxWidth: 512, maxHeight: 512 }}>
+        <QRCode
+          size={512}
+          style={{ height: "100%", width: "100%" }}
+          value={data?.friendCode || ""}
+          viewBox={`0 0 512 512`}
+        />
+      </div>
+    </Dialog>
+    </>
   )
 }
 

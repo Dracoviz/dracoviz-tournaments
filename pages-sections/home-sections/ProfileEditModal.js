@@ -96,8 +96,8 @@ function ProfileEditModal(props) {
                       </Select>
                     </div>
                     <img
-                      src={player?.avatars[theAvatar]?.src}
-                      alt={player?.avatars[theAvatar]?.name}
+                      src={player?.avatars?.[theAvatar]?.src}
+                      alt={player?.avatars?.[theAvatar]?.name}
                       width={100}
                       height={80}
                       style={{ objectFit: "contain" }}
