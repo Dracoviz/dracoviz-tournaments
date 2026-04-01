@@ -1,7 +1,6 @@
 {
 	"avatar": "Avatar",
 	"add_host_prompt": "Enter the name of the player you would like to add as a host",
-	"additional_profile_options": "Additional profile options will come in future updates",
 	"api_already_entered_error": "Already entered",
 	"api_authorization_missing": "Missing authorization header",
 	"api_bracket_already_started": "Brackets have already started",
@@ -294,5 +293,22 @@
 	"unconclude_tournament": "Reopen tournament",
 	"hide_teams_from_players": "Hide teams to all players except for their opponent's team.",
 	"can_player_leave": "Can the player leave on their own after the tournament starts?",
-	"show_all": "Show all"
+	"show_all": "Show all",
+	"pronouns": "Pronouns",
+	"prefer_not_to_say": "Prefer not to say",
+	"country": "Country",
+	"favorite_pokemon": "Favorite Pokémon",
+	"share_contact_on_profile": "Show my Discord/Telegram on my dracoviz.com profile",
+	"pronoun_he_him": "He/Him",
+	"pronoun_she_her": "She/Her",
+	"pronoun_they_them": "They/Them",
+	"pronoun_he_they": "He/They",
+	"pronoun_she_they": "She/They",
+	"pronoun_any": "Any Pronouns",
+	"pronoun_ask_me": "Ask Me",
+	"profile_tab_trainer": "Trainer",
+	"profile_tab_about": "About Me",
+	"add_another_flag": "Add another flag",
+	"invalid_discord": "Enter a valid Discord username (e.g. username)",
+	"invalid_telegram": "Enter a valid Telegram handle (e.g. @username)"
 }

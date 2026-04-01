@@ -1,7 +1,6 @@
 {
     "avatar": "アバター",
     "add_host_prompt": "ホストとして追加したいプレイヤーの名前を入力してください",
-	"additional_profile_options": "追加のプロフィールオプションは将来の更新で提供されます",
 	"api_already_entered_error": "既に登録済みです",
 	"api_authorization_missing": "認証ヘッダーが不足しています",
 	"api_bracket_already_started": "トーナメントは既に開始されています",
@@ -270,5 +269,22 @@
     "unconclude_tournament": "トーナメントを再開する",
     "hide_teams_from_players": "対戦相手を除いて、プレイヤーにすべてのチームを非表示にします。",
     "can_player_leave": "トーナメント開始後、プレイヤーは自分で退場できますか？",
-    "show_all": "すべて表示"
+    "show_all": "すべて表示",
+    "pronouns": "代名詞",
+    "prefer_not_to_say": "回答しない",
+    "country": "国",
+    "favorite_pokemon": "お気に入りのポケモン",
+    "share_contact_on_profile": "dracoviz.comのプロフィールにDiscord/Telegramを表示する",
+    "pronoun_he_him": "彼 (He/Him)",
+    "pronoun_she_her": "彼女 (She/Her)",
+    "pronoun_they_them": "They/Them",
+    "pronoun_he_they": "He/They",
+    "pronoun_she_they": "She/They",
+    "pronoun_any": "どれでも",
+    "pronoun_ask_me": "聞いてください",
+    "profile_tab_trainer": "トレーナー",
+    "profile_tab_about": "プロフィール",
+    "add_another_flag": "国旗を追加",
+    "invalid_discord": "有効なDiscordユーザー名を入力してください（例: username）",
+    "invalid_telegram": "有効なTelegramハンドルを入力してください（例: @username）"
 }

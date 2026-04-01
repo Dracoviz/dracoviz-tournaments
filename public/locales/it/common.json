@@ -1,7 +1,6 @@
 {
 	"avatar": "Avatar",
 	"add_host_prompt": "Inserisci il nome del giocatore che desideri aggiungere come ospite",
-	"additional_profile_options": "Ulteriori opzioni del profilo saranno disponibili nelle prossime aggiornamenti",
 	"api_already_entered_error": "Già inserito",
 	"api_authorization_missing": "Intestazione di autorizzazione mancante",
 	"api_bracket_already_started": "Le parentesi sono già iniziate",
@@ -270,5 +269,22 @@
 	"unconclude_tournament": "Riaprire torneo",
 	"hide_teams_from_players": "Nascondi tutte le squadre ai giocatori tranne il loro avversario.",
 	"can_player_leave": "Il giocatore può andarsene da solo dopo l'inizio del torneo?",
-	"show_all": "Mostra tutto"
+	"show_all": "Mostra tutto",
+	"pronouns": "Pronomi",
+	"prefer_not_to_say": "Preferisco non dire",
+	"country": "Paese",
+	"favorite_pokemon": "Pokémon Preferito",
+	"share_contact_on_profile": "Mostra il mio Discord/Telegram sul mio profilo dracoviz.com",
+	"pronoun_he_him": "Lui",
+	"pronoun_she_her": "Lei",
+	"pronoun_they_them": "Loro",
+	"pronoun_he_they": "Lui/Loro",
+	"pronoun_she_they": "Lei/Loro",
+	"pronoun_any": "Qualsiasi pronome",
+	"pronoun_ask_me": "Chiedimi",
+	"profile_tab_trainer": "Allenatore",
+	"profile_tab_about": "Su di Me",
+	"add_another_flag": "Aggiungi un'altra bandiera",
+	"invalid_discord": "Inserisci un nome utente Discord valido (es. nomeutente)",
+	"invalid_telegram": "Inserisci un handle Telegram valido (es. @nomeutente)"
 }

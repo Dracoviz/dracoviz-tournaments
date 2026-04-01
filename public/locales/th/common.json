@@ -1,7 +1,6 @@
 {
   "avatar": "อวาตาร์",
 	"add_host_prompt": "กรุณาใส่ชื่อผู้เล่นที่คุณต้องการเพิ่มเป็นเจ้าภาพ",
-	"additional_profile_options": "ตัวเลือกโปรไฟล์เพิ่มเติมจะมาในการอัปเดตในอนาคต",
 	"api_already_entered_error": "เข้าร่วมแล้ว",
 	"api_authorization_missing": "ส่วนหัวการให้สิทธิขาดหาย",
 	"api_bracket_already_started": "แบร็กเก็ตเริ่มแล้ว",
@@ -270,5 +269,22 @@
 	"unconclude_tournament": "เปิดทัวร์นาเมนต์อีกครั้ง",
 	"hide_teams_from_players": "ซ่อนทุกทีมจากผู้เล่น ยกเว้นทีมคู่ต่อสู้ของพวกเขา",
 	"can_player_leave": "ผู้เล่นสามารถออกเองได้หลังจากการแข่งขันเริ่มต้นหรือไม่?",
-	"show_all": "แสดงทั้งหมด"
+	"show_all": "แสดงทั้งหมด",
+	"pronouns": "สรรพนาม",
+	"prefer_not_to_say": "ไม่ต้องการระบุ",
+	"country": "ประเทศ",
+	"favorite_pokemon": "โปเกมอนที่ชอบ",
+	"share_contact_on_profile": "แสดง Discord/Telegram บนโปรไฟล์ dracoviz.com ของฉัน",
+	"pronoun_he_him": "He/Him",
+	"pronoun_she_her": "She/Her",
+	"pronoun_they_them": "They/Them",
+	"pronoun_he_they": "He/They",
+	"pronoun_she_they": "She/They",
+	"pronoun_any": "สรรพนามใดก็ได้",
+	"pronoun_ask_me": "ถามฉัน",
+	"profile_tab_trainer": "เทรนเนอร์",
+	"profile_tab_about": "เกี่ยวกับฉัน",
+	"add_another_flag": "เพิ่มธงอีกอัน",
+	"invalid_discord": "กรุณาใส่ชื่อผู้ใช้ Discord ที่ถูกต้อง (เช่น username)",
+	"invalid_telegram": "กรุณาใส่ชื่อ Telegram ที่ถูกต้อง (เช่น @username)"
 }

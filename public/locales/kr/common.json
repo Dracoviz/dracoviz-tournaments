@@ -1,7 +1,6 @@
 {
     "avatar": "아바타",
     "add_host_prompt": "호스트로 추가할 플레이어의 이름을 입력하세요",
-    "additional_profile_options": "추가 프로필 옵션은 향후 업데이트에서 제공될 예정입니다.",
     "api_already_entered_error": "이미 입력되었습니다",
     "api_authorization_missing": "인증 헤더가 누락되었습니다",
     "api_bracket_already_started": "토너먼트가 이미 시작되었습니다",
@@ -270,5 +269,22 @@
     "unconclude_tournament": "토너먼트 다시 열기",
     "hide_teams_from_players": "플레이어에게 상대를 제외한 모든 팀을 숨깁니다.",
     "can_player_leave": "토너먼트가 시작된 후 플레이어가 스스로 떠날 수 있나요?",
-    "show_all": "모두 보기"
+    "show_all": "모두 보기",
+    "pronouns": "대명사",
+    "prefer_not_to_say": "밝히고 싶지 않음",
+    "country": "국가",
+    "favorite_pokemon": "좋아하는 포켓몬",
+    "share_contact_on_profile": "dracoviz.com 프로필에 Discord/Telegram 표시",
+    "pronoun_he_him": "He/Him",
+    "pronoun_she_her": "She/Her",
+    "pronoun_they_them": "They/Them",
+    "pronoun_he_they": "He/They",
+    "pronoun_she_they": "She/They",
+    "pronoun_any": "모든 대명사",
+    "pronoun_ask_me": "물어보세요",
+    "profile_tab_trainer": "트레이너",
+    "profile_tab_about": "소개",
+    "add_another_flag": "국기 추가",
+    "invalid_discord": "유효한 Discord 사용자 이름을 입력하세요 (예: username)",
+    "invalid_telegram": "유효한 Telegram 핸들을 입력하세요 (예: @username)"
 }
