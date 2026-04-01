@@ -6,7 +6,7 @@ import Footer from "/components/Footer/Footer.js";
 import firebase from 'firebase/compat/app';
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
-import { Alert, AlertTitle, Button, CircularProgress, Chip } from "@mui/material";
+import { Alert, AlertTitle, Button, CircularProgress, Chip, Menu, MenuItem } from "@mui/material";
 import CustomInput from "/components/CustomInput/CustomInput";
 import { useTranslation } from 'next-i18next';
 import Router, { useRouter } from 'next/router';
@@ -66,6 +66,7 @@ export default function Tournament() {
   const [ selectedRound, setSelectedRound ] = useState(null);
   const [ isReportScoreOpen, setIsReportScoreOpen ] = useState(false);
   const [ e, setE ] = useState(null);
+  const [ exportAnchorEl, setExportAnchorEl ] = useState(null);
   const isConcluded = data?.concluded;
 
   const statusLabels = {
@@ -374,31 +375,46 @@ export default function Tournament() {
     setSelectedRound(null);
   }
 
-  const exportData = () => {
-    if (data == null) {
-      return null
-    }
-    const { players } = data;
-    const exportedData = players?.map(p => {
-      const { wins, losses, gameWins, gameLosses, name, pokemon, id } = p;
-      return {
-        wins,
-        losses,
-        gameWins,
-        gameLosses,
-        name,
-        pokemon,
-        id,
-      }
-    })
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+  const downloadJson = (exportedData, filename) => {
+    const jsonString = `data:text/json;charset=utf-8,${encodeURIComponent(
       JSON.stringify(exportedData)
     )}`;
     const link = document.createElement("a");
     link.href = jsonString;
-    link.download = "data.json";
-
+    link.download = filename;
     link.click();
+  };
+
+  const exportPlayerData = () => {
+    if (data == null) return;
+    setExportAnchorEl(null);
+    const exportedData = data.players?.map(p => {
+      const { wins, losses, gameWins, gameLosses, name, pokemon, id } = p;
+      return { wins, losses, gameWins, gameLosses, name, pokemon, id };
+    });
+    downloadJson(exportedData, "players.json");
+  };
+
+  const exportFullData = () => {
+    if (data == null) return;
+    setExportAnchorEl(null);
+    const players = data.players?.map(p => {
+      const { wins, losses, gameWins, gameLosses, name, pokemon, id } = p;
+      return { wins, losses, gameWins, gameLosses, name, pokemon, id };
+    });
+    const exportedData = {
+      name: data.name,
+      description: data.description,
+      metas: data.metas,
+      totalRounds: data.totalRounds,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      bracketType: data.bracketType,
+      gameAmount: data.gameAmount,
+      byeAward: data.byeAward,
+      players,
+    };
+    downloadJson(exportedData, "tournament.json");
   };
 
   const reportScore = async (scores) => {
@@ -498,9 +514,19 @@ export default function Tournament() {
       return null
     }
     return (
-      <Button onClick={exportData} style={{ float: "right" }}>
-        {t("export_team_data")}
-      </Button>
+      <>
+        <Button onClick={(e) => setExportAnchorEl(e.currentTarget)} style={{ float: "right" }}>
+          {t("export_team_data")}
+        </Button>
+        <Menu
+          anchorEl={exportAnchorEl}
+          open={Boolean(exportAnchorEl)}
+          onClose={() => setExportAnchorEl(null)}
+        >
+          <MenuItem onClick={exportPlayerData}>{t("export_player_data")}</MenuItem>
+          <MenuItem onClick={exportFullData}>{t("export_full_data")}</MenuItem>
+        </Menu>
+      </>
     )
   }
 
