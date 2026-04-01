@@ -218,6 +218,8 @@
 	"hp_visibility": "Visibilità HP",
 	"bye_award_label": "Quanti punti sono assegnati per un bye?",
 	"export_team_data": "Esporta dati della squadra",
+	"export_player_data": "Solo dati dei giocatori",
+	"export_full_data": "Dati dei giocatori e metadati del torneo",
 	"round_length": "Durata del turno",
     "round_length_none": "Senza tempo",
 	"round_length_min": "{{time}} minuti",

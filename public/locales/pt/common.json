@@ -218,6 +218,8 @@
     "hp_visibility": "Visibilidade de HP",
     "bye_award_label": "Quantos pontos são concedidos por uma folga?",
     "export_team_data": "Exportar dados da equipe",
+    "export_player_data": "Apenas dados dos jogadores",
+    "export_full_data": "Dados dos jogadores e metadados do torneio",
     "round_length": "Duração da Rodada",
     "round_length_none": "Sem limite de tempo",
     "round_length_min": "{{time}} minutos",

@@ -218,6 +218,8 @@
 	"hp_visibility": "HP 표시",
 	"bye_award_label": "바이에 대한 포인트 부여",
 	"export_team_data": "팀 데이터 내보내기",
+	"export_player_data": "플레이어 데이터만",
+	"export_full_data": "플레이어 데이터 및 토너먼트 메타데이터",
 	"round_length": "라운드 길이",
 	"round_length_none": "시간 제한 없음",
 	"round_length_min": "{{time}} 분",

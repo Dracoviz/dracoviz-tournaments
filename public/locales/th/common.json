@@ -218,6 +218,8 @@
     "hp_visibility": "การมองเห็น HP",
 	"bye_award_label": "จำนวนคะแนนที่ได้รับสำหรับ Bye?",
 	"export_team_data": "ส่งออกข้อมูลทีม",
+	"export_player_data": "เฉพาะข้อมูลผู้เล่น",
+	"export_full_data": "ข้อมูลผู้เล่นและข้อมูลเมตาของทัวร์นาเมนต์",
 	"round_length": "รอบการแข่งขัน",
 	"round_length_none": "ไม่จำกัดเวลา",
 	"round_length_min": "{{time}} นาที",

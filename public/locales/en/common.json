@@ -218,6 +218,8 @@
 	"hp_visibility": "HP Visibility",
 	"bye_award_label": "How many points are awarded for a bye?",
 	"export_team_data": "Export team data",
+	"export_player_data": "Only player data",
+	"export_full_data": "Player data and tournament metadata",
 	"round_length": "Round length",
 	"round_length_none": "Not timed",
 	"round_length_min": "{{time}} minutes",
