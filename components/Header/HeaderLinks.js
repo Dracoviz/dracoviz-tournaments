@@ -37,8 +37,8 @@ export default function HeaderLinks(props) {
     }
   }
   return (
-    <List className={classes.list}>
-      <ListItem className={classes.listItem}>
+    <List className={classes.list} style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+      <ListItem className={classes.listItem} style={{ width: "auto" }}>
         <Tooltip
           id="instagram-twitter"
           title={t("header_twitter")}
@@ -57,7 +57,7 @@ export default function HeaderLinks(props) {
           </Button>
         </Tooltip>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      <ListItem className={classes.listItem} style={{ width: "auto" }}>
         <Tooltip
           id="instagram-discord"
           title={t("header_discord")}
@@ -76,7 +76,7 @@ export default function HeaderLinks(props) {
           </Button>
         </Tooltip>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      <ListItem className={classes.listItem} style={{ width: "auto" }}>
         <Tooltip
           id="instagram-kofi"
           title={t("header_kofi")}
@@ -101,7 +101,7 @@ export default function HeaderLinks(props) {
           </Button>
         </Tooltip>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      <ListItem className={classes.listItem} style={{ width: "auto" }}>
         <Tooltip
             id="instagram-lightdark"
             title={t("appearance")}
@@ -118,7 +118,7 @@ export default function HeaderLinks(props) {
             </IconButton>
           </Tooltip>
       </ListItem>
-      <ListItem className={classes.listItem}>
+      <ListItem className={classes.listItem} style={{ width: "auto" }}>
         <Tooltip
             id="instagram-logout"
             title={isSignedIn ? t("logout") : t("login")}
