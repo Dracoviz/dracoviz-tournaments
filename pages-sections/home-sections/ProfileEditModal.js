@@ -97,7 +97,7 @@ function ProfileEditModal(props) {
   const { t } = useTranslation();
   const { open, onClose, onSave, player, Transition } = props;
   const {
-    register, handleSubmit, watch, setValue, control, trigger,
+    register, handleSubmit, watch, control, trigger, reset,
     formState: { errors, isDirty, isValid },
   } = useForm({
     mode: "onTouched",
@@ -139,13 +139,22 @@ function ProfileEditModal(props) {
     setIsLoading(false);
   }
   useEffect(() => {
-    if (player?.avatarKey != null) {
-      setValue("avatar", player.avatarKey);
-    }
-    if (player?.friendCode != null) {
-      setValue("friendCode", formatFriendCode(player.friendCode));
-    }
-  }, [player?.avatarKey, player?.friendCode])
+    if (player == null) return;
+    reset({
+      name: player.name,
+      friendCode: formatFriendCode(player.friendCode ?? ''),
+      description: player.description,
+      discord: player.discord,
+      telegram: player.telegram,
+      avatar: player.avatarKey,
+      country0: player.countries?.[0] ?? '',
+      country1: player.countries?.[1] ?? '',
+      favoritePokemon: player.favoritePokemon ?? '',
+      pronouns: player.pronouns ?? '',
+      shareContactInfo: player.shareContactInfo ?? false,
+    });
+    setShowSecondCountry((player.countries?.[1] ?? '') !== '');
+  }, [player])
   const avatarItems = player?.avatars == null
     ? []
     : Object.keys(player.avatars).map((key) => ({
