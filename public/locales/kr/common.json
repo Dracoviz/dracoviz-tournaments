@@ -17,6 +17,7 @@
     "api_faction_missing_player": "지정된 하나 이상의 플레이어가 팀에 속해 있지 않습니다",
     "api_host_join_error": "호스트는 자신의 토너먼트에 참여할 수 없습니다",
     "api_host_leave_error": "호스트는 자신의 토너먼트를 나갈 수 없습니다",
+    "api_invalid_countries": "유효하지 않은 국가 선택",
     "api_invalid_friend_code": "유효하지 않은 친구 코드",
     "api_invalid_meta": "유효하지 않은 메타",
     "api_invalid_registration_number": "유효하지 않은 등록 번호",

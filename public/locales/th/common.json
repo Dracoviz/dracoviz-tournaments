@@ -17,6 +17,7 @@
 	"api_faction_missing_player": "มีผู้เล่นที่กำหนดให้หนึ่งคนหรือมากกว่าที่ไม่ได้อยู่ในทีม",
 	"api_host_join_error": "โฮสต์ไม่สามารถเข้าร่วมทัวร์นาเมนต์ของตนเองได้",
 	"api_host_leave_error": "โฮสต์ไม่สามารถออกจากทัวร์นาเมนต์ของตนเองได้",
+	"api_invalid_countries": "การเลือกประเทศไม่ถูกต้อง",
 	"api_invalid_friend_code": "รหัสเพื่อนไม่ถูกต้อง",
 	"api_invalid_meta": "เมต้าไม่ถูกต้อง",
 	"api_invalid_registration_number": "หมายเลขลงทะเบียนไม่ถูกต้อง",

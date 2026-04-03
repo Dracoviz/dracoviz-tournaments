@@ -17,6 +17,7 @@
 	"api_faction_missing_player": "Uno o più dei giocatori assegnati non sono nel team",
 	"api_host_join_error": "Un host non può unirsi al proprio torneo",
 	"api_host_leave_error": "Un host non può lasciare il proprio torneo",
+	"api_invalid_countries": "Selezione del paese non valida",
 	"api_invalid_friend_code": "Codice amico non valido",
 	"api_invalid_meta": "Meta non valida",
 	"api_invalid_registration_number": "Numero di registrazione non valido",

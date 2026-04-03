@@ -17,6 +17,7 @@
 	"api_faction_missing_player": "割り当てられたプレイヤーのうち1人またはそれ以上がチームに所属していません",
 	"api_host_join_error": "主催者は自分のトーナメントに参加できません",
 	"api_host_leave_error": "主催者は自分のトーナメントから退出できません",
+	"api_invalid_countries": "無効な国の選択です",
 	"api_invalid_friend_code": "無効なフレンドコードです",
 	"api_invalid_meta": "無効なメタです",
 	"api_invalid_registration_number": "無効な登録番号です",
