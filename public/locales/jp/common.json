@@ -287,5 +287,10 @@
     "profile_tab_about": "プロフィール",
     "add_another_flag": "国旗を追加",
     "invalid_discord": "有効なDiscordユーザー名を入力してください（例: username）",
-    "invalid_telegram": "有効なTelegramハンドルを入力してください（例: @username）"
+    "invalid_telegram": "有効なTelegramハンドルを入力してください（例: @username）",
+    "downtime_banner_title": "メンテナンスのお知らせ",
+    "downtime_banner_message": "{{startTime}}から{{endTime}}まで、メンテナンスのためDracovizをご利用いただけません。ご不便をおかけして申し訳ございません。",
+    "downtime_page_title": "Dracoviz - メンテナンス中",
+    "downtime_page_message": "現在、Dracovizは定期メンテナンス中です。{{endTime}}までに復旧予定です。",
+    "downtime_page_auto_refresh": "メンテナンスが完了すると、このページは自動的に更新されます。"
 }

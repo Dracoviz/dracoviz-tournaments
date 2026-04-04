@@ -287,5 +287,10 @@
     "profile_tab_about": "소개",
     "add_another_flag": "국기 추가",
     "invalid_discord": "유효한 Discord 사용자 이름을 입력하세요 (예: username)",
-    "invalid_telegram": "유효한 Telegram 핸들을 입력하세요 (예: @username)"
+    "invalid_telegram": "유효한 Telegram 핸들을 입력하세요 (예: @username)",
+    "downtime_banner_title": "정기 점검 안내",
+    "downtime_banner_message": "{{startTime}}부터 {{endTime}}까지 점검을 위해 Dracoviz를 이용하실 수 없습니다. 불편을 드려 죄송합니다.",
+    "downtime_page_title": "Dracoviz - 점검 중",
+    "downtime_page_message": "현재 Dracoviz는 정기 점검 중입니다. {{endTime}}까지 복구될 예정입니다.",
+    "downtime_page_auto_refresh": "점검이 완료되면 이 페이지가 자동으로 새로고침됩니다."
 }

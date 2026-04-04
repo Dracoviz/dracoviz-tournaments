@@ -42,6 +42,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 import PageChange from "/components/PageChange/PageChange.js";
+import { DOWNTIME_START, DOWNTIME_END } from "/components/DowntimeBanner/DowntimeBanner.js";
 
 import "/styles/scss/nextjs-material-kit.scss?v=1.2.0";
 
@@ -65,6 +66,21 @@ export const getDesignTokens = (mode) => ({ palette: { mode } });
 
 function MyApp({ Component, pageProps }) {
   const [mode, setMode] = React.useState("dark");
+
+  // Redirect to downtime page during maintenance window
+  useEffect(() => {
+    const checkDowntime = () => {
+      const now = new Date();
+      const isDowntime = now >= DOWNTIME_START && now < DOWNTIME_END;
+      const isOnDowntimePage = window.location.pathname === "/downtime";
+      if (isDowntime && !isOnDowntimePage) {
+        Router.replace("/downtime");
+      }
+    };
+    checkDowntime();
+    const interval = setInterval(checkDowntime, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const nextTheme = getCookie("NEXT_THEME") ?? "dark";

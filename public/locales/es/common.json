@@ -287,5 +287,10 @@
 	"profile_tab_about": "Sobre Mí",
 	"add_another_flag": "Agregar otra bandera",
 	"invalid_discord": "Ingresa un nombre de usuario de Discord válido (ej. usuario)",
-	"invalid_telegram": "Ingresa un usuario de Telegram válido (ej. @usuario)"
+	"invalid_telegram": "Ingresa un usuario de Telegram válido (ej. @usuario)",
+	"downtime_banner_title": "Mantenimiento programado",
+	"downtime_banner_message": "Dracoviz no estará disponible por mantenimiento desde {{startTime}} hasta {{endTime}}. Disculpe las molestias.",
+	"downtime_page_title": "Dracoviz - Mantenimiento",
+	"downtime_page_message": "Dracoviz se encuentra actualmente en mantenimiento programado. Esperamos estar de vuelta a las {{endTime}}.",
+	"downtime_page_auto_refresh": "Esta página se actualizará automáticamente cuando el mantenimiento haya finalizado."
 }

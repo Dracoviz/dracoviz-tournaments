@@ -311,5 +311,10 @@
 	"profile_tab_about": "About Me",
 	"add_another_flag": "Add another flag",
 	"invalid_discord": "Enter a valid Discord username (e.g. username)",
-	"invalid_telegram": "Enter a valid Telegram handle (e.g. @username)"
+	"invalid_telegram": "Enter a valid Telegram handle (e.g. @username)",
+	"downtime_banner_title": "Scheduled Maintenance",
+	"downtime_banner_message": "Dracoviz will be down for maintenance from {{startTime}} to {{endTime}}. We apologize for the inconvenience.",
+	"downtime_page_title": "Dracoviz - Maintenance",
+	"downtime_page_message": "Dracoviz is currently undergoing scheduled maintenance. We expect to be back by {{endTime}}.",
+	"downtime_page_auto_refresh": "This page will automatically refresh when maintenance is complete."
 }

@@ -287,5 +287,10 @@
 	"profile_tab_about": "เกี่ยวกับฉัน",
 	"add_another_flag": "เพิ่มธงอีกอัน",
 	"invalid_discord": "กรุณาใส่ชื่อผู้ใช้ Discord ที่ถูกต้อง (เช่น username)",
-	"invalid_telegram": "กรุณาใส่ชื่อ Telegram ที่ถูกต้อง (เช่น @username)"
+	"invalid_telegram": "กรุณาใส่ชื่อ Telegram ที่ถูกต้อง (เช่น @username)",
+	"downtime_banner_title": "การบำรุงรักษาตามกำหนด",
+	"downtime_banner_message": "Dracoviz จะปิดให้บริการเพื่อบำรุงรักษาตั้งแต่ {{startTime}} ถึง {{endTime}} ขออภัยในความไม่สะดวก",
+	"downtime_page_title": "Dracoviz - กำลังบำรุงรักษา",
+	"downtime_page_message": "ขณะนี้ Dracoviz กำลังอยู่ระหว่างการบำรุงรักษาตามกำหนด คาดว่าจะกลับมาให้บริการภายใน {{endTime}}",
+	"downtime_page_auto_refresh": "หน้านี้จะรีเฟรชอัตโนมัติเมื่อการบำรุงรักษาเสร็จสิ้น"
 }
