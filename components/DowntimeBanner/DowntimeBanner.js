@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 // Tuesday April 7, 2026 10:00 PM CDT (UTC-5)
 const DOWNTIME_START = new Date("2026-04-08T03:00:00Z");
 // Tuesday April 7, 2026 11:00 PM CDT (UTC-5)
-const DOWNTIME_END = new Date("2026-04-08T04:00:00Z");
+const DOWNTIME_END = new Date("2026-04-08T05:00:00Z");
 
 function DowntimeBanner() {
   const { t } = useTranslation();
