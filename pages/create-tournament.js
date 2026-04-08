@@ -162,36 +162,7 @@ export default function CreateTournament() {
           <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
           <MenuItem value="Master League">{t("master_league")}</MenuItem>
           <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series</MenuItem>
-          <MenuItem value="Sovereign Cup">Sovereign Cup</MenuItem>
-          <MenuItem value="Remoraiderz Royale">Remoraiderz Royale</MenuItem>
-          <MenuItem value="Alofa Cup">Alofa Cup</MenuItem>
-          <MenuItem value="Evolution Cup">Evolution Cup</MenuItem>
-          <MenuItem value="Dominion Cup">Dominion Cup</MenuItem>
-          <MenuItem value="Zodiac Cup">Zodiac Cup</MenuItem>
-          <MenuItem value="Spring Cup">Spring Cup</MenuItem>
-          <MenuItem value="Uso Cup">Uso Cup</MenuItem>
-          <MenuItem value="Rainstorm Cup">Rainstorm Cup</MenuItem>
-          <MenuItem value="The Silver Citadel">The Silver Citadel</MenuItem>
-          <MenuItem value="PaoLaf Cup">PaoLaf Cup</MenuItem>
-          <MenuItem value="Genetic Cup">Genetic Cup</MenuItem>
-          <MenuItem value="Tundra Cup">Tundra Cup</MenuItem>
-          <MenuItem value="Wasteland Domain">Wasteland Domain</MenuItem>
-          <MenuItem value="Polaris Domain">Polaris Domain</MenuItem>
-          <MenuItem value="Devon Invitational">Devon Invitational</MenuItem>
-          <MenuItem value="Flash (Spice Cup Evolution)">Flash (Spice Cup Evolution)</MenuItem>
-          <MenuItem value="Ordinary Gauntlet">Ordinary Gauntlet</MenuItem>
-          <MenuItem value="Devon Crypt Cup">Devon Crypt Cup</MenuItem>
-          <MenuItem value="Cavern Cup">Cavern Cup</MenuItem>
-          <MenuItem value="Community Cup">Community Cup</MenuItem>
-          <MenuItem value="Chaos Cup">Chaos Cup</MenuItem>
-          <MenuItem value="Myriad Cup">Myriad Cup</MenuItem>
-          <MenuItem value="Flaming Toxins">Flaming Toxins</MenuItem>
-          <MenuItem value="Devon (Pillar Cup)">Devon (Pillar Cup)</MenuItem>
-          <MenuItem value="Region Cup">Region Cup</MenuItem>
-          <MenuItem value="Equator Cup">Equator Cup</MenuItem>
-          <MenuItem value="Primeval Cup">Primeval Cup</MenuItem>
-          <MenuItem value="Devon (Ingot Cup)">Devon (Ingot Cup)</MenuItem>
-          <MenuItem value="Devon (Illusion Cup)">Devon (Illusion Cup)</MenuItem>
+          <MenuItem value="NAIC 2026">NAIC 2026</MenuItem>
         </Select>
       </GridItem>
     ))
