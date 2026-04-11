@@ -1839,6 +1839,22 @@
         "th": "จีโอคอนโทรล",
         "tr": "Yer Kontrolü"
     },
+    "GIGATON_HAMMER": {
+        "en": "Gigaton Hammer",
+        "pt": "Gigaton Hammer",
+        "zhhant": "巨力錘",
+        "fr": "Marteau Mastoc",
+        "de": "Riesenhammer",
+        "hi": "Gigaton Hammer",
+        "id": "Gigaton Hammer",
+        "it": "Granmartello",
+        "jp": "デカハンマー",
+        "kr": "거대해머",
+        "ru": "Gigaton Hammer",
+        "es": "Martillo Colosal",
+        "th": "Gigaton Hammer",
+        "tr": "Gigaton Hammer"
+    },
     "GIGA_DRAIN": {
         "en": "Giga Drain",
         "pt": "Gigadreno",

@@ -435,6 +435,10 @@
         "moveId": "GEOMANCY",
         "type": "fairy"
     },
+    "GIGATON_HAMMER": {
+        "moveId": "GIGATON_HAMMER",
+        "type": "steel"
+    },
     "GIGA_DRAIN": {
         "moveId": "GIGA_DRAIN",
         "type": "grass"
