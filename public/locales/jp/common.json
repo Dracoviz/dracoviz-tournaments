@@ -270,6 +270,8 @@
     "unconclude_tournament": "トーナメントを再開する",
     "hide_teams_from_players": "対戦相手を除いて、プレイヤーにすべてのチームを非表示にします。",
     "can_player_leave": "トーナメント開始後、プレイヤーは自分で退場できますか？",
+    "kick_players_without_teams": "ブラケット開始時に、フルチームを登録していないプレイヤーを自動的に削除します。",
+    "kick_players_without_teams_warning": "警告：ブラケットを開始すると、フルチーム（ポケモン6匹）を登録していないプレイヤーが自動的に削除されます。この操作は元に戻せません。続けますか？",
     "show_all": "すべて表示",
     "pronouns": "代名詞",
     "prefer_not_to_say": "回答しない",

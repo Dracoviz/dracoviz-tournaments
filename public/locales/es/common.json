@@ -270,6 +270,8 @@
 	"unconclude_tournament": "Reabrir torneo",
 	"hide_teams_from_players": "Ocultar todos los equipos de los jugadores, excepto su oponente.",
 	"can_player_leave": "¿Puede el jugador salir por su cuenta después de que comience el torneo?",
+	"kick_players_without_teams": "Eliminar automáticamente a los jugadores sin equipo completo al iniciar el cuadro.",
+	"kick_players_without_teams_warning": "Advertencia: Al iniciar el cuadro se eliminarán automáticamente todos los jugadores que no hayan registrado un equipo completo (6 Pokémon). Esto no se puede deshacer. ¿Continuar?",
 	"show_all": "Mostrar todo",
 	"pronouns": "Pronombres",
 	"prefer_not_to_say": "Prefiero no decir",

@@ -99,6 +99,9 @@ export default function Tournament() {
   }
 
   const startBracket = () => {
+    if (data?.kickPlayersWithoutTeams && !confirm(t("kick_players_without_teams_warning"))) {
+      return;
+    }
     setIsLoading(true);
     fetchApi(`session/bracket-start/`, "POST", {
       "x_session_id": authId,

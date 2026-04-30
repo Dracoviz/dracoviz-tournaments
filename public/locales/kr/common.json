@@ -270,6 +270,8 @@
     "unconclude_tournament": "토너먼트 다시 열기",
     "hide_teams_from_players": "플레이어에게 상대를 제외한 모든 팀을 숨깁니다.",
     "can_player_leave": "토너먼트가 시작된 후 플레이어가 스스로 떠날 수 있나요?",
+    "kick_players_without_teams": "브래킷 시작 시 팀을 완전히 등록하지 않은 플레이어를 자동으로 제거합니다.",
+    "kick_players_without_teams_warning": "경고: 브래킷을 시작하면 팀(포켓몬 6마리)을 완전히 등록하지 않은 모든 플레이어가 자동으로 제거됩니다. 이 작업은 취소할 수 없습니다. 계속하시겠습니까?",
     "show_all": "모두 보기",
     "pronouns": "대명사",
     "prefer_not_to_say": "밝히고 싶지 않음",

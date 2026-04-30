@@ -270,6 +270,8 @@
     "unconclude_tournament": "Reabrir torneio",
     "hide_teams_from_players": "Ocultar todas as equipes dos jogadores, exceto seus oponentes.",
     "can_player_leave": "O jogador pode sair por conta própria após o início do torneio?",
+    "kick_players_without_teams": "Remover automaticamente jogadores sem equipe completa ao iniciar o chaveamento.",
+    "kick_players_without_teams_warning": "Aviso: Iniciar o chaveamento removerá automaticamente todos os jogadores que não registraram uma equipe completa (6 Pokémon). Isso não pode ser desfeito. Continuar?",
     "show_all": "Mostrar tudo",
     "pronouns": "Pronomes",
     "prefer_not_to_say": "Prefiro não dizer",

@@ -326,6 +326,10 @@ export default function CreateTournament() {
                         {t("hide_teams_from_players")}
                           <Checkbox {...register("hideTeamsFromPlayers")} checked={hideTeamsFromPlayers}/>
                       </GridItem>
+                      <GridItem xs={12} md={7}>
+                        {t("kick_players_without_teams")}
+                          <Checkbox {...register("kickPlayersWithoutTeams")}/>
+                      </GridItem>
                     </>
                   )
                 }

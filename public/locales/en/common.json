@@ -294,6 +294,8 @@
 	"unconclude_tournament": "Reopen tournament",
 	"hide_teams_from_players": "Hide teams to all players except for their opponent's team.",
 	"can_player_leave": "Can the player leave on their own after the tournament starts?",
+	"kick_players_without_teams": "Automatically remove players without a full team when the bracket starts.",
+	"kick_players_without_teams_warning": "Warning: Starting the bracket will automatically remove all players who have not registered a full team (6 Pokémon). This cannot be undone. Continue?",
 	"show_all": "Show all",
 	"pronouns": "Pronouns",
 	"prefer_not_to_say": "Prefer not to say",
