@@ -336,6 +336,9 @@ export default function Tournament() {
   }
 
   const onLeave = async () => {
+    if (!confirm(t("confirm_leave_session"))) {
+      return;
+    }
     const didDelete = await deletePlayer(null);
     if (didDelete) {
       Router.push("/");

@@ -99,6 +99,7 @@
 	"join_tournament": "Partecipa al Torneo",
 	"join_tournament_by_number": "Unisciti al torneo tramite il numero",
 	"leave_session": "Lascia il Torneo",
+	"confirm_leave_session": "Sei sicuro di voler lasciare questo torneo?",
 	"login": "Accedi",
 	"logout": "Esci",
     "master_league": "Master League",

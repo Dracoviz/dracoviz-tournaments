@@ -99,6 +99,7 @@
 	"join_tournament": "トーナメントに参加",
 	"join_tournament_by_number": "トーナメント番号で参加",
 	"leave_session": "トーナメントから退出",
+	"confirm_leave_session": "このトーナメントから退出してもよろしいですか？",
 	"login": "ログイン",
 	"logout": "ログアウト",
 	"master_league": "マスターリーグ",

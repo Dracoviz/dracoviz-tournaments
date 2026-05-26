@@ -99,6 +99,7 @@
     "join_tournament": "토너먼트 참가",
     "join_tournament_by_number": "번호로 토너먼트 참가",
     "leave_session": "토너먼트 나가기",
+    "confirm_leave_session": "이 토너먼트에서 나가겠습니까?",
     "login": "로그인",
     "logout": "로그아웃",
     "master_league": "마스터 리그",

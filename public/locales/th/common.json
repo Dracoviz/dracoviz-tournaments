@@ -99,6 +99,7 @@
 	"join_tournament": "เข้าร่วมทัวร์นาเมนต์",
 	"join_tournament_by_number": "เข้าร่วมทัวร์นาเมนต์โดยหมายเลข",
 	"leave_session": "ออกจากทัวร์นาเมนต์",
+	"confirm_leave_session": "คุณแน่ใจหรือว่าต้องการออกจากทัวร์นาเมนต์นี้?",
 	"login": "เข้าสู่ระบบ",
 	"logout": "ออกจากระบบ",
 	"master_league": "Master League",
