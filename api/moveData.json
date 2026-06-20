@@ -451,6 +451,10 @@
         "moveId": "GLACIATE",
         "type": "ice"
     },
+    "GLAIVE_RUSH": {
+        "moveId": "GLAIVE_RUSH",
+        "type": "dragon"
+    },
     "GRASS_KNOT": {
         "moveId": "GRASS_KNOT",
         "type": "grass"

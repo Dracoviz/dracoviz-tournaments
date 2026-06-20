@@ -1903,6 +1903,22 @@
         "th": "โลกเยือกแข็ง",
         "tr": "Buzullaşma"
     },
+    "GLAIVE_RUSH": {
+        "en": "Glaive Rush",
+        "pt": "Glaive Rush",
+        "zhhant": "巨劍突擊",
+        "fr": "Charge Glaive",
+        "de": "Großklingenstoß",
+        "hi": "Glaive Rush",
+        "id": "Glaive Rush",
+        "it": "Spadoncarica",
+        "jp": "きょけんとつげき",
+        "kr": "대검돌격",
+        "ru": "Glaive Rush",
+        "es": "Asalto Espadón",
+        "th": "Glaive Rush",
+        "tr": "Glaive Rush"
+    },
     "GRASS_KNOT": {
         "en": "Grass Knot",
         "pt": "Nó de Grama",
