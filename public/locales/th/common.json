@@ -246,6 +246,8 @@
 	"use_preset_label": "ใช้ Preset",
 	"generate_candle_practice_tournament_preset": "ใช้ Preset ทัวร์นาเมนต์ฝึกซ้อม Candle",
 	"candle_practice_preset_prompt": "โปรดระบุชื่อสำหรับทัวร์นาเมนต์ฝึกซ้อม Candle ของคุณ",
+	"generate_flash_practice_preset": "ใช้ Preset ฝึกซ้อม Flash",
+	"flash_practice_preset_prompt": "โปรดระบุชื่อสำหรับทัวร์นาเมนต์ฝึกซ้อม Flash ของคุณ",
 	"create_team_sheets": "สร้างแผ่นทีม",
 	"single_print_label": "พิมพ์แผ่นทีมหนึ่งใบต่อหน้า?",
 	"include_image_label": "รวมภาพโปเกมอน",

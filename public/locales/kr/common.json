@@ -246,6 +246,8 @@
 	"use_preset_label": "프리셋 사용",
 	"generate_candle_practice_tournament_preset": "Candle 연습 토너먼트 프리셋 사용",
 	"candle_practice_preset_prompt": "Candle 연습 토너먼트에 대한 이름을 제공해주세요.",
+	"generate_flash_practice_preset": "Flash 연습 프리셋 사용",
+	"flash_practice_preset_prompt": "Flash 연습 토너먼트에 대한 이름을 제공해주세요.",
 	"create_team_sheets": "팀 시트 생성",
 	"single_print_label": "페이지당 하나의 팀 시트 출력?",
     "include_image_label": "포켓몬 이미지 포함",

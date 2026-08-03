@@ -246,6 +246,8 @@
 	"use_preset_label": "Usa Preset",
 	"generate_candle_practice_tournament_preset": "Usa il Preset del Torneo di Pratica Candle",
 	"candle_practice_preset_prompt": "Fornisci un nome per il tuo Torneo di Pratica Candle.",
+	"generate_flash_practice_preset": "Usa il Preset di Pratica Flash",
+	"flash_practice_preset_prompt": "Fornisci un nome per il tuo Torneo di Pratica Flash.",
 	"create_team_sheets": "Genera schede squadra",
 	"single_print_label": "Stampa una scheda squadra per pagina?",
 	"include_image_label": "Includi immagine di Pokémon",

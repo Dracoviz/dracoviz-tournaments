@@ -246,6 +246,8 @@
 	"use_preset_label": "Use Preset",
 	"generate_candle_practice_tournament_preset": "Use the Candle Practice Tournament Defaults Preset",
 	"candle_practice_preset_prompt": "Please provide a name for your Candle Practice Tournament.",
+	"generate_flash_practice_preset": "Use the Flash Practice Preset",
+	"flash_practice_preset_prompt": "Please provide a name for your Flash Practice Tournament.",
 	"create_team_sheets": "Generate team sheets",
 	"single_print_label": "Print one team sheet per page?",
 	"include_image_label": "Include Pokémon image",

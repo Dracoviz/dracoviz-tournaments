@@ -166,6 +166,45 @@ export default function CreateTournament() {
     }, 100)
   }
 
+  const onFlashPracticePress = () => {
+    setPresetAnchorEl(null);
+    setIsLoading(true);
+    setTimeout(() => {
+      const title = prompt(t("flash_practice_preset_prompt"));
+      if (title == null) {
+        setIsLoading(false);
+        return;
+      }
+      setValue("name", title);
+      setValue("timeControl", 30);
+      setValue("bracketType", "swiss");
+      setValue("gameAmount", 3);
+      setValue("byeAward", 1);
+      setValue("playAllMatches", false);
+      setValue("requireBothPlayersToReport", true);
+      setValue("hideTeamsFromPlayers", false);
+      setValue("kickPlayersWithoutTeams", true);
+      setValue("isPrivate", false);
+      setValue("hideFromGuests", false);
+      setValue("playerCanLeave", true);
+      setValue("maxTeams", 300);
+      setValue("cpVisibility", "global");
+      setValue("hpVisibility", "none");
+      setValue("movesetVisibility", "global");
+      setValue("purifiedVisibility", "global");
+      setValue("bestBuddyVisibility", "none");
+      setValue("nicknameVisibility", "none");
+      setValue("draftMode", "none");
+      setValue("isTeamTournament", false);
+      setValue("maxTeamSize", 1);
+      setValue("maxMatchTeamSize", 1);
+      setValue("metas", ["Play Pokemon 2024"]);
+      setValue("hasMultipleMetas", false);
+      setValue("hideTeamsFromHost", false);
+      setIsLoading(false);
+    }, 100)
+  }
+
   const onSubmit = async (data) => {
     setIsLoading(true);
     fetchApi("session/create/", "POST", { x_session_id: authId, "Content-Type": "application/json" }, JSON.stringify(data))
@@ -265,6 +304,7 @@ export default function CreateTournament() {
                 >
                   <MenuItem onClick={onPlayPokemonPress}>{t("generate_play_pokemon_preset")}</MenuItem>
                   <MenuItem onClick={onCandlePracticeTournamentPress}>{t("generate_candle_practice_tournament_preset")}</MenuItem>
+                  <MenuItem onClick={onFlashPracticePress}>{t("generate_flash_practice_preset")}</MenuItem>
                 </Menu>
               </GridItem>
             </GridContainer>

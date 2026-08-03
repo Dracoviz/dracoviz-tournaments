@@ -246,6 +246,8 @@
     "use_preset_label": "プリセットを使用",
     "generate_candle_practice_tournament_preset": "Candle練習トーナメントプリセットを使用する",
     "candle_practice_preset_prompt": "Candle練習トーナメントに名前を付けてください。",
+    "generate_flash_practice_preset": "Flash練習プリセットを使用する",
+    "flash_practice_preset_prompt": "Flash練習トーナメントに名前を付けてください。",
     "create_team_sheets": "チームシートを生成する",
     "single_print_label": "1ページごとに1つのチームシートを印刷しますか？",
     "include_image_label": "ポケモンの画像を含める",
