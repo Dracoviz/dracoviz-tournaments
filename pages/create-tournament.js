@@ -13,7 +13,7 @@ import { useTranslation } from 'next-i18next';
 import getRoundLengthLabel from "../api/getRoundLengthLabel";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
-import { Button, Checkbox, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
+import { Button, Checkbox, Select, InputLabel, MenuItem, Menu, CircularProgress } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -37,6 +37,7 @@ export default function CreateTournament() {
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [presetAnchorEl, setPresetAnchorEl] = useState(null);
   const { register, handleSubmit, watch, setValue, formState: { errors, isValid } } = useForm({
     defaultValues: {
       maxTeamSize: 1,
@@ -89,7 +90,16 @@ export default function CreateTournament() {
     }
   }
   
+  const onPresetMenuOpen = (event) => {
+    setPresetAnchorEl(event.currentTarget);
+  }
+
+  const onPresetMenuClose = () => {
+    setPresetAnchorEl(null);
+  }
+
   const onPlayPokemonPress = () => {
+    setPresetAnchorEl(null);
     setIsLoading(true);
     setTimeout(() => {
       const title = prompt(t("play_preset_prompt"));
@@ -113,6 +123,45 @@ export default function CreateTournament() {
       setValue("bestBuddyVisibility", "global");
       setValue("nicknameVisibility", "hidden");
       setValue("draftMode", "none");
+      setIsLoading(false);
+    }, 100)
+  }
+
+  const onCandlePracticeTournamentPress = () => {
+    setPresetAnchorEl(null);
+    setIsLoading(true);
+    setTimeout(() => {
+      const title = prompt(t("candle_practice_preset_prompt"));
+      if (title == null) {
+        setIsLoading(false);
+        return;
+      }
+      setValue("name", title);
+      setValue("timeControl", 25);
+      setValue("bracketType", "swiss");
+      setValue("gameAmount", 3);
+      setValue("byeAward", 1);
+      setValue("playAllMatches", true);
+      setValue("requireBothPlayersToReport", false);
+      setValue("hideTeamsFromPlayers", true);
+      setValue("kickPlayersWithoutTeams", true);
+      setValue("isPrivate", true);
+      setValue("hideFromGuests", true);
+      setValue("playerCanLeave", true);
+      setValue("maxTeams", 128);
+      setValue("cpVisibility", "none");
+      setValue("hpVisibility", "none");
+      setValue("movesetVisibility", "global");
+      setValue("purifiedVisibility", "global");
+      setValue("bestBuddyVisibility", "global");
+      setValue("nicknameVisibility", "none");
+      setValue("draftMode", "none");
+      setValue("isTeamTournament", false);
+      setValue("maxTeamSize", 1);
+      setValue("maxMatchTeamSize", 1);
+      setValue("metas", ["Play Pokemon 2024"]);
+      setValue("hasMultipleMetas", false);
+      setValue("hideTeamsFromHost", false);
       setIsLoading(false);
     }, 100)
   }
@@ -206,9 +255,17 @@ export default function CreateTournament() {
             <GridContainer>
               <GridItem xs={12}>
                 <h2>{t("create_a_tournament")}</h2>
-                <Button onClick={onPlayPokemonPress}>
-                  {t("generate_play_pokemon_preset")}
+                <Button onClick={onPresetMenuOpen}>
+                  {t("use_preset_label")}
                 </Button>
+                <Menu
+                  anchorEl={presetAnchorEl}
+                  open={Boolean(presetAnchorEl)}
+                  onClose={onPresetMenuClose}
+                >
+                  <MenuItem onClick={onPlayPokemonPress}>{t("generate_play_pokemon_preset")}</MenuItem>
+                  <MenuItem onClick={onCandlePracticeTournamentPress}>{t("generate_candle_practice_tournament_preset")}</MenuItem>
+                </Menu>
               </GridItem>
             </GridContainer>
             <Card>
