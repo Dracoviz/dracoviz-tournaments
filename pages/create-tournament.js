@@ -52,6 +52,10 @@ export default function CreateTournament() {
   const bracketType = watch("bracketType");
   const theMetas = watch("metas");
   const gameAmount = watch("gameAmount");
+  const byeAward = watch("byeAward");
+  const playAllMatches = watch("playAllMatches");
+  const requireBothPlayersToReport = watch("requireBothPlayersToReport");
+  const kickPlayersWithoutTeams = watch("kickPlayersWithoutTeams");
   const cpVisibility = watch("cpVisibility");
   const hpVisibility = watch("hpVisibility");
   const movesetVisibility = watch("movesetVisibility");
@@ -389,6 +393,7 @@ export default function CreateTournament() {
                         <Select
                           fullWidth
                           {...register(`gameAmount`, { required: true})}
+                          value={gameAmount}
                         >
                           <MenuItem value={1}>1</MenuItem>
                           <MenuItem value={3}>3</MenuItem>
@@ -402,6 +407,7 @@ export default function CreateTournament() {
                           <Select
                             fullWidth
                             {...register(`byeAward`, { required: true})}
+                            value={byeAward}
                           >
                             {
                               Array(gameAmount).fill(0).map((_, i) => (
@@ -413,11 +419,11 @@ export default function CreateTournament() {
                       }
                       <GridItem xs={12} md={7}>
                         {t("play_all_matches_label")}
-                          <Checkbox {...register("playAllMatches")}/>
+                          <Checkbox {...register("playAllMatches")} checked={!!playAllMatches}/>
                       </GridItem>
                       <GridItem xs={12} md={7}>
                         {t("require_both_players_to_report")}
-                          <Checkbox {...register("requireBothPlayersToReport")}/>
+                          <Checkbox {...register("requireBothPlayersToReport")} checked={!!requireBothPlayersToReport}/>
                       </GridItem>
                       <GridItem xs={12} md={7}>
                         {t("hide_teams_from_players")}
@@ -425,7 +431,7 @@ export default function CreateTournament() {
                       </GridItem>
                       <GridItem xs={12} md={7}>
                         {t("kick_players_without_teams")}
-                          <Checkbox {...register("kickPlayersWithoutTeams")}/>
+                          <Checkbox {...register("kickPlayersWithoutTeams")} checked={!!kickPlayersWithoutTeams}/>
                       </GridItem>
                     </>
                   )
