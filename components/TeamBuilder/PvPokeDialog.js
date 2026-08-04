@@ -11,7 +11,7 @@ import {
   loadGamemaster, parsePvPokeTeam, serializePvPokeTeam,
 } from "pvpoke-converter";
 import {
-  formValuesToUnified, unifiedToFormValues, TEAM_SIZE,
+  formValuesToUnified, unifiedToFormValues, resolveDexSpeciesId, TEAM_SIZE,
 } from "../../api/teamFormat";
 
 /**
@@ -100,23 +100,28 @@ export default function PvPokeDialog(props) {
     }
 
     // A PvPoke team may reference forms this tournament's dex does not carry (or more than six
-    // Pokemon). Keep what fits and name what did not.
+    // Pokemon). Keep what fits and name what did not. PvPoke also spells some species differently
+    // from the dex, so a name it does not recognise is worth a second look before giving up.
     const unknown = [];
-    const usable = unified.filter((pokemon) => {
-      const key = pokemon.shadow ? `${pokemon.speciesId}_shadow` : pokemon.speciesId;
-      if (pokemonOptions?.[key] == null) {
-        unknown.push(key);
-        return false;
+    const usable = [];
+    unified.forEach((pokemon) => {
+      const dexSpeciesId = resolveDexSpeciesId(pokemon.speciesId, pokemon.shadow, pokemonOptions);
+      if (dexSpeciesId == null) {
+        unknown.push(pokemon.shadow ? `${pokemon.speciesId}_shadow` : pokemon.speciesId);
+        return;
       }
-      return true;
-    }).slice(0, teamSize);
+      usable.push(
+        dexSpeciesId === pokemon.speciesId ? pokemon : { ...pokemon, speciesId: dexSpeciesId },
+      );
+    });
+    const importable = usable.slice(0, teamSize);
 
-    if (usable.length <= 0) {
+    if (importable.length <= 0) {
       setMessage({ severity: "error", text: t("pvpoke_no_usable_pokemon") });
       return;
     }
 
-    const values = unifiedToFormValues(usable, pokemonOptions);
+    const values = unifiedToFormValues(importable, pokemonOptions);
     for (let index = 0; index < teamSize; index += 1) {
       setValue(`pokemon.${index}`, values.pokemon[index] ?? "", { shouldValidate: true });
       setValue(`fastMoves.${index}`, values.fastMoves[index] ?? "", { shouldValidate: true });

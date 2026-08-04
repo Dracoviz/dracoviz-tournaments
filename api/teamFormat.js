@@ -33,6 +33,39 @@ function toText(value) {
   return value == null || value === "" ? undefined : String(value);
 }
 
+/**
+ * Species PvPoke names differently from the dex, mapped to the dex ids they could mean.
+ *
+ * PvPoke has no entry for dracoviz's cosmetic forms, so anything exported for PvPoke says
+ * "gastrodon" where the dex only knows "gastrodon_west_sea". The listed alternatives are
+ * cosmetically identical — same stats, same moves — so the first one the dex actually has is as
+ * good as any other.
+ */
+const PVPOKE_SPECIES_FALLBACKS = {
+  gastrodon: ["gastrodon_west_sea", "gastrodon_east_sea"],
+  shellos: ["shellos_west_sea", "shellos_east_sea"],
+  dudunsparce: ["dudunsparce_two", "dudunsparce_three"],
+  squawkabilly: [
+    "squawkabilly_green", "squawkabilly_blue", "squawkabilly_white", "squawkabilly_yellow",
+  ],
+  clodsire: ["clodsiresb"],
+  indeedee_male: ["indeedee"],
+};
+
+/**
+ * The dex speciesId matching a PvPoke species id, or null when this dex has nothing for it.
+ * Returned without the shadow suffix, the way the universal format keeps it.
+ */
+export function resolveDexSpeciesId(speciesId, shadow, pokemonOptions) {
+  const toKey = (id) => (shadow ? `${id}${SHADOW_SUFFIX}` : id);
+  if (pokemonOptions?.[toKey(speciesId)] != null) {
+    return speciesId;
+  }
+  const fallback = (PVPOKE_SPECIES_FALLBACKS[speciesId] ?? [])
+    .find((id) => pokemonOptions?.[toKey(id)] != null);
+  return fallback ?? null;
+}
+
 /** `{ speciesKey: sid }`, so pvpoke-converter can fill sids without its own network fetch. */
 export function buildSidMap(pokemonOptions) {
   const map = {};
