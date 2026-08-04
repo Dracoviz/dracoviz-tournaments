@@ -68,6 +68,7 @@ export default function CreateTournament() {
   const draftMode = watch("draftMode");
   const isPrivate = watch("isPrivate");
   const playerCanLeave = watch("playerCanLeave");
+  const hideTeamsFromHost = watch("hideTeamsFromHost");
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -165,7 +166,7 @@ export default function CreateTournament() {
       setValue("maxMatchTeamSize", 1);
       setValue("metas", ["Play Pokemon 2024"]);
       setValue("hasMultipleMetas", false);
-      setValue("hideTeamsFromHost", false);
+      setValue("hideTeamsFromHost", true);
       setIsLoading(false);
     }, 100)
   }
@@ -623,7 +624,7 @@ export default function CreateTournament() {
                 <GridItem xs={12}>
                   <div style={{ marginTop: 10, marginBottom: 10 }}>
                     {t("hide_teams_from_host")}
-                    <Checkbox {...register("hideTeamsFromHost")} />
+                    <Checkbox {...register("hideTeamsFromHost")} checked={!!hideTeamsFromHost} />
                   </div>
                 </GridItem>
               </GridContainer>
