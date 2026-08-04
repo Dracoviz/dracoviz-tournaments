@@ -53,6 +53,7 @@ export default function Team() {
   const [pokemonOptions, setPokemonOptions] = useState({});
   const [pokemonItems, setPokemonItems] = useState([]);
   const [metaClasses, setMetaClasses] = useState(null);
+  const [meta, setMeta] = useState(null);
   const [savedTeams, setSavedTeams] = useState([]);
   const [selectedSavedTeam, setSelectedSavedTeam] = useState("");
   const [saveTeam, setSaveTeam] = useState(false);
@@ -89,6 +90,7 @@ export default function Team() {
       setNicknameRequired(data.nicknameRequired);
       setPokemonOptions(data.pokemonData);
       setMetaClasses(data.metaClasses);
+      setMeta(data.meta ?? null);
       setValue("cp", data.cp, { shouldValidate: false });
       setValue("hp", data.hp, { shouldValidate: false });
       setValue("pokemon", data.pokemon, { shouldValidate: false });
@@ -181,7 +183,9 @@ export default function Team() {
           }, JSON.stringify({
             name: data.savedTeamName,
             description: "",
-            metas: [],
+            // Tag it with the meta it was built for, so it validates against that meta and is
+            // offered again the next time this player registers for the same format.
+            metas: meta == null ? [] : [meta],
             pokemon: formValuesToUnified(data, TEAM_SIZE, pokemonOptions),
           })
         ).then((response) => response.json()).catch(() => ({ error: "api_unauthorized" }));
