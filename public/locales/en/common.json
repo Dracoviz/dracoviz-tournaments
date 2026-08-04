@@ -362,5 +362,7 @@
 	"api_team_pokemon_invalid": "One of your Pokémon is not a valid species",
 	"api_team_pokemon_length_invalid": "A team must have between 1 and 6 Pokémon",
 	"api_team_meta_invalid": "That meta does not exist",
-	"api_team_incomplete": "This team does not have 6 Pokémon"
+	"api_team_incomplete": "This team does not have 6 Pokémon",
+	"team_missing_moves": "Missing movesets",
+	"team_missing_moves_warning": "Some Pokémon are missing a fast move or charged moves. You can save the team, but it will be marked invalid and won't be offered when you register for a tournament until every Pokémon has a full moveset."
 }

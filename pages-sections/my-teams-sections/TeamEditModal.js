@@ -20,8 +20,10 @@ import getMetaOptions, { getMetaLabel } from "../../api/getMetaOptions";
 /**
  * Create or edit a saved team. `team` being null means create.
  *
- * There is no tournament here to say which fields matter, so everything is offered and only the
- * moveset is required — a saved team is more useful the more of it is filled in.
+ * There is no tournament here to say which fields matter, so everything is offered and nothing
+ * about the team itself is required. An unfinished team saves and is reported back as invalid,
+ * rather than being held hostage until it is complete — only a name and at least one Pokemon are
+ * needed, because the API rejects a team without them.
  */
 export default function TeamEditModal(props) {
   const {
@@ -32,7 +34,7 @@ export default function TeamEditModal(props) {
   const [isPvPokeOpen, setIsPvPokeOpen] = useState(false);
   const {
     register, control, watch, setValue, getValues, reset, handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
@@ -59,7 +61,17 @@ export default function TeamEditModal(props) {
     });
   };
 
-  const filledCount = (watch("pokemon") ?? []).filter((p) => p != null && p !== "").length;
+  const pokemons = watch("pokemon") ?? [];
+  const filledCount = pokemons.filter((p) => p != null && p !== "").length;
+  const hasName = (watch("name") ?? "").trim() !== "";
+  // Reported to the player rather than enforced — a team missing movesets saves fine, it just
+  // cannot be used to register until it is finished.
+  const missingMoves = pokemons.some((species, index) => (
+    species != null && species !== ""
+    && ((watch(`fastMoves.${index}`) ?? "") === ""
+      || (watch(`chargedMoves.${index}.0`) ?? "") === ""
+      || (watch(`chargedMoves.${index}.1`) ?? "") === "")
+  ));
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" scroll="body">
@@ -121,6 +133,13 @@ export default function TeamEditModal(props) {
                 </Alert>
               </GridItem>
             )}
+            {missingMoves && (
+              <GridItem xs={12}>
+                <Alert severity="info" style={{ marginBottom: 10 }}>
+                  {t("team_missing_moves_warning")}
+                </Alert>
+              </GridItem>
+            )}
             <TeamBuilder
               control={control}
               register={register}
@@ -131,13 +150,20 @@ export default function TeamEditModal(props) {
               teamSize={TEAM_SIZE}
               locale={locale}
               showOptional
-              requirements={{ moves: true, allSlots: false }}
+              requirements={{ allSlots: false }}
             />
           </GridContainer>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} color="error">{t("cancel")}</Button>
-          <Button type="submit" disabled={isSaving || !isValid || filledCount <= 0}>
+          {/* Only the API's own requirements block saving; everything else is saved as invalid. */}
+          <Button
+            type="submit"
+            disabled={
+              isSaving || !hasName || filledCount <= 0
+              || errors.name != null || errors.description != null
+            }
+          >
             {t("save")}
           </Button>
         </DialogActions>

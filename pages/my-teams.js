@@ -144,6 +144,9 @@ export default function MyTeams() {
     if (team.isValid) {
       return <span className={classes.valid}>✅ {t("team_valid")}</span>;
     }
+    if (!team.hasMovesets) {
+      return <span className={classes.invalid}>⚠️ {t("team_missing_moves")}</span>;
+    }
     const failing = team.validations.filter((v) => !v.valid).map((v) => getMetaLabel(v.meta, t));
     return (
       <span className={classes.invalid}>
