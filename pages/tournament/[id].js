@@ -423,6 +423,25 @@ export default function Tournament() {
     downloadJson(exportedData, "tournament.json");
   };
 
+  const exportUsageData = () => {
+    if (data == null) return;
+    setExportAnchorEl(null);
+    setIsLoading(true);
+    fetchApi(`session/usage/?id=${id}`, "GET", {
+      "x_session_id": authId,
+      x_locale: router.locale,
+    })
+    .then(response => response.json())
+    .then((usageData) => {
+      setIsLoading(false);
+      if (usageData.error != null) {
+        alert(t(usageData.error));
+      } else {
+        downloadJson(usageData, "usage.json");
+      }
+    });
+  };
+
   const reportScore = async (scores) => {
     const { player1, player2 } = scores;
     const { matchIndex, roundIndex, participantIndex } = selectedRound;
@@ -531,6 +550,9 @@ export default function Tournament() {
         >
           <MenuItem onClick={exportPlayerData}>{t("export_player_data")}</MenuItem>
           <MenuItem onClick={exportFullData}>{t("export_full_data")}</MenuItem>
+          {data.isHost && (
+            <MenuItem onClick={exportUsageData}>{t("export_usage_data")}</MenuItem>
+          )}
         </Menu>
       </>
     )

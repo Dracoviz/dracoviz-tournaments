@@ -221,6 +221,7 @@
     "export_team_data": "Exportar dados da equipe",
     "export_player_data": "Apenas dados dos jogadores",
     "export_full_data": "Dados dos jogadores e metadados do torneio",
+    "export_usage_data": "Dados de uso anônimos",
     "round_length": "Duração da Rodada",
     "round_length_none": "Sem limite de tempo",
     "round_length_min": "{{time}} minutos",

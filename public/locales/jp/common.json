@@ -221,6 +221,7 @@
     "export_team_data": "チームデータのエクスポート",
     "export_player_data": "プレイヤーデータのみ",
     "export_full_data": "プレイヤーデータとトーナメントメタデータ",
+    "export_usage_data": "匿名の使用率データ",
     "round_length": "ラウンドの長さ",
     "round_length_none": "タイム制限なし",
     "round_length_min": "{{time}} 分",
