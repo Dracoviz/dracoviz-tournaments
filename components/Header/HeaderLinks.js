@@ -38,6 +38,17 @@ export default function HeaderLinks(props) {
   }
   return (
     <List className={classes.list} style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+      {isSignedIn && (
+        <ListItem className={classes.listItem} style={{ width: "auto" }}>
+          <Button
+            color="transparent"
+            className={classes.navLink}
+            onClick={() => Router.push("/my-teams")}
+          >
+            {t("my_teams")}
+          </Button>
+        </ListItem>
+      )}
       <ListItem className={classes.listItem} style={{ width: "auto" }}>
         <Tooltip
           id="instagram-twitter"
