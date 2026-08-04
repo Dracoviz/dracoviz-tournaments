@@ -192,6 +192,8 @@
 	"hide_teams_from_host": "Nascondi squadre all'host prima che la registrazione sia completata?",
 	"host_cannot_see_teams": "L'host NON PUÒ vedere le squadre prima che la registrazione sia completata",
 	"host_can_see_teams": "L'host PUÒ vedere le squadre prima che la registrazione sia completata",
+	"always_hide_teams_from_host": "Nascondi sempre le squadre all'host? (non modificabile in seguito)",
+	"host_never_sees_teams": "L'host NON PUÒ vedere le squadre in nessun momento",
 	"round_label": "Turno {{round}}",
 	"disputed_note": "*I giocatori hanno segnalato punteggi diversi",
 	"touched_note": "*L'host ha modificato questo risultato",

@@ -70,6 +70,7 @@ export default function CreateTournament() {
   const isPrivate = watch("isPrivate");
   const playerCanLeave = watch("playerCanLeave");
   const hideTeamsFromHost = watch("hideTeamsFromHost");
+  const alwaysHideTeamsFromHost = watch("alwaysHideTeamsFromHost");
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -168,6 +169,7 @@ export default function CreateTournament() {
       setValue("metas", ["Play Pokemon 2024"]);
       setValue("hasMultipleMetas", false);
       setValue("hideTeamsFromHost", true);
+      setValue("alwaysHideTeamsFromHost", true);
       setIsLoading(false);
     }, 100)
   }
@@ -207,6 +209,7 @@ export default function CreateTournament() {
       setValue("metas", ["Play Pokemon 2024"]);
       setValue("hasMultipleMetas", false);
       setValue("hideTeamsFromHost", false);
+      setValue("alwaysHideTeamsFromHost", false);
       setIsLoading(false);
     }, 100)
   }
@@ -623,6 +626,12 @@ export default function CreateTournament() {
                   <div style={{ marginTop: 10, marginBottom: 10 }}>
                     {t("hide_teams_from_host")}
                     <Checkbox {...register("hideTeamsFromHost")} checked={!!hideTeamsFromHost} />
+                  </div>
+                </GridItem>
+                <GridItem xs={12}>
+                  <div style={{ marginBottom: 10 }}>
+                    {t("always_hide_teams_from_host")}
+                    <Checkbox {...register("alwaysHideTeamsFromHost")} checked={!!alwaysHideTeamsFromHost} />
                   </div>
                 </GridItem>
               </GridContainer>

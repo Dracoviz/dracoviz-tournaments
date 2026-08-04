@@ -33,7 +33,9 @@ function TournamentInfoModal(props) {
                     <Linkify>
                         <p style={{ whiteSpace: "pre-wrap" }}>{data.description}</p>
                     </Linkify>
-                    <p><b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b></p>
+                    <p><b>{data?.alwaysHideTeamsFromHost
+                        ? t("host_never_sees_teams")
+                        : (data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams"))}</b></p>
                 </GridItem>
                 <GridItem xs={6}>
                     <Button href={data?.bracketLink} target="_blank" rel="noreferrer" fullWidth>{t("tournament_see_bracket_button")}</Button>

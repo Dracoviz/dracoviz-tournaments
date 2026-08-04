@@ -192,6 +192,8 @@
 	"hide_teams_from_host": "등록이 완료되기 전에 호스트에게 팀 숨기기?",
 	"host_cannot_see_teams": "호스트는 등록이 완료되기 전까지 팀을 볼 수 없음",
 	"host_can_see_teams": "호스트는 등록이 완료되기 전에 팀을 볼 수 있음",
+	"always_hide_teams_from_host": "항상 호스트에게 팀 숨기기? (나중에 변경할 수 없음)",
+	"host_never_sees_teams": "호스트는 어떤 시점에도 팀을 볼 수 없음",
 	"round_label": "라운드 {{round}}",
 	"disputed_note": "*플레이어가 다른 점수를 보고했습니다",
 	"touched_note": "*호스트가 이 결과를 편집했습니다",

@@ -1087,7 +1087,9 @@ export default function Tournament() {
                 <p style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{data?.description}</p>
               </Linkify>
               <p style={{ marginBottom: 20 }}>
-                <b>{data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams")}</b>
+                <b>{data?.alwaysHideTeamsFromHost
+                  ? t("host_never_sees_teams")
+                  : (data?.hideTeamsFromHost ? t("host_cannot_see_teams") : t("host_can_see_teams"))}</b>
               </p>
               {renderConcludeStatus()}
               {renderRegistrationStatus()}

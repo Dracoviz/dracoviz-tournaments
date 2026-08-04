@@ -192,6 +192,8 @@
 	"hide_teams_from_host": "Hide teams from host before registration completes?",
 	"host_cannot_see_teams": "The host CANNOT see teams before registration completes",
 	"host_can_see_teams": "The host CAN see teams before registration completes",
+	"always_hide_teams_from_host": "Hide teams from host at all times? (cannot be changed later)",
+	"host_never_sees_teams": "The host CANNOT see teams at any point",
 	"round_label": "Round {{round}}",
 	"disputed_note": "*Players reported different scores",
 	"touched_note": "*Host has edited this outcome",

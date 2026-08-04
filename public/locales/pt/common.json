@@ -192,6 +192,8 @@
     "hide_teams_from_host": "Esconder equipes do anfitrião antes do término da inscrição?",
     "host_cannot_see_teams": "O anfitrião NÃO PODE ver as equipes antes do término da inscrição",
     "host_can_see_teams": "O anfitrião PODE ver as equipes antes do término da inscrição",
+    "always_hide_teams_from_host": "Esconder equipes do anfitrião a todo momento? (não pode ser alterado depois)",
+    "host_never_sees_teams": "O anfitrião NÃO PODE ver as equipes em nenhum momento",
     "round_label": "Rodada {{round}}",
     "disputed_note": "*Jogadores relataram pontuações diferentes",
     "touched_note": "*O anfitrião editou esse resultado",

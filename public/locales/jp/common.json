@@ -192,6 +192,8 @@
     "hide_teams_from_host": "ホストによる登録完了前のチームの非表示",
     "host_cannot_see_teams": "ホストは登録が完了する前にチームを見ることはできません",
     "host_can_see_teams": "ホストは登録が完了する前にチームを見ることができます",
+    "always_hide_teams_from_host": "ホストからチームを常に非表示にしますか？（後から変更できません）",
+    "host_never_sees_teams": "ホストはチームを一切見ることができません",
     "round_label": "ラウンド {{round}}",
     "disputed_note": "*プレイヤーが異なるスコアを報告しました",
     "touched_note": "*ホストがこの結果を編集しました",
