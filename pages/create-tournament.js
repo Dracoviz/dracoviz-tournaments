@@ -11,6 +11,7 @@ import CustomInput from "/components/CustomInput/CustomInput.js";
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'next-i18next';
 import getRoundLengthLabel from "../api/getRoundLengthLabel";
+import getMetaOptions, { DEFAULT_META } from "../api/getMetaOptions";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Checkbox, Select, InputLabel, MenuItem, Menu, CircularProgress } from "@mui/material";
@@ -247,15 +248,12 @@ export default function CreateTournament() {
         <InputLabel>{t("meta_slot_label", { index: hasMultipleMetas ? index+1 : "" })}</InputLabel>
         <Select
           fullWidth
-          {...register(`metas.${index}`, { required: true, defaultValue: "Great League" })}
+          {...register(`metas.${index}`, { required: true, defaultValue: DEFAULT_META })}
           value={theMetas?.[index]}
         >
-          <MenuItem value="Great League">{t("great_league")}</MenuItem>
-          <MenuItem value="Great League Megas">Anything Goes (Great League)</MenuItem>
-          <MenuItem value="Ultra League">{t("ultra_league")}</MenuItem>
-          <MenuItem value="Master League">{t("master_league")}</MenuItem>
-          <MenuItem value="Play Pokemon 2024">Play! Pokémon Championship Series</MenuItem>
-          <MenuItem value="NAIC 2026">NAIC 2026</MenuItem>
+          {getMetaOptions(t).map((meta) => (
+            <MenuItem value={meta.value} key={meta.value}>{meta.label}</MenuItem>
+          ))}
         </Select>
       </GridItem>
     ))

@@ -15,6 +15,7 @@ import PvPokeDialog from "/components/TeamBuilder/PvPokeDialog.js";
 import {
   unifiedToFormValues, formValuesToUnified, emptyFormValues, TEAM_SIZE,
 } from "../../api/teamFormat";
+import getMetaOptions, { getMetaLabel } from "../../api/getMetaOptions";
 
 /**
  * Create or edit a saved team. `team` being null means create.
@@ -24,7 +25,7 @@ import {
  */
 export default function TeamEditModal(props) {
   const {
-    open, onClose, onSave, team, pokemonOptions, pokemonItems, metaOptions, isSaving,
+    open, onClose, onSave, team, pokemonOptions, pokemonItems, isSaving,
   } = props;
   const { t } = useTranslation();
   const { locale } = useRouter();
@@ -91,7 +92,10 @@ export default function TeamEditModal(props) {
                 render={({ field: { onChange, value } }) => (
                   <Autocomplete
                     multiple
-                    options={metaOptions ?? []}
+                    // Values are the rules.json keys the API validates against; only the labels
+                    // are localized.
+                    options={getMetaOptions(t).map((meta) => meta.value)}
+                    getOptionLabel={(meta) => getMetaLabel(meta, t)}
                     value={value ?? []}
                     onChange={(_event, selected) => onChange(selected)}
                     renderInput={(params) => (

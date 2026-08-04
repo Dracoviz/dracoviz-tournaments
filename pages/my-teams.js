@@ -16,6 +16,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import styles from "/styles/jss/nextjs-material-kit/pages/myTeamsPage.js";
 import fetchApi from "../api/fetchApi";
 import { unifiedToDisplayPokemon, TEAM_SIZE } from "../api/teamFormat";
+import { getMetaLabel } from "../api/getMetaOptions";
 import TeamEditModal from "../pages-sections/my-teams-sections/TeamEditModal";
 
 export async function getServerSideProps({ locale }) {
@@ -42,7 +43,6 @@ export default function MyTeams() {
   const [teams, setTeams] = useState([]);
   const [pokemonOptions, setPokemonOptions] = useState(null);
   const [pokemonItems, setPokemonItems] = useState([]);
-  const [metaOptions, setMetaOptions] = useState([]);
   const [editing, setEditing] = useState(null);
 
   const loadTeams = (id) => fetchApi("player-teams/all/", "GET", {
@@ -60,7 +60,7 @@ export default function MyTeams() {
   const loadPage = (id) => {
     setAuthId(id);
     setIsLoading(true);
-    // No tournamentId: the dex and the meta list without any tournament's requirements attached.
+    // No tournamentId: just the dex, with no tournament's requirements attached.
     Promise.all([
       fetchApi("pokemon/", "GET", { x_session_id: id, x_locale: router.locale })
         .then((response) => response.json())
@@ -70,7 +70,6 @@ export default function MyTeams() {
             return;
           }
           setPokemonOptions(data.pokemonData);
-          setMetaOptions(data.metaOptions ?? []);
           setPokemonItems(Object.keys(data.pokemonData).map((key) => ({
             label: data.pokemonData[key].speciesName,
             id: key,
@@ -145,7 +144,7 @@ export default function MyTeams() {
     if (team.isValid) {
       return <span className={classes.valid}>✅ {t("team_valid")}</span>;
     }
-    const failing = team.validations.filter((v) => !v.valid).map((v) => v.meta);
+    const failing = team.validations.filter((v) => !v.valid).map((v) => getMetaLabel(v.meta, t));
     return (
       <span className={classes.invalid}>
         ⚠️ {t("team_invalid_for", { metas: failing.join(", ") })}
@@ -166,7 +165,7 @@ export default function MyTeams() {
         <div className={classes.teamMeta}>
           {renderValidity(team)}
           {team.metas.map((meta) => (
-            <Chip key={meta} label={meta} size="small" />
+            <Chip key={meta} label={getMetaLabel(meta, t)} size="small" />
           ))}
         </div>
         <PokemonView pokemon={unifiedToDisplayPokemon(team.pokemon, pokemonOptions)} />
@@ -216,7 +215,6 @@ export default function MyTeams() {
         isSaving={isSaving}
         pokemonOptions={pokemonOptions}
         pokemonItems={pokemonItems}
-        metaOptions={metaOptions}
       />
     </div>
   );
