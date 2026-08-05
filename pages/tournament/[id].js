@@ -92,7 +92,8 @@ export default function Tournament() {
     },
   }
 
-  const showValid = data?.isHost && !data?.registrationClosed;
+  // Hosts keep seeing who has a complete team after registration closes, up until the tournament starts.
+  const showValid = data?.isHost && data?.state === "NOT_STARTED";
 
   const goToRoute = (route) => {
     router.push(route);
