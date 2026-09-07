@@ -7,6 +7,10 @@
         "moveId": "ACID_SPRAY",
         "type": "poison"
     },
+    "ACID_SPRAY_PLUS": {
+        "moveId": "ACID_SPRAY_PLUS",
+        "type": "poison"
+    },
     "ACROBATICS": {
         "moveId": "ACROBATICS",
         "type": "flying"
@@ -123,6 +127,10 @@
         "moveId": "BRICK_BREAK",
         "type": "fighting"
     },
+    "BRICK_BREAK_PLUS": {
+        "moveId": "BRICK_BREAK_PLUS",
+        "type": "fighting"
+    },
     "BRINE": {
         "moveId": "BRINE",
         "type": "water"
@@ -235,6 +243,10 @@
         "moveId": "DISCHARGE",
         "type": "electric"
     },
+    "DIVE": {
+        "moveId": "DIVE",
+        "type": "water"
+    },
     "DOOM_DESIRE": {
         "moveId": "DOOM_DESIRE",
         "type": "steel"
@@ -287,6 +299,10 @@
         "moveId": "DRILL_PECK",
         "type": "flying"
     },
+    "DRILL_PECK_PLUS": {
+        "moveId": "DRILL_PECK_PLUS",
+        "type": "flying"
+    },
     "DRILL_RUN": {
         "moveId": "DRILL_RUN",
         "type": "ground"
@@ -301,6 +317,10 @@
     },
     "DYNAMIC_PUNCH": {
         "moveId": "DYNAMIC_PUNCH",
+        "type": "fighting"
+    },
+    "DYNAMIC_PUNCH_PLUS": {
+        "moveId": "DYNAMIC_PUNCH_PLUS",
         "type": "fighting"
     },
     "EARTHQUAKE": {
@@ -431,6 +451,10 @@
         "moveId": "FUTURE_SIGHT",
         "type": "psychic"
     },
+    "FUTURE_SIGHT_PLUS": {
+        "moveId": "FUTURE_SIGHT_PLUS",
+        "type": "psychic"
+    },
     "GEOMANCY": {
         "moveId": "GEOMANCY",
         "type": "fairy"
@@ -458,6 +482,14 @@
     "GRASS_KNOT": {
         "moveId": "GRASS_KNOT",
         "type": "grass"
+    },
+    "GULP_MISSILE_ARROKUDA": {
+        "moveId": "GULP_MISSILE_ARROKUDA",
+        "type": "water"
+    },
+    "GULP_MISSILE_PIKACHU": {
+        "moveId": "GULP_MISSILE_PIKACHU",
+        "type": "water"
     },
     "GUNK_SHOT": {
         "moveId": "GUNK_SHOT",
@@ -667,6 +699,10 @@
         "moveId": "LIQUIDATION",
         "type": "water"
     },
+    "LIQUIDATION_PLUS": {
+        "moveId": "LIQUIDATION_PLUS",
+        "type": "water"
+    },
     "LOCK_ON": {
         "moveId": "LOCK_ON",
         "type": "normal"
@@ -767,6 +803,10 @@
         "moveId": "MYSTICAL_FIRE",
         "type": "fire"
     },
+    "MYSTICAL_FIRE_PLUS": {
+        "moveId": "MYSTICAL_FIRE_PLUS",
+        "type": "fire"
+    },
     "NATURES_MADNESS": {
         "moveId": "NATURES_MADNESS",
         "type": "fairy"
@@ -803,6 +843,10 @@
         "moveId": "OUTRAGE",
         "type": "dragon"
     },
+    "OUTRAGE_PLUS": {
+        "moveId": "OUTRAGE_PLUS",
+        "type": "dragon"
+    },
     "OVERHEAT": {
         "moveId": "OVERHEAT",
         "type": "fire"
@@ -822,6 +866,10 @@
     "PETAL_BLIZZARD": {
         "moveId": "PETAL_BLIZZARD",
         "type": "grass"
+    },
+    "PLASMA_FISTS": {
+        "moveId": "PLASMA_FISTS",
+        "type": "electric"
     },
     "PLAY_ROUGH": {
         "moveId": "PLAY_ROUGH",
@@ -873,6 +921,10 @@
     },
     "PSYBEAM": {
         "moveId": "PSYBEAM",
+        "type": "psychic"
+    },
+    "PSYBEAM_PLUS": {
+        "moveId": "PSYBEAM_PLUS",
         "type": "psychic"
     },
     "PSYCHIC": {
@@ -1003,6 +1055,10 @@
         "moveId": "SEED_BOMB",
         "type": "grass"
     },
+    "SEED_BOMB_PLUS": {
+        "moveId": "SEED_BOMB_PLUS",
+        "type": "grass"
+    },
     "SEED_FLARE": {
         "moveId": "SEED_FLARE",
         "type": "grass"
@@ -1066,6 +1122,10 @@
     "SNARL": {
         "moveId": "SNARL",
         "type": "dark"
+    },
+    "SNIPE_SHOT": {
+        "moveId": "SNIPE_SHOT",
+        "type": "water"
     },
     "SOLAR_BEAM": {
         "moveId": "SOLAR_BEAM",
@@ -1133,6 +1193,10 @@
     },
     "SURF": {
         "moveId": "SURF",
+        "type": "water"
+    },
+    "SURF_PLUS": {
+        "moveId": "SURF_PLUS",
         "type": "water"
     },
     "SWIFT": {
@@ -1239,6 +1303,10 @@
         "moveId": "VOLT_TACKLE",
         "type": "electric"
     },
+    "VOLT_TACKLE_PLUS": {
+        "moveId": "VOLT_TACKLE_PLUS",
+        "type": "electric"
+    },
     "V_CREATE": {
         "moveId": "V_CREATE",
         "type": "fire"
@@ -1317,6 +1385,10 @@
     },
     "ZAP_CANNON": {
         "moveId": "ZAP_CANNON",
+        "type": "electric"
+    },
+    "ZAP_CANNON_PLUS": {
+        "moveId": "ZAP_CANNON_PLUS",
         "type": "electric"
     },
     "ZEN_HEADBUTT": {

@@ -15,46 +15,81 @@ const MOVES_PATH = path.join(API_DIR, 'moves.json');
 // Language key order matching existing moves.json
 const LANG_ORDER = ['en', 'pt', 'zhhant', 'fr', 'de', 'hi', 'id', 'it', 'jp', 'kr', 'ru', 'es', 'th', 'tr'];
 
-// Bulbapedia GO page column index (0-based <td>) -> language code
-// Columns: Index(0) | English(1) | Japanese(2) | French(3) | German(4) | Spanish(5) | Spanish LA(6) | Italian(7) | Korean(8) | Chinese Trad(9) | Brazilian Portuguese(10) | Russian(11) | Turkish(12) | Indonesian(13)
-const BULBA_GO_COL_MAP = {
-    1: 'en',
-    2: 'jp',
-    3: 'fr',
-    4: 'de',
-    5: 'es',
-    // 6: Spanish (Latin America) — skipped
-    7: 'it',
-    8: 'kr',
-    9: 'zhhant',
-    10: 'pt',
-    11: 'ru',
-    12: 'tr',
-    13: 'id',
-};
+// Bulbapedia GO page columns: 0-based <td> index -> language code, plus the header text that
+// column must carry. The header is checked on every run because Bulbapedia does insert columns:
+// a Thai column appeared at index 11, which shifted ru/tr/id one to the right and silently wrote
+// Thai move names into the Russian field for 319 moves. A hard failure beats that every time.
+const BULBA_GO_COLUMNS = [
+    [1, 'en', 'English'],
+    [2, 'jp', 'Japanese'],
+    [3, 'fr', 'French'],
+    [4, 'de', 'German'],
+    [5, 'es', 'European Spanish'],
+    // 6: Latin American Spanish — skipped
+    [7, 'it', 'Italian'],
+    [8, 'kr', 'Korean'],
+    [9, 'zhhant', 'Chinese Traditional'],
+    [10, 'pt', 'Brazilian Portuguese'],
+    [11, 'th', 'Thai'],
+    [12, 'ru', 'Russian'],
+    [13, 'tr', 'Turkish'],
+    [14, 'id', 'Indonesian'],
+    [15, 'hi', 'Hindi'],
+];
 
-// Bulbapedia general page column index (0-based <td>) -> language code
-// Columns: Index(0) | English(1) | Kana(2) | Rōmaji(3) | French(4) | German(5) | Italian(6) | Spanish(7) | Hangul(8) | Korean Romanization(9) | Chinese(10) | Chinese Romanization(11)
-const BULBA_GENERAL_COL_MAP = {
-    1: 'en',
-    2: 'jp',
+const BULBA_GO_COL_MAP = Object.fromEntries(BULBA_GO_COLUMNS.map(([col, lang]) => [col, lang]));
+
+// Bulbapedia general page columns, same shape and same header check.
+const BULBA_GENERAL_COLUMNS = [
+    [1, 'en', 'English'],
+    [2, 'jp', 'Kana'],
     // 3: Rōmaji — skipped
-    4: 'fr',
-    5: 'de',
-    6: 'it',
-    7: 'es',
-    8: 'kr',
+    [4, 'fr', 'French'],
+    [5, 'de', 'German'],
+    [6, 'it', 'Italian'],
+    [7, 'es', 'Spanish'],
+    [8, 'kr', 'Hangul'],
     // 9: Korean romanization — skipped
-    10: 'zhhant',
+    [10, 'zhhant', 'Hànzì'],
     // 11: Chinese romanization — skipped
-};
+];
 
-// Languages not available on either Bulbapedia page — preserve from existing data
-const BULBA_MISSING_LANGS = new Set(['hi', 'th']);
+const BULBA_GENERAL_COL_MAP = Object.fromEntries(
+    BULBA_GENERAL_COLUMNS.map(([col, lang]) => [col, lang]),
+);
+
+// Languages on neither Bulbapedia page — preserve from existing data. The GO page carries Thai
+// and Hindi as of 2026, so this is empty; anything listed here skips the scrape entirely.
+const BULBA_MISSING_LANGS = new Set();
 
 const FETCH_HEADERS = { 'User-Agent': 'DracovizBot/1.0 (move data updater)' };
 
 // --- Fetch Functions ---
+
+/**
+ * Aborts if a table's header row no longer matches the columns we read by position. Bulbapedia
+ * adds language columns from time to time, and without this the run happily files every
+ * translation one column to the left.
+ */
+function assertColumns($, table, columns, label) {
+    const headerRow = $(table).find('tr').filter((_, row) => $(row).find('th').length > 1).first();
+    if (!headerRow.length) throw new Error(`${label}: could not find a header row to check`);
+
+    const headers = headerRow.find('th').map((_, cell) => $(cell).text().trim()).get();
+    // A table that simply stops early (some generation tables carry no Chinese) is fine: that
+    // language is absent, not misfiled. Only a column holding something else is dangerous.
+    const moved = columns.filter(([col, , expected]) => col < headers.length && headers[col] !== expected);
+    if (!moved.length) return;
+
+    const detail = moved
+        .map(([col, lang, expected]) => `    column ${col} (${lang}): expected "${expected}", found "${headers[col]}"`)
+        .join('\n');
+    throw new Error(
+        `${label}: the page's columns have moved, so translations would be stored under the wrong `
+        + `languages.\n  Update the column table at the top of this file to match the page.\n${detail}`
+        + `\n  page headers: ${headers.join(' | ')}`,
+    );
+}
 
 async function fetchPvPokeData() {
     console.log('Fetching PvPoke moves...');
@@ -82,6 +117,9 @@ async function fetchBulbapediaGO() {
     const $ = cheerio.load(html);
 
     const translations = new Map();
+
+    const goTable = $('table[border="1"].sortable.roundy').first();
+    assertColumns($, goTable, BULBA_GO_COLUMNS, 'Bulbapedia GO page');
 
     $('table[border="1"].sortable.roundy tr').each((_, row) => {
         const cells = $(row).find('td');
@@ -114,6 +152,10 @@ async function fetchBulbapediaGeneral() {
     const translations = new Map();
 
     // Multiple generation tables, all with class "roundy sortable"
+    $('table.roundy.sortable').each((i, table) => {
+        assertColumns($, table, BULBA_GENERAL_COLUMNS, `Bulbapedia general page (table ${i})`);
+    });
+
     $('table.roundy.sortable tr').each((_, row) => {
         const cells = $(row).find('td');
         if (cells.length < 8) return;
@@ -203,7 +245,7 @@ function resolveTranslations(moveId, pvpokeData, goMap, generalMap, existingMove
     const translations = {};
     for (const lang of LANG_ORDER) {
         if (BULBA_MISSING_LANGS.has(lang)) {
-            // Hindi/Thai: preserve existing, fallback to English
+            // Not on either page: preserve existing, fallback to English
             translations[lang] = existing?.[lang] || (englishName + suffix);
         } else if (goEntry?.[lang]) {
             // Priority 1: GO-specific translations (most accurate for Pokemon GO)
