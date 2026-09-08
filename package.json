@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev",
-    "update-moves": "node scripts/update-moves.js"
+    "update-moves": "node scripts/update-moves.js",
+    "generate-sample-usage": "node scripts/generate-sample-usage.js"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
     "@mui/material": "^5.13.2",
     "@mui/styles": "^5.13.2",
     "bad-words": "^3.0.4",
+    "chart.js": "^4.5.1",
     "classnames": "2.3.1",
     "cookies-next": "^4.0.0",
     "firebase": "^9.22.0",
@@ -51,6 +53,7 @@
     "prop-types": "15.8.1",
     "pvpoke-converter": "^0.0.1",
     "react": "^18.3.1",
+    "react-chartjs-2": "^5.3.1",
     "react-datetime": "3.1.1",
     "react-dom": "^18.3.1",
     "react-firebaseui": "^6.0.0",
