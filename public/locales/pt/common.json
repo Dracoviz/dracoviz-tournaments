@@ -44,6 +44,10 @@
     "api_team_validation_duplicate": "Sua equipe tem dois ou mais da mesma espécie",
     "api_team_validation_generic": "Um ou mais dos seus Pokémon são inválidos para esta meta",
     "api_team_validation_mega": "Há muitos Pokémon Mega em sua equipe",
+    "api_team_validation_mega_level_required": "Cada Pokémon Mega precisa de um nível Mega",
+    "api_team_validation_mega_level_invalid": "Nível Mega inválido",
+    "api_team_validation_mega_level_not_mega": "Apenas Pokémon Mega podem ter um nível Mega",
+    "api_team_validation_mega_level_super_max": "Este Mega não pode atingir o Super Máximo",
     "api_team_validation_moveset": "Um dos seus Pokémon tem um conjunto de movimentos inválido",
     "api_team_validation_points_max": "Sua equipe excede a quantidade de pontos permitidos para esta meta",
     "api_team_validation_points_min": "Sua equipe não atende à quantidade de pontos permitidos para esta meta",
@@ -393,5 +397,12 @@
 	"api_usage_species_required": "Nenhum Pokémon foi especificado.",
 	"usage_sample_banner_title": "Estes são dados de exemplo",
 	"usage_sample_banner_body": "Os números desta página são exemplos gerados, não resultados reais de torneios. Os dados de uso reais serão publicados em cerca de duas semanas.",
-	"usage_sample_banner_access": "A partir de então, esta página ficará disponível para quem tiver organizado ou participado de um torneio com mais de 3 participantes nos últimos 30 dias."
+	"usage_sample_banner_access": "A partir de então, esta página ficará disponível para quem tiver organizado ou participado de um torneio com mais de 3 participantes nos últimos 30 dias.",
+    "mega_level": "Nível Mega",
+    "mega_level_base": "Base",
+    "mega_level_high": "Alto",
+    "mega_level_max": "Máximo",
+    "mega_level_super_max": "Super Máximo",
+    "plus_move": "Ataque Plus",
+    "plus_move_requires_super_max": "Disponível no Super Máximo"
 }

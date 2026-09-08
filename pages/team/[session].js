@@ -99,6 +99,7 @@ export default function Team() {
       setValue("nickname", data.nickname, { shouldValidate: false });
       setValue("purified", data.purified, { shouldValidate: false });
       setValue("bestBuddy", data.bestBuddy, { shouldValidate: false });
+      setValue("megaLevel", data.megaLevel, { shouldValidate: false });
       setValue("metaClass", data.metaClass, { shouldValidate: false });
       setPokemonItems(Object.keys(data.pokemonData)
         .map((key)=>{
@@ -153,6 +154,7 @@ export default function Team() {
       setValue(`nickname.${index}`, values.nickname[index] ?? "", { shouldValidate: true });
       setValue(`purified.${index}`, values.purified[index] ?? false, { shouldValidate: true });
       setValue(`bestBuddy.${index}`, values.bestBuddy[index] ?? false, { shouldValidate: true });
+      setValue(`megaLevel.${index}`, values.megaLevel[index] ?? "", { shouldValidate: true });
       setValue(`level.${index}`, values.level[index] ?? "");
       setValue(`attackIv.${index}`, values.attackIv[index] ?? "");
       setValue(`defenseIv.${index}`, values.defenseIv[index] ?? "");
@@ -282,6 +284,8 @@ export default function Team() {
                         register={register}
                         watch={watch}
                         errors={errors}
+                        setValue={setValue}
+                        getValues={getValues}
                         pokemonOptions={pokemonOptions}
                         pokemonItems={pokemonItems}
                         teamSize={TEAM_SIZE}

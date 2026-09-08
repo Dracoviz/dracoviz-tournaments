@@ -145,6 +145,8 @@ export default function TeamEditModal(props) {
               register={register}
               watch={watch}
               errors={errors}
+              setValue={setValue}
+              getValues={getValues}
               pokemonOptions={pokemonOptions}
               pokemonItems={pokemonItems}
               teamSize={TEAM_SIZE}

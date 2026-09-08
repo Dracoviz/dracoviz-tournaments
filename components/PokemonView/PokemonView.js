@@ -9,6 +9,7 @@ import Purified from "../../public/img/draco_icon_circle_purified.png";
 import BestBuddy from "../../public/img/draco_icon_circle_buddy.png";
 import useWindowSize from "../../utils/use-window-size";
 import getMoveIcon from "../../utils/get-moves-icon";
+import { plusMoveId, SUPER_MAX } from "../../api/megaLevel";
 
 const useStyles = makeStyles(styles);
 
@@ -27,6 +28,20 @@ export default function PokemonView(props) {
   const { width } = useWindowSize();
   const gridTemplateColumns = getTemplateColumns(width);
   
+  // The plus move is not one of the two charged move picks -- a mega gets it by reaching Super Max
+  // -- so it is listed apart from them, and dimmed on a mega that has not got there.
+  const renderPlusMove = (pokemonObj) => {
+    const moveId = plusMoveId(pokemonObj.plusMove);
+    if (moveId == null) {
+      return null;
+    }
+    return (
+      <div style={{ opacity: pokemonObj.megaLevel === SUPER_MAX ? 1 : 0.5 }}>
+        {getMoveIcon(moveId)} {formatMove(moveId, locale)}
+      </div>
+    );
+  };
+
   const renderPokemon = useCallback(() => {
     return pokemon.map((pokemonObj) => (
       <div className={classes.pokemonRoot}>
@@ -74,6 +89,8 @@ export default function PokemonView(props) {
             {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
             {pokemonObj.fastMove != null && (<div>{getMoveIcon(pokemonObj.fastMove)} {formatMove(pokemonObj.fastMove, locale)}</div>)}
             {pokemonObj.chargedMoves != null && (<div>{getMoveIcon(pokemonObj.chargedMoves[0])} {formatMove(pokemonObj.chargedMoves[0], locale)}<br/>{getMoveIcon(pokemonObj.chargedMoves[1])} {formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
+            {pokemonObj.megaLevel != null && (<div>{t("mega_level")}: {t(`mega_level_${pokemonObj.megaLevel}`)}</div>)}
+            {renderPlusMove(pokemonObj)}
           </p>
         </div>
       </div>

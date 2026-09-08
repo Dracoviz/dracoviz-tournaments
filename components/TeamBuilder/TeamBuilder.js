@@ -7,7 +7,9 @@ import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import Card from "/components/Card/Card.js";
 import formatMove from "../../api/formatMove";
+import getMoveIcon from "../../utils/get-moves-icon";
 import { TEAM_SIZE } from "../../api/teamFormat";
+import { megaLevelsFor, plusMoveId, SUPER_MAX } from "../../api/megaLevel";
 
 /**
  * The Pokemon-picking half of a team form, shared by tournament registration and the My Teams page.
@@ -25,6 +27,8 @@ export default function TeamBuilder(props) {
     control,
     register,
     watch,
+    setValue,
+    getValues,
     errors,
     pokemonOptions,
     pokemonItems,
@@ -72,6 +76,62 @@ export default function TeamBuilder(props) {
     return chargedMoves;
   }
 
+  // Mega level belongs to the Pokemon rather than to the tournament, so unlike every other field
+  // here it is not gated on `requirements` -- picking a mega always means picking its level.
+  // The exception is a form that accepts partial teams (the saved-team builder), where nothing is
+  // mandatory and the server stores an unset level rather than rejecting it.
+  const renderMegaLevel = (index) => {
+    const thePokemon = pokemonOptions[pokemons?.[index]];
+    const levels = megaLevelsFor(thePokemon);
+    if (levels.length <= 0) {
+      return null;
+    }
+    const isRequired = requirements.allSlots !== false;
+    return (
+      <>
+        <InputLabel style={{ marginTop: 15 }}>{t('mega_level')}</InputLabel>
+        <Select
+          fullWidth
+          {...register(`megaLevel.${index}`, {
+            required: isRequired,
+            validate: (value) => (
+              (!isRequired && (value == null || value === "")) || levels.includes(value)
+            ),
+          })}
+          value={levels.includes(watch(`megaLevel.${index}`)) ? watch(`megaLevel.${index}`) : ""}
+          variant="standard"
+          error={errors?.megaLevel?.[index] != null}
+        >
+          {levels.map((level) => (
+            <MenuItem value={level} key={level}>{t(`mega_level_${level}`)}</MenuItem>
+          ))}
+        </Select>
+      </>
+    );
+  };
+
+  // The plus move is never chosen -- a mega gets it by reaching Super Max -- so it is shown rather
+  // than offered, and dimmed until the level that unlocks it is picked.
+  const renderPlusMove = (index) => {
+    const thePokemon = pokemonOptions[pokemons?.[index]];
+    const moveId = plusMoveId(thePokemon?.plusMove);
+    if (moveId == null) {
+      return null;
+    }
+    const unlocked = watch(`megaLevel.${index}`) === SUPER_MAX;
+    return (
+      <div style={{ marginTop: 15, opacity: unlocked ? 1 : 0.5 }}>
+        <div style={{ fontSize: "0.75rem", color: "#AAAAAA" }}>{t('plus_move')}</div>
+        <div>{getMoveIcon(moveId)} {formatMove(moveId, locale)}</div>
+        {!unlocked && (
+          <div style={{ fontSize: "0.75rem", color: "#AAAAAA" }}>
+            {t('plus_move_requires_super_max')}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const renderPokemonSelector = (index) => {
     return (
       <Controller
@@ -90,6 +150,13 @@ export default function TeamBuilder(props) {
           <Autocomplete
             onChange={(_event, item) => {
               onChange(item?.id ?? "");
+              // A level left over from the previous species would ride along to the server and be
+              // rejected there, so the slot's level is only ever the current species'.
+              const levels = megaLevelsFor(pokemonOptions[item?.id]);
+              const current = getValues(`megaLevel.${index}`);
+              if (!levels.includes(current)) {
+                setValue(`megaLevel.${index}`, "", { shouldValidate: true });
+              }
             }}
             value={value ?? ""}
             options={pokemonItems}
@@ -142,6 +209,7 @@ export default function TeamBuilder(props) {
               team format stores them, so they ride along as hidden fields rather than being lost
               on the next save.
             */}
+            {renderMegaLevel(index)}
             <input type="hidden" {...register(`level.${index}`)} />
             <input type="hidden" {...register(`attackIv.${index}`)} />
             <input type="hidden" {...register(`defenseIv.${index}`)} />
@@ -295,6 +363,7 @@ export default function TeamBuilder(props) {
                 </>
               )
             }
+            {renderPlusMove(index)}
           </GridItem>
         </GridContainer>
       </Card>

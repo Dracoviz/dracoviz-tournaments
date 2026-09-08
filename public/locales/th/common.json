@@ -44,6 +44,10 @@
 	"api_team_validation_duplicate": "ทีมของคุณมีสองตัวหรือมากกว่าของชนิดเดียวกัน",
     "api_team_validation_generic": "หนึ่งหรือมากกว่าหนึ่งตัว Pokemon ของคุณไม่ถูกต้องสำหรับ Meta นี้",
 	"api_team_validation_mega": "มี Mega Pokémon มากเกินไปในทีมของคุณ",
+	"api_team_validation_mega_level_required": "โปเกมอนเมกาทุกตัวต้องมีระดับเมกา",
+	"api_team_validation_mega_level_invalid": "ระดับเมกาไม่ถูกต้อง",
+	"api_team_validation_mega_level_not_mega": "เฉพาะโปเกมอนเมกาเท่านั้นที่มีระดับเมกาได้",
+	"api_team_validation_mega_level_super_max": "เมกาตัวนี้ไม่สามารถถึงซูเปอร์แม็กซ์ได้",
 	"api_team_validation_moveset": "หนึ่งใน Pokemon ของคุณมี Moveset ที่ไม่ถูกต้อง",
 	"api_team_validation_points_max": "ทีมของคุณเกินจำนวนคะแนนที่อนุญาตสำหรับ Meta นี้",
 	"api_team_validation_points_min": "ทีมของคุณไม่ได้ตรงตามจำนวนคะแนนที่อนุญาตสำหรับ Meta นี้",
@@ -393,5 +397,12 @@
 	"api_usage_species_required": "ไม่ได้ระบุ Pokémon",
 	"usage_sample_banner_title": "นี่คือข้อมูลตัวอย่าง",
 	"usage_sample_banner_body": "ตัวเลขในหน้านี้เป็นตัวอย่างที่สร้างขึ้น ไม่ใช่ผลการแข่งขันจริง ข้อมูลการใช้งานจริงจะเผยแพร่ในอีกประมาณสองสัปดาห์",
-	"usage_sample_banner_access": "หลังจากนั้น หน้านี้จะเปิดให้ผู้ที่จัดหรือเข้าร่วมทัวร์นาเมนต์ที่มีผู้เข้าร่วมมากกว่า 3 คนภายใน 30 วันที่ผ่านมาเข้าดูได้"
+	"usage_sample_banner_access": "หลังจากนั้น หน้านี้จะเปิดให้ผู้ที่จัดหรือเข้าร่วมทัวร์นาเมนต์ที่มีผู้เข้าร่วมมากกว่า 3 คนภายใน 30 วันที่ผ่านมาเข้าดูได้",
+	"mega_level": "ระดับเมกา",
+	"mega_level_base": "พื้นฐาน",
+	"mega_level_high": "สูง",
+	"mega_level_max": "สูงสุด",
+	"mega_level_super_max": "ซูเปอร์แม็กซ์",
+	"plus_move": "ท่าพลัส",
+	"plus_move_requires_super_max": "ใช้ได้ที่ระดับซูเปอร์แม็กซ์"
 }

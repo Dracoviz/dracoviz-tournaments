@@ -8,6 +8,7 @@ import { Button, Checkbox } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { useReactToPrint } from 'react-to-print';
 import formatMove from "../../api/formatMove";
+import { plusMoveId, SUPER_MAX } from "../../api/megaLevel";
 
 const color = "#edebeb";
 const border = `solid ${color} 0.5px`;
@@ -49,6 +50,8 @@ class ComponentToPrint extends React.PureComponent {
         fastMove: [],
         bestBuddy: [],
         purified: [],
+        megaLevel: [],
+        plusMove: [],
         name,
       }
       pokemon.forEach((pok) => {
@@ -61,6 +64,8 @@ class ComponentToPrint extends React.PureComponent {
         value.fastMove.push(pok.fastMove ?? "-");
         value.bestBuddy.push(pok.bestBuddy ?? false);
         value.purified.push(pok.purified ?? false);
+        value.megaLevel.push(pok.megaLevel ?? null);
+        value.plusMove.push(pok.plusMove ?? null);
       })
       values.push(value)
     });
@@ -136,6 +141,31 @@ class ComponentToPrint extends React.PureComponent {
                     ))
                   }
                 </tr>
+                {/* Mega-only rows, dropped entirely from a sheet with no megas on it. */}
+                {team.megaLevel.some((item) => item != null) && (
+                  <tr>
+                    <td style={cellStyle}><b>{t("mega_level")}</b></td>
+                    {
+                      team.megaLevel.map((item) => (
+                        <td style={cellStyle}>{item == null ? "-" : t(`mega_level_${item}`)}</td>
+                      ))
+                    }
+                  </tr>
+                )}
+                {team.plusMove.some((item) => item != null) && (
+                  <tr>
+                    <td style={cellStyle}><b>{t("plus_move")}</b></td>
+                    {
+                      team.plusMove.map((item, index) => (
+                        <td style={cellStyle}>
+                          {item == null || team.megaLevel[index] !== SUPER_MAX
+                            ? "-"
+                            : formatMove(plusMoveId(item), locale)}
+                        </td>
+                      ))
+                    }
+                  </tr>
+                )}
               </table>
             </div>
           ))

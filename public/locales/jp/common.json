@@ -44,6 +44,10 @@
 	"api_team_validation_duplicate": "あなたのチームに同じ種類のポケモンが2つ以上います",
 	"api_team_validation_generic": "あなたのポケモンのうち1つまたはそれ以上がこのメタには無効です",
 	"api_team_validation_mega": "あなたのチームにメガポケモンが多すぎます",
+	"api_team_validation_mega_level_required": "メガポケモンにはメガレベルが必要です",
+	"api_team_validation_mega_level_invalid": "メガレベルが不正です",
+	"api_team_validation_mega_level_not_mega": "メガポケモンのみメガレベルを持てます",
+	"api_team_validation_mega_level_super_max": "このメガはスーパーマックスになれません",
 	"api_team_validation_moveset": "あなたのポケモンのうち1つが無効な技を持っています",
 	"api_team_validation_points_max": "あなたのチームはこのメタで許可されたポイントを超えています",
 	"api_team_validation_points_min": "あなたのチームはこのメタで許可されたポイントに達していません",
@@ -393,5 +397,12 @@
 	"api_usage_species_required": "ポケモンが指定されていません。",
 	"usage_sample_banner_title": "これはサンプルデータです",
 	"usage_sample_banner_body": "このページの数値は生成されたサンプルであり、実際のトーナメントの結果ではありません。実際の使用率データは約2週間後に公開されます。",
-	"usage_sample_banner_access": "公開後は、過去30日以内に参加者が3人を超えるトーナメントを主催した方、または参加した方がこのページを閲覧できます。"
+	"usage_sample_banner_access": "公開後は、過去30日以内に参加者が3人を超えるトーナメントを主催した方、または参加した方がこのページを閲覧できます。",
+	"mega_level": "メガレベル",
+	"mega_level_base": "ベース",
+	"mega_level_high": "ハイ",
+	"mega_level_max": "マックス",
+	"mega_level_super_max": "スーパーマックス",
+	"plus_move": "プラスわざ",
+	"plus_move_requires_super_max": "スーパーマックスで使用可能"
 }

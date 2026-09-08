@@ -44,6 +44,10 @@
     "api_team_validation_duplicate": "귀하의 팀에는 두 개 이상의 동일한 종류의 포켓몬이 있습니다",
     "api_team_validation_generic": "귀하의 팀 중 하나 이상의 포켓몬이 이 메타에 대해 유효하지 않습니다",
     "api_team_validation_mega": "귀하의 팀에는 너무 많은 메가 포켓몬이 있습니다",
+    "api_team_validation_mega_level_required": "모든 메가 포켓몬에는 메가 레벨이 필요합니다",
+    "api_team_validation_mega_level_invalid": "잘못된 메가 레벨입니다",
+    "api_team_validation_mega_level_not_mega": "메가 포켓몬만 메가 레벨을 가질 수 있습니다",
+    "api_team_validation_mega_level_super_max": "이 메가는 슈퍼 맥스에 도달할 수 없습니다",
     "api_team_validation_moveset": "귀하의 팀 중 하나의 포켓몬이 유효하지 않은 기술을 가지고 있습니다",
     "api_team_validation_points_max": "귀하의 팀은 이 메타에서 허용된 포인트 양을 초과합니다",
     "api_team_validation_points_min": "귀하의 팀은 이 메타에서 허용된 포인트 양에 미달합니다",
@@ -393,5 +397,12 @@
 	"api_usage_species_required": "포켓몬이 지정되지 않았습니다.",
 	"usage_sample_banner_title": "샘플 데이터입니다",
 	"usage_sample_banner_body": "이 페이지의 수치는 생성된 예시이며 실제 토너먼트 결과가 아닙니다. 실제 사용률 데이터는 약 2주 후에 공개됩니다.",
-	"usage_sample_banner_access": "공개 이후에는 최근 30일 이내에 참가자가 3명을 초과하는 토너먼트를 주최했거나 참가한 사람이라면 누구나 이 페이지를 볼 수 있습니다."
+	"usage_sample_banner_access": "공개 이후에는 최근 30일 이내에 참가자가 3명을 초과하는 토너먼트를 주최했거나 참가한 사람이라면 누구나 이 페이지를 볼 수 있습니다.",
+    "mega_level": "메가 레벨",
+    "mega_level_base": "베이스",
+    "mega_level_high": "하이",
+    "mega_level_max": "맥스",
+    "mega_level_super_max": "슈퍼 맥스",
+    "plus_move": "플러스 기술",
+    "plus_move_requires_super_max": "슈퍼 맥스에서 사용 가능"
 }

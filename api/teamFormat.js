@@ -105,6 +105,7 @@ function collectFilledSlots(values, teamSize, pokemonOptions) {
         best_buddy: toBoolean(values?.bestBuddy?.[index]),
         purified: toBoolean(values?.purified?.[index]),
         nickname: toText(values?.nickname?.[index]),
+        megaLevel: toText(values?.megaLevel?.[index]),
       },
     });
   }
@@ -123,7 +124,10 @@ export function formValuesToUnified(values, teamSize = TEAM_SIZE, pokemonOptions
 
   return unified.map((pokemon, i) => {
     const { index } = slots[i];
+    // pvpoke-converter knows nothing about mega level (PvPoke's CSV has no column for it), so it
+    // rides back on afterwards the same way level and IVs do.
     const extras = {
+      megaLevel: slots[i].pokemon.megaLevel,
       level: toNumber(values?.level?.[index]),
       attackIv: toNumber(values?.attackIv?.[index]),
       defenseIv: toNumber(values?.defenseIv?.[index]),
@@ -147,6 +151,7 @@ export function sessionTeamToFormValues(team, unified) {
     chargedMoves: [],
     fastMoves: [],
     nickname: [],
+    megaLevel: [],
     purified: [],
     bestBuddy: [],
     level: [],
@@ -165,6 +170,7 @@ export function sessionTeamToFormValues(team, unified) {
     ]);
     values.fastMoves.push(pokemon.fastMove ?? "");
     values.nickname.push(pokemon.nickname ?? "");
+    values.megaLevel.push(pokemon.megaLevel ?? unified?.[index]?.megaLevel ?? "");
     values.purified.push(pokemon.purified === true);
     values.bestBuddy.push(pokemon.best_buddy === true);
     values.level.push(unified?.[index]?.level ?? "");
@@ -187,7 +193,7 @@ export function unifiedToFormValues(unified, pokemonOptions) {
  * display name, which the dex already spells as "Swampert (Shadow)".
  */
 export function unifiedToDisplayPokemon(unified, pokemonOptions) {
-  return unifiedToSessionTeam(unified ?? [], buildSidMap(pokemonOptions)).map((pokemon) => ({
+  return unifiedToSessionTeam(unified ?? [], buildSidMap(pokemonOptions)).map((pokemon, index) => ({
     speciesName: pokemonOptions?.[pokemon.speciesName]?.speciesName ?? pokemon.speciesName,
     sid: pokemon.sid,
     nickname: pokemon.nickname ?? null,
@@ -197,6 +203,10 @@ export function unifiedToDisplayPokemon(unified, pokemonOptions) {
     chargedMoves: pokemon.chargedMoves?.[0] ? pokemon.chargedMoves : null,
     purified: pokemon.purified,
     bestBuddy: pokemon.best_buddy,
+    // pvpoke-converter drops mega level on the way through, so it comes off the universal entry.
+    megaLevel: unified?.[index]?.megaLevel ?? null,
+    // Matches the shape session/get returns, so PokemonView has one contract to render.
+    plusMove: pokemonOptions?.[pokemon.speciesName]?.plusMove ?? null,
   }));
 }
 
