@@ -8,7 +8,7 @@ import { Button, Checkbox } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { useReactToPrint } from 'react-to-print';
 import formatMove from "../../api/formatMove";
-import { plusMoveId, SUPER_MAX } from "../../api/megaLevel";
+import { MEGA_LEVELS, plusMoveId, SUPER_MAX } from "../../api/megaLevel";
 
 const color = "#edebeb";
 const border = `solid ${color} 0.5px`;
@@ -64,7 +64,9 @@ class ComponentToPrint extends React.PureComponent {
         value.fastMove.push(pok.fastMove ?? "-");
         value.bestBuddy.push(pok.bestBuddy ?? false);
         value.purified.push(pok.purified ?? false);
-        value.megaLevel.push(pok.megaLevel ?? null);
+        // A non-mega carries an unset level rather than no level at all, so the sheet normalizes
+        // anything but a level the dex knows to null and the rows below read one shape.
+        value.megaLevel.push(MEGA_LEVELS.includes(pok.megaLevel) ? pok.megaLevel : null);
         value.plusMove.push(pok.plusMove ?? null);
       })
       values.push(value)

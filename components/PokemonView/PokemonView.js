@@ -9,7 +9,7 @@ import Purified from "../../public/img/draco_icon_circle_purified.png";
 import BestBuddy from "../../public/img/draco_icon_circle_buddy.png";
 import useWindowSize from "../../utils/use-window-size";
 import getMoveIcon from "../../utils/get-moves-icon";
-import { plusMoveId, SUPER_MAX } from "../../api/megaLevel";
+import { MEGA_LEVELS, plusMoveId, SUPER_MAX } from "../../api/megaLevel";
 
 const useStyles = makeStyles(styles);
 
@@ -89,7 +89,9 @@ export default function PokemonView(props) {
             {pokemonObj.hp != null && (<div>{t("hp")}: {pokemonObj.hp}</div>)}
             {pokemonObj.fastMove != null && (<div>{getMoveIcon(pokemonObj.fastMove)} {formatMove(pokemonObj.fastMove, locale)}</div>)}
             {pokemonObj.chargedMoves != null && (<div>{getMoveIcon(pokemonObj.chargedMoves[0])} {formatMove(pokemonObj.chargedMoves[0], locale)}<br/>{getMoveIcon(pokemonObj.chargedMoves[1])} {formatMove(pokemonObj.chargedMoves[1], locale)}</div>)}
-            {pokemonObj.megaLevel != null && (<div>{t("mega_level")}: {t(`mega_level_${pokemonObj.megaLevel}`)}</div>)}
+            {/* A non-mega carries an unset level rather than no level at all, so anything but a
+                level the dex knows has no row -- a bare key is not worth rendering. */}
+            {MEGA_LEVELS.includes(pokemonObj.megaLevel) && (<div>{t("mega_level")}: {t(`mega_level_${pokemonObj.megaLevel}`)}</div>)}
             {renderPlusMove(pokemonObj)}
           </p>
         </div>
