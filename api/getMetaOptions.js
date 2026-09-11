@@ -10,11 +10,11 @@
  */
 const META_OPTIONS = [
   { value: "Great League", labelKey: "great_league" },
-  { value: "Great League Megas", label: "Anything Goes (Great League)" },
+  { value: "Great League Megas", label: "Great League Megas" },
   { value: "Ultra League", labelKey: "ultra_league" },
   { value: "Master League", labelKey: "master_league" },
   { value: "Play Pokemon 2024", label: "Play! Pokémon Championship Series" },
-  { value: "NAIC 2026", label: "NAIC 2026" },
+  { value: "LAIC 2027", label: "LAIC 2027" },
 ];
 
 export const META_VALUES = META_OPTIONS.map((meta) => meta.value);
