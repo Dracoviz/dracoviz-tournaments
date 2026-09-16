@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import UsageTrendChart from "./UsageTrendChart";
 import StatDelta from "./StatDelta";
+import useTableSort from "./useTableSort";
 import {
   METRICS, NO_DATA, findSpecies, formatNumber, formatPercent, formatPeriodRange,
   formatPeriodRangeShort, onSpriteError, spriteUrl,
@@ -17,12 +18,19 @@ import {
  */
 const TREND_SERIES = 16;
 
+/** The value columns. `delta` marks the ones worth comparing against the previous week. */
 const COLUMNS = [
   { key: "usage", labelKey: "usage_rate", format: formatPercent, delta: true },
   { key: "matchWinRate", labelKey: "usage_match_win_rate", format: formatPercent, delta: true },
   { key: "gameWinRate", labelKey: "usage_game_win_rate", format: formatPercent, delta: true },
   { key: "shadowRate", labelKey: "usage_shadow_rate", format: formatPercent, delta: false },
   { key: "count", labelKey: "usage_occurrences", format: formatNumber, delta: false },
+];
+
+/** The same columns plus the name, in render order, for the sort hook. */
+const SORT_COLUMNS = [
+  { key: "speciesName", labelKey: "usage_pokemon", align: "left", text: true },
+  ...COLUMNS,
 ];
 
 function StatCard({ label, value, current, previous, variant }) {
@@ -43,33 +51,14 @@ export default function UsageOverview({
   const { t } = useTranslation();
   const { locale } = useRouter();
   const [metric, setMetric] = useState("usage");
-  const [sort, setSort] = useState({ key: "usage", direction: "desc" });
+  const { sortRows, SortHeader } = useTableSort(SORT_COLUMNS, "usage");
 
   const period = periods[0];
   const previous = periods[1] ?? null;
   // Deltas and the trend chart only mean anything once there is something to compare against.
   const hasComparison = previous != null;
 
-  const rows = useMemo(() => {
-    const list = [...(period?.pokemon ?? [])];
-    const { key, direction } = sort;
-    list.sort((a, b) => {
-      if (key === "speciesName") {
-        return direction === "asc"
-          ? a.speciesName.localeCompare(b.speciesName)
-          : b.speciesName.localeCompare(a.speciesName);
-      }
-      // Nulls are "no data", not zero, so they sort to the bottom either way rather than pretending
-      // to be the worst possible value.
-      const av = a[key];
-      const bv = b[key];
-      if (av == null && bv == null) return 0;
-      if (av == null) return 1;
-      if (bv == null) return -1;
-      return direction === "asc" ? av - bv : bv - av;
-    });
-    return list;
-  }, [period, sort]);
+  const rows = sortRows(period?.pokemon);
 
   const series = useMemo(() => (period?.pokemon ?? [])
     .slice(0, TREND_SERIES)
@@ -78,29 +67,6 @@ export default function UsageOverview({
       // Null for a period the species did not qualify in, so the line breaks instead of hitting zero.
       valueFor: (p) => findSpecies(p, species.speciesId)?.[metric] ?? null,
     })), [period, metric]);
-
-  const toggleSort = (key) => setSort((prev) => (
-    prev.key === key
-      ? { key, direction: prev.direction === "desc" ? "asc" : "desc" }
-      : { key, direction: key === "speciesName" ? "asc" : "desc" }
-  ));
-
-  const sortArrow = (key) => {
-    if (sort.key !== key) return "";
-    return sort.direction === "desc" ? " ↓" : " ↑";
-  };
-
-  const headerCell = (labelKey, key, align = "right") => (
-    <th
-      key={key}
-      onClick={() => toggleSort(key)}
-      style={{
-        textAlign: align, padding: "8px 10px", cursor: "pointer", whiteSpace: "nowrap",
-      }}
-    >
-      {t(labelKey)}{sortArrow(key)}
-    </th>
-  );
 
   return (
     <div>
@@ -195,8 +161,9 @@ export default function UsageOverview({
           <thead>
             <tr style={{ borderBottom: "2px solid rgba(128,128,128,0.35)" }}>
               <th style={{ textAlign: "left", padding: "8px 10px", width: 40 }}>#</th>
-              {headerCell("usage_pokemon", "speciesName", "left")}
-              {COLUMNS.map((column) => headerCell(column.labelKey, column.key))}
+              {SORT_COLUMNS.map((column) => (
+                <SortHeader key={column.key} column={column} />
+              ))}
             </tr>
           </thead>
           <tbody>

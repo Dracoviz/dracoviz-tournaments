@@ -6,6 +6,7 @@ import formatMove from "../../api/formatMove";
 import getMoveIcon from "../../utils/get-moves-icon";
 import UsageTrendChart from "./UsageTrendChart";
 import StatDelta from "./StatDelta";
+import useTableSort from "./useTableSort";
 import {
   UsageEmpty, UsageError, UsageForbidden, UsageLoading,
 } from "./UsageStates";
@@ -14,6 +15,14 @@ import {
   METRICS, NO_DATA, formatNumber, formatPercent, formatPeriodRange,
   onSpriteError, spriteUrl,
 } from "./usageFormat";
+
+const PARTNER_COLUMNS = [
+  { key: "speciesName", labelKey: "usage_pokemon", align: "left", text: true },
+  { key: "count", labelKey: "usage_paired" },
+  { key: "frequency", labelKey: "usage_share" },
+  { key: "matchWinRate", labelKey: "usage_match_win_rate" },
+  { key: "gameWinRate", labelKey: "usage_game_win_rate" },
+];
 
 function StatCard({ label, value, current, previous }) {
   return (
@@ -55,6 +64,9 @@ export default function PokemonDetail({
   const { t } = useTranslation();
   const { locale } = useRouter();
   const [metric, setMetric] = useState("usage");
+  const { sortRows: sortPartners, SortHeader: PartnerHeader } = useTableSort(
+    PARTNER_COLUMNS, "count",
+  );
 
   const current = periods[0] ?? null;
   const previous = periods[1] ?? null;
@@ -248,17 +260,16 @@ export default function PokemonDetail({
         <Alert severity="info">{t("usage_no_partners")}</Alert>
       ) : (
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 520 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 620 }}>
             <thead>
               <tr style={{ borderBottom: "2px solid rgba(128,128,128,0.35)" }}>
-                <th style={{ textAlign: "left", padding: "8px 10px" }}>{t("usage_pokemon")}</th>
-                <th style={{ textAlign: "right", padding: "8px 10px" }}>{t("usage_paired")}</th>
-                <th style={{ textAlign: "right", padding: "8px 10px" }}>{t("usage_share")}</th>
-                <th style={{ textAlign: "right", padding: "8px 10px" }}>{t("usage_match_win_rate")}</th>
+                {PARTNER_COLUMNS.map((column) => (
+                  <PartnerHeader key={column.key} column={column} />
+                ))}
               </tr>
             </thead>
             <tbody>
-              {current.partners.map((partner) => (
+              {sortPartners(current.partners).map((partner) => (
                 <tr
                   key={partner.speciesId}
                   style={{ borderBottom: "1px solid rgba(128,128,128,0.18)" }}
@@ -284,6 +295,9 @@ export default function PokemonDetail({
                   </td>
                   <td style={{ padding: "6px 10px", textAlign: "right" }}>
                     <RateCell value={partner.matchWinRate} teamsWithRecord={partner.teamsWithRecord} t={t} />
+                  </td>
+                  <td style={{ padding: "6px 10px", textAlign: "right" }}>
+                    <RateCell value={partner.gameWinRate} teamsWithRecord={partner.teamsWithRecord} t={t} />
                   </td>
                 </tr>
               ))}
