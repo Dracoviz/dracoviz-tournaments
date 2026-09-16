@@ -36,8 +36,8 @@ const useStyles = makeStyles(styles);
 /**
  * Play! Pokemon usage statistics across Dracoviz tournaments.
  *
- * The numbers are precomputed into two-week periods by a script rather than aggregated per request,
- * so this page only ever reads finished periods and never waits on a heavy query.
+ * The numbers are precomputed into weekly periods by a script rather than aggregated per request,
+ * so this page only ever reads finished weeks and never waits on a heavy query.
  *
  * The Pokemon being drilled into lives in the query string rather than in state, so a link to one
  * Pokemon's breakdown is shareable and the browser's back button does the obvious thing.

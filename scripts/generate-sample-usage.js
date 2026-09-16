@@ -9,6 +9,10 @@
  * Everything is driven by a seeded PRNG rather than Math.random, so re-running the script produces
  * a byte-identical file and the checked-in fixture never churns in diffs.
  *
+ * Note that the real epoch is the launch instant, so asking for several weeks of fixture necessarily
+ * produces negative period indices for the weeks before launch. That is expected for synthetic data
+ * and is what keeps the multi-week test scenarios working; the live API only ever serves index >= 0.
+ *
  * The data deliberately contains the awkward cases the page has to survive:
  *   - a species that falls below the reporting threshold partway through its history
  *   - a species that appears for the first time in the newest period
@@ -21,8 +25,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Mirrors scripts/lib/periods.js in dracoviz-site. Frozen: it defines the bucket boundaries.
-const PERIOD_EPOCH = Date.UTC(2024, 0, 1);
-const PERIOD_MS = 14 * 24 * 60 * 60 * 1000;
+const PERIOD_EPOCH = Date.UTC(2026, 8, 8, 20); // 2026-09-08T20:00Z = 8 Sep 2026, 4pm EDT
+const PERIOD_MS = 7 * 24 * 60 * 60 * 1000;
 
 const META = 'Play Pokemon 2024';
 const SPECIES_MIN_COUNT = 20;

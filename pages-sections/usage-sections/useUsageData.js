@@ -4,14 +4,15 @@ import fetchApi from "../../api/fetchApi";
 /**
  * The data layer for the usage page.
  *
- * `SOURCE` is the seam between the generated fixture the page was built against and the live API.
- * Both sides return exactly the same shape, so flipping it is the only change needed to go live.
+ * `SOURCE` is the seam between the live API and the generated fixture the page was built against.
+ * Both sides return exactly the same shape, so it can be flipped back to "sample" to work on the
+ * page offline without API credentials.
  *
  * Errors are returned as state rather than alert()ed the way the tournament pages do it, because
  * this is a read-only data page: an inline message with a retry button is far more useful here than
  * a modal dialog that leaves a blank screen behind it.
  */
-const SOURCE = "sample";
+const SOURCE = "api";
 
 /**
  * Whether the page is showing the generated fixture rather than real tournament results.
@@ -22,8 +23,13 @@ const SOURCE = "sample";
  */
 export const IS_SAMPLE_DATA = SOURCE === "sample";
 
-/** How many periods are fetched at a time. The API clamps this too; it will never return more. */
-export const PAGE_SIZE = 6;
+/**
+ * How many weeks are fetched at a time. The API clamps this too; it will never return more.
+ *
+ * Eight weeks is about two months of trend, which reads well on the chart and is still one
+ * request. "Load older" pages back from there.
+ */
+export const PAGE_SIZE = 8;
 
 /**
  * Status values the page renders distinct screens for. `forbidden` is deliberately separate from
