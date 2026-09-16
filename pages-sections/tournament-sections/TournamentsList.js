@@ -7,6 +7,8 @@ import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import Router from "next/router";
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM } from "../../utils/analyticsEvents";
 
 const useStyles = makeStyles(styles);
 
@@ -23,6 +25,13 @@ export default function TournamentsList(props) {
   const onSearch = (e) => {
     const targetValue = e.target.value;
     const matchingTournaments = tournaments.filter(t => t.name.toLowerCase().includes(targetValue.toLowerCase()));
+    if (targetValue.length > 0) {
+      // Length and hit count only -- tournament names are user-authored text.
+      track(EVENT.TOURNAMENT_SEARCH, {
+        [PARAM.QUERY_LENGTH]: targetValue.length,
+        [PARAM.ITEM_COUNT]: matchingTournaments.length,
+      });
+    }
     setSearchedTournaments(matchingTournaments);
   }
 

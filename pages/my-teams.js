@@ -15,6 +15,8 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/myTeamsPage.js";
 import fetchApi from "../api/fetchApi";
+import { track } from "../utils/analytics";
+import { EVENT, PARAM, RESULT } from "../utils/analyticsEvents";
 import { unifiedToDisplayPokemon, TEAM_SIZE } from "../api/teamFormat";
 import { getMetaLabel } from "../api/getMetaOptions";
 import TeamEditModal from "../pages-sections/my-teams-sections/TeamEditModal";
@@ -103,6 +105,11 @@ export default function MyTeams() {
     )
       .then((response) => response.json())
       .then((data) => {
+        track(EVENT.SAVED_TEAM_SAVED, {
+          [PARAM.SOURCE]: isEdit ? "edit" : "create",
+          [PARAM.ERROR_CODE]: data.error ?? undefined,
+          [PARAM.RESULT]: data.error != null ? RESULT.FAILURE : RESULT.SUCCESS,
+        });
         if (data.error != null) {
           alert(t(data.error, { details: data.details }));
           return;
@@ -115,8 +122,10 @@ export default function MyTeams() {
 
   const onDelete = (team) => {
     if (!window.confirm(t("confirm_delete_team", { name: team.name }))) {
+      track(EVENT.SAVED_TEAM_DELETED, { [PARAM.RESULT]: RESULT.CANCELLED });
       return;
     }
+    track(EVENT.SAVED_TEAM_DELETED, { [PARAM.RESULT]: RESULT.SUCCESS });
     fetchApi(
       "player-teams/delete/",
       "POST",

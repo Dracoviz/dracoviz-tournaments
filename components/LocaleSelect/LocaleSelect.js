@@ -2,11 +2,14 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Select, MenuItem } from "@mui/material";
 import { setCookie } from 'cookies-next';
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM } from "../../utils/analyticsEvents";
 
 export default function LocaleSelect() {
     const { locale, push, pathname, query } = useRouter();
     const onLangChange = (e) => {
       const newLocale = e.target.value;
+      track(EVENT.LOCALE_CHANGED, { [PARAM.LOCALE]: newLocale });
       setCookie('NEXT_LOCALE', newLocale);
       push({
           pathname,

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import fetchApi from "../../api/fetchApi";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM, RESULT } from "../../utils/analyticsEvents";
 
 /**
  * The data layer for the usage page.
@@ -138,6 +140,10 @@ export function useUsageData(authId) {
     loadOverview({ authId, limit: PAGE_SIZE })
       .then((data) => {
         if (cancelled) return;
+        track(EVENT.USAGE_LOADED, {
+          [PARAM.ITEM_COUNT]: data.periods.length,
+          [PARAM.RESULT]: RESULT.SUCCESS,
+        });
         setState({
           status: data.periods.length > 0 ? STATUS.READY : STATUS.EMPTY,
           periods: data.periods,
@@ -147,8 +153,18 @@ export function useUsageData(authId) {
       })
       .catch((ex) => {
         if (cancelled) return;
+        const status = toStatus(ex);
+        // A 403 here is the 30-day-activity eligibility gate, not a failure.
+        // Counting how many people hit that wall is the point of this event.
+        track(
+          status === STATUS.FORBIDDEN ? EVENT.USAGE_ACCESS_DENIED : EVENT.USAGE_LOADED,
+          {
+            [PARAM.ERROR_CODE]: ex.message,
+            [PARAM.RESULT]: RESULT.FAILURE,
+          },
+        );
         setState({
-          status: toStatus(ex), periods: [], availablePeriods: null, error: ex.message,
+          status, periods: [], availablePeriods: null, error: ex.message,
         });
       });
 
@@ -163,6 +179,7 @@ export function useUsageData(authId) {
       return;
     }
     setIsLoadingMore(true);
+    track(EVENT.USAGE_LOAD_OLDER, { [PARAM.ITEM_COUNT]: state.periods.length });
     loadOverview({ authId, limit: PAGE_SIZE, before: oldest.periodIndex })
       .then((data) => setState((prev) => ({
         ...prev,

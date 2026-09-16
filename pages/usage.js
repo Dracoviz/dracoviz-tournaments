@@ -13,6 +13,8 @@ import GridItem from "/components/Grid/GridItem.js";
 import styles from "/styles/jss/nextjs-material-kit/pages/usagePage.js";
 import UsageOverview from "../pages-sections/usage-sections/UsageOverview";
 import PokemonDetail from "../pages-sections/usage-sections/PokemonDetail";
+import { track } from "../utils/analytics";
+import { EVENT, PARAM, SCREEN } from "../utils/analyticsEvents";
 import {
   UsageEmpty, UsageError, UsageForbidden, UsageLoading, UsageSampleBanner,
 } from "../pages-sections/usage-sections/UsageStates";
@@ -61,6 +63,7 @@ export default function Usage() {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
+        track(EVENT.AUTH_GATE_REDIRECT, { [PARAM.SCREEN]: SCREEN.USAGE });
         Router.push("/login");
         return;
       }
@@ -70,11 +73,14 @@ export default function Usage() {
   }, []);
 
   // Shallow routing so switching Pokemon never re-runs getServerSideProps.
-  const selectSpecies = (speciesId) => router.push(
-    { pathname: "/usage", query: { pokemon: speciesId } },
-    undefined,
-    { shallow: true },
-  );
+  const selectSpecies = (speciesId) => {
+    track(EVENT.USAGE_SPECIES_DRILLDOWN, { [PARAM.SPECIES_ID]: speciesId });
+    return router.push(
+      { pathname: "/usage", query: { pokemon: speciesId } },
+      undefined,
+      { shallow: true },
+    );
+  };
   const clearSpecies = () => router.push({ pathname: "/usage" }, undefined, { shallow: true });
 
   const renderBody = () => {

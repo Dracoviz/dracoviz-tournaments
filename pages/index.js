@@ -9,6 +9,8 @@ import ProfilePreview from "../pages-sections/home-sections/ProfilePreview";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import fetchApi from "../api/fetchApi.js";
+import { track, identify, bucketCount, countChangedFields } from "../utils/analytics";
+import { EVENT, PARAM, RESULT, SCREEN, SOURCE, USER_PROP } from "../utils/analyticsEvents";
 import { useTranslation } from 'next-i18next';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/homePage.js";
@@ -55,8 +57,16 @@ export default function Index() {
     })
     .then(response => response.json())
     .then(newData => {
+      const sessions = newData?.sessions ?? [];
+      const hosted = sessions.filter((session) => session.isHost).length;
+      identify(id, {
+        [USER_PROP.IS_HOST]: hosted > 0,
+        [USER_PROP.TOURNAMENTS_HOSTED]: bucketCount(hosted),
+        [USER_PROP.TOURNAMENTS_PLAYED]: bucketCount(sessions.length - hosted),
+      });
       setData(newData)
       if (isNewUser === "true") {
+        track(EVENT.PROFILE_EDIT_OPENED, { [PARAM.SOURCE]: SOURCE.AUTO });
         router.replace('/', undefined, { shallow: true });
         setCurrentModal("profile");
       }
@@ -64,6 +74,7 @@ export default function Index() {
   }, [])
 
   const getShowMore = () => {
+    track(EVENT.SHOW_ALL_TOURNAMENTS);
     setIsLoading(true)
     fetchApi("shared/get/?getAll=true", "GET", {
       x_session_id: authId,
@@ -82,6 +93,7 @@ export default function Index() {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
+        track(EVENT.AUTH_GATE_REDIRECT, { [PARAM.SCREEN]: SCREEN.HOME });
         Router.push("/login");
       } else {
         getSharedData(user.uid);
@@ -92,18 +104,26 @@ export default function Index() {
   }, []);
 
   const onEditProfile = () => {
+    track(EVENT.PROFILE_EDIT_OPENED, { [PARAM.SOURCE]: SOURCE.MANUAL });
     setCurrentModal("profile");
   }
 
-  const onSaveProfile = async (data) => {
+  const onSaveProfile = async (profileData) => {
     try {
       const response = await fetchApi(
         "shared/edit-profile/", "POST",
         { x_session_id: authId, "Content-Type": "application/json" },
-        JSON.stringify(data)
+        JSON.stringify(profileData)
       );
       const newData = await response.json();
       const { error } = newData;
+      // Field COUNT only -- the profile holds names, friend codes and handles,
+      // none of which may ever reach analytics.
+      track(EVENT.PROFILE_SAVED, {
+        [PARAM.FIELD_COUNT]: countChangedFields(data, data == null ? null : { ...data, ...profileData }),
+        [PARAM.ERROR_CODE]: error ?? undefined,
+        [PARAM.RESULT]: error ? RESULT.FAILURE : RESULT.SUCCESS,
+      });
       if (error) {
         alert(t(error))
       } else {
@@ -121,6 +141,7 @@ export default function Index() {
   }
 
   const handleChange = (_event, newTab) => {
+    track(EVENT.HOME_TAB_SWITCHED, { [PARAM.SOURCE]: newTab === 1 ? "concluded" : "active" });
     setCurrentTab(newTab);
   };
 

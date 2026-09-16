@@ -15,6 +15,8 @@ import { useTranslation } from "next-i18next";
 import styles from "/styles/jss/nextjs-material-kit/components/headerLinksStyle.js";
 import { useTheme, IconButton } from "@mui/material";
 import ColorModeContext from "../../utils/ColorModeContext";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM, SOURCE } from "../../utils/analyticsEvents";
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
@@ -29,12 +31,23 @@ export default function HeaderLinks(props) {
   const { isSignedIn } = props;
   const onLoginClick = () => {
     if (isSignedIn) {
+      track(EVENT.LOGOUT);
       firebase.auth().signOut().then(() => {
         Router.push("/login");
       })
     } else {
+      track(EVENT.NAV_CLICKED, { [PARAM.SOURCE]: "login" });
       Router.push("/login");
     }
+  }
+
+  const onNavClick = (destination) => {
+    track(EVENT.NAV_CLICKED, { [PARAM.SOURCE]: destination });
+    Router.push(`/${destination}`);
+  }
+
+  const onExternalClick = (destination) => {
+    track(EVENT.EXTERNAL_LINK_CLICKED, { [PARAM.SOURCE]: destination });
   }
   return (
     <List className={classes.list} style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
@@ -43,7 +56,7 @@ export default function HeaderLinks(props) {
           <Button
             color="transparent"
             className={classes.navLink}
-            onClick={() => Router.push("/my-teams")}
+            onClick={() => onNavClick("my-teams")}
           >
             {t("my_teams")}
           </Button>
@@ -54,7 +67,7 @@ export default function HeaderLinks(props) {
           <Button
             color="transparent"
             className={classes.navLink}
-            onClick={() => Router.push("/usage")}
+            onClick={() => onNavClick("usage")}
           >
             {t("usage")}
           </Button>
@@ -69,6 +82,7 @@ export default function HeaderLinks(props) {
         >
           <Button
             href="https://twitter.com/Dracoviz?ref=dracoviz"
+            onClick={() => onExternalClick("twitter")}
             target="_blank"
             rel="noreferrer"
             color="transparent"
@@ -89,6 +103,7 @@ export default function HeaderLinks(props) {
           <Button
             color="transparent"
             href="https://discord.gg/tzZM3Ay93f"
+            onClick={() => onExternalClick(SOURCE.LINK_DISCORD)}
             target="_blank"
             rel="noreferrer"
             className={classes.navLink}
@@ -108,6 +123,7 @@ export default function HeaderLinks(props) {
           <Button
             color="transparent"
             href="https://ko-fi.com/dracoviz"
+            onClick={() => onExternalClick(SOURCE.LINK_KOFI)}
             target="_blank"
             rel="noreferrer"
             className={classes.navLink}
@@ -132,7 +148,12 @@ export default function HeaderLinks(props) {
           >
             <IconButton
               sx={{ mt: 0.5 }}
-              onClick={colorMode.toggleColorMode}
+              onClick={() => {
+                track(EVENT.THEME_TOGGLED, {
+                  [PARAM.SOURCE]: theme.palette.mode === 'dark' ? 'light' : 'dark',
+                });
+                colorMode.toggleColorMode();
+              }}
               className={classes.navLink}
               color="inherit"
             >

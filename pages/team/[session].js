@@ -19,6 +19,8 @@ import {
 import TeamBuilder from "/components/TeamBuilder/TeamBuilder.js";
 import PvPokeDialog from "/components/TeamBuilder/PvPokeDialog.js";
 import fetchApi from "../../api/fetchApi";
+import { track, configFlags } from "../../utils/analytics";
+import { EVENT, PARAM, RESULT, SCREEN } from "../../utils/analyticsEvents";
 import {
   formValuesToUnified, unifiedToFormValues, TEAM_SIZE,
 } from "../../api/teamFormat";
@@ -101,6 +103,19 @@ export default function Team() {
       setValue("bestBuddy", data.bestBuddy, { shouldValidate: false });
       setValue("megaLevel", data.megaLevel, { shouldValidate: false });
       setValue("metaClass", data.metaClass, { shouldValidate: false });
+      track(EVENT.TEAM_REGISTER_VIEWED, {
+        [PARAM.TOURNAMENT_ID]: session,
+        [PARAM.META]: data.meta ?? undefined,
+        [PARAM.CONFIG_FLAGS]: configFlags({
+          moves: data.movesetsRequired,
+          cp: data.cpRequired,
+          hp: data.hpRequired,
+          purified: data.purifiedRequired,
+          best_buddy: data.bestBuddyRequired,
+          nickname: data.nicknameRequired,
+          edit: data.canEdit,
+        }),
+      });
       setPokemonItems(Object.keys(data.pokemonData)
         .map((key)=>{
           return {
@@ -143,6 +158,11 @@ export default function Team() {
     if (team == null) {
       return;
     }
+    track(EVENT.SAVED_TEAM_LOADED, {
+      [PARAM.TOURNAMENT_ID]: session,
+      [PARAM.META]: metaClass ?? undefined,
+      [PARAM.ITEM_COUNT]: eligibleSavedTeams.length,
+    });
     const values = unifiedToFormValues(team.pokemon, pokemonOptions);
     for (let index = 0; index < TEAM_SIZE; index += 1) {
       setValue(`pokemon.${index}`, values.pokemon[index] ?? "", { shouldValidate: true });
@@ -172,10 +192,24 @@ export default function Team() {
     .then(response => response.json())
     .then(async (result) => {
       if (result.error != null) {
+        track(EVENT.TEAM_REGISTER_FAILED, {
+          [PARAM.TOURNAMENT_ID]: session,
+          [PARAM.META]: meta ?? undefined,
+          [PARAM.ERROR_CODE]: result.error,
+          [PARAM.RESULT]: RESULT.FAILURE,
+        });
         alert(t(result.error));
         setSubmitting(false);
         return;
       }
+      const registeredCount = (data?.pokemon ?? []).filter((x) => x != null && x !== "").length;
+      track(EVENT.TEAM_REGISTERED, {
+        [PARAM.TOURNAMENT_ID]: session,
+        [PARAM.META]: meta ?? undefined,
+        [PARAM.ITEM_COUNT]: registeredCount,
+        [PARAM.SAVED_TO_LIBRARY]: saveTeam === true,
+        [PARAM.RESULT]: RESULT.SUCCESS,
+      });
       // Registration is what matters here; saving to the library is a separate call so a failure
       // there cannot undo it, but the player has to be told the two outcomes differed.
       if (saveTeam) {
@@ -193,6 +227,11 @@ export default function Team() {
         ).then((response) => response.json()).catch(() => ({ error: "api_unauthorized" }));
 
         if (saveResult?.error != null) {
+          track(EVENT.SAVED_TEAM_SAVED, {
+            [PARAM.TOURNAMENT_ID]: session,
+            [PARAM.ERROR_CODE]: "registered_but_team_not_saved",
+            [PARAM.RESULT]: RESULT.FAILURE,
+          });
           alert(t("registered_but_team_not_saved", { error: t(saveResult.error) }));
           Router.push(`/tournament/${session}`);
           setSubmitting(false);
@@ -211,6 +250,7 @@ export default function Team() {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
+        track(EVENT.AUTH_GATE_REDIRECT, { [PARAM.SCREEN]: SCREEN.TEAM_REGISTER });
         Router.push("/login");
       } else {
         getPokemonOptions(user.uid);
@@ -272,7 +312,7 @@ export default function Team() {
                 )}
                 {canEdit && (
                   <GridItem xs={12} style={{ marginBottom: 20 }}>
-                    <Button onClick={() => setIsPvPokeOpen(true)}>{t('pvpoke_title')}</Button>
+                    <Button onClick={() => { track(EVENT.PVPOKE_DIALOG_OPENED); setIsPvPokeOpen(true); }}>{t('pvpoke_title')}</Button>
                   </GridItem>
                 )}
                 {

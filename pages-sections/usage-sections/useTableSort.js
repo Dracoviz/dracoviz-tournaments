@@ -1,5 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM } from "../../utils/analyticsEvents";
 
 /**
  * Column sorting shared by every table on the usage page.
@@ -40,6 +42,7 @@ export default function useTableSort(columns, defaultKey) {
 
   const toggleSort = useCallback((key) => {
     const column = columns.find((c) => c.key === key);
+    track(EVENT.USAGE_TABLE_SORTED, { [PARAM.SORT_COLUMN]: key });
     setSort((prev) => (prev.key === key
       // Same column again: flip. A different column: start from its natural direction.
       ? { key, direction: prev.direction === "desc" ? "asc" : "desc" }

@@ -15,6 +15,8 @@ import { useTranslation } from 'next-i18next';
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, Select, InputLabel, MenuItem, CircularProgress } from "@mui/material";
 import fetchApi from "../../api/fetchApi";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM, RESULT, ROLE } from "../../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export async function getServerSideProps({ locale }) {
@@ -83,6 +85,12 @@ export default function Team() {
     )
     .then(response => response.json())
     .then(data => {
+      track(EVENT.ROSTER_SAVED, {
+        [PARAM.TOURNAMENT_ID]: session,
+        [PARAM.ROLE]: ROLE.CAPTAIN,
+        [PARAM.ERROR_CODE]: data.error ?? undefined,
+        [PARAM.RESULT]: data.error != null ? RESULT.FAILURE : RESULT.SUCCESS,
+      });
       if (data.error != null) {
         alert(t(data.error));
       } else {

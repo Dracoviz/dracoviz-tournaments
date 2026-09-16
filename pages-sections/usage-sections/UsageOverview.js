@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import UsageTrendChart from "./UsageTrendChart";
 import StatDelta from "./StatDelta";
 import useTableSort from "./useTableSort";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM } from "../../utils/analyticsEvents";
 import {
   METRICS, NO_DATA, findSpecies, formatNumber, formatPercent, formatPeriodRange,
   formatPeriodRangeShort, onSpriteError, spriteUrl,
@@ -131,7 +133,10 @@ export default function UsageOverview({
             <Select
               size="small"
               value={metric}
-              onChange={(event) => setMetric(event.target.value)}
+              onChange={(event) => {
+                track(EVENT.USAGE_METRIC_CHANGED, { [PARAM.METRIC]: event.target.value });
+                setMetric(event.target.value);
+              }}
             >
               {METRICS.map((option) => (
                 <MenuItem key={option.key} value={option.key}>{t(option.labelKey)}</MenuItem>

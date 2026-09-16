@@ -16,6 +16,8 @@ import {
   unifiedToFormValues, formValuesToUnified, emptyFormValues, TEAM_SIZE,
 } from "../../api/teamFormat";
 import getMetaOptions, { getMetaLabel } from "../../api/getMetaOptions";
+import { track } from "../../utils/analytics";
+import { EVENT } from "../../utils/analyticsEvents";
 
 /**
  * Create or edit a saved team. `team` being null means create.
@@ -124,7 +126,7 @@ export default function TeamEditModal(props) {
               <small>{t("team_metas_tip")}</small>
             </GridItem>
             <GridItem xs={12} style={{ marginTop: 15, marginBottom: 5 }}>
-              <Button onClick={() => setIsPvPokeOpen(true)}>{t("pvpoke_title")}</Button>
+              <Button onClick={() => { track(EVENT.PVPOKE_DIALOG_OPENED); setIsPvPokeOpen(true); }}>{t("pvpoke_title")}</Button>
             </GridItem>
             {filledCount > 0 && filledCount < TEAM_SIZE && (
               <GridItem xs={12}>

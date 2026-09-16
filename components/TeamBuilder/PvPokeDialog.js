@@ -7,6 +7,8 @@ import {
   Button, Tabs, Tab, TextField, CircularProgress, Alert,
 } from "@mui/material";
 import { useTranslation } from "next-i18next";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM, RESULT } from "../../utils/analyticsEvents";
 import {
   loadGamemaster, parsePvPokeTeam, serializePvPokeTeam,
 } from "pvpoke-converter";
@@ -50,11 +52,20 @@ export default function PvPokeDialog(props) {
       return gamemaster;
     }
     setIsLoadingGamemaster(true);
+    const startedAt = Date.now();
     try {
       const loaded = await loadGamemaster();
+      track(EVENT.GAMEMASTER_LOADED, {
+        [PARAM.DURATION_MS]: Date.now() - startedAt,
+        [PARAM.RESULT]: RESULT.SUCCESS,
+      });
       setGamemaster(loaded);
       return loaded;
     } catch (ex) {
+      track(EVENT.GAMEMASTER_LOADED, {
+        [PARAM.DURATION_MS]: Date.now() - startedAt,
+        [PARAM.RESULT]: RESULT.FAILURE,
+      });
       console.error(ex);
       return null;
     } finally {
@@ -95,6 +106,7 @@ export default function PvPokeDialog(props) {
     try {
       unified = parsePvPokeTeam(text, gm ?? undefined);
     } catch (ex) {
+      track(EVENT.PVPOKE_IMPORT_FAILED, { [PARAM.ERROR_CODE]: "pvpoke_parse_failed" });
       setMessage({ severity: "error", text: t("pvpoke_parse_failed") });
       return;
     }
@@ -117,9 +129,19 @@ export default function PvPokeDialog(props) {
     const importable = usable.slice(0, teamSize);
 
     if (importable.length <= 0) {
+      track(EVENT.PVPOKE_IMPORT_FAILED, {
+        [PARAM.ERROR_CODE]: "pvpoke_no_usable_pokemon",
+        [PARAM.ITEM_COUNT]: unknown.length,
+      });
       setMessage({ severity: "error", text: t("pvpoke_no_usable_pokemon") });
       return;
     }
+    // A partial import still succeeded; `item_count` vs the unknown count shows
+    // how often PvPoke's species spellings miss the tournament dex.
+    track(EVENT.PVPOKE_IMPORT_SUCCEEDED, {
+      [PARAM.ITEM_COUNT]: importable.length,
+      [PARAM.CONFIG_FLAGS]: unknown.length > 0 ? "partial" : "",
+    });
 
     const values = unifiedToFormValues(importable, pokemonOptions);
     for (let index = 0; index < teamSize; index += 1) {
@@ -149,6 +171,7 @@ export default function PvPokeDialog(props) {
   };
 
   const handleCopy = () => {
+    track(EVENT.PVPOKE_EXPORT_COPIED);
     navigator.clipboard?.writeText(text);
     setCopied(true);
   };

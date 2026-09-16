@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import Header from "/components/Header/Header.js";
 import HeaderLinks from "/components/Header/HeaderLinks.js";
@@ -14,6 +14,8 @@ import Linkify from 'react-linkify';
 
 import styles from "/styles/jss/nextjs-material-kit/pages/tournamentPage.js";
 import fetchApi from "../../api/fetchApi";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM, RESULT, ROLE, SOURCE } from "../../utils/analyticsEvents";
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
@@ -95,12 +97,55 @@ export default function Tournament() {
   // Hosts keep seeing who has a complete team after registration closes, up until the tournament starts.
   const showValid = data?.isHost && data?.state === "NOT_STARTED";
 
+  // Guards tournament_viewed against post-mutation refetches.
+  const viewTrackedRef = useRef(null);
+
   const goToRoute = (route) => {
     router.push(route);
   }
 
+  /**
+   * The API already tells us which hat the viewer is wearing, so every event on
+   * this screen can be sliced by it. This is what makes "which features do TOs
+   * use vs. players" answerable at all.
+   */
+  const analyticsRole = (source = data) => {
+    if (source == null) return isSignedIn ? ROLE.SPECTATOR : ROLE.GUEST;
+    if (source.isHost) return ROLE.HOST;
+    if (source.isCaptain) return ROLE.CAPTAIN;
+    if (source.isPlayer) return ROLE.PLAYER;
+    return isSignedIn ? ROLE.SPECTATOR : ROLE.GUEST;
+  }
+
+  /** Shared context attached to every event fired from this screen. */
+  const tournamentParams = (extra = {}) => ({
+    [PARAM.TOURNAMENT_ID]: id,
+    [PARAM.ROLE]: analyticsRole(),
+    [PARAM.TOURNAMENT_STATE]: data?.state,
+    [PARAM.BRACKET_TYPE]: data?.bracketType,
+    [PARAM.IS_TEAM_TOURNAMENT]: data?.isTeamTournament === true,
+    ...extra,
+  });
+
+  /**
+   * Most handlers here share the same shape: POST, then either alert(t(error))
+   * or refetch. This reports both outcomes without duplicating the branch.
+   */
+  const trackOutcome = (event, newData, extra = {}) => {
+    if (newData?.error != null) {
+      track(event, tournamentParams({
+        ...extra,
+        [PARAM.ERROR_CODE]: newData.error,
+        [PARAM.RESULT]: RESULT.FAILURE,
+      }));
+    } else {
+      track(event, tournamentParams({ ...extra, [PARAM.RESULT]: RESULT.SUCCESS }));
+    }
+  }
+
   const startBracket = () => {
     if (data?.kickPlayersWithoutTeams && !confirm(t("kick_players_without_teams_warning"))) {
+      track(EVENT.BRACKET_STARTED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
     setIsLoading(true);
@@ -112,6 +157,7 @@ export default function Tournament() {
     }))
     .then(response => response.json())
     .then((newData) => {
+      trackOutcome(EVENT.BRACKET_STARTED, newData, { [PARAM.ITEM_COUNT]: data?.players?.length });
       if (newData.error != null) {
         alert(t(newData.error));
         setIsLoading(false);
@@ -131,6 +177,7 @@ export default function Tournament() {
     }))
     .then(response => response.json())
     .then((newData) => {
+      trackOutcome(EVENT.BRACKET_REVERTED, newData, { [PARAM.ROUND_INDEX]: data?.currentRoundNumber });
       if (newData.error != null) {
         alert(t(newData.error));
         setIsLoading(false);
@@ -141,28 +188,39 @@ export default function Tournament() {
   }
 
   const onSearch = (event) => {
+    const query = event?.target?.value ?? "";
+    if (query.length > 0) {
+      track(EVENT.PLAYER_SEARCH, tournamentParams({
+        // The query is player names typed by a host; only its length is sent.
+        [PARAM.QUERY_LENGTH]: query.length,
+        [PARAM.ITEM_COUNT]: data?.players?.length,
+      }));
+    }
     setE(event);
   }
 
   const progressBracket = () => {
-    if (confirm(t('confirm_bracket_progress'))) {
-      setIsLoading(true);
-      fetchApi(`session/progress/`, "POST", {
-        "x_session_id": authId,
-        "Content-Type": "application/json"
-      }, JSON.stringify({
-        tournamentId: id,
-      }))
-      .then(response => response.json())
-      .then((newData) => {
-        if (newData.error != null) {
-          alert(t(newData.error));
-          setIsLoading(false);
-        } else {
-          getTournamentData(authId);
-        }
-      });
+    if (!confirm(t('confirm_bracket_progress'))) {
+      track(EVENT.BRACKET_PROGRESSED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
+      return;
     }
+    setIsLoading(true);
+    fetchApi(`session/progress/`, "POST", {
+      "x_session_id": authId,
+      "Content-Type": "application/json"
+    }, JSON.stringify({
+      tournamentId: id,
+    }))
+    .then(response => response.json())
+    .then((newData) => {
+      trackOutcome(EVENT.BRACKET_PROGRESSED, newData, { [PARAM.ROUND_INDEX]: data?.currentRoundNumber });
+      if (newData.error != null) {
+        alert(t(newData.error));
+        setIsLoading(false);
+      } else {
+        getTournamentData(authId);
+      }
+    });
   }
 
   const getTournamentData = (newAuthId) => {
@@ -174,6 +232,21 @@ export default function Tournament() {
     })
     .then(response => response.json())
     .then(newData => {
+      // getTournamentData is re-called after EVERY mutation on this screen, so
+      // fire the view event only the first time this tournament is loaded --
+      // otherwise a host running an event would look like dozens of visitors.
+      if (viewTrackedRef.current !== id) {
+        viewTrackedRef.current = id;
+        track(EVENT.TOURNAMENT_VIEWED, {
+          [PARAM.TOURNAMENT_ID]: id,
+          [PARAM.ROLE]: analyticsRole(newData),
+          [PARAM.TOURNAMENT_STATE]: newData?.state,
+          [PARAM.BRACKET_TYPE]: newData?.bracketType,
+          [PARAM.IS_TEAM_TOURNAMENT]: newData?.isTeamTournament === true,
+          [PARAM.ITEM_COUNT]: newData?.players?.length,
+          [PARAM.META]: Array.isArray(newData?.metas) ? newData.metas[0] : newData?.metas,
+        });
+      }
       setData(newData);
       setIsLoading(false);
     });
@@ -190,6 +263,7 @@ export default function Tournament() {
     }))
     .then(response => response.json())
     .then((newData) => {
+      trackOutcome(EVENT.TOURNAMENT_STATE_CHANGED, newData, { [PARAM.TO_STATE]: state });
       if (newData.error != null) {
         alert(t(newData.error));
       } else {
@@ -208,6 +282,7 @@ export default function Tournament() {
     }))
     .then(response => response.json())
     .then((newData) => {
+      trackOutcome(EVENT.TOURNAMENT_CONCLUDED, newData, { [PARAM.ITEM_COUNT]: data?.players?.length });
       if (newData.error != null) {
         alert(t(newData.error));
       } else {
@@ -227,6 +302,7 @@ export default function Tournament() {
     }))
     .then(response => response.json())
     .then((newData) => {
+      trackOutcome(EVENT.TOURNAMENT_UNCONCLUDED, newData);
       if (newData.error != null) {
         alert(t(newData.error));
       } else {
@@ -246,6 +322,7 @@ export default function Tournament() {
       playerName,
     }));
     const newData = await response.json();
+    trackOutcome(playerName == null ? EVENT.TOURNAMENT_LEFT : EVENT.PLAYER_KICKED, newData);
     if (newData.error != null) {
       alert(t(newData.error));
       setIsLoading(false);
@@ -263,6 +340,7 @@ export default function Tournament() {
       tournamentId: id,
     }));
     const newData = await response.json();
+    trackOutcome(EVENT.TOURNAMENT_DELETED, newData, { [PARAM.ITEM_COUNT]: data?.players?.length });
     if (newData.error != null) {
       alert(t(newData.error));
       setIsLoading(false);
@@ -285,6 +363,7 @@ export default function Tournament() {
       tournamentId: id,
     }));
     const newData = await response.json();
+    trackOutcome(EVENT.HOST_ADDED, newData);
     setIsLoading(false);
     if (newData.error != null) {
       alert(t(newData.error));
@@ -302,6 +381,7 @@ export default function Tournament() {
       tournamentId: id,
     }));
     const newData = await response.json();
+    trackOutcome(EVENT.TOURNAMENT_EDITED, newData);
     if (newData.error != null) {
       alert(t(newData.error));
     } else {
@@ -322,6 +402,7 @@ export default function Tournament() {
   }, []);
 
   const onPlayer = (player) => {
+    track(EVENT.PLAYER_PROFILE_VIEWED, tournamentParams());
     const thePlayer = data.players.find(p => player === p.name);
     setProfileToView(thePlayer);
   }
@@ -338,6 +419,7 @@ export default function Tournament() {
 
   const onLeave = async () => {
     if (!confirm(t("confirm_leave_session"))) {
+      track(EVENT.TOURNAMENT_LEFT, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
     const didDelete = await deletePlayer(null);
@@ -347,15 +429,17 @@ export default function Tournament() {
   }
 
   const onDelete = () => {
-    if (confirm(t("delete_tournament_disclaimer"))) {
-      deleteTournament().then((didSucceed) => {
-        if (didSucceed) {
-          Router.push("/");
-        } else {
-          setIsLoading(false);
-        }
-      });
+    if (!confirm(t("delete_tournament_disclaimer"))) {
+      track(EVENT.TOURNAMENT_DELETED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
+      return;
     }
+    deleteTournament().then((didSucceed) => {
+      if (didSucceed) {
+        Router.push("/");
+      } else {
+        setIsLoading(false);
+      }
+    });
   }
 
   const onCloseTeamSheet = () => {
@@ -399,6 +483,10 @@ export default function Tournament() {
       const { wins, losses, gameWins, gameLosses, name, pokemon, id } = p;
       return { wins, losses, gameWins, gameLosses, name, pokemon, id };
     });
+    track(EVENT.EXPORT_DOWNLOADED, tournamentParams({
+      [PARAM.SOURCE]: SOURCE.EXPORT_PLAYERS,
+      [PARAM.ITEM_COUNT]: exportedData?.length,
+    }));
     downloadJson(exportedData, "players.json");
   };
 
@@ -421,6 +509,10 @@ export default function Tournament() {
       byeAward: data.byeAward,
       players,
     };
+    track(EVENT.EXPORT_DOWNLOADED, tournamentParams({
+      [PARAM.SOURCE]: SOURCE.EXPORT_FULL,
+      [PARAM.ITEM_COUNT]: players?.length,
+    }));
     downloadJson(exportedData, "tournament.json");
   };
 
@@ -436,8 +528,17 @@ export default function Tournament() {
     .then((usageData) => {
       setIsLoading(false);
       if (usageData.error != null) {
+        track(EVENT.EXPORT_DOWNLOADED, tournamentParams({
+          [PARAM.SOURCE]: SOURCE.EXPORT_USAGE,
+          [PARAM.ERROR_CODE]: usageData.error,
+          [PARAM.RESULT]: RESULT.FAILURE,
+        }));
         alert(t(usageData.error));
       } else {
+        track(EVENT.EXPORT_DOWNLOADED, tournamentParams({
+          [PARAM.SOURCE]: SOURCE.EXPORT_USAGE,
+          [PARAM.RESULT]: RESULT.SUCCESS,
+        }));
         downloadJson(usageData, "usage.json");
       }
     });
@@ -458,6 +559,9 @@ export default function Tournament() {
       targetRoundIndex: roundIndex,
     }));
     const newData = await response.json();
+    trackOutcome(EVENT.SCORE_REPORTED, newData, {
+      [PARAM.ROUND_INDEX]: roundIndex,
+    });
     if (newData.error != null) {
       alert(t(newData.error));
     } else {
@@ -474,6 +578,9 @@ export default function Tournament() {
     ) {
       return;
     }
+    track(EVENT.REPORT_MODAL_OPENED, tournamentParams({
+      [PARAM.ROUND_INDEX]: roundIndex,
+    }));
     setValue("player1", bracket.score[participantIndex][0]);
     setValue("player2", bracket.score[participantIndex][1]);
     setSelectedRound({
@@ -511,6 +618,7 @@ export default function Tournament() {
 
   const shareTournament = async () => {
     const shareLink = generateShareLink();
+    track(EVENT.SHARE_LINK_COPIED, tournamentParams({ [PARAM.SOURCE]: SOURCE.SHARE_TOURNAMENT }));
     await navigator.clipboard.writeText(shareLink);
     alert(t("copy_to_clipboard", { url: shareLink }));
   }
@@ -518,6 +626,7 @@ export default function Tournament() {
   const shareTeam = async () => {
     const { teamCode } = data;
     const shareLink = `${generateJoinLink()}&faction=${teamCode}`;
+    track(EVENT.SHARE_LINK_COPIED, tournamentParams({ [PARAM.SOURCE]: SOURCE.SHARE_TEAM_INVITE }));
     await navigator.clipboard.writeText(shareLink);
     alert(t("copy_to_clipboard", { url: shareLink }));
   }
@@ -529,7 +638,16 @@ export default function Tournament() {
       return null;
     }
     return (
-      <Button onClick={() => setIsTeamSheetOpen(true)} variant="contained" color="success">
+      <Button
+        onClick={() => {
+          track(EVENT.TEAM_SHEETS_OPENED, tournamentParams({
+            [PARAM.ITEM_COUNT]: data?.players?.length,
+          }));
+          setIsTeamSheetOpen(true);
+        }}
+        variant="contained"
+        color="success"
+      >
         {t("create_team_sheets")}
       </Button>
     )
@@ -541,7 +659,13 @@ export default function Tournament() {
     }
     return (
       <>
-        <Button onClick={(e) => setExportAnchorEl(e.currentTarget)} style={{ float: "right" }}>
+        <Button
+          onClick={(e) => {
+            track(EVENT.EXPORT_MENU_OPENED, tournamentParams());
+            setExportAnchorEl(e.currentTarget);
+          }}
+          style={{ float: "right" }}
+        >
           {t("export_team_data")}
         </Button>
         <Menu

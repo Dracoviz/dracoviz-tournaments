@@ -18,7 +18,6 @@ import Menu from "@mui/icons-material/Menu";
 import styles from "/styles/jss/nextjs-material-kit/components/headerStyle.js";
 import { useRouter } from "next/router";
 import { useTheme } from "@mui/material";
-import Script from 'next/script';
 
 const useStyles = makeStyles(styles);
 
@@ -127,18 +126,6 @@ export default function Header(props) {
           </Drawer>
         </Hidden>
       </AppBar>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-28LT7WYJGW"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-28LT7WYJGW');
-        `}
-      </Script>
     </>
   );
 }

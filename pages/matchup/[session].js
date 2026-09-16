@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import Card from "../../components/Card/Card";
 import fetchApi from "../../api/fetchApi";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM, RESULT, ROLE, SCREEN } from "../../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import PokemonView from "../../components/PokemonView/PokemonView";
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
@@ -76,6 +78,7 @@ export default function Matchup() {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
+        track(EVENT.AUTH_GATE_REDIRECT, { [PARAM.SCREEN]: SCREEN.MATCHUP });
         Router.push("/login");
       } else {
         getMatchup(user.uid);
@@ -97,6 +100,14 @@ export default function Matchup() {
       ignoreHost: true
     }));
     const newData = await response.json();
+    // Failures here include the server rejecting a score that contradicts what
+    // the opponent already reported, which is the dispute signal.
+    track(EVENT.SCORE_REPORTED, {
+      [PARAM.TOURNAMENT_ID]: session,
+      [PARAM.ROLE]: ROLE.PLAYER,
+      [PARAM.ERROR_CODE]: newData.error ?? undefined,
+      [PARAM.RESULT]: newData.error != null ? RESULT.FAILURE : RESULT.SUCCESS,
+    });
     if (newData.error != null) {
       alert(t(newData.error));
     } else {
@@ -105,10 +116,18 @@ export default function Matchup() {
   }
 
   const openProfileModal = () => {
+    track(EVENT.PLAYER_PROFILE_VIEWED, {
+      [PARAM.TOURNAMENT_ID]: session,
+      [PARAM.ROLE]: ROLE.PLAYER,
+    });
     setShowProfile(true);
   }
 
   const openReportModal = () => {
+    track(EVENT.REPORT_MODAL_OPENED, {
+      [PARAM.TOURNAMENT_ID]: session,
+      [PARAM.ROLE]: ROLE.PLAYER,
+    });
     setShowReport(true);
   }
 

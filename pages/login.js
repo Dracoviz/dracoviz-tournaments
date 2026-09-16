@@ -27,6 +27,8 @@ export async function getServerSideProps({ locale }) {
 
 import styles from "/styles/jss/nextjs-material-kit/pages/loginPage.js";
 import fetchApi from "../api/fetchApi";
+import { track } from "../utils/analytics";
+import { EVENT, PARAM, RESULT, SOURCE } from "../utils/analyticsEvents";
 import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
 
 const useStyles = makeStyles(styles);
@@ -37,7 +39,10 @@ export default function LoginPage(props) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const onSignIn = useCallback((user) => {
+  // `source` distinguishes a fresh interactive sign-in from an existing session
+  // being restored by onAuthStateChanged -- otherwise every page load by a
+  // signed-in user would look like a brand new login.
+  const onSignIn = useCallback((user, source = SOURCE.AUTO, provider) => {
     setIsLoading(true);
     if (user != null) {
       const { uid } = user;
@@ -48,6 +53,12 @@ export default function LoginPage(props) {
         if (response.status === 200) {
           // Successfully found user
           const responseJSON = await response.json();
+          track(EVENT.LOGIN_SUCCEEDED, {
+            [PARAM.SOURCE]: source,
+            [PARAM.PROVIDER]: provider,
+            [PARAM.IS_NEW_USER]: responseJSON?.isNewUser === true,
+            [PARAM.RESULT]: RESULT.SUCCESS,
+          });
           if (router.query?.returnUrl != null) {
             Router.push(router.query?.returnUrl);
           } else {
@@ -55,6 +66,12 @@ export default function LoginPage(props) {
           }
         } else {
           // Cannot generate user, delete firebase copy
+          track(EVENT.LOGIN_FAILED, {
+            [PARAM.SOURCE]: source,
+            [PARAM.PROVIDER]: provider,
+            [PARAM.ERROR_CODE]: `http_${response.status}`,
+            [PARAM.RESULT]: RESULT.FAILURE,
+          });
           alert("Failed to log you in. Please try again");
         }
       });
@@ -74,8 +91,15 @@ export default function LoginPage(props) {
       // Avoid redirects after sign-in.
       signInSuccessWithAuthResult: (authResult) => {
         const { user } = authResult;
-        onSignIn(user);
+        onSignIn(user, SOURCE.MANUAL, authResult?.additionalUserInfo?.providerId);
         return false;
+      },
+      signInFailure: (error) => {
+        track(EVENT.LOGIN_FAILED, {
+          [PARAM.SOURCE]: SOURCE.MANUAL,
+          [PARAM.ERROR_CODE]: error?.code ?? "firebase_error",
+          [PARAM.RESULT]: RESULT.FAILURE,
+        });
       },
     },
   };

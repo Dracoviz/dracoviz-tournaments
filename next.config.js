@@ -5,6 +5,7 @@ const nextConfig = {
   env: {
     API_HOST: process.env.API_HOST,
     API_KEY: process.env.API_KEY,
+    GA_MEASUREMENT_ID: process.env.GA_MEASUREMENT_ID,
   },
   i18n,
 };

@@ -20,9 +20,13 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import Script from "next/script";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import ColorModeContext from "../utils/ColorModeContext";
+import { initAnalytics, isAnalyticsEnabled, GA_MEASUREMENT_ID } from "../utils/analytics";
+import useAnalyticsPageTracking from "../utils/useAnalyticsPageTracking";
+import useAnalyticsIdentity from "../utils/useAnalyticsIdentity";
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/styles';
 import { appWithTranslation } from 'next-i18next';
@@ -65,6 +69,13 @@ export const getDesignTokens = (mode) => ({ palette: { mode } });
 
 function MyApp({ Component, pageProps }) {
   const [mode, setMode] = React.useState("dark");
+
+  // Analytics must boot before any page-level effect can fire an event.
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+  useAnalyticsPageTracking();
+  useAnalyticsIdentity();
 
   useEffect(() => {
     const nextTheme = getCookie("NEXT_THEME") ?? "dark";
@@ -110,6 +121,12 @@ function MyApp({ Component, pageProps }) {
               <title>Dracoviz Tournaments</title>
             </Head>
             <Component {...pageProps} />
+            {isAnalyticsEnabled() && (
+              <Script
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+                strategy="afterInteractive"
+              />
+            )}
           </React.Fragment>
         </ThemeProvider>
       </Emotion10ThemeProvider>

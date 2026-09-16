@@ -17,6 +17,8 @@ import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.j
 import { Button, Checkbox, Select, InputLabel, MenuItem, Menu, CircularProgress } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
+import { track, configFlags } from "../utils/analytics";
+import { EVENT, PARAM, RESULT, SOURCE } from "../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export async function getServerSideProps({ locale }) {
@@ -111,9 +113,17 @@ export default function CreateTournament() {
     setTimeout(() => {
       const title = prompt(t("play_preset_prompt"));
       if (title == null) {
+        track(EVENT.TOURNAMENT_PRESET_APPLIED, {
+          [PARAM.SOURCE]: SOURCE.PRESET_PLAY_POKEMON,
+          [PARAM.RESULT]: RESULT.CANCELLED,
+        });
         setIsLoading(false);
         return;
       }
+      track(EVENT.TOURNAMENT_PRESET_APPLIED, {
+        [PARAM.SOURCE]: SOURCE.PRESET_PLAY_POKEMON,
+        [PARAM.RESULT]: RESULT.SUCCESS,
+      });
       setValue("name", title);
       setValue("timeControl", 0);
       setValue("maxTeams", 128);
@@ -140,9 +150,17 @@ export default function CreateTournament() {
     setTimeout(() => {
       const title = prompt(t("candle_practice_preset_prompt"));
       if (title == null) {
+        track(EVENT.TOURNAMENT_PRESET_APPLIED, {
+          [PARAM.SOURCE]: SOURCE.PRESET_CANDLE_PRACTICE,
+          [PARAM.RESULT]: RESULT.CANCELLED,
+        });
         setIsLoading(false);
         return;
       }
+      track(EVENT.TOURNAMENT_PRESET_APPLIED, {
+        [PARAM.SOURCE]: SOURCE.PRESET_CANDLE_PRACTICE,
+        [PARAM.RESULT]: RESULT.SUCCESS,
+      });
       setValue("name", title);
       setValue("timeControl", 25);
       setValue("bracketType", "swiss");
@@ -180,9 +198,17 @@ export default function CreateTournament() {
     setTimeout(() => {
       const title = prompt(t("flash_practice_preset_prompt"));
       if (title == null) {
+        track(EVENT.TOURNAMENT_PRESET_APPLIED, {
+          [PARAM.SOURCE]: SOURCE.PRESET_FLASH_PRACTICE,
+          [PARAM.RESULT]: RESULT.CANCELLED,
+        });
         setIsLoading(false);
         return;
       }
+      track(EVENT.TOURNAMENT_PRESET_APPLIED, {
+        [PARAM.SOURCE]: SOURCE.PRESET_FLASH_PRACTICE,
+        [PARAM.RESULT]: RESULT.SUCCESS,
+      });
       setValue("name", title);
       setValue("timeControl", 30);
       setValue("bracketType", "swiss");
@@ -214,19 +240,62 @@ export default function CreateTournament() {
     }, 100)
   }
 
+  /**
+   * The form watches ~25 config toggles. Sending them as 25 params would breach
+   * GA4's per-event cap and burn half the property's custom dimensions, so the
+   * booleans collapse into one comma-joined `config_flags` value listing only
+   * what the TO actually turned on.
+   */
+  const createParams = (data) => ({
+    [PARAM.BRACKET_TYPE]: data?.bracketType,
+    [PARAM.IS_TEAM_TOURNAMENT]: data?.isTeamTournament === true,
+    [PARAM.ITEM_COUNT]: data?.maxTeams,
+    [PARAM.META]: Array.isArray(data?.metas) ? data.metas[0] : data?.metas,
+    [PARAM.CONFIG_FLAGS]: configFlags({
+      priv: data?.isPrivate,
+      hide_guest: data?.hideFromGuests,
+      hide_tp: data?.hideTeamsFromPlayers,
+      hide_th: data?.hideTeamsFromHost,
+      always_hide_th: data?.alwaysHideTeamsFromHost,
+      leave: data?.playerCanLeave,
+      play_all: data?.playAllMatches,
+      both_rep: data?.requireBothPlayersToReport,
+      kick: data?.kickPlayersWithoutTeams,
+      multi_meta: data?.hasMultipleMetas,
+      team: data?.isTeamTournament,
+    }),
+  });
+
   const onSubmit = async (data) => {
     setIsLoading(true);
+    const params = createParams(data);
+    track(EVENT.TOURNAMENT_CREATE_SUBMITTED, params);
     fetchApi("session/create/", "POST", { x_session_id: authId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then(response => response.json())
       .then(newData => {
         if (newData?.error != null) {
+          track(EVENT.TOURNAMENT_CREATE_FAILED, {
+            ...params,
+            [PARAM.ERROR_CODE]: newData.error,
+            [PARAM.RESULT]: RESULT.FAILURE,
+          });
           alert(t(newData?.error));
           return;
         }
         const { id } = newData;
+        track(EVENT.TOURNAMENT_CREATED, {
+          ...params,
+          [PARAM.TOURNAMENT_ID]: id,
+          [PARAM.RESULT]: RESULT.SUCCESS,
+        });
         Router.push(`/tournament/${id}`);
       })
       .catch((err) => {
+        track(EVENT.TOURNAMENT_CREATE_FAILED, {
+          ...params,
+          [PARAM.ERROR_CODE]: "network_error",
+          [PARAM.RESULT]: RESULT.FAILURE,
+        });
         alert(t(err));
       });
     setIsLoading(false);

@@ -16,6 +16,8 @@ import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.j
 import { Button, Checkbox, CircularProgress } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
+import { track } from "../utils/analytics";
+import { EVENT, PARAM, RESULT, SCREEN, SOURCE } from "../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export async function getServerSideProps({ locale }) {
@@ -57,21 +59,45 @@ export default function JoinTournament() {
       });
   }
 
-  const onSubmit = (allData) => {
+  const onSubmit = (allData, source = SOURCE.MANUAL) => {
     const { firebaseId, ...data } = allData;
     const theId = firebaseId ?? authId;
     if (step === 0) {
       setIsFormLoading(true);
+      track(EVENT.JOIN_SUBMITTED, {
+        [PARAM.SOURCE]: source,
+        [PARAM.CONFIG_FLAGS]: data?.registrationNumber ? "has_reg_number" : "",
+      });
       fetchApi("session/join/", "POST", { "x_session_id": theId, "Content-Type": "application/json" }, JSON.stringify(data))
       .then((response) => response.json())
       .then((newData) => {
         const { isTeamTournament, id, error, alreadyEntered } = newData;
         setIsFormLoading(false);
         if (alreadyEntered) {
+          track(EVENT.ALREADY_ENTERED, {
+            [PARAM.SOURCE]: source,
+            [PARAM.TOURNAMENT_ID]: id,
+          });
           Router.push(`/tournament/${id}`);
         } else if (error != null) {
+          track(EVENT.JOIN_FAILED, {
+            [PARAM.SOURCE]: source,
+            [PARAM.ERROR_CODE]: error,
+            [PARAM.RESULT]: RESULT.FAILURE,
+          });
           alert(t(error));
           return;
+        }
+        // NOTE: the `alreadyEntered` branch above deliberately falls through to
+        // here (pre-existing behaviour), so guard it or a re-visit would be
+        // counted as a fresh join and inflate the funnel.
+        if (!alreadyEntered) {
+          track(EVENT.JOINED_TOURNAMENT, {
+            [PARAM.SOURCE]: source,
+            [PARAM.TOURNAMENT_ID]: id,
+            [PARAM.IS_TEAM_TOURNAMENT]: isTeamTournament === true,
+            [PARAM.RESULT]: RESULT.SUCCESS,
+          });
         }
         if (isTeamTournament) {
           setStep(1);
@@ -80,6 +106,11 @@ export default function JoinTournament() {
         }
       })
       .catch(() => {
+        track(EVENT.JOIN_FAILED, {
+          [PARAM.SOURCE]: source,
+          [PARAM.ERROR_CODE]: "network_error",
+          [PARAM.RESULT]: RESULT.FAILURE,
+        });
         setIsFormLoading(false);
       })
     } else if (step === 1) {
@@ -98,9 +129,17 @@ export default function JoinTournament() {
           const { factionCode, tournamentId, factionName, error } = newData;
           setIsFormLoading(false);
           if (error != null) {
+            track(EVENT.FACTION_CREATED, {
+              [PARAM.ERROR_CODE]: error,
+              [PARAM.RESULT]: RESULT.FAILURE,
+            });
             alert(t(error));
             return;
           }
+          track(EVENT.FACTION_CREATED, {
+            [PARAM.TOURNAMENT_ID]: tournamentId,
+            [PARAM.RESULT]: RESULT.SUCCESS,
+          });
           alert(t("faction_joined", { factionName }) + " " + t("faction_created", { factionCode }));
           Router.push(`/tournament/${tournamentId}`);
         });
@@ -116,9 +155,17 @@ export default function JoinTournament() {
           const { tournamentId, factionName, error } = newData;
           setIsFormLoading(false);
           if (error != null) {
+            track(EVENT.FACTION_JOINED, {
+              [PARAM.ERROR_CODE]: error,
+              [PARAM.RESULT]: RESULT.FAILURE,
+            });
             alert(t(error));
             return;
           }
+          track(EVENT.FACTION_JOINED, {
+            [PARAM.TOURNAMENT_ID]: tournamentId,
+            [PARAM.RESULT]: RESULT.SUCCESS,
+          });
           alert(t("faction_joined", { factionName }));
           Router.push(`/tournament/${tournamentId}`);
         });
@@ -137,6 +184,7 @@ export default function JoinTournament() {
       const doesUserExist = !!user;
       setIsSignedIn(doesUserExist);
       if (!doesUserExist) {
+        track(EVENT.AUTH_GATE_REDIRECT, { [PARAM.SCREEN]: SCREEN.JOIN_TOURNAMENT });
         Router.push(`/login?returnUrl=${router.asPath}`);
       } else {
         if (tid != null && tid !== "") {
@@ -147,7 +195,7 @@ export default function JoinTournament() {
             setValue("registrationNumber", tid);
           }
           setAuthId(user.uid)
-          onSubmit(autoData);
+          onSubmit(autoData, SOURCE.DEEP_LINK);
         } else {
           getPublicTournaments(user.uid);
         }
@@ -249,7 +297,7 @@ export default function JoinTournament() {
         <div className={classes.main}>
           <h2>{t("join_a_tournament")}</h2>
           <Card>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit((formData) => onSubmit(formData))}>
               <GridContainer style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <GridItem xs={12} style={{ marginBottom: 20 }}>
                   <h3>{t("join_tournament_by_number")}</h3>

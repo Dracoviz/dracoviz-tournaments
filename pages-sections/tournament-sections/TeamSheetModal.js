@@ -9,6 +9,8 @@ import { useTranslation } from "next-i18next";
 import { useReactToPrint } from 'react-to-print';
 import formatMove from "../../api/formatMove";
 import { MEGA_LEVELS, plusMoveId, SUPER_MAX } from "../../api/megaLevel";
+import { track } from "../../utils/analytics";
+import { EVENT, PARAM } from "../../utils/analyticsEvents";
 
 const color = "#edebeb";
 const border = `solid ${color} 0.5px`;
@@ -184,9 +186,19 @@ function TeamSheetModal(props) {
   const componentRef = useRef();
   const [singlePage, setSinglePage] = useState(true); 
   const [includeImage, setIncludeImage] = useState(false); 
-  const handlePrint = useReactToPrint({
+  const printSheets = useReactToPrint({
     content: () => componentRef.current,
   });
+  const handlePrint = () => {
+    track(EVENT.TEAM_SHEETS_PRINTED, {
+      [PARAM.ITEM_COUNT]: data?.players?.length,
+      [PARAM.CONFIG_FLAGS]: [
+        singlePage ? "single_page" : "",
+        includeImage ? "include_image" : "",
+      ].filter(Boolean).join(","),
+    });
+    printSheets();
+  };
   const handleSetSinglePage = () => {
     setSinglePage(prev => !prev);
   }

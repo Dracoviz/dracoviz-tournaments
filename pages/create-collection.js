@@ -13,6 +13,8 @@ import { useTranslation } from 'next-i18next';
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Button, CircularProgress } from "@mui/material";
 import fetchApi from "../api/fetchApi";
+import { track } from "../utils/analytics";
+import { EVENT, PARAM, RESULT } from "../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export async function getServerSideProps({ locale }) {
@@ -61,9 +63,14 @@ export default function CreateCollection() {
       .then(response => response.json())
       .then(newData => {
         if (newData?.error != null) {
+          track(EVENT.COLLECTION_CREATED, {
+            [PARAM.ERROR_CODE]: newData.error,
+            [PARAM.RESULT]: RESULT.FAILURE,
+          });
           alert(t(newData?.error));
           return;
         }
+        track(EVENT.COLLECTION_CREATED, { [PARAM.RESULT]: RESULT.SUCCESS });
         const { slug } = newData;
         Router.push(`/collection/${slug}`);
       })
