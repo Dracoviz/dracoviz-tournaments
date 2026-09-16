@@ -259,7 +259,8 @@ function generate(periodCount) {
   indices.forEach((periodIndex, step) => {
     const isQuiet = periodIndex === quietIndex;
     const tournamentCount = isQuiet ? intBetween(3, 5) : intBetween(14, 26);
-    const teamCount = tournamentCount * intBetween(11, 19);
+    // Real events average ~19 rostered players once players who left early are counted.
+    const teamCount = tournamentCount * intBetween(14, 24);
     const roundsPerPlayer = between(3.4, 4.6);
 
     const entries = [];
