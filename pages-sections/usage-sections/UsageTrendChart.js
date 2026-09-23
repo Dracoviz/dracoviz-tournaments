@@ -12,7 +12,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { useTheme } from "@mui/material";
 import { useTranslation } from "next-i18next";
-import { formatPeriodShort, formatPercent } from "./usageFormat";
+import { computeYDomain, formatPeriodShort, formatPercent } from "./usageFormat";
 
 ChartJS.register(
   CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler,
@@ -149,6 +149,12 @@ export default function UsageTrendChart({
     focus(null);
   }, [focus]);
 
+  // Scoped to what is on screen, so switching metric or Pokemon re-frames the axis.
+  const domain = useMemo(
+    () => computeYDomain(data.datasets.flatMap((dataset) => dataset.data)),
+    [data],
+  );
+
   const options = useMemo(() => {
     const grid = isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)";
     const text = isDark ? "rgba(255,255,255,0.82)" : "rgba(0,0,0,0.75)";
@@ -174,21 +180,24 @@ export default function UsageTrendChart({
           callbacks: {
             label: (item) => (item.raw == null
               ? `${item.dataset.label}: ${t("usage_below_threshold_short")}`
-              : `${item.dataset.label}: ${formatPercent(item.raw)}`),
+              : `${item.dataset.label}: ${formatPercent(item.raw, Math.max(1, domain.decimals))}`),
           },
         },
       },
       scales: {
         x: { grid: { color: grid }, ticks: { color: text } },
         y: {
-          beginAtZero: true,
+          // Deliberately not beginAtZero: these are rates in a narrow band, and anchoring at zero
+          // flattens the movement the chart is for.
+          min: domain.min,
+          max: domain.max,
           grid: { color: grid },
-          ticks: { color: text, callback: (value) => formatPercent(value, 0) },
+          ticks: { color: text, callback: (value) => formatPercent(value, domain.decimals) },
           title: { display: true, text: metric, color: text },
         },
       },
     };
-  }, [isDark, metric, t, onLegendHover, onLegendLeave]);
+  }, [isDark, metric, t, onLegendHover, onLegendLeave, domain]);
 
   return (
     <div style={{ height, position: "relative" }}>

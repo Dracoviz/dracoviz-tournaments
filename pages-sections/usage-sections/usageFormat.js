@@ -132,6 +132,43 @@ export function findSpecies(period, speciesId) {
 }
 
 /**
+ * The y-axis range for a trend chart: scoped to the data instead of anchored at zero.
+ *
+ * Every metric here is a rate, and the interesting ones live in a narrow band — usage runs roughly
+ * 3% to 52%, win rates cluster around 50%. Starting the axis at zero spends most of the chart on
+ * empty space and flattens the movement that the chart exists to show.
+ *
+ * Ported from computeYDomain in dracoviz-site's tournament-graph utils, which solves the same
+ * problem for the chart on dracoviz.com. It cannot be imported across the two repos.
+ *
+ * `decimals` comes back with the range because the two have to agree: once the axis is zoomed into
+ * a couple of percentage points, whole-number ticks would repeat the same label several times.
+ */
+export function computeYDomain(values) {
+  const known = (values ?? []).filter((v) => v != null && !Number.isNaN(v));
+  // Nothing plotted: fall back to a full-scale axis rather than an inverted or zero-width one.
+  if (known.length <= 0) {
+    return { min: 0, max: 1, decimals: 0 };
+  }
+
+  const lowest = Math.min(...known);
+  const highest = Math.max(...known);
+  // A flat line has no range to pad, so give it a fixed band and keep it off the axis edge.
+  const padding = (highest - lowest) * 0.1 || 0.05;
+  const min = Math.max(0, lowest - padding);
+  const max = Math.min(1, highest + padding);
+  const span = max - min;
+
+  let decimals = 0;
+  if (span < 0.005) {
+    decimals = 2;
+  } else if (span < 0.04) {
+    decimals = 1;
+  }
+  return { min, max, decimals };
+}
+
+/**
  * The metrics the trend chart can be plotted against.
  *
  * Shadow rate is deliberately not one of them. It is a property of how people build a given Pokemon
