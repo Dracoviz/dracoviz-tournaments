@@ -9,6 +9,7 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import TournamentsList from "../pages-sections/tournament-sections/TournamentsList";
+import DiscordServerList from "../pages-sections/tournament-sections/DiscordServerList";
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'next-i18next';
 
@@ -41,6 +42,7 @@ export default function JoinTournament() {
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [tournaments, setTournaments] = useState([]);
+  const [playerName, setPlayerName] = useState(null);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [step, setStep] = useState(0);
   const { register, handleSubmit, watch, setValue, formState: { errors, isValid } } = useForm();
@@ -55,6 +57,10 @@ export default function JoinTournament() {
       .then((response) => response.json())
       .then((data) => {
         setTournaments(data?.filteredSessions ?? []);
+        // Used by the Discord section to keep players with the seeded
+        // `Player <number>` name out of community servers. Older API builds do
+        // not send it, and the section then looks it up itself.
+        setPlayerName(data?.playerName ?? null);
         setIsLoading(false);
       });
   }
@@ -332,13 +338,22 @@ export default function JoinTournament() {
               </GridContainer>
             </form>
           </Card>
+          <GridContainer>
+            <GridItem xs={12}>
+              <DiscordServerList
+                authId={authId}
+                playerName={playerName}
+                onNameChange={setPlayerName}
+              />
+            </GridItem>
+          </GridContainer>
           {
             isLoading ? (
               <CircularProgress />
             ) : (
               <GridContainer>
                 <GridItem xs={12}>
-                  <h3>All tournaments</h3>
+                  <h3>{t("all_tournaments")}</h3>
                   <TournamentsList tournaments={tournaments}/>
                 </GridItem>
               </GridContainer>

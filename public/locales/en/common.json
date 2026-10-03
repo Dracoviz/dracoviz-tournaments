@@ -428,5 +428,22 @@
 	"mega_level_max": "Max",
 	"mega_level_super_max": "Super Max",
 	"plus_move": "Plus Move",
-	"plus_move_requires_super_max": "Available at Super Max"
+	"plus_move_requires_super_max": "Available at Super Max",
+	"all_tournaments": "All tournaments",
+	"discord_section_title": "Popular Discord servers",
+	"discord_section_subtitle": "Join these communities to find more tournaments to play in.",
+	"discord_requires_english": "English required",
+	"discord_requires_japanese": "Japanese required",
+	"discord_candle_cult_description": "The primary hub for large Play! Pokémon practice tournaments.",
+	"discord_flash_description": "On-demand, quick practice tournaments in a variety of formats.",
+	"discord_asia_pacific_description": "Grassroots open Great League tournament circuit across Asia and Oceania.",
+	"discord_espeon_description": "Japanese language-only practice tournaments.",
+	"discord_join_title": "Before you join {{server}}",
+	"discord_rules_warning_title": "Follow the server rules",
+	"discord_rules_warning": "This Discord is run by its own community, not by dracoviz. Read and follow its rules before posting or signing up for anything — breaking them can get you banned from the server and its tournaments.",
+	"discord_open_invite": "Open Discord invite",
+	"discord_name_required_title": "Set your trainer name first",
+	"discord_name_required": "Your dracoviz name is still the default “{{name}}”. Change it to your in-game trainer name so hosts and opponents can recognize you, and the invite link will appear.",
+	"discord_name_save_failed": "Could not save your name. Please try again.",
+	"discord_name_still_default": "That is still a default name. Please use your in-game trainer name."
 }

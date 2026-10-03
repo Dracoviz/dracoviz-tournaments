@@ -404,5 +404,22 @@
 	"mega_level_max": "Máximo",
 	"mega_level_super_max": "Súper Máximo",
 	"plus_move": "Movimiento Plus",
-	"plus_move_requires_super_max": "Disponible en Súper Máximo"
+	"plus_move_requires_super_max": "Disponible en Súper Máximo",
+	"all_tournaments": "Todos los torneos",
+	"discord_section_title": "Servidores de Discord populares",
+	"discord_section_subtitle": "Únete a estas comunidades para encontrar más torneos en los que jugar.",
+	"discord_requires_english": "Requiere inglés",
+	"discord_requires_japanese": "Requiere japonés",
+	"discord_candle_cult_description": "El principal punto de encuentro para grandes torneos de práctica de Play! Pokémon.",
+	"discord_flash_description": "Torneos de práctica rápidos y a demanda en una gran variedad de formatos.",
+	"discord_asia_pacific_description": "Circuito de torneos abiertos de Liga Súper en Asia y Oceanía.",
+	"discord_espeon_description": "Torneos de práctica exclusivamente en japonés.",
+	"discord_join_title": "Antes de unirte a {{server}}",
+	"discord_rules_warning_title": "Sigue las reglas del servidor",
+	"discord_rules_warning": "Este Discord está gestionado por su propia comunidad, no por dracoviz. Lee y respeta sus reglas antes de publicar o apuntarte a algo: incumplirlas puede suponer tu expulsión del servidor y de sus torneos.",
+	"discord_open_invite": "Abrir invitación de Discord",
+	"discord_name_required_title": "Primero configura tu nombre de entrenador",
+	"discord_name_required": "Tu nombre en dracoviz sigue siendo el predeterminado «{{name}}». Cámbialo por tu nombre de entrenador del juego para que los organizadores y tus rivales te reconozcan, y aparecerá el enlace de invitación.",
+	"discord_name_save_failed": "No se pudo guardar tu nombre. Inténtalo de nuevo.",
+	"discord_name_still_default": "Ese sigue siendo un nombre predeterminado. Usa tu nombre de entrenador del juego."
 }

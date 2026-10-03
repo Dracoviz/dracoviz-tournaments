@@ -252,6 +252,7 @@ export const EVENT = Object.freeze({
   HOME_TAB_SWITCHED: 'home_tab_switched',
   SHOW_ALL_TOURNAMENTS: 'show_all_tournaments',
   PLAYER_PROFILE_VIEWED: 'player_profile_viewed',
+  DISCORD_DIALOG_OPENED: 'discord_dialog_opened',
   PROFILE_EDIT_OPENED: 'profile_edit_opened',
   PROFILE_SAVED: 'profile_saved',
   LOCALE_CHANGED: 'locale_changed',

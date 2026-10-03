@@ -404,5 +404,22 @@
     "mega_level_max": "맥스",
     "mega_level_super_max": "슈퍼 맥스",
     "plus_move": "플러스 기술",
-    "plus_move_requires_super_max": "슈퍼 맥스에서 사용 가능"
+    "plus_move_requires_super_max": "슈퍼 맥스에서 사용 가능",
+	"all_tournaments": "모든 토너먼트",
+	"discord_section_title": "인기 디스코드 서버",
+	"discord_section_subtitle": "이 커뮤니티에 참여하면 참가할 수 있는 토너먼트를 더 많이 찾을 수 있습니다.",
+	"discord_requires_english": "영어 필수",
+	"discord_requires_japanese": "일본어 필수",
+	"discord_candle_cult_description": "대규모 Play! Pokémon 연습 토너먼트의 중심 커뮤니티입니다.",
+	"discord_flash_description": "다양한 포맷의 빠른 연습 토너먼트를 원할 때 바로 즐길 수 있습니다.",
+	"discord_asia_pacific_description": "아시아와 오세아니아 전역에서 열리는 그레이트 리그 오픈 풀뿌리 토너먼트 서킷입니다.",
+	"discord_espeon_description": "일본어로만 진행되는 연습 토너먼트입니다.",
+	"discord_join_title": "{{server}}에 참여하기 전에",
+	"discord_rules_warning_title": "서버 규칙을 지켜주세요",
+	"discord_rules_warning": "이 디스코드는 dracoviz가 아니라 해당 커뮤니티가 직접 운영합니다. 글을 쓰거나 대회에 신청하기 전에 규칙을 읽고 반드시 지켜주세요. 규칙을 위반하면 서버와 대회에서 차단될 수 있습니다.",
+	"discord_open_invite": "디스코드 초대 링크 열기",
+	"discord_name_required_title": "먼저 트레이너 이름을 설정하세요",
+	"discord_name_required": "dracoviz 이름이 아직 기본값인 “{{name}}”입니다. 주최자와 상대가 알아볼 수 있도록 게임 내 트레이너 이름으로 변경하면 초대 링크가 표시됩니다.",
+	"discord_name_save_failed": "이름을 저장할 수 없습니다. 다시 시도해 주세요.",
+	"discord_name_still_default": "아직 기본 이름입니다. 게임 내 트레이너 이름을 입력해 주세요."
 }

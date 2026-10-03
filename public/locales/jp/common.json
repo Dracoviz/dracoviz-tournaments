@@ -404,5 +404,22 @@
 	"mega_level_max": "マックス",
 	"mega_level_super_max": "スーパーマックス",
 	"plus_move": "プラスわざ",
-	"plus_move_requires_super_max": "スーパーマックスで使用可能"
+	"plus_move_requires_super_max": "スーパーマックスで使用可能",
+	"all_tournaments": "すべてのトーナメント",
+	"discord_section_title": "人気のDiscordサーバー",
+	"discord_section_subtitle": "これらのコミュニティに参加すると、参加できるトーナメントをもっと見つけられます。",
+	"discord_requires_english": "英語必須",
+	"discord_requires_japanese": "日本語必須",
+	"discord_candle_cult_description": "大規模なPlay! Pokémon練習会の中心となるサーバーです。",
+	"discord_flash_description": "さまざまなフォーマットの練習会を、好きなときに短時間で開催しています。",
+	"discord_asia_pacific_description": "アジア・オセアニア地域で開催される、グレートリーグのオープンな草の根トーナメントサーキットです。",
+	"discord_espeon_description": "日本語のみで開催される練習会です。",
+	"discord_join_title": "{{server}} に参加する前に",
+	"discord_rules_warning_title": "サーバーのルールを守ってください",
+	"discord_rules_warning": "このDiscordはdracovizではなく、各コミュニティが運営しています。投稿や大会への申し込みの前に、必ずルールを読んで守ってください。違反するとサーバーや大会から追放されることがあります。",
+	"discord_open_invite": "Discordの招待リンクを開く",
+	"discord_name_required_title": "先にトレーナー名を設定してください",
+	"discord_name_required": "dracovizの名前が初期設定の「{{name}}」のままです。主催者や対戦相手が分かるように、ゲーム内のトレーナー名に変更してください。変更すると招待リンクが表示されます。",
+	"discord_name_save_failed": "名前を保存できませんでした。もう一度お試しください。",
+	"discord_name_still_default": "まだ初期設定の名前です。ゲーム内のトレーナー名を入力してください。"
 }

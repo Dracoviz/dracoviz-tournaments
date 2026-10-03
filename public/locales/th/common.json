@@ -404,5 +404,22 @@
 	"mega_level_max": "สูงสุด",
 	"mega_level_super_max": "ซูเปอร์แม็กซ์",
 	"plus_move": "ท่าพลัส",
-	"plus_move_requires_super_max": "ใช้ได้ที่ระดับซูเปอร์แม็กซ์"
+	"plus_move_requires_super_max": "ใช้ได้ที่ระดับซูเปอร์แม็กซ์",
+	"all_tournaments": "ทัวร์นาเมนต์ทั้งหมด",
+	"discord_section_title": "เซิร์ฟเวอร์ Discord ยอดนิยม",
+	"discord_section_subtitle": "เข้าร่วมชุมชนเหล่านี้เพื่อค้นหาทัวร์นาเมนต์เพิ่มเติมที่คุณเข้าร่วมได้",
+	"discord_requires_english": "ต้องใช้ภาษาอังกฤษ",
+	"discord_requires_japanese": "ต้องใช้ภาษาญี่ปุ่น",
+	"discord_candle_cult_description": "ศูนย์กลางหลักสำหรับทัวร์นาเมนต์ซ้อมรูปแบบ Play! Pokémon ขนาดใหญ่",
+	"discord_flash_description": "ทัวร์นาเมนต์ซ้อมแบบรวดเร็วตามต้องการในหลากหลายรูปแบบ",
+	"discord_asia_pacific_description": "ซีรีส์ทัวร์นาเมนต์ Great League แบบเปิดที่จัดโดยชุมชนทั่วเอเชียและโอเชียเนีย",
+	"discord_espeon_description": "ทัวร์นาเมนต์ซ้อมที่ใช้ภาษาญี่ปุ่นเท่านั้น",
+	"discord_join_title": "ก่อนเข้าร่วม {{server}}",
+	"discord_rules_warning_title": "โปรดปฏิบัติตามกฎของเซิร์ฟเวอร์",
+	"discord_rules_warning": "เซิร์ฟเวอร์ Discord นี้ดูแลโดยชุมชนของตนเอง ไม่ใช่โดย dracoviz โปรดอ่านและปฏิบัติตามกฎก่อนโพสต์หรือสมัครเข้าร่วมกิจกรรม หากฝ่าฝืนคุณอาจถูกแบนออกจากเซิร์ฟเวอร์และทัวร์นาเมนต์",
+	"discord_open_invite": "เปิดลิงก์เชิญ Discord",
+	"discord_name_required_title": "โปรดตั้งชื่อเทรนเนอร์ของคุณก่อน",
+	"discord_name_required": "ชื่อของคุณใน dracoviz ยังเป็นค่าเริ่มต้น “{{name}}” อยู่ โปรดเปลี่ยนเป็นชื่อเทรนเนอร์ในเกมเพื่อให้ผู้จัดและคู่แข่งจำคุณได้ แล้วลิงก์เชิญจะปรากฏขึ้น",
+	"discord_name_save_failed": "ไม่สามารถบันทึกชื่อของคุณได้ โปรดลองอีกครั้ง",
+	"discord_name_still_default": "ชื่อนี้ยังเป็นชื่อเริ่มต้น โปรดใช้ชื่อเทรนเนอร์ในเกมของคุณ"
 }
