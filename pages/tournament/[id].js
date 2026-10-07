@@ -18,6 +18,7 @@ import { track } from "../../utils/analytics";
 import { EVENT, PARAM, RESULT, ROLE, SOURCE } from "../../utils/analyticsEvents";
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import getBracketTypeLabel from "../../api/getBracketTypeLabel";
+import { countIncompleteMatches } from "../../utils/bracketProgress";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
@@ -201,7 +202,16 @@ export default function Tournament() {
   }
 
   const progressBracket = () => {
-    if (!confirm(t('confirm_bracket_progress'))) {
+    // Elimination brackets need a decisive winner in every match before the round can
+    // advance; swiss and round robin only need a result, since a draw can stand there.
+    const isElim = data?.bracketType === "singleElim" || data?.bracketType === "doubleElim";
+    const incomplete = countIncompleteMatches(data?.bracket, data?.currentRoundNumber, {
+      requireWinner: isElim,
+    });
+    const prompt = incomplete > 0
+      ? `${t('bracket_incomplete_warning', { count: incomplete })}\n\n${t('confirm_bracket_progress')}`
+      : t('confirm_bracket_progress');
+    if (!confirm(prompt)) {
       track(EVENT.BRACKET_PROGRESSED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -1242,6 +1252,8 @@ export default function Tournament() {
                 currentRoundNumber={data?.currentRoundNumber}
                 totalRounds={data?.totalRounds}
                 factions={data?.factions}
+                isHost={data?.isHost}
+                tournamentId={id}
                 e={e}
               />
               {

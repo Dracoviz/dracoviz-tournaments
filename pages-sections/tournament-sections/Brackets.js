@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
-import { useTheme, Tabs, Tab } from "@mui/material";
+import { useTheme, Tabs, Tab, Chip } from "@mui/material";
 import cleanText from "../../utils/cleanText";
+import { countIncompleteMatches } from "../../utils/bracketProgress";
 
 const useStyles = makeStyles(styles);
 
@@ -25,6 +26,16 @@ const bracketStyles = {
 const WINNERS = "WB";
 const LOSERS = "LB";
 const GRAND_FINAL = "GF";
+
+// The grand final belongs to both sides of the bracket, so it shows on either tab.
+// Takes anything carrying a `section` — a match or one of the columns built below.
+const inTab = (tab) => ({ section }) => (
+  section === GRAND_FINAL || section === tab
+);
+
+const tabStorageKey = (tournamentId) => (
+  `dracoviz.bracketTab.${tournamentId ?? "default"}`
+);
 
 // Groups each round's matches into display columns. A double elimination round can
 // hold a winners round and a losers round at the same time, so one round becomes two
@@ -151,7 +162,7 @@ function Brackets(props) {
   const {
     isTeamTournament,
     factions,
-    bracket, onBracketSelect, currentRoundNumber, totalRounds, e
+    bracket, onBracketSelect, currentRoundNumber, totalRounds, e, isHost, tournamentId
   } = props;
   const [playersToLookup, setPlayersToLookup] = useState(null);
   const [tab, setTab] = useState(WINNERS);
@@ -164,6 +175,29 @@ function Brackets(props) {
     }
     onSearch(e);
   }, [e]);
+
+  // Restore the last tab the host was on. This has to happen after mount rather than in
+  // the initial state: the page is server-rendered, where localStorage does not exist,
+  // and seeding state from it would break hydration.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(tabStorageKey(tournamentId));
+      if (saved === WINNERS || saved === LOSERS) {
+        setTab(saved);
+      }
+    } catch {
+      // Private browsing or blocked site data. The default tab is fine.
+    }
+  }, [tournamentId]);
+
+  const onTabChange = (_, value) => {
+    setTab(value);
+    try {
+      localStorage.setItem(tabStorageKey(tournamentId), value);
+    } catch {
+      // Not being able to remember the tab should never break switching it.
+    }
+  }
 
   const onSearch = (e) => {
     const targetValue = e.target.value;
@@ -183,9 +217,55 @@ function Brackets(props) {
   const hasSections = columns.some((column) => column.section != null);
   // The grand final (and its reset) sit at the end of both brackets, so whichever side
   // a viewer is following, they can see how it finishes.
-  const visibleColumns = hasSections
-    ? columns.filter((column) => column.section === GRAND_FINAL || column.section === tab)
-    : columns;
+  const visibleColumns = hasSections ? columns.filter(inTab(tab)) : columns;
+
+  // Per-side progress for the round being played, so a host can see at a glance which
+  // bracket is holding things up. Elimination needs a decisive winner, not just a report.
+  const sectionStatus = (section) => {
+    const matchFilter = inTab(section);
+    const total = columns
+      .filter((column) => column.round === currentRoundNumber)
+      .filter(matchFilter)
+      .reduce((sum, column) => sum + column.matches.length, 0);
+    const incomplete = countIncompleteMatches(bracket, currentRoundNumber, {
+      requireWinner: true,
+      matchFilter,
+    });
+    return { total, incomplete };
+  }
+
+  const tabLabel = (label, section) => {
+    if (!isHost) {
+      return label;
+    }
+    const { total, incomplete } = sectionStatus(section);
+    // This side has nothing scheduled this round — say nothing rather than imply it is done.
+    if (total === 0) {
+      return label;
+    }
+    return (
+      <span className={classes.tabLabel}>
+        {label}
+        {incomplete > 0 ? (
+          <Chip
+            size="small"
+            color="error"
+            label={incomplete}
+            title={t("bracket_matches_remaining", { count: incomplete })}
+            className={classes.tabChip}
+          />
+        ) : (
+          <span
+            className={classes.tabReady}
+            title={t("bracket_ready_to_progress")}
+            aria-label={t("bracket_ready_to_progress")}
+          >
+            ✓
+          </span>
+        )}
+      </span>
+    );
+  }
 
   const columnLabel = (column) => {
     const { section, sectionRound, round } = column;
@@ -204,61 +284,63 @@ function Brackets(props) {
   }
 
   return (
-    <div
-      className="scroller"
-      style={{
-        direction: isTeamTournament ? "ltr" : "rtl",
-        overflowX: "scroll",
-        backgroundColor: isDark ? "#252a31" : "#F6F5F5"
-      }}
-    >
-      <p style={{ textAlign: "center", direction: "ltr" }}>
+    <div style={{ backgroundColor: isDark ? "#252a31" : "#F6F5F5" }}>
+      {/* The round counter and tabs live outside the scrolling area on purpose. Inside
+          it they are laid out against the full bracket width, so they drift off-centre
+          and scroll away as soon as the bracket is wider than the screen. */}
+      <p style={{ textAlign: "center" }}>
         {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
       </p>
       {hasSections && (
-        <div style={{ direction: "ltr" }}>
-          <Tabs
-            value={tab}
-            onChange={(_, value) => setTab(value)}
-            centered
-            className={classes.sectionTabs}
-          >
-            <Tab value={WINNERS} label={t("bracket_tab_winners")} />
-            <Tab value={LOSERS} label={t("bracket_tab_losers")} />
-          </Tabs>
-        </div>
+        <Tabs
+          value={tab}
+          onChange={onTabChange}
+          centered
+          className={classes.sectionTabs}
+        >
+          <Tab value={WINNERS} label={tabLabel(t("bracket_tab_winners"), WINNERS)} />
+          <Tab value={LOSERS} label={tabLabel(t("bracket_tab_losers"), LOSERS)} />
+        </Tabs>
       )}
       <div
-        className={classes.rounds}
-        style={{ minWidth: visibleColumns.length * (isTeamTournament ? 900 : 350) }}
+        className="scroller"
+        style={{
+          direction: isTeamTournament ? "ltr" : "rtl",
+          overflowX: "scroll",
+        }}
       >
-        {visibleColumns.map((column) => (
-          <section key={column.key} className={classes.round}>
-            <h3
-              className={classes.roundLabel}
-              // A sectioned bracket splits one round across two tabs, so mark which
-              // column is the live one. Left alone for the other bracket types, where
-              // the columns already read in round order.
-              style={hasSections && column.round === currentRoundNumber
-                ? { fontWeight: "bold" }
-                : undefined}
-            >
-              {columnLabel(column)}
-            </h3>
-            {column.matches.map(({ match, matchIndex }) => (
-              <Match
-                key={`${column.key}-${matchIndex}`}
-                match={match}
-                matchIndex={matchIndex}
-                roundIndex={column.roundIndex}
-                isTeamTournament={isTeamTournament}
-                onBracketSelect={onBracketSelect}
-                playersToLookup={playersToLookup}
-                factions={factions}
-              />
-            ))}
-          </section>
-        ))}
+        <div
+          className={classes.rounds}
+          style={{ minWidth: visibleColumns.length * (isTeamTournament ? 900 : 350) }}
+        >
+          {visibleColumns.map((column) => (
+            <section key={column.key} className={classes.round}>
+              <h3
+                className={classes.roundLabel}
+                // A sectioned bracket splits one round across two tabs, so mark which
+                // column is the live one. Left alone for the other bracket types, where
+                // the columns already read in round order.
+                style={hasSections && column.round === currentRoundNumber
+                  ? { fontWeight: "bold" }
+                  : undefined}
+              >
+                {columnLabel(column)}
+              </h3>
+              {column.matches.map(({ match, matchIndex }) => (
+                <Match
+                  key={`${column.key}-${matchIndex}`}
+                  match={match}
+                  matchIndex={matchIndex}
+                  roundIndex={column.roundIndex}
+                  isTeamTournament={isTeamTournament}
+                  onBracketSelect={onBracketSelect}
+                  playersToLookup={playersToLookup}
+                  factions={factions}
+                />
+              ))}
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   )

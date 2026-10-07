@@ -29,6 +29,27 @@ function bracketsStyle(theme) {
         color: isDark ? "#fff" : "#000",
       },
     },
+    tabLabel: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+    },
+    // Count of matches in the current round still waiting on a result.
+    tabChip: {
+      height: 18,
+      minWidth: 18,
+      fontSize: 11,
+      fontWeight: 700,
+      cursor: "inherit",
+      "& .MuiChip-label": {
+        padding: "0 6px",
+      },
+    },
+    tabReady: {
+      color: "#2e9b45",
+      fontWeight: 700,
+      lineHeight: 1,
+    },
     matchRoot: {
       marginBottom: 20,
     },
