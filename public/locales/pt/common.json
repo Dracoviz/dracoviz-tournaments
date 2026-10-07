@@ -206,6 +206,8 @@
     "round_label": "Rodada {{round}}",
     "bracket_tab_winners": "Winners Bracket",
     "bracket_tab_losers": "Losers Bracket",
+    "bracket_tab_bracket": "Bracket",
+    "bracket_tab_standings": "Standings",
     "winners_round_label": "Winners Round {{round}}",
     "losers_round_label": "Losers Round {{round}}",
     "bracket_section_grand_final": "Grand Final",

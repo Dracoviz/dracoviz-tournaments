@@ -24,8 +24,18 @@ const sortingAlgo = (a, b) => {
   return 0;
 }
 
+// In an elimination bracket, record is a poor ranking: a player knocked out in the
+// first round of the losers bracket can hold more wins than the runner-up. Once the
+// bracket is finished the caller hands down the placement order to use instead.
+const standingsSort = (standingsOrder) => {
+  const rank = new Map(standingsOrder.map((name, index) => [name, index]));
+  return (a, b) => (
+    (rank.get(a.name) ?? Number.MAX_SAFE_INTEGER) - (rank.get(b.name) ?? Number.MAX_SAFE_INTEGER)
+  );
+}
+
 export default function SinglePlayerList(props) {
-  const { players, onPlayer, onDeletePlayer, isHost, showValid, e } = props;
+  const { players, onPlayer, onDeletePlayer, isHost, showValid, e, standingsOrder } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
@@ -67,6 +77,7 @@ export default function SinglePlayerList(props) {
   }
 
   const noSearchResults = searchedPlayers == null || searchedPlayers.length <= 0;
+  const sorter = standingsOrder?.length > 0 ? standingsSort(standingsOrder) : sortingAlgo;
 
   if (players == null || players.length <= 0) {
     return <NoPlayers />
@@ -76,7 +87,7 @@ export default function SinglePlayerList(props) {
     <div>
       {
         noSearchResults ? <p>{t('no_players_in_search')}</p>
-        : searchedPlayers.sort(sortingAlgo)?.map((player) => (
+        : [...searchedPlayers].sort(sorter)?.map((player) => (
           <Card>
             <div className={classes.root}>
               <div className={`${classes.playerNameRow} realign`}>

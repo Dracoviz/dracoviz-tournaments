@@ -50,6 +50,33 @@ function bracketsStyle(theme) {
       fontWeight: 700,
       lineHeight: 1,
     },
+    // Final placements. Not inside the horizontal scroller, so it stays readable.
+    standings: {
+      maxWidth: 560,
+      margin: "0 auto",
+      padding: "0 16px 20px",
+    },
+    standingsRow: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      padding: "8px 10px",
+      borderBottom: isDark ? "solid 1px #3a4049" : "solid 1px #e3e1e1",
+    },
+    standingsPlace: {
+      minWidth: 44,
+      fontWeight: 700,
+      textAlign: "right",
+    },
+    standingsName: {
+      flex: 1,
+      overflowWrap: "anywhere",
+    },
+    standingsRecord: {
+      opacity: 0.75,
+      fontSize: 13,
+      whiteSpace: "nowrap",
+    },
     matchRoot: {
       marginBottom: 20,
     },

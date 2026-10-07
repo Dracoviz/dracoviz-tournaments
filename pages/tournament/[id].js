@@ -19,6 +19,7 @@ import { EVENT, PARAM, RESULT, ROLE, SOURCE } from "../../utils/analyticsEvents"
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import getBracketTypeLabel from "../../api/getBracketTypeLabel";
 import { countIncompleteMatches } from "../../utils/bracketProgress";
+import { isBracketComplete, isElimBracket, getStandingsOrder } from "../../utils/bracketStandings";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
@@ -98,6 +99,12 @@ export default function Tournament() {
 
   // Hosts keep seeing who has a complete team after registration closes, up until the tournament starts.
   const showValid = data?.isHost && data?.state === "NOT_STARTED";
+  // Once an elimination bracket has finished, rank the player list by placement rather
+  // than by record — the runner-up can easily hold fewer wins than someone knocked out
+  // early in the losers bracket. Empty while the bracket is still in progress.
+  const standingsOrder = (isElimBracket(data?.bracketType) && isBracketComplete(data?.bracket))
+    ? getStandingsOrder(data?.bracket, data?.players)
+    : null;
 
   // Guards tournament_viewed against post-mutation refetches.
   const viewTrackedRef = useRef(null);
@@ -1254,6 +1261,8 @@ export default function Tournament() {
                 factions={data?.factions}
                 isHost={data?.isHost}
                 tournamentId={id}
+                bracketType={data?.bracketType}
+                players={data?.players}
                 e={e}
               />
               {
@@ -1275,6 +1284,7 @@ export default function Tournament() {
                       onDeletePlayer={onDeletePlayer}
                       isHost={data?.isHost}
                       showValid={showValid}
+                      standingsOrder={standingsOrder}
                       e={e}
                     />)
               }

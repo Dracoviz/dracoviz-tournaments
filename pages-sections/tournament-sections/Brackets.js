@@ -5,6 +5,7 @@ import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
 import { useTheme, Tabs, Tab, Chip } from "@mui/material";
 import cleanText from "../../utils/cleanText";
 import { countIncompleteMatches } from "../../utils/bracketProgress";
+import { isBracketComplete, isElimBracket, getElimStandings } from "../../utils/bracketStandings";
 
 const useStyles = makeStyles(styles);
 
@@ -26,6 +27,10 @@ const bracketStyles = {
 const WINNERS = "WB";
 const LOSERS = "LB";
 const GRAND_FINAL = "GF";
+// Tabs that are not bracket sections: the whole bracket for formats without sides, and
+// the final placements once every match has been played.
+const BRACKET = "BRACKET";
+const STANDINGS = "STANDINGS";
 
 // The grand final belongs to both sides of the bracket, so it shows on either tab.
 // Takes anything carrying a `section` — a match or one of the columns built below.
@@ -162,7 +167,8 @@ function Brackets(props) {
   const {
     isTeamTournament,
     factions,
-    bracket, onBracketSelect, currentRoundNumber, totalRounds, e, isHost, tournamentId
+    bracket, onBracketSelect, currentRoundNumber, totalRounds, e, isHost, tournamentId,
+    bracketType, players
   } = props;
   const [playersToLookup, setPlayersToLookup] = useState(null);
   const [tab, setTab] = useState(WINNERS);
@@ -217,7 +223,27 @@ function Brackets(props) {
   const hasSections = columns.some((column) => column.section != null);
   // The grand final (and its reset) sit at the end of both brackets, so whichever side
   // a viewer is following, they can see how it finishes.
-  const visibleColumns = hasSections ? columns.filter(inTab(tab)) : columns;
+  // Standings become available as soon as the bracket finishes; concluding is separate.
+  const showStandings = isElimBracket(bracketType) && isBracketComplete(bracket);
+  const tabs = [];
+  if (hasSections) {
+    tabs.push({ value: WINNERS, label: t("bracket_tab_winners"), section: WINNERS });
+    tabs.push({ value: LOSERS, label: t("bracket_tab_losers"), section: LOSERS });
+  } else if (showStandings) {
+    // Single elimination has no sides, so it only needs a tab bar once there is a
+    // second thing to show.
+    tabs.push({ value: BRACKET, label: t("bracket_tab_bracket") });
+  }
+  if (showStandings) {
+    tabs.push({ value: STANDINGS, label: t("bracket_tab_standings") });
+  }
+  // The remembered tab may not exist here — a losers tab carried over to a single
+  // elimination bracket, say — so fall back to the first one available.
+  const activeTab = tabs.some((entry) => entry.value === tab)
+    ? tab
+    : (tabs[0]?.value ?? WINNERS);
+
+  const visibleColumns = hasSections ? columns.filter(inTab(activeTab)) : columns;
 
   // Per-side progress for the round being played, so a host can see at a glance which
   // bracket is holding things up. Elimination needs a decisive winner, not just a report.
@@ -283,6 +309,37 @@ function Brackets(props) {
     return t("round_label", { round });
   }
 
+  const renderStandings = () => {
+    const standings = getElimStandings(bracket, players);
+    if (standings.length === 0) {
+      return null;
+    }
+    return (
+      <div className={classes.standings}>
+        {standings.map(({ player, placement }) => {
+          const { name, removed, wins, losses, gameWins, gameLosses } = player;
+          return (
+            <div key={name} className={classes.standingsRow}>
+              <span className={classes.standingsPlace}>
+                {/* Withdrawn players are not placed. */}
+                {placement == null ? "–" : `#${placement}`}
+              </span>
+              <span
+                className={classes.standingsName}
+                style={{ textDecoration: removed ? "line-through" : "none" }}
+              >
+                {cleanText(name)}
+              </span>
+              <span className={classes.standingsRecord}>
+                {wins == null ? "" : t("winLoss", { wins, losses, gameWins, gameLosses })}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div style={{ backgroundColor: isDark ? "#252a31" : "#F6F5F5" }}>
       {/* The round counter and tabs live outside the scrolling area on purpose. Inside
@@ -291,17 +348,25 @@ function Brackets(props) {
       <p style={{ textAlign: "center" }}>
         {`${currentRoundNumber} / ${totalRounds} ${t("rounds")}`}
       </p>
-      {hasSections && (
+      {tabs.length > 1 && (
         <Tabs
-          value={tab}
+          value={activeTab}
           onChange={onTabChange}
           centered
           className={classes.sectionTabs}
         >
-          <Tab value={WINNERS} label={tabLabel(t("bracket_tab_winners"), WINNERS)} />
-          <Tab value={LOSERS} label={tabLabel(t("bracket_tab_losers"), LOSERS)} />
+          {tabs.map((entry) => (
+            <Tab
+              key={entry.value}
+              value={entry.value}
+              label={entry.section == null
+                ? entry.label
+                : tabLabel(entry.label, entry.section)}
+            />
+          ))}
         </Tabs>
       )}
+      {activeTab === STANDINGS ? renderStandings() : (
       <div
         className="scroller"
         style={{
@@ -342,6 +407,7 @@ function Brackets(props) {
           ))}
         </div>
       </div>
+      )}
     </div>
   )
 }
