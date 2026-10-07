@@ -7,6 +7,7 @@ import CustomInput from "../../components/CustomInput/CustomInput.js";
 import { useTranslation } from "next-i18next";
 import Router from "next/router";
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
+import getBracketTypeLabel from "../../api/getBracketTypeLabel";
 import { track } from "../../utils/analytics";
 import { EVENT, PARAM } from "../../utils/analyticsEvents";
 
@@ -37,15 +38,10 @@ export default function TournamentsList(props) {
 
   const renderChips = (data) => {
     const roundLengthLabel = getRoundLengthLabel(t);
-    const bracketLabels = {
-      "none": "bracket_type_none",
-	    "swiss": "bracket_type_swiss",
-	    "roundrobin": "bracket_type_round_robin",
-      "singleElim": "bracket_type_single_elim",
-    }
+    const bracketLabels = getBracketTypeLabel(t);
     return (
       <div style={{ marginBottom: 10 }}>
-        <Chip label={t(bracketLabels[data.bracketType ?? "none"])} style={{ marginRight: 10 }} />
+        <Chip label={bracketLabels[data.bracketType ?? "none"]} style={{ marginRight: 10 }} />
         <Chip label={roundLengthLabel[data.timeControl ?? 0]} color="info" style={{ marginRight: 10 }} />
         {data.isTeamDraft && <Chip label={t("draft_mode_team")} color="secondary" style={{ marginRight: 10 }} />}
         {data.isGlobalDraft && <Chip label={t("draft_mode_global")} color="secondary" style={{ marginRight: 10 }} />}

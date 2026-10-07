@@ -17,6 +17,7 @@ import fetchApi from "../../api/fetchApi";
 import { track } from "../../utils/analytics";
 import { EVENT, PARAM, RESULT, ROLE, SOURCE } from "../../utils/analyticsEvents";
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
+import getBracketTypeLabel from "../../api/getBracketTypeLabel";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
@@ -1074,16 +1075,11 @@ export default function Tournament() {
       return null;
     }
     const { bracketType, timeControl } = data;
-    const bracketLabels = {
-      "none": "bracket_type_none",
-	    "swiss": "bracket_type_swiss",
-	    "roundrobin": "bracket_type_round_robin",
-      "singleElim": "bracket_type_single_elim",
-    }
+    const bracketLabels = getBracketTypeLabel(t);
     const roundLabels = getRoundLengthLabel(t);
     return (
       <div style={{ marginBottom: 20 }}>
-        <Chip label={t(bracketLabels[bracketType ?? "none"])} style={{ marginRight: 10 }} />
+        <Chip label={bracketLabels[bracketType ?? "none"]} style={{ marginRight: 10 }} />
         <Chip label={`${t("round_length")}: ${roundLabels[timeControl ?? 0]}`} color="info" />
       </div>
     )

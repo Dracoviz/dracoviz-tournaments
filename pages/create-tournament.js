@@ -451,6 +451,7 @@ export default function CreateTournament() {
                     <MenuItem value="swiss">{t("bracket_type_swiss")}</MenuItem>
                     <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem>
                     <MenuItem value="singleElim">{t("bracket_type_single_elim")}</MenuItem>
+                    <MenuItem value="doubleElim">{t("bracket_type_double_elim")}</MenuItem>
                   </Select>
                   <small>
                     Note: Brackets currently only work for single player tournaments only

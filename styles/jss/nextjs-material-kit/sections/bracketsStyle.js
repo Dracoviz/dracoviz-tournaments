@@ -18,6 +18,17 @@ function bracketsStyle(theme) {
     roundLabel: {
       textAlign: "left"
     },
+    // Winners / losers switch, shown only for bracket types that have sections.
+    sectionTabs: {
+      marginBottom: 10,
+      "& .MuiTab-root": {
+        color: isDark ? "#b6bdc7" : "#555",
+        fontWeight: 500,
+      },
+      "& .Mui-selected": {
+        color: isDark ? "#fff" : "#000",
+      },
+    },
     matchRoot: {
       marginBottom: 20,
     },
