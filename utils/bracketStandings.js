@@ -1,4 +1,6 @@
-import { BYE_SLOT, PENDING_SLOT, isMatchDecided } from "./bracketProgress";
+import {
+  BYE_SLOT, PENDING_SLOT, isMatchDecided, isMatchReported,
+} from "./bracketProgress";
 
 export const ELIM_BRACKET_TYPES = ["singleElim", "doubleElim"];
 // Formats where everyone keeps playing, so a record alone decides the ranking and
@@ -18,9 +20,18 @@ const isRealPlayer = (name) => (
 );
 
 /**
- * Who each player has been paired against, read off the bracket. get.js does not send
- * the opponent lists it keeps server-side, but it does send every pairing, so the same
+ * Who each player has actually played, read off the bracket. get.js does not send the
+ * opponent lists it keeps server-side, but it does send every pairing, so the same
  * information is already here.
+ *
+ * Only matches with a result count. The current round's pairings are sent to the client
+ * as soon as they are generated, and counting an opponent nobody has played yet does
+ * not just add noise — it systematically flattens the figure. In round 2 of a swiss
+ * event every winner is paired against another winner and every loser against another
+ * loser, so including that round hands all 44 players a Buchholz of exactly 1.
+ *
+ * A draw still counts: it is a played game, and swiss allows it as a final result,
+ * which is why this tests for "reported" rather than "has a winner".
  *
  * A rematch counts twice, which is what summing opponents' scores means. Byes
  * contribute no opponent at all.
@@ -38,6 +49,9 @@ export function getOpponentNames(bracket) {
   };
   (bracket ?? []).forEach((round) => {
     (round.matches ?? []).forEach((match) => {
+      if (!isMatchReported(match)) {
+        return;
+      }
       (match.participants ?? []).forEach((group) => {
         if (group == null || group.length < 2) {
           return;
