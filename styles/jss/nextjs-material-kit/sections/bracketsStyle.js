@@ -69,20 +69,43 @@ function bracketsStyle(theme) {
       gap: 12,
       padding: "8px 10px",
       borderBottom: isDark ? "solid 1px #3a4049" : "solid 1px #e3e1e1",
+      // On a phone the record and Buchholz columns leave so little room that a name
+      // wraps a couple of characters at a time. Give the name the whole first line and
+      // let the figures sit underneath it instead.
+      [theme.breakpoints.down("sm")]: {
+        flexWrap: "wrap",
+        alignItems: "baseline",
+        rowGap: 2,
+      },
     },
     standingsPlace: {
       minWidth: 44,
       fontWeight: 700,
       textAlign: "right",
+      [theme.breakpoints.down("sm")]: {
+        minWidth: 36,
+      },
     },
     standingsName: {
       flex: 1,
+      minWidth: 0,
       overflowWrap: "anywhere",
+      [theme.breakpoints.down("sm")]: {
+        // Fills the rest of the first line, which is what pushes the figures onto the
+        // second one. 36 for the place column plus the 12 gap.
+        flexBasis: "calc(100% - 48px)",
+      },
     },
     standingsRecord: {
       opacity: 0.75,
       fontSize: 13,
       whiteSpace: "nowrap",
+      [theme.breakpoints.down("sm")]: {
+        // Indent to line up under the name rather than under the placing. The fixed
+        // width keeps the Buchholz figures in a column under their heading.
+        marginLeft: 48,
+        minWidth: 100,
+      },
     },
     standingsBuchholz: {
       minWidth: 52,
@@ -90,6 +113,10 @@ function bracketsStyle(theme) {
       opacity: 0.75,
       fontSize: 13,
       whiteSpace: "nowrap",
+      [theme.breakpoints.down("sm")]: {
+        minWidth: 0,
+        textAlign: "left",
+      },
     },
     standingsHeader: {
       fontWeight: 700,
@@ -101,6 +128,14 @@ function bracketsStyle(theme) {
       "& span:last-child": {
         cursor: "help",
         textDecoration: "underline dotted",
+      },
+      [theme.breakpoints.down("sm")]: {
+        // The placing and name columns have no heading of their own. Hiding them keeps
+        // the two labels on one line rather than leaving an empty row above them, and
+        // the record label stays indented so it lines up with the figures below.
+        "& span:nth-child(1), & span:nth-child(2)": {
+          display: "none",
+        },
       },
     },
     matchRoot: {

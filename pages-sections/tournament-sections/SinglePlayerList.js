@@ -73,15 +73,13 @@ export default function SinglePlayerList(props) {
     const buchholzScore = buchholz?.get(player.name);
     return (
       <>
-        <Chip
-          style={{ marginLeft: 10 }}
-          label={t('winLoss', { wins, losses, gameWins, gameLosses })}
-        />
+        {/* Spacing comes from the wrapping container, so a chip that drops onto a new
+            line sits flush with the name above it. */}
+        <Chip label={t('winLoss', { wins, losses, gameWins, gameLosses })} />
         {buchholzScore != null && (
           // enterTouchDelay 0 so a tap explains it on mobile too, where there is no hover.
           <Tooltip title={t('buchholz_tooltip')} enterTouchDelay={0} arrow>
             <Chip
-              style={{ marginLeft: 6 }}
               variant="outlined"
               label={t('buchholz_label', { score: buchholzScore })}
             />
@@ -106,7 +104,7 @@ export default function SinglePlayerList(props) {
           <Card>
             <div className={classes.root}>
               <div className={`${classes.playerNameRow} realign`}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div className={classes.playerNameAndStats}>
                   <h4 style={{ textDecoration: player.removed ? "line-through" : "none" }}>
                     {player.name} {getValidLabel(showValid, player.valid)}
                   </h4>
