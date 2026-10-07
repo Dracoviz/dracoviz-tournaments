@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
-import { useTheme, Tabs, Tab, Chip } from "@mui/material";
+import { useTheme, Tabs, Tab, Chip, Tooltip } from "@mui/material";
 import cleanText from "../../utils/cleanText";
 import { countIncompleteMatches } from "../../utils/bracketProgress";
-import { isBracketComplete, isElimBracket, getElimStandings } from "../../utils/bracketStandings";
+import {
+  isBracketComplete, isElimBracket, usesBuchholz, getStandings,
+} from "../../utils/bracketStandings";
 
 const useStyles = makeStyles(styles);
 
@@ -223,8 +225,14 @@ function Brackets(props) {
   const hasSections = columns.some((column) => column.section != null);
   // The grand final (and its reset) sit at the end of both brackets, so whichever side
   // a viewer is following, they can see how it finishes.
-  // Standings become available as soon as the bracket finishes; concluding is separate.
-  const showStandings = isElimBracket(bracketType) && isBracketComplete(bracket);
+  // Elimination placements only mean anything once the bracket has been played out
+  // (concluding is separate). Swiss and round robin standings are useful from the
+  // first round onward, which is the whole point of them — but records only exist
+  // once something has been reported, so there is nothing to rank before then.
+  const hasRecords = (players ?? []).some((player) => player.wins != null);
+  const showStandings = isElimBracket(bracketType)
+    ? isBracketComplete(bracket)
+    : (usesBuchholz(bracketType) && hasRecords);
   const tabs = [];
   if (hasSections) {
     tabs.push({ value: WINNERS, label: t("bracket_tab_winners"), section: WINNERS });
@@ -310,18 +318,29 @@ function Brackets(props) {
   }
 
   const renderStandings = () => {
-    const standings = getElimStandings(bracket, players);
+    const standings = getStandings(bracket, players, bracketType);
     if (standings.length === 0) {
       return null;
     }
+    const hasBuchholz = standings.some((entry) => entry.buchholz != null);
     return (
       <div className={classes.standings}>
-        {standings.map(({ player, placement }) => {
+        {hasBuchholz && (
+          <div className={`${classes.standingsRow} ${classes.standingsHeader}`}>
+            <span className={classes.standingsPlace} />
+            <span className={classes.standingsName} />
+            <span className={classes.standingsRecord}>{t("standings_record")}</span>
+            <Tooltip title={t("buchholz_tooltip")} enterTouchDelay={0} arrow>
+              <span className={classes.standingsBuchholz}>{t("buchholz_short")}</span>
+            </Tooltip>
+          </div>
+        )}
+        {standings.map(({ player, placement, buchholz }) => {
           const { name, removed, wins, losses, gameWins, gameLosses } = player;
           return (
             <div key={name} className={classes.standingsRow}>
               <span className={classes.standingsPlace}>
-                {/* Withdrawn players are not placed. */}
+                {/* A player who did not finish an elimination bracket has no placing. */}
                 {placement == null ? "–" : `#${placement}`}
               </span>
               <span
@@ -333,6 +352,9 @@ function Brackets(props) {
               <span className={classes.standingsRecord}>
                 {wins == null ? "" : t("winLoss", { wins, losses, gameWins, gameLosses })}
               </span>
+              {hasBuchholz && (
+                <span className={classes.standingsBuchholz}>{buchholz}</span>
+              )}
             </div>
           );
         })}

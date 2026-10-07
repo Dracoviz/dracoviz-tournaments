@@ -241,6 +241,8 @@
 	"both_players_disclaimer_true": "참고: 브라켓에 표시되기 전에 양쪽 플레이어가 모두 점수를 보고해야 합니다",
 	"winLoss": "승리: {{wins}} ({{gameWins}}) - 패배: {{losses}} ({{gameLosses}})",
 	"buchholz_label": "Buchholz: {{score}}",
+	"buchholz_short": "Buchholz",
+	"standings_record": "Record",
 	"buchholz_tooltip": "Buchholz is the combined match wins of every opponent this player has faced. It is used to separate players who are level on match wins.",
 	"hp": "HP",
 	"hp_visibility": "HP 표시",

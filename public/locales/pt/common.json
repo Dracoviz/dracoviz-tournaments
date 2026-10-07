@@ -241,6 +241,8 @@
     "both_players_disclaimer_true": "Nota: Ambos os jogadores precisam relatar sua pontuação antes que ela seja exibida no suporte",
     "winLoss": "Vitórias: {{wins}} ({{gameWins}}) - Derrotas: {{losses}} ({{gameLosses}})",
     "buchholz_label": "Buchholz: {{score}}",
+    "buchholz_short": "Buchholz",
+    "standings_record": "Record",
     "buchholz_tooltip": "Buchholz is the combined match wins of every opponent this player has faced. It is used to separate players who are level on match wins.",
     "hp": "HP",
     "hp_visibility": "Visibilidade de HP",

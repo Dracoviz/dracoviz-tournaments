@@ -71,20 +71,57 @@ export function getBuchholzScores(bracket, players) {
   return scores;
 }
 
+// Match wins first, then Buchholz, then games won, then name so the order is stable.
+const recordComparator = (buchholz) => (a, b) => (
+  (b.wins ?? 0) - (a.wins ?? 0)
+  || (buchholz.get(b.name) ?? 0) - (buchholz.get(a.name) ?? 0)
+  || (b.gameWins ?? 0) - (a.gameWins ?? 0)
+  || (a.name ?? "").localeCompare(b.name ?? "")
+);
+
 /**
- * Standings order for the formats where everyone plays every round: match wins first,
- * then Buchholz, then games won, then name so the order is at least stable.
+ * Standings for the formats where everyone keeps playing. Unlike an elimination
+ * bracket these are meaningful from the first round onward, and every player holds a
+ * record — including anyone who has dropped out — so everybody gets a placement.
  */
-export function getRecordOrder(bracket, players) {
+export function getRecordStandings(bracket, players) {
   const buchholz = getBuchholzScores(bracket, players);
-  return [...(players ?? [])]
-    .sort((a, b) => (
-      (b.wins ?? 0) - (a.wins ?? 0)
-      || (buchholz.get(b.name) ?? 0) - (buchholz.get(a.name) ?? 0)
-      || (b.gameWins ?? 0) - (a.gameWins ?? 0)
-      || (a.name ?? "").localeCompare(b.name ?? "")
-    ))
-    .map((player) => player.name);
+  const sorted = [...(players ?? [])].sort(recordComparator(buchholz));
+
+  let placement = 0;
+  let previous = null;
+  return sorted.map((player, index) => {
+    // Players level on every tiebreak genuinely share a place.
+    const key = [
+      player.wins ?? 0,
+      buchholz.get(player.name) ?? 0,
+      player.gameWins ?? 0,
+    ].join("|");
+    if (key !== previous) {
+      placement = index + 1;
+      previous = key;
+    }
+    return { player, placement, buchholz: buchholz.get(player.name) ?? 0 };
+  });
+}
+
+export function getRecordOrder(bracket, players) {
+  return getRecordStandings(bracket, players).map((entry) => entry.player.name);
+}
+
+/**
+ * Standings for whichever format this is, or an empty list when there are none to show
+ * yet. Elimination placements only exist once the bracket has been played out;
+ * record-based standings exist as soon as a round has been played.
+ */
+export function getStandings(bracket, players, bracketType) {
+  if (isElimBracket(bracketType)) {
+    return isBracketComplete(bracket) ? getElimStandings(bracket, players) : [];
+  }
+  if (usesBuchholz(bracketType)) {
+    return getRecordStandings(bracket, players);
+  }
+  return [];
 }
 
 /**

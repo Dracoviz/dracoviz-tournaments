@@ -77,6 +77,25 @@ function bracketsStyle(theme) {
       fontSize: 13,
       whiteSpace: "nowrap",
     },
+    standingsBuchholz: {
+      minWidth: 52,
+      textAlign: "right",
+      opacity: 0.75,
+      fontSize: 13,
+      whiteSpace: "nowrap",
+    },
+    standingsHeader: {
+      fontWeight: 700,
+      textTransform: "uppercase",
+      fontSize: 11,
+      letterSpacing: 0.5,
+      opacity: 0.6,
+      // The Buchholz heading carries a tooltip, so hint that it can be hovered.
+      "& span:last-child": {
+        cursor: "help",
+        textDecoration: "underline dotted",
+      },
+    },
     matchRoot: {
       marginBottom: 20,
     },
