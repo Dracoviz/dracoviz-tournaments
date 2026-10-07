@@ -240,6 +240,8 @@
     "both_players_disclaimer_false": "注意: ブラケットに表示される前に1人のプレイヤーのみがスコアを報告する必要があります",
     "both_players_disclaimer_true": "注意: ブラケットに表示される前に両方のプレイヤーがスコアを報告する必要があります",
     "winLoss": "勝利数: {{wins}} ({{gameWins}}) - 敗北数: {{losses}} ({{gameLosses}})",
+    "buchholz_label": "Buchholz: {{score}}",
+    "buchholz_tooltip": "Buchholz is the combined match wins of every opponent this player has faced. It is used to separate players who are level on match wins.",
     "hp": "HP",
     "hp_visibility": "HPの表示",
     "bye_award_label": "バイ（不戦勝）のために授与されるポイント数",

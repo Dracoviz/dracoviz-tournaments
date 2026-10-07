@@ -19,7 +19,10 @@ import { EVENT, PARAM, RESULT, ROLE, SOURCE } from "../../utils/analyticsEvents"
 import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import getBracketTypeLabel from "../../api/getBracketTypeLabel";
 import { countIncompleteMatches } from "../../utils/bracketProgress";
-import { isBracketComplete, isElimBracket, getStandingsOrder } from "../../utils/bracketStandings";
+import {
+  isBracketComplete, isElimBracket, getStandingsOrder,
+  usesBuchholz, getBuchholzScores, getRecordOrder,
+} from "../../utils/bracketStandings";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
 import EditTournamentModal from "../../pages-sections/tournament-sections/EditTournamentModal";
@@ -99,12 +102,21 @@ export default function Tournament() {
 
   // Hosts keep seeing who has a complete team after registration closes, up until the tournament starts.
   const showValid = data?.isHost && data?.state === "NOT_STARTED";
-  // Once an elimination bracket has finished, rank the player list by placement rather
-  // than by record — the runner-up can easily hold fewer wins than someone knocked out
-  // early in the losers bracket. Empty while the bracket is still in progress.
-  const standingsOrder = (isElimBracket(data?.bracketType) && isBracketComplete(data?.bracket))
-    ? getStandingsOrder(data?.bracket, data?.players)
+  // How the player list is ranked depends on the format. An elimination bracket is
+  // ranked by placement once it has finished — the runner-up can easily hold fewer wins
+  // than someone knocked out early in the losers bracket. Swiss and round robin are
+  // ranked by record, with Buchholz separating players who are level.
+  const bracketStarted = data?.currentRoundNumber > 0;
+  const showBuchholz = usesBuchholz(data?.bracketType) && bracketStarted;
+  const buchholz = showBuchholz
+    ? getBuchholzScores(data?.bracket, data?.players)
     : null;
+  let standingsOrder = null;
+  if (isElimBracket(data?.bracketType) && isBracketComplete(data?.bracket)) {
+    standingsOrder = getStandingsOrder(data?.bracket, data?.players);
+  } else if (showBuchholz) {
+    standingsOrder = getRecordOrder(data?.bracket, data?.players);
+  }
 
   // Guards tournament_viewed against post-mutation refetches.
   const viewTrackedRef = useRef(null);
@@ -1285,6 +1297,7 @@ export default function Tournament() {
                       isHost={data?.isHost}
                       showValid={showValid}
                       standingsOrder={standingsOrder}
+                      buchholz={buchholz}
                       e={e}
                     />)
               }

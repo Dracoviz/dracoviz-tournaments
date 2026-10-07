@@ -240,6 +240,8 @@
 	"both_players_disclaimer_false": "Note: Only one player needs to report their score before it is displayed on the bracket",
 	"both_players_disclaimer_true": "Note: Both players need to report their score before it is displayed on the bracket",
 	"winLoss": "Wins: {{wins}} ({{gameWins}}) - Losses: {{losses}} ({{gameLosses}})",
+	"buchholz_label": "Buchholz: {{score}}",
+	"buchholz_tooltip": "Buchholz is the combined match wins of every opponent this player has faced. It is used to separate players who are level on match wins.",
 	"hp": "HP",
 	"hp_visibility": "HP Visibility",
 	"bye_award_label": "How many points are awarded for a bye?",

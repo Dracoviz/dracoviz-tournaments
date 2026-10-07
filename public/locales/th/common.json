@@ -240,6 +240,8 @@
 	"both_players_disclaimer_false": "หมายเหตุ: มีการรายงานคะแนนเพียงผู้เล่นคนเดียวก่อนที่จะแสดงบนแบร็กเก็ต",
 	"both_players_disclaimer_true": "หมายเหตุ: ทั้งสองผู้เล่นต้องรายงานคะแนนของตนเองก่อนที่จะแสดงบนแบร็กเก็ต",
 	"winLoss": "ชนะ: {{wins}} ({{gameWins}}) - แพ้: {{losses}} ({{gameLosses}})",
+	"buchholz_label": "Buchholz: {{score}}",
+	"buchholz_tooltip": "Buchholz is the combined match wins of every opponent this player has faced. It is used to separate players who are level on match wins.",
 	"hp": "HP",
     "hp_visibility": "การมองเห็น HP",
 	"bye_award_label": "จำนวนคะแนนที่ได้รับสำหรับ Bye?",

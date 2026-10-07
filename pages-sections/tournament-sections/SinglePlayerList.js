@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { Button, Chip } from "@mui/material";
+import { Button, Chip, Tooltip } from "@mui/material";
 import Card from "../../components/Card/Card";
 import styles from "/styles/jss/nextjs-material-kit/sections/singlePlayerStyle.js";
 import CustomInput from "../../components/CustomInput/CustomInput.js";
@@ -35,7 +35,9 @@ const standingsSort = (standingsOrder) => {
 }
 
 export default function SinglePlayerList(props) {
-  const { players, onPlayer, onDeletePlayer, isHost, showValid, e, standingsOrder } = props;
+  const {
+    players, onPlayer, onDeletePlayer, isHost, showValid, e, standingsOrder, buchholz
+  } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
@@ -68,11 +70,24 @@ export default function SinglePlayerList(props) {
       return null;
     }
     const { wins, losses, gameWins, gameLosses } = player;
+    const buchholzScore = buchholz?.get(player.name);
     return (
-      <Chip
-        style={{ marginLeft: 10 }}
-        label={t('winLoss', { wins, losses, gameWins, gameLosses })}
-      />
+      <>
+        <Chip
+          style={{ marginLeft: 10 }}
+          label={t('winLoss', { wins, losses, gameWins, gameLosses })}
+        />
+        {buchholzScore != null && (
+          // enterTouchDelay 0 so a tap explains it on mobile too, where there is no hover.
+          <Tooltip title={t('buchholz_tooltip')} enterTouchDelay={0} arrow>
+            <Chip
+              style={{ marginLeft: 6 }}
+              variant="outlined"
+              label={t('buchholz_label', { score: buchholzScore })}
+            />
+          </Tooltip>
+        )}
+      </>
     )
   }
 

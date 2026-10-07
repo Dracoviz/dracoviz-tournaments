@@ -1,9 +1,90 @@
-import { BYE_SLOT, isMatchDecided } from "./bracketProgress";
+import { BYE_SLOT, PENDING_SLOT, isMatchDecided } from "./bracketProgress";
 
 export const ELIM_BRACKET_TYPES = ["singleElim", "doubleElim"];
+// Formats where everyone keeps playing, so a record alone decides the ranking and
+// Buchholz is what separates players on the same record.
+export const BUCHHOLZ_BRACKET_TYPES = ["swiss", "roundrobin"];
 
 export function isElimBracket(bracketType) {
   return ELIM_BRACKET_TYPES.includes(bracketType);
+}
+
+export function usesBuchholz(bracketType) {
+  return BUCHHOLZ_BRACKET_TYPES.includes(bracketType);
+}
+
+const isRealPlayer = (name) => (
+  name != null && name !== BYE_SLOT && name !== PENDING_SLOT
+);
+
+/**
+ * Who each player has been paired against, read off the bracket. get.js does not send
+ * the opponent lists it keeps server-side, but it does send every pairing, so the same
+ * information is already here.
+ *
+ * A rematch counts twice, which is what summing opponents' scores means. Byes
+ * contribute no opponent at all.
+ */
+export function getOpponentNames(bracket) {
+  const opponents = new Map();
+  const add = (player, opponent) => {
+    if (!isRealPlayer(player) || !isRealPlayer(opponent)) {
+      return;
+    }
+    if (!opponents.has(player)) {
+      opponents.set(player, []);
+    }
+    opponents.get(player).push(opponent);
+  };
+  (bracket ?? []).forEach((round) => {
+    (round.matches ?? []).forEach((match) => {
+      (match.participants ?? []).forEach((group) => {
+        if (group == null || group.length < 2) {
+          return;
+        }
+        const [first, second] = group.map((participant) => participant?.name);
+        add(first, second);
+        add(second, first);
+      });
+    });
+  });
+  return opponents;
+}
+
+/**
+ * Buchholz: the combined match wins of everyone a player has faced. Two players on the
+ * same record are separated by who had the harder schedule.
+ *
+ * Returns a Map of display name to score.
+ */
+export function getBuchholzScores(bracket, players) {
+  const winsByName = new Map((players ?? []).map((p) => [p.name, p.wins ?? 0]));
+  const opponents = getOpponentNames(bracket);
+  const scores = new Map();
+  (players ?? []).forEach((player) => {
+    const faced = opponents.get(player.name) ?? [];
+    scores.set(
+      player.name,
+      faced.reduce((sum, name) => sum + (winsByName.get(name) ?? 0), 0),
+    );
+  });
+  return scores;
+}
+
+/**
+ * Standings order for the formats where everyone plays every round: match wins first,
+ * then Buchholz, then games won, then name so the order is at least stable.
+ */
+export function getRecordOrder(bracket, players) {
+  const buchholz = getBuchholzScores(bracket, players);
+  return [...(players ?? [])]
+    .sort((a, b) => (
+      (b.wins ?? 0) - (a.wins ?? 0)
+      || (buchholz.get(b.name) ?? 0) - (buchholz.get(a.name) ?? 0)
+      || (b.gameWins ?? 0) - (a.gameWins ?? 0)
+      || (a.name ?? "").localeCompare(b.name ?? "")
+    ))
+    .map((player) => player.name);
 }
 
 /**
