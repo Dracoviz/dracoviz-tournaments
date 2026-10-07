@@ -8,6 +8,13 @@ function bracketsStyle(theme) {
       flexWrap: "nowrap",
       flexDirection: "row-reverse",
       justifyContent: "space-around",
+      // Grow to the width of the columns whenever they do not fit the viewport.
+      // Without it the row stays as wide as the scroller, space-around falls back to
+      // centring its overflow, and the half that spills past the inline-start edge
+      // sits outside the scrollable area — so the far end of a long bracket cannot be
+      // reached. When the columns do fit there is no overflow and space-around still
+      // spreads them out as before.
+      minWidth: "max-content",
     },
     round: {
       display: "flex",
@@ -98,6 +105,15 @@ function bracketsStyle(theme) {
     },
     matchRoot: {
       marginBottom: 20,
+    },
+    // Labels and notes sit above and below the match card and are the only things in a
+    // column whose width is driven by text. Zero width keeps them out of the
+    // max-content measurement above, so a long faction pairing or a translated note
+    // wraps inside the column instead of widening every column in the bracket.
+    matchText: {
+      display: "block",
+      width: 0,
+      minWidth: "100%",
     },
     matchItem: {
       display: "flex",

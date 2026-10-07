@@ -141,7 +141,7 @@ function Match(props) {
   return (
     <div className={classes.matchRoot}>
       {(participants.length > 1) && (
-        <h4>{getFactions()}</h4>
+        <h4 className={classes.matchText}>{getFactions()}</h4>
       )}
       <div className={classes.matchItem}>
         <div className={classes.seed}>
@@ -155,7 +155,7 @@ function Match(props) {
           ))}
         </div>
       </div>
-      <small>
+      <small className={classes.matchText}>
         {disputed?.[0] && t("disputed_note")}
         {touched?.[0] && t("touched_note")}
       </small>
@@ -396,10 +396,10 @@ function Brackets(props) {
           overflowX: "scroll",
         }}
       >
-        <div
-          className={classes.rounds}
-          style={{ minWidth: visibleColumns.length * (isTeamTournament ? 900 : 350) }}
-        >
+        {/* The row sizes itself to its columns (see `rounds`), rather than to an
+            estimate of how wide a column is — an estimate that ran short of the real
+            card width and left the end of a long bracket unreachable. */}
+        <div className={classes.rounds}>
           {visibleColumns.map((column) => (
             <section key={column.key} className={classes.round}>
               <h3
