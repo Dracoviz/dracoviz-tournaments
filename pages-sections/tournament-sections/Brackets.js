@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
 import { useTheme, Tabs, Tab, Chip, Tooltip } from "@mui/material";
 import cleanText from "../../utils/cleanText";
-import { countIncompleteMatches } from "../../utils/bracketProgress";
+import { countPlayableMatches, isMatchDecided } from "../../utils/bracketProgress";
 import {
   isBracketComplete, isElimBracket, usesBuchholz, getStandings,
 } from "../../utils/bracketStandings";
@@ -289,52 +289,56 @@ function Brackets(props) {
 
   const visibleColumns = hasSections ? columns.filter(inTab(activeTab)) : columns;
 
-  // Per-side progress for the round being played, so a host can see at a glance which
-  // bracket is holding things up. Elimination needs a decisive winner, not just a report.
+  // How much is outstanding on each side. Matches are no longer gated on a round, so
+  // this is "what can be played right now" across the whole side rather than a count
+  // within the current round.
   const sectionStatus = (section) => {
     const matchFilter = inTab(section);
-    const total = columns
-      .filter((column) => column.round === currentRoundNumber)
-      .filter(matchFilter)
-      .reduce((sum, column) => sum + column.matches.length, 0);
-    const incomplete = countIncompleteMatches(bracket, currentRoundNumber, {
-      requireWinner: true,
-      matchFilter,
-    });
-    return { total, incomplete };
+    const sectionMatches = bracket
+      .flatMap((round) => round.matches ?? [])
+      .filter(matchFilter);
+    return {
+      playable: countPlayableMatches(bracket, matchFilter),
+      settled: sectionMatches.length > 0 && sectionMatches.every(isMatchDecided),
+    };
   }
 
   const tabLabel = (label, section) => {
     if (!isHost) {
       return label;
     }
-    const { total, incomplete } = sectionStatus(section);
-    // This side has nothing scheduled this round — say nothing rather than imply it is done.
-    if (total === 0) {
-      return label;
-    }
-    return (
-      <span className={classes.tabLabel}>
-        {label}
-        {incomplete > 0 ? (
+    const { playable, settled } = sectionStatus(section);
+    if (playable > 0) {
+      return (
+        <span className={classes.tabLabel}>
+          {label}
           <Chip
             size="small"
             color="error"
-            label={incomplete}
-            title={t("bracket_matches_remaining", { count: incomplete })}
+            label={playable}
+            title={t("bracket_matches_playable", { count: playable })}
             className={classes.tabChip}
           />
-        ) : (
+        </span>
+      );
+    }
+    if (settled) {
+      return (
+        <span className={classes.tabLabel}>
+          {label}
           <span
             className={classes.tabReady}
-            title={t("bracket_ready_to_progress")}
-            aria-label={t("bracket_ready_to_progress")}
+            title={t("bracket_section_complete")}
+            aria-label={t("bracket_section_complete")}
           >
             ✓
           </span>
-        )}
-      </span>
-    );
+        </span>
+      );
+    }
+    // Nothing to play here at the moment, and not finished either — this side is
+    // waiting on a match elsewhere. Better to say nothing than to imply either.
+    return label;
   }
 
   const columnLabel = (column) => {

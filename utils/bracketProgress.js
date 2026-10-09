@@ -69,3 +69,26 @@ export function countIncompleteMatches(bracket, roundNumber, options = {}) {
     .filter((match) => !isComplete(match))
     .length;
 }
+
+/**
+ * Can this match be played right now? Both slots filled by real players, and no result
+ * yet. A slot still waiting on an earlier match, or a bye, is not playable.
+ */
+export function isMatchPlayable(match) {
+  if (slotNames(match).length < 2 || isPending(match)) {
+    return false;
+  }
+  return !isMatchDecided(match);
+}
+
+/**
+ * How many matches are waiting to be played. Elimination brackets are not gated on a
+ * round any more, so this counts across the whole bracket rather than within one round.
+ */
+export function countPlayableMatches(bracket, matchFilter) {
+  return (bracket ?? [])
+    .flatMap((round) => round.matches ?? [])
+    .filter((match) => matchFilter == null || matchFilter(match))
+    .filter(isMatchPlayable)
+    .length;
+}

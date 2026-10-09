@@ -221,12 +221,10 @@ export default function Tournament() {
   }
 
   const progressBracket = () => {
-    // Elimination brackets need a decisive winner in every match before the round can
-    // advance; swiss and round robin only need a result, since a draw can stand there.
-    const isElim = data?.bracketType === "singleElim" || data?.bracketType === "doubleElim";
-    const incomplete = countIncompleteMatches(data?.bracket, data?.currentRoundNumber, {
-      requireWinner: isElim,
-    });
+    // Only swiss and round robin reach this: elimination brackets advance themselves.
+    // A draw is a valid result in both, so an unreported match is the only thing worth
+    // warning about.
+    const incomplete = countIncompleteMatches(data?.bracket, data?.currentRoundNumber);
     const prompt = incomplete > 0
       ? `${t('bracket_incomplete_warning', { count: incomplete })}\n\n${t('confirm_bracket_progress')}`
       : t('confirm_bracket_progress');
@@ -1036,20 +1034,15 @@ export default function Tournament() {
       return null;
     }
     const buttons = [];
+    // An elimination bracket carries results forward as they are reported, so there is
+    // no round for the host to step: they start it, and conclude it once every match
+    // has been played. Swiss and round robin still generate a round at a time.
+    const isElim = isElimBracket(bracketType);
+    const isFinished = isElim
+      ? isBracketComplete(data?.bracket)
+      : totalRounds === currentRoundNumber;
     if (isHost && !(bracketType == null || bracketType === "none")) {
-      if (totalRounds === currentRoundNumber) {
-        buttons.push(
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onConclude}
-            fullWidth
-            style={{ marginTop: 20 }}
-          >
-            {t("conclude_tournament")}
-          </Button>
-        )
-      } else if (currentRoundNumber === 0) {
+      if (currentRoundNumber === 0) {
         buttons.push(
           <Button
             variant="contained"
@@ -1061,7 +1054,19 @@ export default function Tournament() {
             {t("start_bracket")}
           </Button>
         )
-      } else {
+      } else if (isFinished) {
+        buttons.push(
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onConclude}
+            fullWidth
+            style={{ marginTop: 20 }}
+          >
+            {t("conclude_tournament")}
+          </Button>
+        )
+      } else if (!isElim) {
         buttons.push(
           <Button
             variant="contained"
