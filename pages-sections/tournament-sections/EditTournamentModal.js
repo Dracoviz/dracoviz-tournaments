@@ -59,6 +59,12 @@ function EditTournamentModal(props) {
   const roundLabels = getRoundLengthLabel(t);
   return(
     <Dialog
+      // Without these the dialog falls back to MUI's default and shrinks to fit its
+      // content, which leaves the form squeezed into a narrow column. fullWidth makes
+      // it take the width available and maxWidth caps it on a large monitor, where a
+      // single column of inputs stretched across the screen reads badly.
+      fullWidth
+      maxWidth="lg"
       open={open}
       TransitionComponent={Transition}
       onClose={onClose}
