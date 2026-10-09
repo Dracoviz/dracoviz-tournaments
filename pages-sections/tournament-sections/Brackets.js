@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
@@ -174,6 +174,8 @@ function Brackets(props) {
   } = props;
   const [playersToLookup, setPlayersToLookup] = useState(null);
   const [tab, setTab] = useState(WINNERS);
+  const scrollerRef = useRef(null);
+  const currentRoundRef = useRef(null);
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
@@ -215,6 +217,40 @@ function Brackets(props) {
     const searchStrings = targetValue.split("&");
     setPlayersToLookup(searchStrings);
   }
+
+  // Bring the round being played into view. The scroller starts at its inline start,
+  // which for the right-to-left solo layout is the newest round, so without this the
+  // bracket opens on the far end of the tournament.
+  //
+  // Measured from bounding rects and applied as a relative scroll so the same code
+  // works for the right-to-left solo layout and the left-to-right team one, without
+  // depending on how a browser reports scrollLeft in a right-to-left container. Note
+  // this deliberately does not use scrollIntoView, which would also scroll the page
+  // vertically down to the bracket on load.
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    const target = currentRoundRef.current;
+    if (scroller == null || target == null) {
+      return;
+    }
+    const scrollerBox = scroller.getBoundingClientRect();
+    const targetBox = target.getBoundingClientRect();
+    const delta = (targetBox.left + targetBox.width / 2)
+      - (scrollerBox.left + scrollerBox.width / 2);
+    // Already centred, give or take a pixel.
+    if (Math.abs(delta) < 1) {
+      return;
+    }
+    if (typeof scroller.scrollBy === "function") {
+      scroller.scrollBy({ left: delta, behavior: "auto" });
+    } else {
+      scroller.scrollLeft += delta;
+    }
+    // Keyed on primitives only: a refetch after a score report produces a new bracket
+    // array every time, and depending on that would yank the viewer's scroll position
+    // back on each poll.
+  }, [currentRoundNumber, tab, bracket?.length]);
+
   if (bracket == null) {
     return null;
   }
@@ -391,6 +427,7 @@ function Brackets(props) {
       {activeTab === STANDINGS ? renderStandings() : (
       <div
         className="scroller"
+        ref={scrollerRef}
         style={{
           direction: isTeamTournament ? "ltr" : "rtl",
           overflowX: "scroll",
@@ -401,7 +438,13 @@ function Brackets(props) {
             card width and left the end of a long bracket unreachable. */}
         <div className={classes.rounds}>
           {visibleColumns.map((column) => (
-            <section key={column.key} className={classes.round}>
+            <section
+              key={column.key}
+              // Only ever one column per tab carries the round being played, which is
+              // what the scroll effect above centres on.
+              ref={column.round === currentRoundNumber ? currentRoundRef : null}
+              className={classes.round}
+            >
               <h3
                 className={classes.roundLabel}
                 // A sectioned bracket splits one round across two tabs, so mark which
