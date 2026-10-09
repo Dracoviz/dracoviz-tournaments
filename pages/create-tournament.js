@@ -53,6 +53,7 @@ export default function CreateTournament() {
   const maxMatchTeamSize = watch("maxMatchTeamSize");
   const isTeamTournament = watch("isTeamTournament");
   const bracketType = watch("bracketType");
+  const autoProgress = watch("autoProgress");
   const theMetas = watch("metas");
   const gameAmount = watch("gameAmount");
   const byeAward = watch("byeAward");
@@ -493,6 +494,17 @@ export default function CreateTournament() {
                         {t("play_all_matches_label")}
                           <Checkbox {...register("playAllMatches")} checked={!!playAllMatches}/>
                       </GridItem>
+                      {
+                        // Elimination brackets always carry results forward on their
+                        // own, so there is nothing to opt into there.
+                        (bracketType === "swiss" || bracketType === "roundrobin") && (
+                          <GridItem xs={12} md={7}>
+                            {t("auto_progress_label")}
+                              <Checkbox {...register("autoProgress")} checked={!!autoProgress}/>
+                            <div><small>{t("auto_progress_disclaimer")}</small></div>
+                          </GridItem>
+                        )
+                      }
                       <GridItem xs={12} md={7}>
                         {t("require_both_players_to_report")}
                           <Checkbox {...register("requireBothPlayersToReport")} checked={!!requireBothPlayersToReport}/>

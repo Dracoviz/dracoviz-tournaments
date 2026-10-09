@@ -189,6 +189,10 @@ export default function Tournament() {
   }
 
   const revertBracket = () => {
+    if (!confirm(t("confirm_bracket_revert"))) {
+      track(EVENT.BRACKET_REVERTED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
+      return;
+    }
     setIsLoading(true);
     fetchApi(`session/revert/`, "POST", {
       "x_session_id": authId,
@@ -1076,6 +1080,22 @@ export default function Tournament() {
             style={{ marginTop: 20 }}
           >
             {t("progress_bracket")}
+          </Button>
+        )
+      }
+      // Only swiss can be stepped back. An elimination bracket has no round to step
+      // back to, and a round robin's rounds are all generated up front, so dropping
+      // the last one would throw away pairings that never come back.
+      if (bracketType === "swiss" && currentRoundNumber > 1) {
+        buttons.push(
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={revertBracket}
+            fullWidth
+            style={{ marginTop: 10 }}
+          >
+            {t("revert_bracket")}
           </Button>
         )
       }

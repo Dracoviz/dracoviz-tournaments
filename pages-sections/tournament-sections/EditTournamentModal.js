@@ -27,6 +27,7 @@ function EditTournamentModal(props) {
       requireBothPlayersToReport: data?.requireBothPlayersToReport,
       playAllMatches: data?.playAllMatches,
       playerCanLeave: data?.playerCanLeave,
+      autoProgress: data?.autoProgress,
     }
   });
   const isConcluded = data?.concluded;
@@ -34,6 +35,9 @@ function EditTournamentModal(props) {
   const requireBothPlayersToReport = watch("requireBothPlayersToReport");
   const playAllMatches = watch("playAllMatches");
   const playerCanLeave = watch("playerCanLeave");
+  const autoProgress = watch("autoProgress");
+  // Elimination brackets advance on their own, so the option means nothing for them.
+  const canAutoProgress = data?.bracketType === "swiss" || data?.bracketType === "roundrobin";
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -167,6 +171,13 @@ function EditTournamentModal(props) {
                 {t("play_all_matches_label")}
                   <Checkbox {...register("playAllMatches")} checked={playAllMatches}/>
               </GridItem>
+              {canAutoProgress && (
+                <GridItem xs={12} md={7}>
+                  {t("auto_progress_label")}
+                    <Checkbox {...register("autoProgress")} checked={!!autoProgress}/>
+                  <div><small>{t("auto_progress_disclaimer")}</small></div>
+                </GridItem>
+              )}
             </GridContainer>
           )}
           <DialogActions>
