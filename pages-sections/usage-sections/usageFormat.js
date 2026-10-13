@@ -73,6 +73,7 @@ export function formatDelta(value, digits = 1) {
  */
 const LOCALE_TAGS = {
   default: "en-GB", en: "en-GB", es: "es", it: "it", jp: "ja", kr: "ko", pt: "pt", th: "th",
+  hi: "hi-IN", bn: "bn-IN", te: "te-IN", ta: "ta-IN",
 };
 
 // en-GB rather than en, because plain "en" is month-first ("Aug 24") and these headings read as
