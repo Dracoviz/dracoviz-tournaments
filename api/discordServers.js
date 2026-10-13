@@ -8,7 +8,7 @@
  * `languageKey` is null when a server has no language requirement.
  *
  * The icon URLs are Discord's CDN with `size=256` rather than the 2048 the
- * server settings page hands out -- these render at 72px, and four 2048px
+ * server settings page hands out -- these render at 72px, and five 2048px
  * webps would be megabytes of avatar on a page people hit on phones.
  */
 const discordServers = [
@@ -34,6 +34,14 @@ const discordServers = [
     inviteUrl: "https://discord.gg/M9eKHsUG7c",
     logoUrl: "https://cdn.discordapp.com/icons/1162761705827340429/fcfe7452afaca9470b2d3e9a487bcf5a.webp?size=256",
     descriptionKey: "discord_asia_pacific_description",
+    languageKey: null,
+  },
+  {
+    id: "pvp_tussle_india",
+    name: "PvP Tussle India",
+    inviteUrl: "https://discord.gg/ADw8cgdSWu",
+    logoUrl: "https://cdn.discordapp.com/icons/631355290549223464/a_c302edd6f77db527d2a2b1e616124d51.webp?size=256",
+    descriptionKey: "discord_pvp_tussle_description",
     languageKey: null,
   },
   {

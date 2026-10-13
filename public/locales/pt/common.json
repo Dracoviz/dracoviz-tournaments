@@ -455,5 +455,6 @@
 	"discord_name_required_title": "Primeiro defina seu nome de treinador",
 	"discord_name_required": "Seu nome na dracoviz ainda é o padrão “{{name}}”. Troque-o pelo seu nome de treinador no jogo para que organizadores e adversários possam reconhecê-lo, e o link de convite aparecerá.",
 	"discord_name_save_failed": "Não foi possível salvar seu nome. Tente novamente.",
-	"discord_name_still_default": "Esse ainda é um nome padrão. Use seu nome de treinador no jogo."
+	"discord_name_still_default": "Esse ainda é um nome padrão. Use seu nome de treinador no jogo.",
+	"discord_pvp_tussle_description": "A maior comunidade competitiva de Pokémon GO em âmbito nacional, dedicada a ajudar os jogadores indianos a evoluir."
 }

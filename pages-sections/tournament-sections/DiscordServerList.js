@@ -78,7 +78,7 @@ export default function DiscordServerList(props) {
       <p>{t("discord_section_subtitle")}</p>
       <GridContainer>
         {discordServers.map((server) => (
-          <GridItem xs={12} sm={6} md={3} key={server.id} style={{ display: "flex" }}>
+          <GridItem xs={12} sm={6} key={server.id} style={{ display: "flex" }}>
             <Card
               className={classes.server}
               role="button"

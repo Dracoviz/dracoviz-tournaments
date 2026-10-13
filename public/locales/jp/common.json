@@ -455,5 +455,6 @@
 	"discord_name_required_title": "先にトレーナー名を設定してください",
 	"discord_name_required": "dracovizの名前が初期設定の「{{name}}」のままです。主催者や対戦相手が分かるように、ゲーム内のトレーナー名に変更してください。変更すると招待リンクが表示されます。",
 	"discord_name_save_failed": "名前を保存できませんでした。もう一度お試しください。",
-	"discord_name_still_default": "まだ初期設定の名前です。ゲーム内のトレーナー名を入力してください。"
+	"discord_name_still_default": "まだ初期設定の名前です。ゲーム内のトレーナー名を入力してください。",
+	"discord_pvp_tussle_description": "インド全国で最大のPokémon GO競技コミュニティで、インドのプレイヤーの上達をサポートしています。"
 }

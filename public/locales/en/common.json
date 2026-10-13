@@ -479,5 +479,6 @@
 	"discord_name_required_title": "Set your trainer name first",
 	"discord_name_required": "Your dracoviz name is still the default “{{name}}”. Change it to your in-game trainer name so hosts and opponents can recognize you, and the invite link will appear.",
 	"discord_name_save_failed": "Could not save your name. Please try again.",
-	"discord_name_still_default": "That is still a default name. Please use your in-game trainer name."
+	"discord_name_still_default": "That is still a default name. Please use your in-game trainer name.",
+	"discord_pvp_tussle_description": "The biggest nationwide Pokémon GO competitive community for helping Indian players improve."
 }

@@ -455,5 +455,6 @@
 	"discord_name_required_title": "Prima imposta il tuo nome da Allenatore",
 	"discord_name_required": "Il tuo nome su dracoviz è ancora quello predefinito «{{name}}». Cambialo con il tuo nome da Allenatore nel gioco, così organizzatori e avversari possono riconoscerti, e comparirà il link d'invito.",
 	"discord_name_save_failed": "Non è stato possibile salvare il tuo nome. Riprova.",
-	"discord_name_still_default": "Questo è ancora un nome predefinito. Usa il tuo nome da Allenatore nel gioco."
+	"discord_name_still_default": "Questo è ancora un nome predefinito. Usa il tuo nome da Allenatore nel gioco.",
+	"discord_pvp_tussle_description": "La più grande community competitiva di Pokémon GO a livello nazionale, dedicata ad aiutare i giocatori indiani a migliorare."
 }
