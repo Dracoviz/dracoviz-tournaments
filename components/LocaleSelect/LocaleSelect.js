@@ -30,7 +30,7 @@ export default function LocaleSelect() {
             <MenuItem value="kr">🇰🇷 Korean</MenuItem>
             <MenuItem value="th">🇹🇭 Thai</MenuItem>
             <MenuItem value="hi">🇮🇳 Hindi</MenuItem>
-            <MenuItem value="bn">🇮🇳 Bengali</MenuItem>
+            <MenuItem value="bn">🇧🇩 Bengali</MenuItem>
             <MenuItem value="te">🇮🇳 Telugu</MenuItem>
             <MenuItem value="ta">🇮🇳 Tamil</MenuItem>
         </Select>
