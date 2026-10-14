@@ -413,10 +413,10 @@
 	"usage_movesets_note": "Com base em {{teams}} equipes com ataques registrados. A ordem não importa, então os mesmos dois ataques carregados contam como uma única entrada.",
 	"usage_no_movesets": "Nenhum conjunto de ataques foi registrado para este Pokémon nesta semana.",
 	"usage_no_partners": "Nenhum parceiro foi levado junto com este Pokémon com frequência suficiente para ser exibido.",
-	"usage_threshold_note": "Só são exibidos os Pokémon levados por pelo menos 20 jogadores durante a semana.",
+	"usage_threshold_note": "Só são exibidos os Pokémon levados por pelo menos {{min}} jogadores durante a semana.",
 	"usage_moveset_coverage": "Os ataques foram registrados em {{recorded}} de {{total}} equipes.",
-	"usage_gap_note": "Uma quebra na linha significa que aquele Pokémon não alcançou 20 equipes naquela semana, e não que seu uso foi zero.",
-	"usage_species_gap_note": "Este Pokémon não alcançou 20 equipes em {{periods}} das semanas exibidas, por isso a linha se interrompe ali.",
+	"usage_gap_note": "Uma quebra na linha significa que aquele Pokémon não alcançou {{min}} equipes naquela semana, e não que seu uso foi zero.",
+	"usage_species_gap_note": "Este Pokémon não alcançou {{min}} equipes em {{periods}} das semanas exibidas, por isso a linha se interrompe ali.",
 	"usage_below_threshold_short": "abaixo do mínimo",
 	"usage_single_period": "Até agora apenas uma semana foi publicada. Tendências e variações de uma semana para outra aparecem quando a segunda for publicada.",
 	"usage_no_record_tooltip": "Sem registro de partidas: {{teams}} equipes reportaram resultados.",
@@ -456,5 +456,8 @@
 	"discord_name_required": "Seu nome na dracoviz ainda é o padrão “{{name}}”. Troque-o pelo seu nome de treinador no jogo para que organizadores e adversários possam reconhecê-lo, e o link de convite aparecerá.",
 	"discord_name_save_failed": "Não foi possível salvar seu nome. Tente novamente.",
 	"discord_name_still_default": "Esse ainda é um nome padrão. Use seu nome de treinador no jogo.",
-	"discord_pvp_tussle_description": "A maior comunidade competitiva de Pokémon GO em âmbito nacional, dedicada a ajudar os jogadores indianos a evoluir."
+	"discord_pvp_tussle_description": "A maior comunidade competitiva de Pokémon GO em âmbito nacional, dedicada a ajudar os jogadores indianos a evoluir.",
+	"usage_meta_tabs_label": "Regulamento",
+	"usage_meta_play_pokemon": "Meta de Play! Pokémon",
+	"usage_meta_laic_2027": "LAIC 2027"
 }

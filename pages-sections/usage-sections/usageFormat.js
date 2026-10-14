@@ -98,7 +98,7 @@ function dateFormat(locale, withYear) {
  * The stored period end is exclusive, so the last day of the period is the day before it. Showing
  * the exclusive end would claim every period covers 15 days.
  */
-const lastDayOf = (period) => new Date(Date.parse(period.periodEnd) - 24 * 60 * 60 * 1000);
+const lastDayOf = (period) => new Date(Date.parse(period?.periodEnd) - 24 * 60 * 60 * 1000);
 
 /**
  * Ranges go through Intl's own range formatter, which knows each locale's conventions — English
@@ -112,19 +112,42 @@ function formatRange(format, from, to) {
   return `${format.format(from)} \u2013 ${format.format(to)}`;
 }
 
+const isValid = (date) => date instanceof Date && !Number.isNaN(date.getTime());
+
+/**
+ * Intl throws on an invalid date rather than returning something harmless, which would take the
+ * whole page down over one malformed document. A period whose dates are missing gets a dash, the
+ * same as any other value we cannot show.
+ */
+function safely(render, ...dates) {
+  if (!dates.every(isValid)) {
+    return NO_DATA;
+  }
+  try {
+    return render();
+  } catch (ex) {
+    return NO_DATA;
+  }
+}
+
 /** "24 Aug" — the compact label used on chart axes and period chips. */
 export function formatPeriodShort(period, locale) {
-  return dateFormat(locale, false).format(new Date(period.periodStart));
+  const start = new Date(period?.periodStart);
+  return safely(() => dateFormat(locale, false).format(start), start);
 }
 
 /** "24 Aug – 6 Sep 2026", for the heading that has to pin down which period this is. */
 export function formatPeriodRange(period, locale) {
-  return formatRange(dateFormat(locale, true), new Date(period.periodStart), lastDayOf(period));
+  const start = new Date(period?.periodStart);
+  const last = lastDayOf(period);
+  return safely(() => formatRange(dateFormat(locale, true), start, last), start, last);
 }
 
 /** "24 Aug – 6 Sep", for places further down the page where the year is already established. */
 export function formatPeriodRangeShort(period, locale) {
-  return formatRange(dateFormat(locale, false), new Date(period.periodStart), lastDayOf(period));
+  const start = new Date(period?.periodStart);
+  const last = lastDayOf(period);
+  return safely(() => formatRange(dateFormat(locale, false), start, last), start, last);
 }
 
 /** Looks a species up in a period's light Pokemon list. */

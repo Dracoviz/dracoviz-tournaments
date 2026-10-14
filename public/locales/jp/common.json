@@ -413,10 +413,10 @@
 	"usage_movesets_note": "技構成が記録された {{teams}} チームに基づいています。技の順序は区別しないため、同じ2つのスペシャルアタックは1つとして扱われます。",
 	"usage_no_movesets": "この週、このポケモンの技構成は記録されていません。",
 	"usage_no_partners": "このポケモンと十分な回数一緒に使われたポケモンはありません。",
-	"usage_threshold_note": "その週に20人以上のプレイヤーが使用したポケモンのみを表示しています。",
+	"usage_threshold_note": "その週に{{min}}人以上のプレイヤーが使用したポケモンのみを表示しています。",
 	"usage_moveset_coverage": "{{total}} チーム中 {{recorded}} チームで技構成が記録されました。",
-	"usage_gap_note": "線が途切れている箇所は、その週にそのポケモンが20チームに届かなかったことを示します。使用率が0だったという意味ではありません。",
-	"usage_species_gap_note": "このポケモンは表示中の週のうち {{periods}} 週で20チームに届かなかったため、その部分で線が途切れています。",
+	"usage_gap_note": "線が途切れている箇所は、その週にそのポケモンが{{min}}チームに届かなかったことを示します。使用率が0だったという意味ではありません。",
+	"usage_species_gap_note": "このポケモンは表示中の週のうち {{periods}} 週で{{min}}チームに届かなかったため、その部分で線が途切れています。",
 	"usage_below_threshold_short": "基準未満",
 	"usage_single_period": "現在公開されているのは1週間分だけです。推移と前週比の変化は、2週目が公開されると表示されます。",
 	"usage_no_record_tooltip": "試合結果の記録なし。結果が報告されたのは {{teams}} チームです。",
@@ -456,5 +456,8 @@
 	"discord_name_required": "dracovizの名前が初期設定の「{{name}}」のままです。主催者や対戦相手が分かるように、ゲーム内のトレーナー名に変更してください。変更すると招待リンクが表示されます。",
 	"discord_name_save_failed": "名前を保存できませんでした。もう一度お試しください。",
 	"discord_name_still_default": "まだ初期設定の名前です。ゲーム内のトレーナー名を入力してください。",
-	"discord_pvp_tussle_description": "インド全国で最大のPokémon GO競技コミュニティで、インドのプレイヤーの上達をサポートしています。"
+	"discord_pvp_tussle_description": "インド全国で最大のPokémon GO競技コミュニティで、インドのプレイヤーの上達をサポートしています。",
+	"usage_meta_tabs_label": "ルール",
+	"usage_meta_play_pokemon": "Play! Pokémon メタ",
+	"usage_meta_laic_2027": "LAIC 2027"
 }

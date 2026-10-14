@@ -437,10 +437,10 @@
 	"usage_movesets_note": "Based on {{teams}} teams with a recorded moveset. Move order doesn't matter, so the same two charged moves are one entry.",
 	"usage_no_movesets": "No movesets were recorded for this Pokémon this week.",
 	"usage_no_partners": "No partner was brought alongside this Pokémon often enough to report.",
-	"usage_threshold_note": "Only Pokémon brought by at least 20 players during the week are shown.",
+	"usage_threshold_note": "Only Pokémon brought by at least {{min}} players during the week are shown.",
 	"usage_moveset_coverage": "Movesets were recorded for {{recorded}} of {{total}} teams.",
-	"usage_gap_note": "A break in a line means that Pokémon didn't reach 20 teams that week — not that its usage was zero.",
-	"usage_species_gap_note": "This Pokémon didn't reach 20 teams in {{periods}} of the weeks shown, so its line breaks there.",
+	"usage_gap_note": "A break in a line means that Pokémon didn't reach {{min}} teams that week — not that its usage was zero.",
+	"usage_species_gap_note": "This Pokémon didn't reach {{min}} teams in {{periods}} of the weeks shown, so its line breaks there.",
 	"usage_below_threshold_short": "below threshold",
 	"usage_single_period": "Only one week has been published so far. Trends and week-to-week changes appear once a second one lands.",
 	"usage_no_record_tooltip": "No match record — {{teams}} teams had results reported.",
@@ -480,5 +480,8 @@
 	"discord_name_required": "Your dracoviz name is still the default “{{name}}”. Change it to your in-game trainer name so hosts and opponents can recognize you, and the invite link will appear.",
 	"discord_name_save_failed": "Could not save your name. Please try again.",
 	"discord_name_still_default": "That is still a default name. Please use your in-game trainer name.",
-	"discord_pvp_tussle_description": "The biggest nationwide Pokémon GO competitive community for helping Indian players improve."
+	"discord_pvp_tussle_description": "The biggest nationwide Pokémon GO competitive community for helping Indian players improve.",
+	"usage_meta_tabs_label": "Ruleset",
+	"usage_meta_play_pokemon": "Play! Pokémon Meta",
+	"usage_meta_laic_2027": "2027 LAIC"
 }

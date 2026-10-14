@@ -20,6 +20,13 @@ import {
  */
 const TREND_SERIES = 16;
 
+/**
+ * Only used for periods stored before the threshold was recorded on the document. Every period
+ * written from now on carries its own `speciesMinCount`, so the copy always describes the data on
+ * screen rather than whatever the constant happens to be today.
+ */
+const SPECIES_MIN_FALLBACK = 6;
+
 /** The value columns. `delta` marks the ones worth comparing against the previous week. */
 const COLUMNS = [
   { key: "usage", labelKey: "usage_rate", format: formatPercent, delta: true },
@@ -114,7 +121,7 @@ export default function UsageOverview({
       </div>
 
       <p style={{ fontSize: "0.82rem", opacity: 0.7, marginBottom: 24 }}>
-        {t("usage_threshold_note")}
+        {t("usage_threshold_note", { min: period.speciesMinCount ?? SPECIES_MIN_FALLBACK })}
         {period.teamsWithMovesets != null && period.teamsWithMovesets < period.teamCount && (
           <> {t("usage_moveset_coverage", {
             recorded: period.teamsWithMovesets, total: period.teamCount,
@@ -150,7 +157,7 @@ export default function UsageOverview({
             locale={locale}
           />
           <p style={{ fontSize: "0.78rem", opacity: 0.65, marginTop: 8 }}>
-            {t("usage_gap_note")}
+                {t("usage_gap_note", { min: period.speciesMinCount ?? SPECIES_MIN_FALLBACK })}
           </p>
         </>
       ) : (

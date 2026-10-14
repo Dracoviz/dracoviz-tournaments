@@ -413,10 +413,10 @@
 	"usage_movesets_note": "기술 조합이 기록된 {{teams}}개 팀을 기준으로 합니다. 순서는 구분하지 않으므로 같은 차지 기술 두 개는 하나의 항목으로 묶입니다.",
 	"usage_no_movesets": "이번 주에 이 포켓몬의 기술 조합이 기록되지 않았습니다.",
 	"usage_no_partners": "이 포켓몬과 충분히 자주 함께 쓰인 포켓몬이 없습니다.",
-	"usage_threshold_note": "해당 주에 20명 이상의 플레이어가 사용한 포켓몬만 표시됩니다.",
+	"usage_threshold_note": "해당 주에 {{min}}명 이상의 플레이어가 사용한 포켓몬만 표시됩니다.",
 	"usage_moveset_coverage": "{{total}}개 팀 중 {{recorded}}개 팀에서 기술 조합이 기록되었습니다.",
-	"usage_gap_note": "선이 끊긴 구간은 그 주에 해당 포켓몬이 20개 팀에 미치지 못했다는 뜻이며, 사용률이 0이었다는 의미가 아닙니다.",
-	"usage_species_gap_note": "이 포켓몬은 표시된 주 중 {{periods}}주에서 20개 팀에 미치지 못해 그 구간에서 선이 끊깁니다.",
+	"usage_gap_note": "선이 끊긴 구간은 그 주에 해당 포켓몬이 {{min}}개 팀에 미치지 못했다는 뜻이며, 사용률이 0이었다는 의미가 아닙니다.",
+	"usage_species_gap_note": "이 포켓몬은 표시된 주 중 {{periods}}주에서 {{min}}개 팀에 미치지 못해 그 구간에서 선이 끊깁니다.",
 	"usage_below_threshold_short": "기준 미달",
 	"usage_single_period": "현재 공개된 것은 한 주뿐입니다. 추이와 주간 변화는 두 번째 주가 공개되면 표시됩니다.",
 	"usage_no_record_tooltip": "매치 기록 없음. 결과가 보고된 팀은 {{teams}}개입니다.",
@@ -456,5 +456,8 @@
 	"discord_name_required": "dracoviz 이름이 아직 기본값인 “{{name}}”입니다. 주최자와 상대가 알아볼 수 있도록 게임 내 트레이너 이름으로 변경하면 초대 링크가 표시됩니다.",
 	"discord_name_save_failed": "이름을 저장할 수 없습니다. 다시 시도해 주세요.",
 	"discord_name_still_default": "아직 기본 이름입니다. 게임 내 트레이너 이름을 입력해 주세요.",
-	"discord_pvp_tussle_description": "인도 전역에서 가장 큰 Pokémon GO 경쟁 커뮤니티로, 인도 플레이어의 실력 향상을 돕습니다."
+	"discord_pvp_tussle_description": "인도 전역에서 가장 큰 Pokémon GO 경쟁 커뮤니티로, 인도 플레이어의 실력 향상을 돕습니다.",
+	"usage_meta_tabs_label": "룰셋",
+	"usage_meta_play_pokemon": "Play! Pokémon 메타",
+	"usage_meta_laic_2027": "LAIC 2027"
 }

@@ -413,10 +413,10 @@
 	"usage_movesets_note": "Basato su {{teams}} squadre con moveset registrato. L'ordine non conta, quindi le stesse due mosse caricate valgono come una sola voce.",
 	"usage_no_movesets": "Nessun moveset è stato registrato per questo Pokémon questa settimana.",
 	"usage_no_partners": "Nessun compagno è stato portato insieme a questo Pokémon abbastanza spesso da poter essere mostrato.",
-	"usage_threshold_note": "Vengono mostrati solo i Pokémon portati da almeno 20 giocatori durante la settimana.",
+	"usage_threshold_note": "Vengono mostrati solo i Pokémon portati da almeno {{min}} giocatori durante la settimana.",
 	"usage_moveset_coverage": "I moveset sono stati registrati per {{recorded}} squadre su {{total}}.",
-	"usage_gap_note": "Un'interruzione in una linea significa che quel Pokémon non ha raggiunto 20 squadre quella settimana, non che il suo utilizzo fosse zero.",
-	"usage_species_gap_note": "Questo Pokémon non ha raggiunto 20 squadre in {{periods}} delle settimane mostrate, per questo la sua linea si interrompe.",
+	"usage_gap_note": "Un'interruzione in una linea significa che quel Pokémon non ha raggiunto {{min}} squadre quella settimana, non che il suo utilizzo fosse zero.",
+	"usage_species_gap_note": "Questo Pokémon non ha raggiunto {{min}} squadre in {{periods}} delle settimane mostrate, per questo la sua linea si interrompe.",
 	"usage_below_threshold_short": "sotto la soglia",
 	"usage_single_period": "Finora è stata pubblicata una sola settimana. Andamenti e variazioni da una settimana all'altra compariranno con la seconda.",
 	"usage_no_record_tooltip": "Nessun risultato registrato: {{teams}} squadre hanno riportato risultati.",
@@ -456,5 +456,8 @@
 	"discord_name_required": "Il tuo nome su dracoviz è ancora quello predefinito «{{name}}». Cambialo con il tuo nome da Allenatore nel gioco, così organizzatori e avversari possono riconoscerti, e comparirà il link d'invito.",
 	"discord_name_save_failed": "Non è stato possibile salvare il tuo nome. Riprova.",
 	"discord_name_still_default": "Questo è ancora un nome predefinito. Usa il tuo nome da Allenatore nel gioco.",
-	"discord_pvp_tussle_description": "La più grande community competitiva di Pokémon GO a livello nazionale, dedicata ad aiutare i giocatori indiani a migliorare."
+	"discord_pvp_tussle_description": "La più grande community competitiva di Pokémon GO a livello nazionale, dedicata ad aiutare i giocatori indiani a migliorare.",
+	"usage_meta_tabs_label": "Regolamento",
+	"usage_meta_play_pokemon": "Meta Play! Pokémon",
+	"usage_meta_laic_2027": "LAIC 2027"
 }

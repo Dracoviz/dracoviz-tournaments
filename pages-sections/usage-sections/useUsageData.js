@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import fetchApi from "../../api/fetchApi";
+import { DEFAULT_USAGE_META } from "./usageMetas";
 import { track } from "../../utils/analytics";
 import { EVENT, PARAM, RESULT } from "../../utils/analyticsEvents";
 
@@ -51,19 +52,26 @@ const SAMPLE_DELAY_MS = 250;
 
 const wait = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 
-async function loadSampleOverview({ limit, before }) {
+async function loadSampleOverview({ meta, limit, before }) {
   const { default: sample } = await import("./sampleUsage.json");
   await wait(SAMPLE_DELAY_MS);
+  // The fixture only covers one ruleset, so any other tab is genuinely empty offline.
+  if (meta !== sample.meta) {
+    return { meta, periods: [], availablePeriods: { total: 0, oldestIndex: null, newestIndex: null } };
+  }
   const periods = sample.periods
     .filter((p) => before == null || p.periodIndex < before)
     .slice(0, limit);
   return { meta: sample.meta, periods, availablePeriods: sample.availablePeriods };
 }
 
-async function loadSampleSpecies({ speciesId, limit, before }) {
+async function loadSampleSpecies({ meta, speciesId, limit, before }) {
   // Only pulled in on a drill-down, so the overview never pays for the moveset and partner data.
   const { default: sample } = await import("./sampleUsageSpecies.json");
   await wait(SAMPLE_DELAY_MS);
+  if (meta !== sample.meta) {
+    return { meta, speciesId, periods: [] };
+  }
   const periods = sample.species
     .filter((s) => s.speciesId === speciesId)
     .filter((s) => before == null || s.periodIndex < before)
@@ -96,20 +104,20 @@ async function callApi(url, authId) {
   return data;
 }
 
-function loadOverview({ authId, limit, before }) {
+function loadOverview({ authId, meta, limit, before }) {
   if (SOURCE === "sample") {
-    return loadSampleOverview({ limit, before });
+    return loadSampleOverview({ meta, limit, before });
   }
-  const query = new URLSearchParams({ limit: String(limit) });
+  const query = new URLSearchParams({ meta, limit: String(limit) });
   if (before != null) query.set("before", String(before));
   return callApi(`usage/get/?${query}`, authId);
 }
 
-function loadSpecies({ authId, speciesId, limit, before }) {
+function loadSpecies({ authId, meta, speciesId, limit, before }) {
   if (SOURCE === "sample") {
-    return loadSampleSpecies({ speciesId, limit, before });
+    return loadSampleSpecies({ meta, speciesId, limit, before });
   }
-  const query = new URLSearchParams({ speciesId, limit: String(limit) });
+  const query = new URLSearchParams({ meta, speciesId, limit: String(limit) });
   if (before != null) query.set("before", String(before));
   return callApi(`usage/species/?${query}`, authId);
 }
@@ -123,7 +131,7 @@ function toStatus(ex) {
  *
  * Waits for `authId` before fetching, since every usage endpoint is gated on who is asking.
  */
-export function useUsageData(authId) {
+export function useUsageData(authId, meta = DEFAULT_USAGE_META) {
   const [state, setState] = useState({
     status: STATUS.LOADING, periods: [], availablePeriods: null, error: null,
   });
@@ -137,12 +145,13 @@ export function useUsageData(authId) {
     let cancelled = false;
     setState((prev) => ({ ...prev, status: STATUS.LOADING, error: null }));
 
-    loadOverview({ authId, limit: PAGE_SIZE })
+    loadOverview({ authId, meta, limit: PAGE_SIZE })
       .then((data) => {
         if (cancelled) return;
         track(EVENT.USAGE_LOADED, {
           [PARAM.ITEM_COUNT]: data.periods.length,
           [PARAM.RESULT]: RESULT.SUCCESS,
+          [PARAM.META]: meta,
         });
         setState({
           status: data.periods.length > 0 ? STATUS.READY : STATUS.EMPTY,
@@ -161,6 +170,7 @@ export function useUsageData(authId) {
           {
             [PARAM.ERROR_CODE]: ex.message,
             [PARAM.RESULT]: RESULT.FAILURE,
+            [PARAM.META]: meta,
           },
         );
         setState({
@@ -169,7 +179,8 @@ export function useUsageData(authId) {
       });
 
     return () => { cancelled = true; };
-  }, [authId, attempt]);
+    // `meta` is a dependency: switching tab is a different dataset, not a filter on this one.
+  }, [authId, meta, attempt]);
 
   const retry = useCallback(() => setAttempt((n) => n + 1), []);
 
@@ -180,7 +191,7 @@ export function useUsageData(authId) {
     }
     setIsLoadingMore(true);
     track(EVENT.USAGE_LOAD_OLDER, { [PARAM.ITEM_COUNT]: state.periods.length });
-    loadOverview({ authId, limit: PAGE_SIZE, before: oldest.periodIndex })
+    loadOverview({ authId, meta, limit: PAGE_SIZE, before: oldest.periodIndex })
       .then((data) => setState((prev) => ({
         ...prev,
         // De-duplicated in case a period was published between the two calls.
@@ -194,7 +205,7 @@ export function useUsageData(authId) {
       // A failed "load older" leaves what is already on screen alone; only the button resets.
       .catch(() => {})
       .finally(() => setIsLoadingMore(false));
-  }, [authId, state.periods, isLoadingMore]);
+  }, [authId, meta, state.periods, isLoadingMore]);
 
   const oldestLoaded = state.periods[state.periods.length - 1]?.periodIndex ?? null;
   const hasOlder = state.availablePeriods?.oldestIndex != null
@@ -211,7 +222,7 @@ export function useUsageData(authId) {
  * did not clear the occurrence threshold. The caller tells the two apart by comparing against the
  * overview's period list, which is why this hook does not try to fill the gaps itself.
  */
-export function useSpeciesUsage(authId, speciesId, limit = PAGE_SIZE) {
+export function useSpeciesUsage(authId, meta, speciesId, limit = PAGE_SIZE) {
   const [state, setState] = useState({ status: STATUS.LOADING, periods: [], error: null });
   const [attempt, setAttempt] = useState(0);
 
@@ -222,7 +233,7 @@ export function useSpeciesUsage(authId, speciesId, limit = PAGE_SIZE) {
     let cancelled = false;
     setState({ status: STATUS.LOADING, periods: [], error: null });
 
-    loadSpecies({ authId, speciesId, limit })
+    loadSpecies({ authId, meta, speciesId, limit })
       .then((data) => {
         if (cancelled) return;
         setState({
@@ -237,7 +248,7 @@ export function useSpeciesUsage(authId, speciesId, limit = PAGE_SIZE) {
       });
 
     return () => { cancelled = true; };
-  }, [authId, speciesId, limit, attempt]);
+  }, [authId, meta, speciesId, limit, attempt]);
 
   const retry = useCallback(() => setAttempt((n) => n + 1), []);
   return { ...state, retry };

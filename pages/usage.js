@@ -9,6 +9,7 @@ import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
+import { Tab, Tabs } from "@mui/material";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/usagePage.js";
 import UsageOverview from "../pages-sections/usage-sections/UsageOverview";
@@ -21,6 +22,9 @@ import {
 import {
   IS_SAMPLE_DATA, STATUS, useSpeciesUsage, useUsageData,
 } from "../pages-sections/usage-sections/useUsageData";
+import USAGE_METAS, {
+  DEFAULT_USAGE_META, resolveUsageMeta,
+} from "../pages-sections/usage-sections/usageMetas";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -41,8 +45,9 @@ const useStyles = makeStyles(styles);
  * The numbers are precomputed into weekly periods by a script rather than aggregated per request,
  * so this page only ever reads finished weeks and never waits on a heavy query.
  *
- * The Pokemon being drilled into lives in the query string rather than in state, so a link to one
- * Pokemon's breakdown is shareable and the browser's back button does the obvious thing.
+ * Both the selected ruleset and the Pokemon being drilled into live in the query string rather than
+ * in state, so a link to one ruleset's breakdown of one Pokemon is shareable and the browser's back
+ * button does the obvious thing.
  */
 export default function Usage() {
   const { t } = useTranslation();
@@ -52,11 +57,13 @@ export default function Usage() {
   const [isSignedIn, setIsSignedIn] = useState(true);
 
   const selectedSpecies = typeof router.query.pokemon === "string" ? router.query.pokemon : null;
+  // Falls back to the default rather than erroring, so a stale or hand-edited ?meta= still loads.
+  const meta = resolveUsageMeta(router.query.meta);
 
   const {
     status, periods, error, retry, loadOlder, isLoadingMore, hasOlder,
-  } = useUsageData(authId);
-  const species = useSpeciesUsage(authId, selectedSpecies, periods.length || undefined);
+  } = useUsageData(authId, meta);
+  const species = useSpeciesUsage(authId, meta, selectedSpecies, periods.length || undefined);
 
   useEffect(() => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
@@ -72,16 +79,32 @@ export default function Usage() {
     return () => unregisterAuthObserver();
   }, []);
 
-  // Shallow routing so switching Pokemon never re-runs getServerSideProps.
+  // Shallow routing so navigating within the page never re-runs getServerSideProps. The default
+  // ruleset is left out of the query so its URL stays the bare /usage.
+  const go = (query) => router.push(
+    { pathname: "/usage", query: { ...query, ...(meta === DEFAULT_USAGE_META ? {} : { meta }) } },
+    undefined,
+    { shallow: true },
+  );
   const selectSpecies = (speciesId) => {
-    track(EVENT.USAGE_SPECIES_DRILLDOWN, { [PARAM.SPECIES_ID]: speciesId });
+    track(EVENT.USAGE_SPECIES_DRILLDOWN, { [PARAM.SPECIES_ID]: speciesId, [PARAM.META]: meta });
+    return go({ pokemon: speciesId });
+  };
+  const clearSpecies = () => go({});
+
+  const selectMeta = (value) => {
+    if (value === meta) {
+      return undefined;
+    }
+    track(EVENT.USAGE_META_SWITCHED, { [PARAM.META]: value });
+    // The drill-down is dropped on purpose: a Pokemon reported in one ruleset need not clear the
+    // bar in the other, and carrying the id across would land on an empty detail view.
     return router.push(
-      { pathname: "/usage", query: { pokemon: speciesId } },
+      { pathname: "/usage", query: value === DEFAULT_USAGE_META ? {} : { meta: value } },
       undefined,
       { shallow: true },
     );
   };
-  const clearSpecies = () => router.push({ pathname: "/usage" }, undefined, { shallow: true });
 
   const renderBody = () => {
     if (authId === "" || status === STATUS.LOADING) {
@@ -133,6 +156,19 @@ export default function Usage() {
               <h2>{t("usage_title")}</h2>
               <p className={classes.intro}>{t("usage_description")}</p>
               {IS_SAMPLE_DATA && <UsageSampleBanner />}
+              <Tabs
+                value={meta}
+                onChange={(event, value) => selectMeta(value)}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                aria-label={t("usage_meta_tabs_label")}
+                className={classes.metaTabs}
+              >
+                {USAGE_METAS.map((option) => (
+                  <Tab key={option.value} value={option.value} label={t(option.labelKey)} />
+                ))}
+              </Tabs>
             </GridItem>
             <GridItem xs={12}>
               {renderBody()}

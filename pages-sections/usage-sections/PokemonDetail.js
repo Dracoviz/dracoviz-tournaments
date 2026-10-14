@@ -194,7 +194,10 @@ export default function PokemonDetail({
           />
           {missingPeriods > 0 && (
             <p style={{ fontSize: "0.78rem", opacity: 0.7, marginTop: 8 }}>
-              {t("usage_species_gap_note", { periods: missingPeriods })}
+              {t("usage_species_gap_note", {
+                periods: missingPeriods,
+                min: current.speciesMinCount ?? 6,
+              })}
             </p>
           )}
         </>

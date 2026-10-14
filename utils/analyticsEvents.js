@@ -235,6 +235,7 @@ export const EVENT = Object.freeze({
   USAGE_LOADED: 'usage_loaded',
   USAGE_ACCESS_DENIED: 'usage_access_denied',
   USAGE_SPECIES_DRILLDOWN: 'usage_species_drilldown',
+  USAGE_META_SWITCHED: 'usage_meta_switched',
   USAGE_METRIC_CHANGED: 'usage_metric_changed',
   USAGE_TABLE_SORTED: 'usage_table_sorted',
   USAGE_LOAD_OLDER: 'usage_load_older',
