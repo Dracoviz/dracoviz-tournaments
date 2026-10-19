@@ -8,5 +8,6 @@ export default function getBracketTypeLabel(t) {
     "roundrobin": t("bracket_type_round_robin"),
     "singleElim": t("bracket_type_single_elim"),
     "doubleElim": t("bracket_type_double_elim"),
+    "swissDoubleElim": t("bracket_type_swiss_double_elim"),
   };
 }

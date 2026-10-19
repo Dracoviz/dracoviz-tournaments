@@ -3,16 +3,55 @@ import {
 } from "./bracketProgress";
 
 export const ELIM_BRACKET_TYPES = ["singleElim", "doubleElim"];
+// A swiss stage that cuts into a double elimination bracket. Neither of the two groups
+// above on its own: it is paired a round at a time like swiss, then played out like an
+// elimination bracket, and its standings have to account for both.
+export const HYBRID_BRACKET_TYPE = "swissDoubleElim";
 // Formats where everyone keeps playing, so a record alone decides the ranking and
-// Buchholz is what separates players on the same record.
-export const BUCHHOLZ_BRACKET_TYPES = ["swiss", "roundrobin"];
+// Buchholz is what separates players on the same record. The hybrid belongs here because
+// its swiss stage is exactly that, and because Buchholz remains the tiebreak that decided
+// who was cut.
+export const BUCHHOLZ_BRACKET_TYPES = ["swiss", "roundrobin", HYBRID_BRACKET_TYPE];
+
+// Sections a double elimination bracket tags its matches with, which is also what marks
+// out the top cut rounds of a hybrid bracket from the swiss rounds before them.
+const CUT_SECTIONS = ["WB", "LB", "GF"];
 
 export function isElimBracket(bracketType) {
   return ELIM_BRACKET_TYPES.includes(bracketType);
 }
 
+export function isHybridBracket(bracketType) {
+  return bracketType === HYBRID_BRACKET_TYPE;
+}
+
 export function usesBuchholz(bracketType) {
   return BUCHHOLZ_BRACKET_TYPES.includes(bracketType);
+}
+
+export function isCutRound(round) {
+  return (round?.matches ?? []).some((match) => CUT_SECTIONS.includes(match.section));
+}
+
+export function getCutRounds(bracket) {
+  return (bracket ?? []).filter(isCutRound);
+}
+
+/**
+ * The rounds before the cut. For a pure elimination bracket this is empty, and for swiss
+ * or round robin it is everything — in both cases the callers below leave it alone.
+ */
+export function getSwissRounds(bracket) {
+  return (bracket ?? []).filter((round) => !isCutRound(round));
+}
+
+/**
+ * Has the top cut been drawn? True for a pure double elimination bracket as well, where
+ * every round is a cut round — which is what keeps the helpers below behaving exactly as
+ * they did for that format.
+ */
+export function hasCut(bracket) {
+  return getCutRounds(bracket).length > 0;
 }
 
 const isRealPlayer = (name) => (
@@ -97,9 +136,13 @@ const recordComparator = (buchholz) => (a, b) => (
  * Standings for the formats where everyone keeps playing. Unlike an elimination
  * bracket these are meaningful from the first round onward, and every player holds a
  * record — including anyone who has dropped out — so everybody gets a placement.
+ *
+ * `scores` lets a caller hand in Buchholz figures it has already worked out. The hybrid
+ * ranks a subset of the field — the players who missed the cut — and their Buchholz has
+ * to be measured against the whole field, not against each other.
  */
-export function getRecordStandings(bracket, players) {
-  const buchholz = getBuchholzScores(bracket, players);
+export function getRecordStandings(bracket, players, scores = null) {
+  const buchholz = scores ?? getBuchholzScores(bracket, players);
   const sorted = [...(players ?? [])].sort(recordComparator(buchholz));
 
   let placement = 0;
@@ -124,6 +167,75 @@ export function getRecordOrder(bracket, players) {
 }
 
 /**
+ * Buchholz as it should be read for this format.
+ *
+ * For the hybrid that means the swiss schedule only. The cut is seeded off the swiss
+ * standings, so this is the figure players were ranked by, and counting cut opponents
+ * afterwards would move the number out from under the seeding it explains. (An
+ * opponent's win total does grow as they win in the cut, so the figure is not frozen —
+ * it stays a strength-of-schedule tiebreak rather than a record of the seeding.)
+ */
+export function getBuchholzFor(bracket, players, bracketType) {
+  const rounds = isHybridBracket(bracketType) ? getSwissRounds(bracket) : bracket;
+  return getBuchholzScores(rounds, players);
+}
+
+/**
+ * Display names of everyone who made the top cut, read off the cut rounds.
+ */
+export function getCutPlayerNames(bracket) {
+  const names = new Set();
+  getCutRounds(bracket).forEach((round) => {
+    (round.matches ?? []).forEach((match) => {
+      (match.participants ?? []).forEach((group) => {
+        (group ?? []).forEach((participant) => {
+          if (isRealPlayer(participant?.name)) {
+            names.add(participant.name);
+          }
+        });
+      });
+    });
+  });
+  return names;
+}
+
+/**
+ * Standings for a swiss stage that cuts into a double elimination bracket.
+ *
+ * Before the cut these are ordinary swiss standings. After it the field splits: everyone
+ * who was cut is placed by how far they got in the bracket, and everyone who was not
+ * finished behind all of them, in the swiss order that decided it. So a 19-player cut
+ * places 1st through 19th, and the best player who missed it is 20th.
+ *
+ * Withdrawn players have no placement and sit at the bottom, which is what the
+ * elimination standings already do.
+ */
+export function getHybridStandings(bracket, players) {
+  if (!hasCut(bracket)) {
+    return getRecordStandings(bracket, players);
+  }
+  const scores = getBuchholzScores(getSwissRounds(bracket), players);
+  const qualified = getCutPlayerNames(bracket);
+  const active = (players ?? []).filter((player) => !player.removed);
+  const inCut = active.filter((player) => qualified.has(player.name));
+  const missedCut = active.filter((player) => !qualified.has(player.name));
+
+  const cutStandings = getElimStandings(bracket, inCut)
+    .map((entry) => ({ ...entry, buchholz: scores.get(entry.player.name) ?? 0 }));
+  const swissStandings = getRecordStandings(bracket, missedCut, scores)
+    .map((entry) => ({ ...entry, placement: entry.placement + inCut.length }));
+  const withdrawn = (players ?? [])
+    .filter((player) => player.removed)
+    .map((player) => ({
+      player,
+      placement: null,
+      buchholz: scores.get(player.name) ?? 0,
+    }));
+
+  return [...cutStandings, ...swissStandings, ...withdrawn];
+}
+
+/**
  * Standings for whichever format this is, or an empty list when there are none to show
  * yet. Elimination placements only exist once the bracket has been played out;
  * record-based standings exist as soon as a round has been played.
@@ -131,6 +243,11 @@ export function getRecordOrder(bracket, players) {
 export function getStandings(bracket, players, bracketType) {
   if (isElimBracket(bracketType)) {
     return isBracketComplete(bracket) ? getElimStandings(bracket, players) : [];
+  }
+  // Checked before usesBuchholz, which the hybrid is also a member of: its swiss stage
+  // standings are record-based, but once the cut is drawn placement takes over.
+  if (isHybridBracket(bracketType)) {
+    return getHybridStandings(bracket, players);
   }
   if (usesBuchholz(bracketType)) {
     return getRecordStandings(bracket, players);
@@ -165,12 +282,18 @@ export function getMatchResult(match) {
  * unless it is actually required — meaning "every match the client can see is decided"
  * is the same thing as the bracket being finished. Being finished is independent of
  * the host having concluded the tournament.
+ *
+ * Only the cut rounds are asked, when the bracket has any. For a pure double elimination
+ * bracket that is every round, so nothing changes there; for a hybrid it skips the swiss
+ * stage, where a draw is a perfectly good final result but reads as undecided here — one
+ * drawn swiss match would otherwise mean the event could never be finished.
  */
 export function isBracketComplete(bracket) {
   if (bracket == null || bracket.length === 0) {
     return false;
   }
-  return bracket.every((round) => round.matches?.length > 0
+  const rounds = hasCut(bracket) ? getCutRounds(bracket) : bracket;
+  return rounds.length > 0 && rounds.every((round) => round.matches?.length > 0
     && round.matches.every(isMatchDecided));
 }
 
@@ -184,12 +307,19 @@ export function isBracketComplete(bracket) {
  *
  * Ties inside a band are ordered by record purely for display; they keep the same
  * placement number.
+ *
+ * Reads only the cut rounds when the bracket has any, so a hybrid's swiss losses are not
+ * mistaken for eliminations — over the whole bracket, the first swiss loss would knock
+ * nearly everybody out. A pure elimination bracket is all cut rounds (single elimination
+ * tags no sections at all), so this is the same calculation it always was.
  */
 export function getElimStandings(bracket, players) {
   if (bracket == null || players == null) {
     return [];
   }
-  const rounds = [...bracket].sort((a, b) => a.round - b.round);
+  const rounds = (hasCut(bracket) ? getCutRounds(bracket) : [...bracket])
+    .slice()
+    .sort((a, b) => a.round - b.round);
 
   // The champion wins the last match played — the grand final, or its reset.
   const finalRound = rounds[rounds.length - 1];
@@ -246,8 +376,10 @@ export function getElimStandings(bracket, players) {
 }
 
 /**
- * Player display names in standings order, for sorting the player list.
+ * Player display names in standings order, for sorting the player list. Empty when this
+ * format has no standings to show yet, which is the caller's signal to fall back to its
+ * own ordering.
  */
-export function getStandingsOrder(bracket, players) {
-  return getElimStandings(bracket, players).map((entry) => entry.player.name);
+export function getStandingsOrder(bracket, players, bracketType) {
+  return getStandings(bracket, players, bracketType).map((entry) => entry.player.name);
 }

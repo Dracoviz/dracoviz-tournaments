@@ -37,7 +37,11 @@ function EditTournamentModal(props) {
   const playerCanLeave = watch("playerCanLeave");
   const autoProgress = watch("autoProgress");
   // Elimination brackets advance on their own, so the option means nothing for them.
-  const canAutoProgress = data?.bracketType === "swiss" || data?.bracketType === "roundrobin";
+  // swissDoubleElim is included for its swiss stage, where this also decides whether the
+  // top cut is drawn as soon as the last swiss round is reported.
+  const canAutoProgress = data?.bracketType === "swiss"
+    || data?.bracketType === "roundrobin"
+    || data?.bracketType === "swissDoubleElim";
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     setIsLoading(true);

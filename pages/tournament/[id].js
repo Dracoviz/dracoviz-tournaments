@@ -20,8 +20,8 @@ import getRoundLengthLabel from "../../api/getRoundLengthLabel";
 import getBracketTypeLabel from "../../api/getBracketTypeLabel";
 import { countIncompleteMatches } from "../../utils/bracketProgress";
 import {
-  isBracketComplete, isElimBracket, getStandingsOrder,
-  usesBuchholz, getBuchholzScores, getRecordOrder,
+  isBracketComplete, isElimBracket, isHybridBracket, hasCut,
+  getStandingsOrder, usesBuchholz, getBuchholzFor,
 } from "../../utils/bracketStandings";
 import SinglePlayerList from "../../pages-sections/tournament-sections/SinglePlayerList";
 import TournamentInfoModal from "../../pages-sections/tournament-sections/TournamentInfoModal";
@@ -105,18 +105,32 @@ export default function Tournament() {
   // How the player list is ranked depends on the format. An elimination bracket is
   // ranked by placement once it has finished — the runner-up can easily hold fewer wins
   // than someone knocked out early in the losers bracket. Swiss and round robin are
-  // ranked by record, with Buchholz separating players who are level.
+  // ranked by record, with Buchholz separating players who are level. A swiss stage that
+  // cuts into a top cut uses whichever of those its current phase calls for.
   const bracketStarted = data?.currentRoundNumber > 0;
   const showBuchholz = usesBuchholz(data?.bracketType) && bracketStarted;
   const buchholz = showBuchholz
-    ? getBuchholzScores(data?.bracket, data?.players)
+    ? getBuchholzFor(data?.bracket, data?.players, data?.bracketType)
     : null;
+  // An empty order means this format has nothing to rank by yet, which is the player
+  // list's signal to keep its own ordering.
   let standingsOrder = null;
-  if (isElimBracket(data?.bracketType) && isBracketComplete(data?.bracket)) {
-    standingsOrder = getStandingsOrder(data?.bracket, data?.players);
-  } else if (showBuchholz) {
-    standingsOrder = getRecordOrder(data?.bracket, data?.players);
+  if (bracketStarted) {
+    const order = getStandingsOrder(data?.bracket, data?.players, data?.bracketType);
+    standingsOrder = order.length > 0 ? order : null;
   }
+
+  // A swissDoubleElim session runs two phases out of one bracket. The cut is drawn once
+  // the swiss stage is played out, and the bracket carries its own results from then on.
+  const isHybrid = isHybridBracket(data?.bracketType);
+  const inCutPhase = isHybrid && hasCut(data?.bracket);
+  // totalRounds counts only the swiss rounds until the cut is drawn and extends it, so
+  // reaching it is what says the swiss stage is over.
+  const swissRounds = data?.swissRounds ?? data?.totalRounds;
+  const isCutDue = isHybrid
+    && !inCutPhase
+    && bracketStarted
+    && data?.currentRoundNumber >= swissRounds;
 
   // Guards tournament_viewed against post-mutation refetches.
   const viewTrackedRef = useRef(null);
@@ -188,8 +202,8 @@ export default function Tournament() {
     });
   }
 
-  const revertBracket = () => {
-    if (!confirm(t("confirm_bracket_revert"))) {
+  const revertBracket = (confirmKey = "confirm_bracket_revert") => {
+    if (!confirm(t(confirmKey))) {
       track(EVENT.BRACKET_REVERTED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -225,13 +239,16 @@ export default function Tournament() {
   }
 
   const progressBracket = () => {
-    // Only swiss and round robin reach this: elimination brackets advance themselves.
-    // A draw is a valid result in both, so an unreported match is the only thing worth
-    // warning about.
+    // Only swiss and round robin reach this, plus the swiss stage of a bracket that cuts
+    // into a top cut: elimination brackets advance themselves. A draw is a valid result
+    // in all of them, so an unreported match is the only thing worth warning about.
     const incomplete = countIncompleteMatches(data?.bracket, data?.currentRoundNumber);
+    // The last swiss round does not advance to another round — it draws the cut, which is
+    // a different enough thing to be worth saying out loud.
+    const confirmKey = isCutDue ? 'confirm_create_top_cut' : 'confirm_bracket_progress';
     const prompt = incomplete > 0
-      ? `${t('bracket_incomplete_warning', { count: incomplete })}\n\n${t('confirm_bracket_progress')}`
-      : t('confirm_bracket_progress');
+      ? `${t('bracket_incomplete_warning', { count: incomplete })}\n\n${t(confirmKey)}`
+      : t(confirmKey);
     if (!confirm(prompt)) {
       track(EVENT.BRACKET_PROGRESSED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
@@ -1040,11 +1057,14 @@ export default function Tournament() {
     const buttons = [];
     // An elimination bracket carries results forward as they are reported, so there is
     // no round for the host to step: they start it, and conclude it once every match
-    // has been played. Swiss and round robin still generate a round at a time.
-    const isElim = isElimBracket(bracketType);
+    // has been played. Swiss and round robin still generate a round at a time, and a
+    // swissDoubleElim session does each of those in turn.
+    const isElim = isElimBracket(bracketType) || inCutPhase;
+    // The swiss stage of a hybrid reaches totalRounds without the event being over — the
+    // cut is still to come — so that is a "create the cut" state, not a finished one.
     const isFinished = isElim
       ? isBracketComplete(data?.bracket)
-      : totalRounds === currentRoundNumber;
+      : (!isCutDue && totalRounds === currentRoundNumber);
     if (isHost && !(bracketType == null || bracketType === "none")) {
       if (currentRoundNumber === 0) {
         buttons.push(
@@ -1078,22 +1098,43 @@ export default function Tournament() {
             onClick={progressBracket}
             fullWidth
             style={{ marginTop: 20 }}
+            key="PROGRESS_BRACKET"
           >
-            {t("progress_bracket")}
+            {/* The last swiss round of a hybrid draws the top cut rather than pairing
+                another round, so say which of the two this press does. */}
+            {isCutDue ? t("create_top_cut") : t("progress_bracket")}
           </Button>
         )
       }
       // Only swiss can be stepped back. An elimination bracket has no round to step
       // back to, and a round robin's rounds are all generated up front, so dropping
       // the last one would throw away pairings that never come back.
-      if (bracketType === "swiss" && currentRoundNumber > 1) {
+      //
+      // A hybrid steps back in both of its phases: its swiss rounds like any other swiss
+      // event, and its cut by being undrawn, which is how a host fixes a swiss score that
+      // seeded the bracket wrongly. Neither is possible once a cut match has been played.
+      if (inCutPhase) {
         buttons.push(
           <Button
             variant="outlined"
             color="error"
-            onClick={revertBracket}
+            onClick={() => revertBracket("confirm_revert_top_cut")}
             fullWidth
             style={{ marginTop: 10 }}
+            key="REVERT_TOP_CUT"
+          >
+            {t("revert_top_cut")}
+          </Button>
+        )
+      } else if ((bracketType === "swiss" || isHybrid) && currentRoundNumber > 1) {
+        buttons.push(
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => revertBracket()}
+            fullWidth
+            style={{ marginTop: 10 }}
+            key="REVERT_BRACKET"
           >
             {t("revert_bracket")}
           </Button>
@@ -1137,6 +1178,31 @@ export default function Tournament() {
         <Chip label={`${t("round_length")}: ${roundLabels[timeControl ?? 0]}`} color="info" />
       </div>
     )
+  }
+
+  // Explains the two-phase format, for a host setting it up and for players trying to
+  // work out why half the bracket is not there yet. Shares its copy with the matching box
+  // on the create-tournament page.
+  const renderBracketInfo = () => {
+    if (!isHybrid) {
+      return null;
+    }
+    const lines = [
+      swissRounds > 0
+        ? t("swiss_double_elim_info_swiss_rounds", { count: swissRounds })
+        : t("swiss_double_elim_info_swiss"),
+      t("swiss_double_elim_info_cut"),
+      t("swiss_double_elim_info_seeding"),
+      t("swiss_double_elim_info_elim"),
+    ];
+    return (
+      <Alert severity="info" style={{ marginBottom: 20 }}>
+        <AlertTitle>{t("swiss_double_elim_info_title")}</AlertTitle>
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          {lines.map((line) => <li key={line}>{line}</li>)}
+        </ul>
+      </Alert>
+    );
   }
 
   const renderLeaveButton = () => {
@@ -1256,6 +1322,7 @@ export default function Tournament() {
               <h1 style={{ marginTop: 10, wordBreak: "break-word" }}>{data?.name}</h1>
               {renderHosts()}
               {renderChips()}
+              {renderBracketInfo()}
               <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
                 <a href={decoratedHref} target="_blank" rel="noreferrer" key={key}>{decoratedText}</a>
               )} >

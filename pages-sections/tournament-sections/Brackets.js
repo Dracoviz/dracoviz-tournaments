@@ -4,7 +4,9 @@ import { makeStyles } from "@mui/styles";
 import styles from "/styles/jss/nextjs-material-kit/sections/bracketsStyle.js";
 import { useTheme, Tabs, Tab, Chip, Tooltip } from "@mui/material";
 import cleanText from "../../utils/cleanText";
-import { countPlayableMatches, isMatchDecided } from "../../utils/bracketProgress";
+import {
+  countPlayableMatches, isMatchDecided, isMatchReported,
+} from "../../utils/bracketProgress";
 import {
   isBracketComplete, isElimBracket, usesBuchholz, getStandings,
 } from "../../utils/bracketStandings";
@@ -29,15 +31,21 @@ const bracketStyles = {
 const WINNERS = "WB";
 const LOSERS = "LB";
 const GRAND_FINAL = "GF";
+// The swiss stage of a bracket that cuts into a double elimination top cut. Its own tab,
+// which is all there is to see until the cut is drawn.
+const SWISS = "SWISS";
 // Tabs that are not bracket sections: the whole bracket for formats without sides, and
 // the final placements once every match has been played.
 const BRACKET = "BRACKET";
 const STANDINGS = "STANDINGS";
 
-// The grand final belongs to both sides of the bracket, so it shows on either tab.
+// The grand final belongs to both sides of the bracket, so it shows on either tab — but
+// not on the swiss tab, which is a different phase of the event rather than another side
+// of the same bracket.
 // Takes anything carrying a `section` — a match or one of the columns built below.
 const inTab = (tab) => ({ section }) => (
-  section === GRAND_FINAL || section === tab
+  section === tab
+  || (section === GRAND_FINAL && (tab === WINNERS || tab === LOSERS))
 );
 
 const tabStorageKey = (tournamentId) => (
@@ -192,7 +200,7 @@ function Brackets(props) {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(tabStorageKey(tournamentId));
-      if (saved === WINNERS || saved === LOSERS) {
+      if (saved === WINNERS || saved === LOSERS || saved === SWISS) {
         setTab(saved);
       }
     } catch {
@@ -256,9 +264,13 @@ function Brackets(props) {
   }
 
   const columns = buildColumns(bracket);
-  // Only double elimination tags its matches with a section. Everything else keeps the
-  // single flat row of rounds it has always had.
-  const hasSections = columns.some((column) => column.section != null);
+  // Double elimination tags its matches with a section, and so does the swiss stage of a
+  // bracket that cuts into one. Everything else keeps the single flat row of rounds it
+  // has always had.
+  const sections = new Set(
+    columns.map((column) => column.section).filter((section) => section != null)
+  );
+  const hasSections = sections.size > 0;
   // The grand final (and its reset) sit at the end of both brackets, so whichever side
   // a viewer is following, they can see how it finishes.
   // Elimination placements only mean anything once the bracket has been played out
@@ -270,10 +282,16 @@ function Brackets(props) {
     ? isBracketComplete(bracket)
     : (usesBuchholz(bracketType) && hasRecords);
   const tabs = [];
-  if (hasSections) {
+  if (sections.has(SWISS)) {
+    tabs.push({ value: SWISS, label: t("bracket_tab_swiss"), section: SWISS });
+  }
+  if (sections.has(WINNERS) || sections.has(LOSERS)) {
+    // The two sides of a double elimination bracket. For a swiss stage that cuts into
+    // one, these only appear once the cut has been drawn — until then there is nothing
+    // in them to look at.
     tabs.push({ value: WINNERS, label: t("bracket_tab_winners"), section: WINNERS });
     tabs.push({ value: LOSERS, label: t("bracket_tab_losers"), section: LOSERS });
-  } else if (showStandings) {
+  } else if (!hasSections && showStandings) {
     // Single elimination has no sides, so it only needs a tab bar once there is a
     // second thing to show.
     tabs.push({ value: BRACKET, label: t("bracket_tab_bracket") });
@@ -297,6 +315,15 @@ function Brackets(props) {
     const sectionMatches = bracket
       .flatMap((round) => round.matches ?? [])
       .filter(matchFilter);
+    // Swiss allows a draw to stand as a final result, so what is outstanding there is
+    // whatever has no result at all — not whatever has no winner.
+    if (section === SWISS) {
+      const outstanding = sectionMatches.filter((match) => !isMatchReported(match));
+      return {
+        playable: outstanding.length,
+        settled: sectionMatches.length > 0 && outstanding.length === 0,
+      };
+    }
     return {
       playable: countPlayableMatches(bracket, matchFilter),
       settled: sectionMatches.length > 0 && sectionMatches.every(isMatchDecided),
@@ -316,7 +343,9 @@ function Brackets(props) {
             size="small"
             color="error"
             label={playable}
-            title={t("bracket_matches_playable", { count: playable })}
+            title={section === SWISS
+              ? t("bracket_matches_remaining", { count: playable })
+              : t("bracket_matches_playable", { count: playable })}
             className={classes.tabChip}
           />
         </span>
@@ -343,6 +372,9 @@ function Brackets(props) {
 
   const columnLabel = (column) => {
     const { section, sectionRound, round } = column;
+    if (section === SWISS) {
+      return t("swiss_round_label", { round: sectionRound ?? round });
+    }
     if (section === WINNERS) {
       return t("winners_round_label", { round: sectionRound });
     }

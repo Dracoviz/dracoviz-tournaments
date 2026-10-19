@@ -14,7 +14,7 @@ import getRoundLengthLabel from "../api/getRoundLengthLabel";
 import getMetaOptions, { DEFAULT_META } from "../api/getMetaOptions";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
-import { Button, Checkbox, Select, InputLabel, MenuItem, Menu, CircularProgress } from "@mui/material";
+import { Alert, AlertTitle, Button, Checkbox, Select, InputLabel, MenuItem, Menu, CircularProgress } from "@mui/material";
 import Card from "../components/Card/Card";
 import fetchApi from "../api/fetchApi";
 import { track, configFlags } from "../utils/analytics";
@@ -453,10 +453,27 @@ export default function CreateTournament() {
                     <MenuItem value="roundrobin">{t("bracket_type_round_robin")}</MenuItem>
                     <MenuItem value="singleElim">{t("bracket_type_single_elim")}</MenuItem>
                     <MenuItem value="doubleElim">{t("bracket_type_double_elim")}</MenuItem>
+                    <MenuItem value="swissDoubleElim">{t("bracket_type_swiss_double_elim")}</MenuItem>
                   </Select>
                   <small>
                     Note: Brackets currently only work for single player tournaments only
                   </small>
+                  {
+                    // Two phases out of one bracket is unusual enough to need explaining
+                    // before a host commits to it. The same copy appears on the
+                    // tournament page, from the same keys.
+                    bracketType === "swissDoubleElim" && (
+                      <Alert severity="info" style={{ marginTop: 10 }}>
+                        <AlertTitle>{t("swiss_double_elim_info_title")}</AlertTitle>
+                        <ul style={{ margin: 0, paddingLeft: 20 }}>
+                          <li>{t("swiss_double_elim_info_swiss")}</li>
+                          <li>{t("swiss_double_elim_info_cut")}</li>
+                          <li>{t("swiss_double_elim_info_seeding")}</li>
+                          <li>{t("swiss_double_elim_info_elim")}</li>
+                        </ul>
+                      </Alert>
+                    )
+                  }
                 </GridItem>
                 {
                   (bracketType != null && bracketType !== "none") && (
@@ -496,8 +513,12 @@ export default function CreateTournament() {
                       </GridItem>
                       {
                         // Elimination brackets always carry results forward on their
-                        // own, so there is nothing to opt into there.
-                        (bracketType === "swiss" || bracketType === "roundrobin") && (
+                        // own, so there is nothing to opt into there. For swissDoubleElim
+                        // this governs its swiss stage, and drawing the top cut once that
+                        // stage is fully reported.
+                        (bracketType === "swiss"
+                          || bracketType === "roundrobin"
+                          || bracketType === "swissDoubleElim") && (
                           <GridItem xs={12} md={7}>
                             {t("auto_progress_label")}
                               <Checkbox {...register("autoProgress")} checked={!!autoProgress}/>
