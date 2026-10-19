@@ -9,7 +9,7 @@ import Card from "/components/Card/Card.js";
 import formatMove from "../../api/formatMove";
 import getMoveIcon from "../../utils/get-moves-icon";
 import { TEAM_SIZE } from "../../api/teamFormat";
-import { megaLevelsFor, plusMoveId, SUPER_MAX } from "../../api/megaLevel";
+import { megaLevelsFor, plusMoveId } from "../../api/megaLevel";
 
 /**
  * The Pokemon-picking half of a team form, shared by tournament registration and the My Teams page.
@@ -110,24 +110,18 @@ export default function TeamBuilder(props) {
     );
   };
 
-  // The plus move is never chosen -- a mega gets it by reaching Super Max -- so it is shown rather
-  // than offered, and dimmed until the level that unlocks it is picked.
+  // The plus move is never chosen -- a mega that has one has it at every mega level -- so it is
+  // shown rather than offered, and the level picked above does not change it.
   const renderPlusMove = (index) => {
     const thePokemon = pokemonOptions[pokemons?.[index]];
     const moveId = plusMoveId(thePokemon?.plusMove);
     if (moveId == null) {
       return null;
     }
-    const unlocked = watch(`megaLevel.${index}`) === SUPER_MAX;
     return (
-      <div style={{ marginTop: 15, opacity: unlocked ? 1 : 0.5 }}>
+      <div style={{ marginTop: 15 }}>
         <div style={{ fontSize: "0.75rem", color: "#AAAAAA" }}>{t('plus_move')}</div>
         <div>{getMoveIcon(moveId)} {formatMove(moveId, locale)}</div>
-        {!unlocked && (
-          <div style={{ fontSize: "0.75rem", color: "#AAAAAA" }}>
-            {t('plus_move_requires_super_max')}
-          </div>
-        )}
       </div>
     );
   };

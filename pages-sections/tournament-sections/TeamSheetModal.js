@@ -8,7 +8,7 @@ import { Button, Checkbox } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { useReactToPrint } from 'react-to-print';
 import formatMove from "../../api/formatMove";
-import { MEGA_LEVELS, plusMoveId, SUPER_MAX } from "../../api/megaLevel";
+import { MEGA_LEVELS, plusMoveId } from "../../api/megaLevel";
 import { track } from "../../utils/analytics";
 import { EVENT, PARAM } from "../../utils/analyticsEvents";
 
@@ -160,11 +160,9 @@ class ComponentToPrint extends React.PureComponent {
                   <tr>
                     <td style={cellStyle}><b>{t("plus_move")}</b></td>
                     {
-                      team.plusMove.map((item, index) => (
+                      team.plusMove.map((item) => (
                         <td style={cellStyle}>
-                          {item == null || team.megaLevel[index] !== SUPER_MAX
-                            ? "-"
-                            : formatMove(plusMoveId(item), locale)}
+                          {item == null ? "-" : formatMove(plusMoveId(item), locale)}
                         </td>
                       ))
                     }

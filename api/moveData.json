@@ -119,6 +119,10 @@
         "moveId": "BRAVE_BIRD",
         "type": "flying"
     },
+    "BRAVE_BIRD_PLUS": {
+        "moveId": "BRAVE_BIRD_PLUS",
+        "type": "flying"
+    },
     "BREAKING_SWIPE": {
         "moveId": "BREAKING_SWIPE",
         "type": "dragon"
@@ -225,6 +229,10 @@
     },
     "DARK_PULSE": {
         "moveId": "DARK_PULSE",
+        "type": "dark"
+    },
+    "DARK_PULSE_PLUS": {
+        "moveId": "DARK_PULSE_PLUS",
         "type": "dark"
     },
     "DAZZLING_GLEAM": {
@@ -357,6 +365,10 @@
     },
     "FELL_STINGER": {
         "moveId": "FELL_STINGER",
+        "type": "bug"
+    },
+    "FELL_STINGER_PLUS": {
+        "moveId": "FELL_STINGER_PLUS",
         "type": "bug"
     },
     "FIRE_BLAST": {

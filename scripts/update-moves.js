@@ -193,11 +193,24 @@ function getMoveEnglishName(moveId, pvpokeData) {
         .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 }
 
+// A Mega's boosted signature move is a "+" variant of an ordinary move, and it comes in two id
+// spellings: PvPoke's "_PLUS" ("SURF_PLUS", named "Surf+") and the older local one that puts the
+// "+" straight in the id ("AEROBLAST+", "SACRED_FIRE++"). Neither spelling is on Bulbapedia under
+// its own name, so both are looked up as the base move and have their "+" appended back on --
+// without this a new plus move falls back to its English name in all fourteen languages.
+const PLUS_ID_SUFFIX = '_PLUS';
+
 function getBaseMoveId(moveId) {
+    if (moveId.endsWith(PLUS_ID_SUFFIX)) {
+        return moveId.slice(0, -PLUS_ID_SUFFIX.length);
+    }
     return moveId.replace(/\++$/, '');
 }
 
 function getSuffix(moveId) {
+    if (moveId.endsWith(PLUS_ID_SUFFIX)) {
+        return '+';
+    }
     const match = moveId.match(/(\++)$/);
     return match ? match[1] : '';
 }
