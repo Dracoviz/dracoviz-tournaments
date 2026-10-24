@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from 'next-i18next';
 import getRoundLengthLabel from "../api/getRoundLengthLabel";
 import getMetaOptions, { DEFAULT_META } from "../api/getMetaOptions";
+import supportsFinalsGameAmount from "../api/supportsFinalsGameAmount";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/createTournamentPage.js";
 import { Alert, AlertTitle, Button, Checkbox, Select, InputLabel, MenuItem, Menu, CircularProgress } from "@mui/material";
@@ -35,6 +36,10 @@ export async function getServerSideProps({ locale }) {
 
 const useStyles = makeStyles(styles);
 
+// The game counts a finals can be raised to, filtered down to the ones longer than a
+// normal round of the event.
+const FINALS_GAME_AMOUNTS = [3, 5];
+
 export default function CreateTournament() {
   const { t } = useTranslation();
   const [authId, setAuthId] = useState("");
@@ -45,7 +50,9 @@ export default function CreateTournament() {
     defaultValues: {
       maxTeamSize: 1,
       maxMatchTeamSize: 1,
-      bracketType: "none"
+      bracketType: "none",
+      // 0 is "same as every other round" — see the finals game amount select below.
+      finalsGameAmount: 0
     }
   });
   const router = useRouter();
@@ -56,6 +63,7 @@ export default function CreateTournament() {
   const autoProgress = watch("autoProgress");
   const theMetas = watch("metas");
   const gameAmount = watch("gameAmount");
+  const finalsGameAmount = watch("finalsGameAmount");
   const byeAward = watch("byeAward");
   const playAllMatches = watch("playAllMatches");
   const requireBothPlayersToReport = watch("requireBothPlayersToReport");
@@ -89,6 +97,15 @@ export default function CreateTournament() {
     return () => unregisterAuthObserver();
     // Make sure we un-register Firebase observers when the component unmounts.
   }, []);
+
+  // The finals options are the ones longer than a normal round, so raising gameAmount
+  // can invalidate a choice already made. Drop it back to "same as every other round"
+  // rather than leave the select showing an option it no longer lists.
+  useEffect(() => {
+    if (Number(finalsGameAmount ?? 0) <= Number(gameAmount ?? 0)) {
+      setValue("finalsGameAmount", 0);
+    }
+  }, [gameAmount]);
 
   const onTeamTournamentToggle = () => {
     // Note, we are looking at the previous isTeamTournament state, so logic is inversed
@@ -166,6 +183,7 @@ export default function CreateTournament() {
       setValue("timeControl", 25);
       setValue("bracketType", "swiss");
       setValue("gameAmount", 3);
+      setValue("finalsGameAmount", 0);
       setValue("byeAward", 1);
       setValue("playAllMatches", true);
       setValue("requireBothPlayersToReport", false);
@@ -214,6 +232,7 @@ export default function CreateTournament() {
       setValue("timeControl", 30);
       setValue("bracketType", "swiss");
       setValue("gameAmount", 3);
+      setValue("finalsGameAmount", 0);
       setValue("byeAward", 1);
       setValue("playAllMatches", false);
       setValue("requireBothPlayersToReport", true);
@@ -264,6 +283,7 @@ export default function CreateTournament() {
       kick: data?.kickPlayersWithoutTeams,
       multi_meta: data?.hasMultipleMetas,
       team: data?.isTeamTournament,
+      long_finals: Number(data?.finalsGameAmount ?? 0) > Number(data?.gameAmount ?? 0),
     }),
   });
 
@@ -490,6 +510,35 @@ export default function CreateTournament() {
                           <MenuItem value={5}>5</MenuItem>
                         </Select>
                       </GridItem>
+                      {
+                        // Elimination formats end in one deciding match, so it can be
+                        // played to more games than the rest of the event — a Bo5 grand
+                        // final on a Bo3 bracket. Only longer options are offered: a
+                        // shorter finals is not something anyone runs, and the server
+                        // drops anything that is not longer.
+                        supportsFinalsGameAmount(bracketType) && (
+                          <GridItem xs={12} md={7} style={{ marginTop: 10 }}>
+                            <InputLabel>{t("finals_game_amount_label")}</InputLabel>
+                            <Select
+                              fullWidth
+                              {...register(`finalsGameAmount`, { required: true})}
+                              value={finalsGameAmount ?? 0}
+                            >
+                              <MenuItem value={0}>{t("finals_game_amount_same")}</MenuItem>
+                              {
+                                FINALS_GAME_AMOUNTS
+                                  .filter((games) => games > Number(gameAmount ?? 0))
+                                  .map((games) => (
+                                    <MenuItem value={games} key={games}>
+                                      {t("finals_game_amount_option", { games })}
+                                    </MenuItem>
+                                  ))
+                              }
+                            </Select>
+                            <div><small>{t("finals_game_amount_disclaimer")}</small></div>
+                          </GridItem>
+                        )
+                      }
                       {
                         (gameAmount != null && gameAmount > 0) &&
                         <GridItem xs={12} md={7} style={{ marginTop: 10 }}>

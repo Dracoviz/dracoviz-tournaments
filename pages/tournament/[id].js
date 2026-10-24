@@ -638,7 +638,10 @@ export default function Tournament() {
       score: bracket.score[participantIndex],
       player1: bracket.participants[participantIndex][0].name,
       player2: bracket.participants[participantIndex][1].name,
-      gameAmount: data?.gameAmount,
+      // The match's own count, which the finals of an elimination bracket can have to
+      // itself. The session-wide value is the fallback for a session saved before
+      // matches carried one.
+      gameAmount: bracket.gameAmount ?? data?.gameAmount,
       playAllMatches: data?.playAllMatches,
       participantIndex,
     });
