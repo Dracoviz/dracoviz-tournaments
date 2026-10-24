@@ -97,6 +97,9 @@ export default function Matchup() {
       tournamentId: session,
       player1,
       player2,
+      // The match this page was showing. The round can have moved on while the score
+      // was being typed, and the report belongs to the match that was played.
+      match: data?.match,
       ignoreHost: true
     }));
     const newData = await response.json();
