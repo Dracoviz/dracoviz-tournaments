@@ -27,12 +27,14 @@ const SOURCE = "api";
 export const IS_SAMPLE_DATA = SOURCE === "sample";
 
 /**
- * How many weeks are fetched at a time. The API clamps this too; it will never return more.
+ * How many daily snapshots are fetched at a time. The API clamps this too; it will never return
+ * more.
  *
- * Eight weeks is about two months of trend, which reads well on the chart and is still one
- * request. "Load older" pages back from there.
+ * Thirty is about a month of trend. Snapshots are daily now rather than weekly, so eight would be
+ * barely more than a week of chart — and the comparison each row needs is itself seven snapshots
+ * back, which would leave only one comparable point. "Load older" pages back from here.
  */
-export const PAGE_SIZE = 8;
+export const PAGE_SIZE = 30;
 
 /**
  * Status values the page renders distinct screens for. `forbidden` is deliberately separate from

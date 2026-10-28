@@ -76,6 +76,21 @@ export function UsageSampleBanner() {
   );
 }
 
+/**
+ * Shown for a ruleset whose event has finished.
+ *
+ * The numbers are real and worth keeping, they are simply not moving any more. Without this the
+ * page would present a window that is weeks old exactly as it presents today's.
+ */
+export function UsageArchivedNotice({ date }) {
+  const { t } = useTranslation();
+  return (
+    <Alert severity="info" style={{ marginBottom: 20 }}>
+      {t("usage_archived_note", { date })}
+    </Alert>
+  );
+}
+
 /** The API worked and there is genuinely nothing stored yet. */
 export function UsageEmpty({ message }) {
   const { t } = useTranslation();

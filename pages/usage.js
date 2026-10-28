@@ -12,18 +12,19 @@ import GridItem from "/components/Grid/GridItem.js";
 import { Tab, Tabs } from "@mui/material";
 
 import styles from "/styles/jss/nextjs-material-kit/pages/usagePage.js";
+import { formatLongDate } from "../pages-sections/usage-sections/usageFormat";
 import UsageOverview from "../pages-sections/usage-sections/UsageOverview";
 import PokemonDetail from "../pages-sections/usage-sections/PokemonDetail";
 import { track } from "../utils/analytics";
 import { EVENT, PARAM, SCREEN } from "../utils/analyticsEvents";
 import {
-  UsageEmpty, UsageError, UsageForbidden, UsageLoading, UsageSampleBanner,
+  UsageArchivedNotice, UsageEmpty, UsageError, UsageForbidden, UsageLoading, UsageSampleBanner,
 } from "../pages-sections/usage-sections/UsageStates";
 import {
   IS_SAMPLE_DATA, STATUS, useSpeciesUsage, useUsageData,
 } from "../pages-sections/usage-sections/useUsageData";
 import USAGE_METAS, {
-  DEFAULT_USAGE_META, resolveUsageMeta,
+  DEFAULT_USAGE_META, isUsageMetaArchived, resolveUsageMeta, usageMetaEndsAt,
 } from "../pages-sections/usage-sections/usageMetas";
 
 export async function getServerSideProps({ locale }) {
@@ -59,6 +60,7 @@ export default function Usage() {
   const selectedSpecies = typeof router.query.pokemon === "string" ? router.query.pokemon : null;
   // Falls back to the default rather than erroring, so a stale or hand-edited ?meta= still loads.
   const meta = resolveUsageMeta(router.query.meta);
+  const archived = isUsageMetaArchived(meta);
 
   const {
     status, periods, error, retry, loadOlder, isLoadingMore, hasOlder,
@@ -132,13 +134,19 @@ export default function Usage() {
       );
     }
     return (
-      <UsageOverview
-        periods={periods}
-        onSelectSpecies={selectSpecies}
-        onLoadOlder={loadOlder}
-        hasOlder={hasOlder}
-        isLoadingMore={isLoadingMore}
-      />
+      <>
+        {archived && (
+          <UsageArchivedNotice date={formatLongDate(usageMetaEndsAt(meta), router.locale)} />
+        )}
+        <UsageOverview
+          periods={periods}
+          onSelectSpecies={selectSpecies}
+          onLoadOlder={loadOlder}
+          hasOlder={hasOlder}
+          isLoadingMore={isLoadingMore}
+          isArchived={archived}
+        />
+      </>
     );
   };
 

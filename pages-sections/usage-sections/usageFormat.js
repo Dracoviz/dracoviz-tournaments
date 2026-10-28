@@ -130,6 +130,14 @@ function safely(render, ...dates) {
   }
 }
 
+/** "22 November 2026" — a single date written out, for prose rather than a table. */
+export function formatLongDate(timestamp, locale) {
+  const date = new Date(timestamp);
+  return safely(() => new Intl.DateTimeFormat(localeTag(locale), {
+    day: "numeric", month: "long", year: "numeric", timeZone: "UTC",
+  }).format(date), date);
+}
+
 /** "24 Aug" — the compact label used on chart axes and period chips. */
 export function formatPeriodShort(period, locale) {
   const start = new Date(period?.periodStart);
@@ -148,6 +156,54 @@ export function formatPeriodRangeShort(period, locale) {
   const start = new Date(period?.periodStart);
   const last = lastDayOf(period);
   return safely(() => formatRange(dateFormat(locale, false), start, last), start, last);
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** How many days one snapshot covers, read off the snapshot rather than assumed. */
+function windowDays(period) {
+  const span = Date.parse(period?.periodEnd) - Date.parse(period?.periodStart);
+  return Number.isFinite(span) ? Math.round(span / DAY_MS) : 0;
+}
+
+/**
+ * The snapshot to compare one against: a full window earlier, so the two share no data.
+ *
+ * Snapshots are taken daily but each covers seven days, so the previous *snapshot* overlaps this
+ * one by six days — comparing against it would read ±0.x points on almost every row and convey
+ * nothing. Stepping back a whole window gives a genuine week-over-week change.
+ *
+ * The step is derived from the snapshot's own span rather than hardcoded, so it stays correct if a
+ * ruleset is ever given a different window length.
+ *
+ * When the exact snapshot is missing — thinned by retention, or skipped because that stretch was
+ * too quiet to report — the newest older one is used instead, but never more than two windows back.
+ * Beyond that the comparison is too stale to call a change, and no chip is better than a wrong one.
+ */
+export function findComparison(periods, current) {
+  if (current == null || periods == null) {
+    return null;
+  }
+  const step = windowDays(current);
+  if (step <= 0) {
+    return null;
+  }
+  const target = current.periodIndex - step;
+  const exact = periods.find((p) => p.periodIndex === target);
+  if (exact != null) {
+    return exact;
+  }
+  return periods
+    .filter((p) => p.periodIndex < target && p.periodIndex >= target - step)
+    .sort((a, b) => b.periodIndex - a.periodIndex)[0] ?? null;
+}
+
+/** Whether a comparison is the exact window back, or a fallback across a gap. */
+export function isExactComparison(current, comparison) {
+  if (current == null || comparison == null) {
+    return false;
+  }
+  return comparison.periodIndex === current.periodIndex - windowDays(current);
 }
 
 /** Looks a species up in a period's light Pokemon list. */

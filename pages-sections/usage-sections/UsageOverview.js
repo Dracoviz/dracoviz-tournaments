@@ -10,8 +10,8 @@ import useTableSort from "./useTableSort";
 import { track } from "../../utils/analytics";
 import { EVENT, PARAM } from "../../utils/analyticsEvents";
 import {
-  METRICS, NO_DATA, findSpecies, formatNumber, formatPercent, formatPeriodRange,
-  formatPeriodRangeShort, onSpriteError, spriteUrl,
+  METRICS, NO_DATA, findComparison, findSpecies, formatNumber, formatPercent, formatPeriodRange,
+  formatPeriodRangeShort, isExactComparison, onSpriteError, spriteUrl,
 } from "./usageFormat";
 
 /**
@@ -27,7 +27,7 @@ const TREND_SERIES = 16;
  */
 const SPECIES_MIN_FALLBACK = 6;
 
-/** The value columns. `delta` marks the ones worth comparing against the previous week. */
+/** The value columns. `delta` marks the ones worth comparing against the window before. */
 const COLUMNS = [
   { key: "usage", labelKey: "usage_rate", format: formatPercent, delta: true },
   { key: "matchWinRate", labelKey: "usage_match_win_rate", format: formatPercent, delta: true },
@@ -42,20 +42,22 @@ const SORT_COLUMNS = [
   ...COLUMNS,
 ];
 
-function StatCard({ label, value, current, previous, variant }) {
+function StatCard({
+  label, value, current, previous, variant, title,
+}) {
   return (
     <div style={{ minWidth: 120 }}>
       <div style={{ fontSize: "0.75rem", opacity: 0.7, textTransform: "uppercase" }}>{label}</div>
       <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
         <span style={{ fontSize: "1.5rem", fontWeight: 600 }}>{value}</span>
-        <StatDelta current={current} previous={previous} variant={variant} />
+        <StatDelta current={current} previous={previous} variant={variant} title={title} />
       </div>
     </div>
   );
 }
 
 export default function UsageOverview({
-  periods, onSelectSpecies, onLoadOlder, hasOlder, isLoadingMore,
+  periods, onSelectSpecies, onLoadOlder, hasOlder, isLoadingMore, isArchived = false,
 }) {
   const { t } = useTranslation();
   const { locale } = useRouter();
@@ -63,9 +65,18 @@ export default function UsageOverview({
   const { sortRows, SortHeader } = useTableSort(SORT_COLUMNS, "usage");
 
   const period = periods[0];
-  const previous = periods[1] ?? null;
-  // Deltas and the trend chart only mean anything once there is something to compare against.
+  // A whole window back, not the previous snapshot: consecutive snapshots overlap by six days, so
+  // comparing against yesterday's would read as no change on almost every row.
+  const previous = findComparison(periods, period);
   const hasComparison = previous != null;
+  // Stated in the delta tooltips, because a gap in the series means the comparison is sometimes
+  // further back than a week and the reader cannot otherwise tell.
+  const comparisonLabel = hasComparison
+    ? t(
+      isExactComparison(period, previous) ? "usage_delta_vs" : "usage_delta_vs_approx",
+      { range: formatPeriodRangeShort(previous, locale) },
+    )
+    : undefined;
 
   const rows = sortRows(period?.pokemon);
 
@@ -81,7 +92,7 @@ export default function UsageOverview({
     <div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
         <h3 style={{ margin: 0 }}>{formatPeriodRange(period, locale)}</h3>
-        <Chip size="small" label={t("usage_latest_period")} />
+        <Chip size="small" label={t(isArchived ? "usage_archived_chip" : "usage_latest_period")} />
       </div>
 
       <div style={{
@@ -94,6 +105,7 @@ export default function UsageOverview({
           current={period.tournamentCount}
           previous={previous?.tournamentCount}
           variant="count"
+          title={comparisonLabel}
         />
         <StatCard
           label={t("usage_teams")}
@@ -101,6 +113,7 @@ export default function UsageOverview({
           current={period.teamCount}
           previous={previous?.teamCount}
           variant="count"
+          title={comparisonLabel}
         />
         <StatCard
           label={t("usage_matches")}
@@ -108,6 +121,7 @@ export default function UsageOverview({
           current={period.totalMatches}
           previous={previous?.totalMatches}
           variant="count"
+          title={comparisonLabel}
         />
         <StatCard
           label={t("usage_species_reported")}
@@ -117,6 +131,7 @@ export default function UsageOverview({
             ? null
             : (previous.speciesCount ?? previous.pokemon.length)}
           variant="count"
+          title={comparisonLabel}
         />
       </div>
 
@@ -222,6 +237,7 @@ export default function UsageOverview({
                             <StatDelta
                               current={value}
                               previous={before == null ? null : before[column.key]}
+                              title={comparisonLabel}
                             />
                           </div>
                         )}

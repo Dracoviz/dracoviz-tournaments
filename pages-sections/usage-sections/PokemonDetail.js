@@ -12,7 +12,7 @@ import {
 } from "./UsageStates";
 import { STATUS } from "./useUsageData";
 import {
-  METRICS, NO_DATA, formatNumber, formatPercent, formatPeriodRange,
+  METRICS, NO_DATA, findComparison, formatNumber, formatPercent, formatPeriodRange,
   onSpriteError, spriteUrl,
 } from "./usageFormat";
 
@@ -69,7 +69,8 @@ export default function PokemonDetail({
   );
 
   const current = periods[0] ?? null;
-  const previous = periods[1] ?? null;
+  // A whole window back, so the two snapshots share no data. See findComparison.
+  const previous = findComparison(periods, current);
 
   /**
    * The species aligned to the overview's periods, so a period it did not qualify in becomes an
