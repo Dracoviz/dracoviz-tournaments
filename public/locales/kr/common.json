@@ -410,7 +410,7 @@
 	"usage_share": "비율",
 	"usage_moveset": "기술 조합",
 	"usage_table_title": "{{range}} 사용률",
-	"usage_trend_title": "최근 {{periods}}일 추이",
+	"usage_trend_title": "추이: {{days}}일 단위 {{periods}}개 구간",
 	"usage_movesets_title": "기술 조합",
 	"usage_partners_title": "가장 많이 함께 쓰인 포켓몬",
 	"usage_movesets_note": "기술 조합이 기록된 {{teams}}개 팀을 기준으로 합니다. 순서는 구분하지 않으므로 같은 차지 기술 두 개는 하나의 항목으로 묶입니다.",

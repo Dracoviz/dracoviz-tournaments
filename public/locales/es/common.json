@@ -410,7 +410,7 @@
 	"usage_share": "Proporción",
 	"usage_moveset": "Movimientos",
 	"usage_table_title": "Uso del {{range}}",
-	"usage_trend_title": "Tendencia en los últimos {{periods}} días",
+	"usage_trend_title": "Tendencia: {{periods}} periodos de {{days}} días",
 	"usage_movesets_title": "Conjuntos de movimientos",
 	"usage_partners_title": "Compañeros más comunes",
 	"usage_movesets_note": "Basado en {{teams}} equipos con movimientos registrados. El orden no importa, así que los mismos dos movimientos cargados cuentan como una sola entrada.",

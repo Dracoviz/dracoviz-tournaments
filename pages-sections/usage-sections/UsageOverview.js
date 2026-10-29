@@ -57,7 +57,7 @@ function StatCard({
 }
 
 export default function UsageOverview({
-  periods, onSelectSpecies, onLoadOlder, hasOlder, isLoadingMore, isArchived = false,
+  periods, trend = [], onSelectSpecies, onLoadOlder, hasOlder, isLoadingMore, isArchived = false,
 }) {
   const { t } = useTranslation();
   const { locale } = useRouter();
@@ -83,13 +83,23 @@ export default function UsageOverview({
 
   const rows = sortRows(period?.pokemon);
 
+  // Which Pokemon to plot is decided by the current week's numbers — the thing a reader is looking
+  // at — while the values come from the trend buckets, which are shorter and share no data.
   const series = useMemo(() => (period?.pokemon ?? [])
     .slice(0, TREND_SERIES)
     .map((species) => ({
       label: species.speciesName,
-      // Null for a period the species did not qualify in, so the line breaks instead of hitting zero.
+      // Null for a bucket the species did not qualify in, so the line breaks instead of hitting zero.
       valueFor: (p) => findSpecies(p, species.speciesId)?.[metric] ?? null,
     })), [period, metric]);
+
+  // Oldest first for the axis, and only buckets that actually have data.
+  const trendPoints = useMemo(
+    () => [...trend].sort((a, b) => a.trendIndex - b.trendIndex),
+    [trend],
+  );
+  const trendDays = trendPoints[0]?.trendDays ?? days;
+  const hasTrend = trendPoints.length > 1;
 
   return (
     <div>
@@ -151,13 +161,15 @@ export default function UsageOverview({
         )}
       </p>
 
-      {hasComparison ? (
+      {hasTrend ? (
         <>
           <div style={{
             display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", marginBottom: 8,
           }}
           >
-            <h4 style={{ margin: 0 }}>{t("usage_trend_title", { periods: periods.length })}</h4>
+            <h4 style={{ margin: 0 }}>
+              {t("usage_trend_title", { periods: trendPoints.length, days: trendDays })}
+            </h4>
             <Select
               size="small"
               value={metric}
@@ -172,13 +184,13 @@ export default function UsageOverview({
             </Select>
           </div>
           <UsageTrendChart
-            periods={periods}
+            periods={trendPoints}
             series={series}
             metric={t(METRICS.find((m) => m.key === metric).labelKey)}
             locale={locale}
           />
           <p style={{ fontSize: "0.78rem", opacity: 0.65, marginTop: 8 }}>
-                {t("usage_gap_note", { min: period.speciesMinCount ?? SPECIES_MIN_FALLBACK })}
+                {t("usage_gap_note", { min: period.speciesMinCount ?? SPECIES_MIN_FALLBACK, days: trendDays })}
           </p>
         </>
       ) : (

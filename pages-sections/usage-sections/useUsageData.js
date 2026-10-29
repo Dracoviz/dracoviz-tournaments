@@ -59,12 +59,16 @@ async function loadSampleOverview({ meta, limit, before }) {
   await wait(SAMPLE_DELAY_MS);
   // The fixture only covers one ruleset, so any other tab is genuinely empty offline.
   if (meta !== sample.meta) {
-    return { meta, periods: [], availablePeriods: { total: 0, oldestIndex: null, newestIndex: null } };
+    return {
+      meta, periods: [], trend: [], availablePeriods: { total: 0, oldestIndex: null, newestIndex: null },
+    };
   }
   const periods = sample.periods
     .filter((p) => before == null || p.periodIndex < before)
     .slice(0, limit);
-  return { meta: sample.meta, periods, availablePeriods: sample.availablePeriods };
+  return {
+    meta: sample.meta, periods, trend: sample.trend ?? [], availablePeriods: sample.availablePeriods,
+  };
 }
 
 async function loadSampleSpecies({ meta, speciesId, limit, before }) {
@@ -135,7 +139,7 @@ function toStatus(ex) {
  */
 export function useUsageData(authId, meta = DEFAULT_USAGE_META) {
   const [state, setState] = useState({
-    status: STATUS.LOADING, periods: [], availablePeriods: null, error: null,
+    status: STATUS.LOADING, periods: [], trend: [], availablePeriods: null, error: null,
   });
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -158,6 +162,8 @@ export function useUsageData(authId, meta = DEFAULT_USAGE_META) {
         setState({
           status: data.periods.length > 0 ? STATUS.READY : STATUS.EMPTY,
           periods: data.periods,
+          // The chart's own series: discrete buckets, separate from the rolling snapshots.
+          trend: data.trend ?? [],
           availablePeriods: data.availablePeriods ?? null,
           error: null,
         });

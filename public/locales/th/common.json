@@ -410,7 +410,7 @@
 	"usage_share": "สัดส่วน",
 	"usage_moveset": "Moveset",
 	"usage_table_title": "การใช้งานช่วง {{range}}",
-	"usage_trend_title": "แนวโน้มใน {{periods}} วันล่าสุด",
+	"usage_trend_title": "แนวโน้ม: {{periods}} ช่วง ละ {{days}} วัน",
 	"usage_movesets_title": "Moveset",
 	"usage_partners_title": "Pokémon ที่ใช้คู่กันบ่อยที่สุด",
 	"usage_movesets_note": "อ้างอิงจาก {{teams}} ทีมที่บันทึก Moveset ไว้ ลำดับท่าไม่มีผล ท่า Charged สองท่าเดียวกันจึงนับเป็นรายการเดียว",

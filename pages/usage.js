@@ -63,7 +63,7 @@ export default function Usage() {
   const archived = isUsageMetaArchived(meta);
 
   const {
-    status, periods, error, retry, loadOlder, isLoadingMore, hasOlder,
+    status, periods, trend, error, retry, loadOlder, isLoadingMore, hasOlder,
   } = useUsageData(authId, meta);
   const species = useSpeciesUsage(authId, meta, selectedSpecies, periods.length || undefined);
 
@@ -140,6 +140,7 @@ export default function Usage() {
         )}
         <UsageOverview
           periods={periods}
+          trend={trend}
           onSelectSpecies={selectSpecies}
           onLoadOlder={loadOlder}
           hasOlder={hasOlder}

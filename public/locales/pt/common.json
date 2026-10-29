@@ -410,7 +410,7 @@
 	"usage_share": "Proporção",
 	"usage_moveset": "Ataques",
 	"usage_table_title": "Uso de {{range}}",
-	"usage_trend_title": "Tendência nos últimos {{periods}} dias",
+	"usage_trend_title": "Tendência: {{periods}} períodos de {{days}} dias",
 	"usage_movesets_title": "Conjuntos de ataques",
 	"usage_partners_title": "Parceiros mais comuns",
 	"usage_movesets_note": "Com base em {{teams}} equipes com ataques registrados. A ordem não importa, então os mesmos dois ataques carregados contam como uma única entrada.",

@@ -103,7 +103,13 @@ function dateFormat(locale, withYear) {
  * nearly all of the 28th. Backing off 24 hours labelled it "27 Oct" and made fresh data read as a
  * day stale. One millisecond back lands on the true last day with data.
  */
-const lastMomentOf = (period) => new Date(Date.parse(period?.periodEnd) - 1);
+export const lastLabelledMoment = (period) => {
+  const end = Date.parse(period?.periodEnd) - 1;
+  // Clamped to now, because a trend bucket still filling up has an end date in the future. A
+  // discrete 7-day bucket opened yesterday runs to next week, and labelling the newest point on the
+  // chart with a date that has not happened reads as broken data.
+  return new Date(Number.isFinite(end) ? Math.min(end, Date.now()) : NaN);
+};
 
 /**
  * Ranges go through Intl's own range formatter, which knows each locale's conventions — English
@@ -151,21 +157,21 @@ export function formatLongDate(timestamp, locale) {
  * newest point on the chart read as a week old and the whole series look stale.
  */
 export function formatPeriodShort(period, locale) {
-  const last = lastMomentOf(period);
+  const last = lastLabelledMoment(period);
   return safely(() => dateFormat(locale, false).format(last), last);
 }
 
 /** "24 Aug – 6 Sep 2026", for the heading that has to pin down which period this is. */
 export function formatPeriodRange(period, locale) {
   const start = new Date(period?.periodStart);
-  const last = lastMomentOf(period);
+  const last = lastLabelledMoment(period);
   return safely(() => formatRange(dateFormat(locale, true), start, last), start, last);
 }
 
 /** "24 Aug – 6 Sep", for places further down the page where the year is already established. */
 export function formatPeriodRangeShort(period, locale) {
   const start = new Date(period?.periodStart);
-  const last = lastMomentOf(period);
+  const last = lastLabelledMoment(period);
   return safely(() => formatRange(dateFormat(locale, false), start, last), start, last);
 }
 

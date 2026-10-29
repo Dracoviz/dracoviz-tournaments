@@ -450,7 +450,7 @@
 	"usage_share": "Share",
 	"usage_moveset": "Moveset",
 	"usage_table_title": "Usage from {{range}}",
-	"usage_trend_title": "Trend over the last {{periods}} days",
+	"usage_trend_title": "Trend: {{periods}} periods of {{days}} days",
 	"usage_movesets_title": "Movesets",
 	"usage_partners_title": "Most common partners",
 	"usage_movesets_note": "Based on {{teams}} teams with a recorded moveset. Move order doesn't matter, so the same two charged moves are one entry.",

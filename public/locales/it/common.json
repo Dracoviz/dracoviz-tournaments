@@ -410,7 +410,7 @@
 	"usage_share": "Quota",
 	"usage_moveset": "Moveset",
 	"usage_table_title": "Utilizzo dal {{range}}",
-	"usage_trend_title": "Andamento negli ultimi {{periods}} giorni",
+	"usage_trend_title": "Andamento: {{periods}} periodi di {{days}} giorni",
 	"usage_movesets_title": "Moveset",
 	"usage_partners_title": "Compagni più comuni",
 	"usage_movesets_note": "Basato su {{teams}} squadre con moveset registrato. L'ordine non conta, quindi le stesse due mosse caricate valgono come una sola voce.",

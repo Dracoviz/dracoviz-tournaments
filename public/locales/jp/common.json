@@ -410,7 +410,7 @@
 	"usage_share": "割合",
 	"usage_moveset": "技構成",
 	"usage_table_title": "{{range}} の使用率",
-	"usage_trend_title": "直近 {{periods}} 日間の推移",
+	"usage_trend_title": "推移：{{days}}日間 × {{periods}} 期間",
 	"usage_movesets_title": "技構成",
 	"usage_partners_title": "よく一緒に使われるポケモン",
 	"usage_movesets_note": "技構成が記録された {{teams}} チームに基づいています。技の順序は区別しないため、同じ2つのスペシャルアタックは1つとして扱われます。",

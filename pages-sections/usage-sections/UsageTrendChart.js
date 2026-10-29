@@ -115,8 +115,12 @@ export default function UsageTrendChart({
     focusRef.current = createFocusController();
   }
 
-  // Periods arrive newest first; a time axis has to read oldest to newest.
-  const ordered = useMemo(() => [...periods].reverse(), [periods]);
+  // A time axis reads oldest to newest. Sorted here rather than assumed, because the snapshots the
+  // API returns are newest-first while the trend buckets are handed over already in order.
+  const ordered = useMemo(
+    () => [...periods].sort((a, b) => Date.parse(a.periodStart) - Date.parse(b.periodStart)),
+    [periods],
+  );
 
   const data = useMemo(() => ({
     labels: ordered.map((period) => formatPeriodShort(period, locale)),
