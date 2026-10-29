@@ -11,7 +11,7 @@ import { track } from "../../utils/analytics";
 import { EVENT, PARAM } from "../../utils/analyticsEvents";
 import {
   METRICS, NO_DATA, findComparison, findSpecies, formatNumber, formatPercent, formatPeriodRange,
-  formatPeriodRangeShort, isExactComparison, onSpriteError, spriteUrl,
+  formatPeriodRangeShort, isExactComparison, onSpriteError, spriteUrl, windowDays,
 } from "./usageFormat";
 
 /**
@@ -71,10 +71,13 @@ export default function UsageOverview({
   const hasComparison = previous != null;
   // Stated in the delta tooltips, because a gap in the series means the comparison is sometimes
   // further back than a week and the reader cannot otherwise tell.
+  // Read off the snapshot rather than the registry, so it stays right for an older snapshot
+  // written when the ruleset used a different window length.
+  const days = period?.windowDays ?? windowDays(period) ?? SPECIES_MIN_FALLBACK;
   const comparisonLabel = hasComparison
     ? t(
       isExactComparison(period, previous) ? "usage_delta_vs" : "usage_delta_vs_approx",
-      { range: formatPeriodRangeShort(previous, locale) },
+      { range: formatPeriodRangeShort(previous, locale), days },
     )
     : undefined;
 
@@ -92,7 +95,10 @@ export default function UsageOverview({
     <div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
         <h3 style={{ margin: 0 }}>{formatPeriodRange(period, locale)}</h3>
-        <Chip size="small" label={t(isArchived ? "usage_archived_chip" : "usage_latest_period")} />
+        <Chip
+          size="small"
+          label={isArchived ? t("usage_archived_chip") : t("usage_latest_period", { days })}
+        />
       </div>
 
       <div style={{
@@ -136,7 +142,7 @@ export default function UsageOverview({
       </div>
 
       <p style={{ fontSize: "0.82rem", opacity: 0.7, marginBottom: 24 }}>
-        {t("usage_threshold_note", { min: period.speciesMinCount ?? SPECIES_MIN_FALLBACK })}
+        {t("usage_threshold_note", { min: period.speciesMinCount ?? SPECIES_MIN_FALLBACK, days })}
         {period.teamsWithMovesets != null && period.teamsWithMovesets < period.teamCount && (
           <> {t("usage_moveset_coverage", {
             recorded: period.teamsWithMovesets, total: period.teamCount,
@@ -177,7 +183,7 @@ export default function UsageOverview({
         </>
       ) : (
         // With a single period there is no trend to draw and every delta would be meaningless.
-        <p style={{ fontSize: "0.85rem", opacity: 0.75 }}>{t("usage_single_period")}</p>
+        <p style={{ fontSize: "0.85rem", opacity: 0.75 }}>{t("usage_single_period", { days })}</p>
       )}
 
       <h4 style={{ marginTop: 32 }}>

@@ -95,10 +95,15 @@ function dateFormat(locale, withYear) {
 }
 
 /**
- * The stored period end is exclusive, so the last day of the period is the day before it. Showing
- * the exclusive end would claim every period covers 15 days.
+ * The last moment a window actually covers.
+ *
+ * `periodEnd` is exclusive, so it must not be shown as-is — a window ending 28 Oct 20:00Z would
+ * claim to include the 28th from 20:00 onwards. But subtracting a whole day is wrong too, and was
+ * the bug here: the boundary is 20:00Z, not midnight, so a window ending 28 Oct 20:00Z contains
+ * nearly all of the 28th. Backing off 24 hours labelled it "27 Oct" and made fresh data read as a
+ * day stale. One millisecond back lands on the true last day with data.
  */
-const lastDayOf = (period) => new Date(Date.parse(period?.periodEnd) - 24 * 60 * 60 * 1000);
+const lastMomentOf = (period) => new Date(Date.parse(period?.periodEnd) - 1);
 
 /**
  * Ranges go through Intl's own range formatter, which knows each locale's conventions — English
@@ -138,30 +143,36 @@ export function formatLongDate(timestamp, locale) {
   }).format(date), date);
 }
 
-/** "24 Aug" — the compact label used on chart axes and period chips. */
+/**
+ * "6 Sep" — the compact label used on chart axes.
+ *
+ * Labelled by where the window *ends*, not where it starts. A rolling snapshot is "the seven days
+ * up to here", so the end is the date a reader is looking for; labelling by the start made the
+ * newest point on the chart read as a week old and the whole series look stale.
+ */
 export function formatPeriodShort(period, locale) {
-  const start = new Date(period?.periodStart);
-  return safely(() => dateFormat(locale, false).format(start), start);
+  const last = lastMomentOf(period);
+  return safely(() => dateFormat(locale, false).format(last), last);
 }
 
 /** "24 Aug – 6 Sep 2026", for the heading that has to pin down which period this is. */
 export function formatPeriodRange(period, locale) {
   const start = new Date(period?.periodStart);
-  const last = lastDayOf(period);
+  const last = lastMomentOf(period);
   return safely(() => formatRange(dateFormat(locale, true), start, last), start, last);
 }
 
 /** "24 Aug – 6 Sep", for places further down the page where the year is already established. */
 export function formatPeriodRangeShort(period, locale) {
   const start = new Date(period?.periodStart);
-  const last = lastDayOf(period);
+  const last = lastMomentOf(period);
   return safely(() => formatRange(dateFormat(locale, false), start, last), start, last);
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 /** How many days one snapshot covers, read off the snapshot rather than assumed. */
-function windowDays(period) {
+export function windowDays(period) {
   const span = Date.parse(period?.periodEnd) - Date.parse(period?.periodStart);
   return Number.isFinite(span) ? Math.round(span / DAY_MS) : 0;
 }

@@ -12,10 +12,17 @@
  * and end dates for the offline script and the scheduled job.
  */
 const USAGE_METAS = [
-  { value: "Play Pokemon 2024", labelKey: "usage_meta_play_pokemon", endsAt: null },
+  // `windowDays` is how much data one snapshot covers. It differs per ruleset because volume does:
+  // three days of Play! Pokemon is ~300 teams, three days of LAIC is ~17.
+  { value: "Play Pokemon 2024", labelKey: "usage_meta_play_pokemon", endsAt: null, windowDays: 3 },
   // LAIC 2027 finishes on 22 Nov 2026. Past that it keeps its snapshots and stays browsable, but
   // gains no more: the chip reads "Final" instead of "Latest", and a notice says so.
-  { value: "LAIC 2027", labelKey: "usage_meta_laic_2027", endsAt: Date.UTC(2026, 10, 22, 20) },
+  {
+    value: "LAIC 2027",
+    labelKey: "usage_meta_laic_2027",
+    endsAt: Date.UTC(2026, 10, 22, 20),
+    windowDays: 7,
+  },
 ];
 
 export const DEFAULT_USAGE_META = USAGE_METAS[0].value;
@@ -34,6 +41,17 @@ export function usageMetaEndsAt(value) {
 export function isUsageMetaArchived(value, now = Date.now()) {
   const endsAt = usageMetaEndsAt(value);
   return endsAt != null && now > endsAt;
+}
+
+/**
+ * How many days one of a ruleset's snapshots covers.
+ *
+ * Prefer reading it off a snapshot where one is to hand — a stored document carries its own
+ * `windowDays`, which stays right even for a snapshot written before the length changed. This is
+ * the fallback for copy rendered before any data has loaded.
+ */
+export function usageMetaWindowDays(value) {
+  return USAGE_METAS.find((m) => m.value === value)?.windowDays ?? 3;
 }
 
 export default USAGE_METAS;
