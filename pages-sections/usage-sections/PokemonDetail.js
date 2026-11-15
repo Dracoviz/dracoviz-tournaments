@@ -13,7 +13,7 @@ import {
 import { STATUS } from "./useUsageData";
 import {
   METRICS, NO_DATA, findComparison, formatNumber, formatPercent, formatPeriodRange,
-  onSpriteError, spriteUrl,
+  onSpriteError, spriteUrl, windowDays,
 } from "./usageFormat";
 
 const PARTNER_COLUMNS = [
@@ -82,6 +82,11 @@ export default function PokemonDetail({
   }), [overviewPeriods, periods]);
 
   const missingPeriods = alignedPeriods.filter((p) => p.species == null).length;
+
+  // A point on the trend chart is one overview snapshot, so a period is that snapshot's window.
+  // Read off the snapshot rather than the registry, so it stays right for an older snapshot written
+  // when the ruleset used a different window length.
+  const trendDays = overviewPeriods[0]?.windowDays ?? windowDays(overviewPeriods[0]);
 
   const series = useMemo(() => [{
     label: current?.speciesName ?? speciesId,
@@ -175,7 +180,9 @@ export default function PokemonDetail({
             display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", marginBottom: 8,
           }}
           >
-            <h4 style={{ margin: 0 }}>{t("usage_trend_title", { periods: overviewPeriods.length })}</h4>
+            <h4 style={{ margin: 0 }}>
+              {t("usage_trend_title", { periods: overviewPeriods.length, days: trendDays })}
+            </h4>
             <Select
               size="small"
               value={metric}
