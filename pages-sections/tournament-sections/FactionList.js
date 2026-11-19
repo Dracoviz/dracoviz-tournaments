@@ -9,6 +9,7 @@ import getValidLabel from "../../api/getValidLabel";
 import NoPlayers from "../../components/NoPlayers/NoPlayers";
 import Tooltip from "@mui/material/Tooltip";
 import cleanText from "../../utils/cleanText";
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 const useStyles = makeStyles(styles);
 
@@ -28,6 +29,7 @@ const byTournamentPosition = (a, b) => {
 export default function FactionList(props) {
   const { players, factions, metaLogos, onPlayer, onDeletePlayer, isHost, showValid, e, session } = props;
   const { t } = useTranslation();
+  const dialog = useDialog();
   const classes = useStyles();
   const [searchedFactions, setSearchedFactions] = useState([]);
 
@@ -139,8 +141,11 @@ export default function FactionList(props) {
                           {t("view_profile")}
                         </Button>
                         {
-                          (isHost && !player.removed) && (<Button color="error" onClick={() => {
-                            if (confirm(t("confirm_remove_player_team"))) {
+                          (isHost && !player.removed) && (<Button color="error" onClick={async () => {
+                            if (await dialog.confirm(t("confirm_remove_player_team"), {
+                              confirmLabel: t("remove_player"),
+                              confirmColor: "error",
+                            })) {
                               onDeletePlayer(player.name)
                             }
                           }}>

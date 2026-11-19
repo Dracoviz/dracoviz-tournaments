@@ -34,6 +34,7 @@ import ReportScoreModal from "../../pages-sections/tournament-sections/ReportSco
 import { useForm } from "react-hook-form";
 import Countdown from "../../components/Countdown/Countdown";
 import TeamSheetModal from "../../pages-sections/tournament-sections/TeamSheetModal";
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -75,6 +76,7 @@ export default function Tournament() {
   const [ isReportScoreOpen, setIsReportScoreOpen ] = useState(false);
   const [ e, setE ] = useState(null);
   const [ exportAnchorEl, setExportAnchorEl ] = useState(null);
+  const dialog = useDialog();
   const isConcluded = data?.concluded;
 
   const statusLabels = {
@@ -163,7 +165,7 @@ export default function Tournament() {
   });
 
   /**
-   * Most handlers here share the same shape: POST, then either alert(t(error))
+   * Most handlers here share the same shape: POST, then either dialog.alert(t(error))
    * or refetch. This reports both outcomes without duplicating the branch.
    */
   const trackOutcome = (event, newData, extra = {}) => {
@@ -178,8 +180,12 @@ export default function Tournament() {
     }
   }
 
-  const startBracket = () => {
-    if (data?.kickPlayersWithoutTeams && !confirm(t("kick_players_without_teams_warning"))) {
+  const startBracket = async () => {
+    if (data?.kickPlayersWithoutTeams
+      && !await dialog.confirm(t("kick_players_without_teams_warning"), {
+        title: t("start_bracket"),
+        confirmColor: "error",
+      })) {
       track(EVENT.BRACKET_STARTED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -194,7 +200,7 @@ export default function Tournament() {
     .then((newData) => {
       trackOutcome(EVENT.BRACKET_STARTED, newData, { [PARAM.ITEM_COUNT]: data?.players?.length });
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
         setIsLoading(false);
       } else {
         getTournamentData(authId);
@@ -202,8 +208,8 @@ export default function Tournament() {
     });
   }
 
-  const revertBracket = (confirmKey = "confirm_bracket_revert") => {
-    if (!confirm(t(confirmKey))) {
+  const revertBracket = async (confirmKey = "confirm_bracket_revert") => {
+    if (!await dialog.confirm(t(confirmKey), { confirmColor: "error" })) {
       track(EVENT.BRACKET_REVERTED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -218,7 +224,7 @@ export default function Tournament() {
     .then((newData) => {
       trackOutcome(EVENT.BRACKET_REVERTED, newData, { [PARAM.ROUND_INDEX]: data?.currentRoundNumber });
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
         setIsLoading(false);
       } else {
         getTournamentData(authId);
@@ -238,7 +244,7 @@ export default function Tournament() {
     setE(event);
   }
 
-  const progressBracket = () => {
+  const progressBracket = async () => {
     // Only swiss and round robin reach this, plus the swiss stage of a bracket that cuts
     // into a top cut: elimination brackets advance themselves. A draw is a valid result
     // in all of them, so an unreported match is the only thing worth warning about.
@@ -249,7 +255,7 @@ export default function Tournament() {
     const prompt = incomplete > 0
       ? `${t('bracket_incomplete_warning', { count: incomplete })}\n\n${t(confirmKey)}`
       : t(confirmKey);
-    if (!confirm(prompt)) {
+    if (!await dialog.confirm(prompt)) {
       track(EVENT.BRACKET_PROGRESSED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -264,7 +270,7 @@ export default function Tournament() {
     .then((newData) => {
       trackOutcome(EVENT.BRACKET_PROGRESSED, newData, { [PARAM.ROUND_INDEX]: data?.currentRoundNumber });
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
         setIsLoading(false);
       } else {
         getTournamentData(authId);
@@ -314,14 +320,14 @@ export default function Tournament() {
     .then((newData) => {
       trackOutcome(EVENT.TOURNAMENT_STATE_CHANGED, newData, { [PARAM.TO_STATE]: state });
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
       } else {
         getTournamentData(authId);
       }
     });
   }
 
-  const onConclude = () => {
+  const concludeTournament = () => {
     setIsLoading(true);
     fetchApi(`session/conclude/`, "POST", {
       "x_session_id": authId,
@@ -333,7 +339,7 @@ export default function Tournament() {
     .then((newData) => {
       trackOutcome(EVENT.TOURNAMENT_CONCLUDED, newData, { [PARAM.ITEM_COUNT]: data?.players?.length });
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
       } else {
         setIsTournamentEditOpen(false);
         getTournamentData(authId);
@@ -341,7 +347,7 @@ export default function Tournament() {
     });
   }
 
-  const onUnconclude = () => {
+  const unconcludeTournament = () => {
     setIsLoading(true);
     fetchApi(`session/unconclude/`, "POST", {
       "x_session_id": authId,
@@ -353,12 +359,39 @@ export default function Tournament() {
     .then((newData) => {
       trackOutcome(EVENT.TOURNAMENT_UNCONCLUDED, newData);
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
       } else {
         setIsTournamentEditOpen(false);
         getTournamentData(authId);
       }
     });
+  }
+
+  // Both ways into concluding — the button under the bracket and the one in the edit
+  // modal — are wrapped here, so neither can fire without the host answering first.
+  const onConclude = async () => {
+    const confirmed = await dialog.confirm(t("confirm_conclude"), {
+      title: t("conclude_tournament"),
+      confirmLabel: t("conclude_tournament"),
+      confirmColor: "error",
+    });
+    if (!confirmed) {
+      track(EVENT.TOURNAMENT_CONCLUDED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
+      return;
+    }
+    concludeTournament();
+  }
+
+  const onUnconclude = async () => {
+    const confirmed = await dialog.confirm(t("confirm_unconclude"), {
+      title: t("unconclude_tournament"),
+      confirmLabel: t("unconclude_tournament"),
+    });
+    if (!confirmed) {
+      track(EVENT.TOURNAMENT_UNCONCLUDED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
+      return;
+    }
+    unconcludeTournament();
   }
 
   const deletePlayer = async (playerName) => {
@@ -373,7 +406,7 @@ export default function Tournament() {
     const newData = await response.json();
     trackOutcome(playerName == null ? EVENT.TOURNAMENT_LEFT : EVENT.PLAYER_KICKED, newData);
     if (newData.error != null) {
-      alert(t(newData.error));
+      dialog.alert(t(newData.error));
       setIsLoading(false);
       return false;
     }
@@ -391,7 +424,7 @@ export default function Tournament() {
     const newData = await response.json();
     trackOutcome(EVENT.TOURNAMENT_DELETED, newData, { [PARAM.ITEM_COUNT]: data?.players?.length });
     if (newData.error != null) {
-      alert(t(newData.error));
+      dialog.alert(t(newData.error));
       setIsLoading(false);
       return false;
     }
@@ -399,7 +432,7 @@ export default function Tournament() {
   }
 
   const addHost = async () => {
-    const playerName = prompt(t("add_host_prompt"));
+    const playerName = await dialog.prompt(t("add_host_prompt"), { title: t("add_host") });
     if (playerName == null) {
       return;
     }
@@ -415,7 +448,7 @@ export default function Tournament() {
     trackOutcome(EVENT.HOST_ADDED, newData);
     setIsLoading(false);
     if (newData.error != null) {
-      alert(t(newData.error));
+      dialog.alert(t(newData.error));
     } else {
       getTournamentData(authId);
     }
@@ -432,7 +465,7 @@ export default function Tournament() {
     const newData = await response.json();
     trackOutcome(EVENT.TOURNAMENT_EDITED, newData);
     if (newData.error != null) {
-      alert(t(newData.error));
+      dialog.alert(t(newData.error));
     } else {
       setIsTournamentEditOpen(false);
       getTournamentData(authId);
@@ -467,7 +500,7 @@ export default function Tournament() {
   }
 
   const onLeave = async () => {
-    if (!confirm(t("confirm_leave_session"))) {
+    if (!await dialog.confirm(t("confirm_leave_session"), { confirmColor: "error" })) {
       track(EVENT.TOURNAMENT_LEFT, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -477,8 +510,12 @@ export default function Tournament() {
     }
   }
 
-  const onDelete = () => {
-    if (!confirm(t("delete_tournament_disclaimer"))) {
+  const onDelete = async () => {
+    if (!await dialog.confirm(t("delete_tournament_disclaimer"), {
+      title: t("delete_tournament"),
+      confirmLabel: t("delete_tournament"),
+      confirmColor: "error",
+    })) {
       track(EVENT.TOURNAMENT_DELETED, tournamentParams({ [PARAM.RESULT]: RESULT.CANCELLED }));
       return;
     }
@@ -582,7 +619,7 @@ export default function Tournament() {
           [PARAM.ERROR_CODE]: usageData.error,
           [PARAM.RESULT]: RESULT.FAILURE,
         }));
-        alert(t(usageData.error));
+        dialog.alert(t(usageData.error));
       } else {
         track(EVENT.EXPORT_DOWNLOADED, tournamentParams({
           [PARAM.SOURCE]: SOURCE.EXPORT_USAGE,
@@ -612,7 +649,7 @@ export default function Tournament() {
       [PARAM.ROUND_INDEX]: roundIndex,
     });
     if (newData.error != null) {
-      alert(t(newData.error));
+      dialog.alert(t(newData.error));
     } else {
       setIsReportScoreOpen(false);
       getTournamentData(authId);
@@ -672,7 +709,7 @@ export default function Tournament() {
     const shareLink = generateShareLink();
     track(EVENT.SHARE_LINK_COPIED, tournamentParams({ [PARAM.SOURCE]: SOURCE.SHARE_TOURNAMENT }));
     await navigator.clipboard.writeText(shareLink);
-    alert(t("copy_to_clipboard", { url: shareLink }));
+    dialog.alert(t("copy_to_clipboard", { url: shareLink }));
   }
 
   const shareTeam = async () => {
@@ -680,7 +717,7 @@ export default function Tournament() {
     const shareLink = `${generateJoinLink()}&faction=${teamCode}`;
     track(EVENT.SHARE_LINK_COPIED, tournamentParams({ [PARAM.SOURCE]: SOURCE.SHARE_TEAM_INVITE }));
     await navigator.clipboard.writeText(shareLink);
-    alert(t("copy_to_clipboard", { url: shareLink }));
+    dialog.alert(t("copy_to_clipboard", { url: shareLink }));
   }
 
   const classes = useStyles();
@@ -1252,15 +1289,10 @@ export default function Tournament() {
     if (!isHost) {
       return null;
     }
-    const onConfirm = () => {
-      if (confirm(t("confirm_unconclude"))) {
-        onUnconclude();
-      }
-    }
     return (
       <Button
         color="error"
-        onClick={onConfirm}
+        onClick={onUnconclude}
       >
         {t("unconclude_tournament")}
       </Button>

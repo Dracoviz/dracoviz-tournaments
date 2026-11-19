@@ -30,11 +30,13 @@ import fetchApi from "../api/fetchApi";
 import { track } from "../utils/analytics";
 import { EVENT, PARAM, RESULT, SOURCE } from "../utils/analyticsEvents";
 import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
+import { useDialog } from "../components/Dialog/DialogProvider";
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -72,7 +74,7 @@ export default function LoginPage(props) {
             [PARAM.ERROR_CODE]: `http_${response.status}`,
             [PARAM.RESULT]: RESULT.FAILURE,
           });
-          alert("Failed to log you in. Please try again");
+          dialog.alert("Failed to log you in. Please try again");
         }
       });
     }

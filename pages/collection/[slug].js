@@ -25,6 +25,7 @@ import ReportScoreModal from "../../pages-sections/tournament-sections/ReportSco
 import { useForm } from "react-hook-form";
 import Countdown from "../../components/Countdown/Countdown";
 import TeamSheetModal from "../../pages-sections/tournament-sections/TeamSheetModal";
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -42,6 +43,7 @@ const useStyles = makeStyles(styles);
 
 export default function Collection() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState();
@@ -60,7 +62,7 @@ export default function Collection() {
     .then(response => response.json())
     .then(newData => {
       if (newData.error != null) {
-        alert(t(newData.error));
+        dialog.alert(t(newData.error));
         return;
       }
       setData(newData);

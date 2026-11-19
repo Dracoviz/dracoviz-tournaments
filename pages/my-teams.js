@@ -20,6 +20,7 @@ import { EVENT, PARAM, RESULT } from "../utils/analyticsEvents";
 import { unifiedToDisplayPokemon, TEAM_SIZE } from "../api/teamFormat";
 import { getMetaLabel } from "../api/getMetaOptions";
 import TeamEditModal from "../pages-sections/my-teams-sections/TeamEditModal";
+import { useDialog } from "../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -36,6 +37,7 @@ const useStyles = makeStyles(styles);
 
 export default function MyTeams() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const router = useRouter();
   const classes = useStyles();
   const [authId, setAuthId] = useState("");
@@ -53,7 +55,7 @@ export default function MyTeams() {
     .then((response) => response.json())
     .then((data) => {
       if (data.error != null) {
-        alert(t(data.error));
+        dialog.alert(t(data.error));
         return;
       }
       setTeams(data.teams);
@@ -68,7 +70,7 @@ export default function MyTeams() {
         .then((response) => response.json())
         .then((data) => {
           if (data.error != null) {
-            alert(t(data.error));
+            dialog.alert(t(data.error));
             return;
           }
           setPokemonOptions(data.pokemonData);
@@ -111,7 +113,7 @@ export default function MyTeams() {
           [PARAM.RESULT]: data.error != null ? RESULT.FAILURE : RESULT.SUCCESS,
         });
         if (data.error != null) {
-          alert(t(data.error, { details: data.details }));
+          dialog.alert(t(data.error, { details: data.details }));
           return;
         }
         setEditing(null);
@@ -120,8 +122,10 @@ export default function MyTeams() {
       .finally(() => setIsSaving(false));
   };
 
-  const onDelete = (team) => {
-    if (!window.confirm(t("confirm_delete_team", { name: team.name }))) {
+  const onDelete = async (team) => {
+    if (!await dialog.confirm(t("confirm_delete_team", { name: team.name }), {
+      confirmColor: "error",
+    })) {
       track(EVENT.SAVED_TEAM_DELETED, { [PARAM.RESULT]: RESULT.CANCELLED });
       return;
     }
@@ -135,7 +139,7 @@ export default function MyTeams() {
       .then((response) => response.json())
       .then((data) => {
         if (data.error != null) {
-          alert(t(data.error));
+          dialog.alert(t(data.error));
           return;
         }
         return loadTeams(authId);

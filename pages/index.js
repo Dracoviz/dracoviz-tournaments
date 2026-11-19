@@ -19,6 +19,7 @@ import TournamentList from "../pages-sections/home-sections/TournamentList";
 import ProfileEditModal from "../pages-sections/home-sections/ProfileEditModal";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LocaleSelect from "../components/LocaleSelect/LocaleSelect";
+import { useDialog } from "../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -36,6 +37,7 @@ const useStyles = makeStyles(styles);
 
 export default function Index() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [currentModal, setCurrentModal] = useState(null);
@@ -125,7 +127,7 @@ export default function Index() {
         [PARAM.RESULT]: error ? RESULT.FAILURE : RESULT.SUCCESS,
       });
       if (error) {
-        alert(t(error))
+        dialog.alert(t(error))
       } else {
         closeModal();
         setData(null);

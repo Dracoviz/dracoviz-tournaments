@@ -8,6 +8,7 @@ import { useTranslation } from "next-i18next";
 import PokemonView from "../../components/PokemonView/PokemonView";
 import getValidLabel from "../../api/getValidLabel";
 import NoPlayers from "../../components/NoPlayers/NoPlayers";
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 const useStyles = makeStyles(styles);
 
@@ -39,6 +40,7 @@ export default function SinglePlayerList(props) {
     players, onPlayer, onDeletePlayer, isHost, showValid, e, standingsOrder, buchholz
   } = props;
   const { t } = useTranslation();
+  const dialog = useDialog();
   const classes = useStyles();
   const [searchedPlayers, setSearchedPlayers] = useState([]);
 
@@ -115,8 +117,11 @@ export default function SinglePlayerList(props) {
                     {t("view_profile")}
                   </Button>
                   {
-                    (isHost && !player.removed) && (<Button color="error" onClick={() => {
-                      if (confirm(t("confirm_remove_player"))) {
+                    (isHost && !player.removed) && (<Button color="error" onClick={async () => {
+                      if (await dialog.confirm(t("confirm_remove_player"), {
+                        confirmLabel: t("remove_player"),
+                        confirmColor: "error",
+                      })) {
                         onDeletePlayer(player.name)
                       }
                     }}>

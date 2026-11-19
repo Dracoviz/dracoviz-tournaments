@@ -23,6 +23,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import PokemonView from "../../components/PokemonView/PokemonView";
 import PlayerInfoModal from "../../pages-sections/tournament-sections/PlayerInfoModal";
 import ReportScoreModal from "../../pages-sections/tournament-sections/ReportScoreModal";
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -40,6 +41,7 @@ const useStyles = makeStyles(styles);
 
 export default function Matchup() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
   const [showReport, setShowReport] = useState(false);
@@ -59,9 +61,9 @@ export default function Matchup() {
       x_locale: router.locale,
     })
     .then(response => response.json())
-    .then(newData => {
+    .then(async newData => {
       if (newData.error != null) {
-        alert(t(newData.error));
+        await dialog.alert(t(newData.error));
         Router.push(`/tournament/${session}`);
         return;
       }
@@ -112,7 +114,7 @@ export default function Matchup() {
       [PARAM.RESULT]: newData.error != null ? RESULT.FAILURE : RESULT.SUCCESS,
     });
     if (newData.error != null) {
-      alert(t(newData.error));
+      dialog.alert(t(newData.error));
     } else {
       Router.push(`/tournament/${session}`);
     }

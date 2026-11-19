@@ -51,11 +51,14 @@ function EditTournamentModal(props) {
     });
     setIsLoading(false);
   }
+  // The confirmation lives on the page, in a dialog of our own: window.confirm used to ask
+  // here, but a browser that suppresses native dialogs returns false from it, which made
+  // this button do nothing at all for some hosts.
   const onClick = () => {
-    if (isConcluded && confirm(t("confirm_unconclude"))) {
-      onUnconclude();
-    } else if (!isConcluded && confirm(t("confirm_conclude"))) {
-      onConclude();
+    if (isConcluded) {
+      onUnconclude?.();
+    } else {
+      onConclude?.();
     }
   }
   const isRegistrationClosed = watch("registrationClosed");

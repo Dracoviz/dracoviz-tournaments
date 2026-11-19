@@ -21,6 +21,7 @@ import fetchApi from "../api/fetchApi";
 import { track, configFlags } from "../utils/analytics";
 import { EVENT, PARAM, RESULT, SOURCE } from "../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useDialog } from "../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -42,6 +43,7 @@ const FINALS_GAME_AMOUNTS = [3, 5];
 
 export default function CreateTournament() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -128,8 +130,8 @@ export default function CreateTournament() {
   const onPlayPokemonPress = () => {
     setPresetAnchorEl(null);
     setIsLoading(true);
-    setTimeout(() => {
-      const title = prompt(t("play_preset_prompt"));
+    setTimeout(async () => {
+      const title = await dialog.prompt(t("play_preset_prompt"), { title: t("create_tournament") });
       if (title == null) {
         track(EVENT.TOURNAMENT_PRESET_APPLIED, {
           [PARAM.SOURCE]: SOURCE.PRESET_PLAY_POKEMON,
@@ -165,8 +167,8 @@ export default function CreateTournament() {
   const onCandlePracticeTournamentPress = () => {
     setPresetAnchorEl(null);
     setIsLoading(true);
-    setTimeout(() => {
-      const title = prompt(t("candle_practice_preset_prompt"));
+    setTimeout(async () => {
+      const title = await dialog.prompt(t("candle_practice_preset_prompt"), { title: t("create_tournament") });
       if (title == null) {
         track(EVENT.TOURNAMENT_PRESET_APPLIED, {
           [PARAM.SOURCE]: SOURCE.PRESET_CANDLE_PRACTICE,
@@ -214,8 +216,8 @@ export default function CreateTournament() {
   const onFlashPracticePress = () => {
     setPresetAnchorEl(null);
     setIsLoading(true);
-    setTimeout(() => {
-      const title = prompt(t("flash_practice_preset_prompt"));
+    setTimeout(async () => {
+      const title = await dialog.prompt(t("flash_practice_preset_prompt"), { title: t("create_tournament") });
       if (title == null) {
         track(EVENT.TOURNAMENT_PRESET_APPLIED, {
           [PARAM.SOURCE]: SOURCE.PRESET_FLASH_PRACTICE,
@@ -300,7 +302,7 @@ export default function CreateTournament() {
             [PARAM.ERROR_CODE]: newData.error,
             [PARAM.RESULT]: RESULT.FAILURE,
           });
-          alert(t(newData?.error));
+          dialog.alert(t(newData?.error));
           return;
         }
         const { id } = newData;
@@ -317,7 +319,7 @@ export default function CreateTournament() {
           [PARAM.ERROR_CODE]: "network_error",
           [PARAM.RESULT]: RESULT.FAILURE,
         });
-        alert(t(err));
+        dialog.alert(t(err));
       });
     setIsLoading(false);
   }

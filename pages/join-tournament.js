@@ -20,6 +20,7 @@ import fetchApi from "../api/fetchApi";
 import { track } from "../utils/analytics";
 import { EVENT, PARAM, RESULT, SCREEN, SOURCE } from "../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useDialog } from "../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -37,6 +38,7 @@ const useStyles = makeStyles(styles);
 
 export default function JoinTournament() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [authId, setAuthId] = useState("");
   const [isFormLoading, setIsFormLoading] = useState(false);
@@ -91,7 +93,7 @@ export default function JoinTournament() {
             [PARAM.ERROR_CODE]: error,
             [PARAM.RESULT]: RESULT.FAILURE,
           });
-          alert(t(error));
+          dialog.alert(t(error));
           return;
         }
         // NOTE: the `alreadyEntered` branch above deliberately falls through to
@@ -131,7 +133,7 @@ export default function JoinTournament() {
           JSON.stringify({ factionName, tournamentId })
         )
         .then((response) => response.json())
-        .then((newData) => {
+        .then(async (newData) => {
           const { factionCode, tournamentId, factionName, error } = newData;
           setIsFormLoading(false);
           if (error != null) {
@@ -139,14 +141,14 @@ export default function JoinTournament() {
               [PARAM.ERROR_CODE]: error,
               [PARAM.RESULT]: RESULT.FAILURE,
             });
-            alert(t(error));
+            dialog.alert(t(error));
             return;
           }
           track(EVENT.FACTION_CREATED, {
             [PARAM.TOURNAMENT_ID]: tournamentId,
             [PARAM.RESULT]: RESULT.SUCCESS,
           });
-          alert(t("faction_joined", { factionName }) + " " + t("faction_created", { factionCode }));
+          await dialog.alert(t("faction_joined", { factionName }) + " " + t("faction_created", { factionCode }));
           Router.push(`/tournament/${tournamentId}`);
         });
       } else { // join faction endpoint
@@ -157,7 +159,7 @@ export default function JoinTournament() {
           JSON.stringify({ factionName, tournamentId, factionCode })
         )
         .then((response) => response.json())
-        .then((newData) => {
+        .then(async (newData) => {
           const { tournamentId, factionName, error } = newData;
           setIsFormLoading(false);
           if (error != null) {
@@ -165,14 +167,14 @@ export default function JoinTournament() {
               [PARAM.ERROR_CODE]: error,
               [PARAM.RESULT]: RESULT.FAILURE,
             });
-            alert(t(error));
+            dialog.alert(t(error));
             return;
           }
           track(EVENT.FACTION_JOINED, {
             [PARAM.TOURNAMENT_ID]: tournamentId,
             [PARAM.RESULT]: RESULT.SUCCESS,
           });
-          alert(t("faction_joined", { factionName }));
+          await dialog.alert(t("faction_joined", { factionName }));
           Router.push(`/tournament/${tournamentId}`);
         });
       }

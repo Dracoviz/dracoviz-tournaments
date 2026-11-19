@@ -9,11 +9,13 @@ import { makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 
 import styles from "/styles/jss/nextjs-material-kit/components/paginationStyle.js";
+import { useDialog } from "../Dialog/DialogProvider";
 
 const useStyles = makeStyles(styles);
 
 export default function Pagination(props) {
   const classes = useStyles();
+  const dialog = useDialog();
   const { pages, color } = props;
   return (
     <ul className={classes.pagination}>
@@ -31,7 +33,7 @@ export default function Pagination(props) {
               </Button>
             ) : (
               <Button
-                onClick={() => alert("you've clicked " + prop.text)}
+                onClick={() => dialog.alert("you've clicked " + prop.text)}
                 className={paginationLink}
               >
                 {prop.text}

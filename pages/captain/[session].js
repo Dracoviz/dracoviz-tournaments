@@ -18,6 +18,7 @@ import fetchApi from "../../api/fetchApi";
 import { track } from "../../utils/analytics";
 import { EVENT, PARAM, RESULT, ROLE } from "../../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -35,6 +36,7 @@ const useStyles = makeStyles(styles);
 
 export default function Team() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -54,9 +56,9 @@ export default function Team() {
       x_session_id: id,
     })
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       if (data.error != null) {
-        alert(t(data.error));
+        await dialog.alert(t(data.error));
         Router.push(`/tournament/${session}`);
         return;
       }
@@ -84,7 +86,7 @@ export default function Team() {
       }, JSON.stringify({ ...data, tournamentId: session, key })
     )
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       track(EVENT.ROSTER_SAVED, {
         [PARAM.TOURNAMENT_ID]: session,
         [PARAM.ROLE]: ROLE.CAPTAIN,
@@ -92,9 +94,9 @@ export default function Team() {
         [PARAM.RESULT]: data.error != null ? RESULT.FAILURE : RESULT.SUCCESS,
       });
       if (data.error != null) {
-        alert(t(data.error));
+        dialog.alert(t(data.error));
       } else {
-        alert(t("saved"));
+        await dialog.alert(t("saved"));
         Router.push(`/tournament/${session}`);
       }
       setSubmitting(false);

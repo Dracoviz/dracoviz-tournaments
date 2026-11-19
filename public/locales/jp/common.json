@@ -66,6 +66,7 @@
     "api_already_host": "このプレイヤーはすでにホストです",
 	"api_wrong_faction_code": "間違ったチームコードです",
 	"cancel": "キャンセル",
+	"ok": "OK",
 	"captain_label": "(キャプテン)",
 	"charged_move": "チャージドムーブ",
 	"conclude_tournament": "トーナメントを終了",

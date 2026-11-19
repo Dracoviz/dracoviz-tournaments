@@ -16,6 +16,7 @@ import fetchApi from "../api/fetchApi";
 import { track } from "../utils/analytics";
 import { EVENT, PARAM, RESULT } from "../utils/analyticsEvents";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useDialog } from "../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -33,6 +34,7 @@ const useStyles = makeStyles(styles);
 
 export default function CreateCollection() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [authId, setAuthId] = useState("");
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +69,7 @@ export default function CreateCollection() {
             [PARAM.ERROR_CODE]: newData.error,
             [PARAM.RESULT]: RESULT.FAILURE,
           });
-          alert(t(newData?.error));
+          dialog.alert(t(newData?.error));
           return;
         }
         track(EVENT.COLLECTION_CREATED, { [PARAM.RESULT]: RESULT.SUCCESS });
@@ -75,7 +77,7 @@ export default function CreateCollection() {
         Router.push(`/collection/${slug}`);
       })
       .catch((err) => {
-        alert(t(err));
+        dialog.alert(t(err));
       });
     setIsLoading(false);
   }

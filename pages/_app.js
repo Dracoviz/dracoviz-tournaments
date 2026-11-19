@@ -32,6 +32,7 @@ import { ThemeProvider } from '@mui/styles';
 import { appWithTranslation } from 'next-i18next';
 import { setCookie, getCookie } from 'cookies-next';
 import { ThemeProvider as Emotion10ThemeProvider } from '@emotion/react';
+import { DialogProvider } from "../components/Dialog/DialogProvider";
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBU5gODLafUagZGLtchmIZn0TTW3Foh2EU',
@@ -120,7 +121,11 @@ function MyApp({ Component, pageProps }) {
               />
               <title>Dracoviz Tournaments</title>
             </Head>
-            <Component {...pageProps} />
+            {/* Every alert(), confirm() and prompt() on the site goes through this, because
+                the native dialogs are suppressed in some browsers and missing in others. */}
+            <DialogProvider>
+              <Component {...pageProps} />
+            </DialogProvider>
             {isAnalyticsEnabled() && (
               <Script
                 src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}

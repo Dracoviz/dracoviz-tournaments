@@ -25,6 +25,7 @@ import {
   formValuesToUnified, unifiedToFormValues, TEAM_SIZE,
 } from "../../api/teamFormat";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useDialog } from "../../components/Dialog/DialogProvider";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -42,6 +43,7 @@ const useStyles = makeStyles(styles);
 
 export default function Team() {
   const { t } = useTranslation();
+  const dialog = useDialog();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -77,9 +79,9 @@ export default function Team() {
       x_locale: router.locale,
     })
     .then(response => response.json())
-    .then(data => {
+    .then(async data => {
       if (data.error != null) {
-        alert(t(data.error));
+        await dialog.alert(t(data.error));
         Router.push(`/tournament/${session}`);
         return;
       }
@@ -198,7 +200,7 @@ export default function Team() {
           [PARAM.ERROR_CODE]: result.error,
           [PARAM.RESULT]: RESULT.FAILURE,
         });
-        alert(t(result.error));
+        dialog.alert(t(result.error));
         setSubmitting(false);
         return;
       }
@@ -232,13 +234,13 @@ export default function Team() {
             [PARAM.ERROR_CODE]: "registered_but_team_not_saved",
             [PARAM.RESULT]: RESULT.FAILURE,
           });
-          alert(t("registered_but_team_not_saved", { error: t(saveResult.error) }));
+          await dialog.alert(t("registered_but_team_not_saved", { error: t(saveResult.error) }));
           Router.push(`/tournament/${session}`);
           setSubmitting(false);
           return;
         }
       }
-      alert(t("saved"));
+      await dialog.alert(t("saved"));
       Router.push(`/tournament/${session}`)
       setSubmitting(false);
     });
