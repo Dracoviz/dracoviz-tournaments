@@ -6,8 +6,7 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import CustomInput from "/components/CustomInput/CustomInput.js";
 import Card from "/components/Card/Card.js";
-import formatMove from "../../api/formatMove";
-import getMoveIcon from "../../utils/get-moves-icon";
+import MoveLabel from "/components/MoveLabel/MoveLabel.js";
 import { TEAM_SIZE } from "../../api/teamFormat";
 import { megaLevelsFor, plusMoveId } from "../../api/megaLevel";
 
@@ -55,7 +54,7 @@ export default function TeamBuilder(props) {
       return null;
     }
     return thePokemon.fastMoves.map((move) => (
-      <MenuItem value={move} key={move}>{formatMove(move, locale)}</MenuItem>
+      <MenuItem value={move} key={move}><MoveLabel move={move} locale={locale} /></MenuItem>
     ))
   }
 
@@ -65,13 +64,17 @@ export default function TeamBuilder(props) {
       return null;
     }
     const chargedMoves = thePokemon.chargedMoves.map((move) => (
-      <MenuItem value={move} key={move}>{formatMove(move, locale)}</MenuItem>
+      <MenuItem value={move} key={move}><MoveLabel move={move} locale={locale} /></MenuItem>
     ));
     if (thePokemon.tags?.includes("shadoweligible")) {
-      chargedMoves.push(<MenuItem value={"RETURN"} key={"RETURN"}>Return</MenuItem>);
+      chargedMoves.push(
+        <MenuItem value={"RETURN"} key={"RETURN"}><MoveLabel move="RETURN" locale={locale} /></MenuItem>
+      );
     }
     if (thePokemon.tags?.includes("shadow")) {
-      chargedMoves.push(<MenuItem value={"FRUSTRATION"} key={"FRUSTRATION"}>Frustration</MenuItem>);
+      chargedMoves.push(
+        <MenuItem value={"FRUSTRATION"} key={"FRUSTRATION"}><MoveLabel move="FRUSTRATION" locale={locale} /></MenuItem>
+      );
     }
     return chargedMoves;
   }
@@ -121,7 +124,7 @@ export default function TeamBuilder(props) {
     return (
       <div style={{ marginTop: 15 }}>
         <div style={{ fontSize: "0.75rem", color: "#AAAAAA" }}>{t('plus_move')}</div>
-        <div>{getMoveIcon(moveId)} {formatMove(moveId, locale)}</div>
+        <div><MoveLabel move={moveId} locale={locale} /></div>
       </div>
     );
   };
@@ -347,7 +350,7 @@ export default function TeamBuilder(props) {
                     variant="standard"
                     style={{ marginBottom: 5 }}
                   >
-                    <MenuItem value="None" key="None">None</MenuItem>
+                    <MenuItem value="None" key="None"><MoveLabel label={t("none")} /></MenuItem>
                     {
                       pokemons?.[index] == null
                         ? null
